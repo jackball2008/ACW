@@ -4,6 +4,7 @@
 #define NOGROWRADOM
 #define NOGROWENDRADOM
 #define ENDSYNCBETWEENTRUNKANDLEAF
+#define USESEGMENTGROWCHANGE
 /************************************************************************/
 /* static utils                                                                     */
 /************************************************************************/
@@ -113,7 +114,7 @@ void ChristmasTree::setTreeParameter(){
 	setTrunkCutCount(8);
 	setHeight(14);
 	setRadius(6.0);
-	setNumPerBranchSides(6); 
+	setNumPerBranchSides(10); 
 	setBranchesPerSegment(6);
 	setBranchIterationCount(5);
 	setBranchIterationDecay(1.0/7.0);
@@ -206,8 +207,12 @@ void ChristmasTree::makeTreeGrowing(){
 	/************************************************************************/
 	for(int i = 0; i<_number_of_segment_no_branches;i++){
 		float h = _height / float(_num_of_Segments);
-		vec3f segmentTopCenterPos = segmentBottomCenterPos + vec3f( 0.0f, h, 0.0f);
+#ifndef USESEGMENTGROWCHANGE
 
+		vec3f segmentTopCenterPos = segmentBottomCenterPos + vec3f( 0.0f, h, 0.0f);
+#else
+		vec3f segmentTopCenterPos = segmentBottomCenterPos + vec3f( 0.0f, _height / float(_num_of_Segments), 0.0f);
+#endif
 		generateVertexAndNormalizeForPerSegments(segmentTopCenterPos,segmentBottomCenterPos,radius,_radius);
 		// update values for the next iteration
 		segmentBottomCenterPos = segmentTopCenterPos;
@@ -221,8 +226,11 @@ void ChristmasTree::makeTreeGrowing(){
 		/* now have top and bottom  
 		 * (0,0,0) (0,h,0)
 		/************************************************************************/
+#ifndef USESEGMENTGROWCHANGE
 		vec3f segmentTopCenterPos = segmentBottomCenterPos + vec3f( 0.0f, h, 0.0f);
-
+#else
+		vec3f segmentTopCenterPos = segmentBottomCenterPos + vec3f( 0.0f, _height / float(_num_of_Segments), 0.0f);
+#endif
 		generateVertexAndNormalizeForPerSegments(segmentTopCenterPos,segmentBottomCenterPos,radius,_radius);
 
 		//create the individual branches

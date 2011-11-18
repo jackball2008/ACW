@@ -54,15 +54,15 @@ public:
 	
 	virtual void setTreeParameter();
 	
-	virtual void setRenderTexture(bool &v);
+	virtual void setRenderTexture(bool v);
 
-	virtual void setRenderMaterials(bool &v);
+	virtual void setRenderMaterials(bool v);
 
 	virtual void setMaterials(Materials& m);
 
 	virtual Materials* getMaterials();
 
-	virtual void setEnableTransparency(const bool& en=false);
+	virtual void setEnableTransparency(bool en=false);
 
 
 	virtual bool getEnableTransparency();

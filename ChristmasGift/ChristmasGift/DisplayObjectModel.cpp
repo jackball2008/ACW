@@ -187,11 +187,11 @@ void DisplayObjectModel::setTreeParameter(){
 }
 
 
-void DisplayObjectModel::setRenderTexture(bool &v){
+void DisplayObjectModel::setRenderTexture(bool v){
 	_renderTextures = v;
 }
 
-void DisplayObjectModel::setRenderMaterials(bool &v){
+void DisplayObjectModel::setRenderMaterials(bool v){
 	_renderMaterials = v;
 }
 
@@ -204,7 +204,7 @@ Materials* DisplayObjectModel::getMaterials(){
 	return &_materials;
 }
 
-void DisplayObjectModel::setEnableTransparency(const bool& en){
+void DisplayObjectModel::setEnableTransparency(bool en){
 	_enableTransparency = en;
 }
 

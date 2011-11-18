@@ -3,13 +3,32 @@
 
 #define USECASTSHADOW1
 #define DRAWREFLECTION
-#define USEPLATSEAT1
 #define ALLOWSEATCULLFACE1
 
 const Vector4f _PS = Vector4f(1.0f,0.0f,0.0f,0.0f);
 const Vector4f _PT = Vector4f(0.0f,1.0f,0.0f,0.0f);
 const Vector4f _PR = Vector4f(0.0f,0.0f,1.0f,0.0f);
 const Vector4f _PQ = Vector4f(0.0f,0.0f,0.0f,1.0f);
+
+/*(0.64,1.0,0.51*/
+const float pool_pos_x = 0.55;
+const float pool_pos_y = 0.94;
+const float pool_pos_z = 0.53;
+/*0.5,0.5,0.5*/
+const float pool_scal_x = 0.58;
+const float pool_scal_y = 0.58;
+const float pool_scal_z = 0.58;
+/************************************************************************/
+/* tree and reflection  glTranslatef(0.65,-1.0,0.0);
+glScalef(0.25,0.25,0.25);                                                                   */
+/************************************************************************/
+const float tree_pos_x = 0.6;
+const float tree_pos_y = 1.0;
+const float tree_pos_z = -0.2;
+const float tree_scal_x = 0.2;
+const float tree_scal_y = 0.2;
+const float tree_scal_z = 0.2;
+
 
 ChristmasWindow::ChristmasWindow(void) :_loadStencilBuffer(true),_drawSpotLights(false),_bMultitex(false) ,_bHaveMultitex(false) ,_angleInc(30),_currentSeason(Spring),_timerCounter(0),_timeDecFactor(1),_seasonCounter(0)
 {
@@ -120,30 +139,17 @@ void ChristmasWindow::OnCreate()
 	/* start to create model in this scene                                   */
 	/************************************************************************/
 	_house = new DisplayObjectModel();
-	bool _houseRenderTextures = true;
-	bool _houseRenderMaterials = false;
-	Materials _houseMaterials;
-	_houseMaterials.create(Color::black(), Color(0.0,0.0,1.0,1.0));
-	_house->setMaterials(_houseMaterials);
-	_house->setRenderTexture(_houseRenderTextures);
-	_house->setRenderMaterials(_houseRenderMaterials);
+	_house->setRenderTexture(true);
+	_house->setRenderMaterials(false);
 	modelController->AssemblyModelFromFile(_house,"House2.mxy",modelController->_textures[0]);
 
 	/************************************************************************/
 	/* seat                                                                     */
 	/************************************************************************/
 	_seat = new DisplayObjectModel();
-	bool _seatRenterTextures = true;
-	bool _seatRenderMaterials = false;
-	/*bool _seatTransparency = true;*/
-	_seat->setRenderTexture(_seatRenterTextures);
-	_seat->setRenderMaterials(_seatRenderMaterials);
-// 	_seat->setColorApalha(0.5);
-// 	_seat->setEnableTransparency(_seatTransparency);
-#ifdef ALLOWSEATCULLFACE
-	_seat->setEnableCullFront(true);
-#endif
-	modelController->AssemblyModelFromHeightFieldFile(_seat,"seatmap3.bmp",modelController->_textures[1]);
+	_seat->setRenderTexture(true);
+	_seat->setRenderMaterials(false);
+	modelController->AssemblyModelFromFile(_seat,"ground.mxy",modelController->_textures[2]);
 	
 	/************************************************************************/
 	/* tree                                                                     */
@@ -156,15 +162,15 @@ void ChristmasWindow::OnCreate()
 	/* glass ball                                                                     */
 	/************************************************************************/
 	_ball = new DisplayObjectModel();
-	Materials _ballMaterials;
-	_ballMaterials.create(Color::black(), Color(1.0,0.0,0.0,0.0));
-	bool _ballRenderTextures = false;
-	bool _ballRenderMaterials = true;
-	bool _ballEnableTransparency = true;
-	_ball->setMaterials(_ballMaterials);
-	_ball->setEnableTransparency(_ballEnableTransparency);
-	_ball->setRenderTexture(_ballRenderTextures);
-	_ball->setRenderMaterials(_ballRenderMaterials);
+// 	Materials _ballMaterials;
+// 	_ballMaterials.create(Color::black(), Color(1.0,0.0,0.0,0.0));
+// 	bool _ballRenderTextures = false;
+// 	bool _ballRenderMaterials = true;
+// 	bool _ballEnableTransparency = true;
+	/*_ball->setMaterials(_ballMaterials);*/
+	_ball->setEnableTransparency(true);
+	_ball->setRenderTexture(false);
+	_ball->setRenderMaterials(false);
 	_ball->setColorApalha(0.1);
 	modelController->AssemblyTransparencyPartSphere(_ball,1.0,40,40,modelController->_textures[0]);
 
@@ -172,25 +178,15 @@ void ChristmasWindow::OnCreate()
 	/* water pool                                                                     */
 	/************************************************************************/
 	_pool = new DisplayObjectModel();
-	bool _poolRenterTextures = false;
-	bool _poolRenderMaterials = false;
-	bool _poolEnableTransparency = true;
-	_pool->setRenderTexture(_poolRenterTextures);
-	_pool->setRenderMaterials(_poolRenderMaterials);
-	_pool->setEnableTransparency(_poolEnableTransparency);
+// 	bool _poolRenterTextures = false;
+// 	bool _poolRenderMaterials = false;
+// 	bool _poolEnableTransparency = true;
+	_pool->setRenderTexture(false);
+	_pool->setRenderMaterials(false);
+	_pool->setEnableTransparency(true);
 	_pool->setColorApalha(0.5);
 	modelController->AssemblyModelFromFile(_pool,"pool.mxy",modelController->_textures[0]);
-	_pool->setEnableTransparency(!_poolEnableTransparency);
-
-	/************************************************************************/
-	/* test face                                                                     */
-	/************************************************************************/
-#ifdef USEPLATSEAT
-	_testface = new DisplayObjectModel();
-	bool tt = true;
-	_testface->setRenderTexture(tt);
-	modelController->AssemblyModelFromFile(_testface,"ground.mxy",modelController->_textures[2]);
-#endif
+	_pool->setEnableTransparency(false);
 	
 	//////////////////////////////////////////////////////////////////////////
 	_cameraAngle = 30.0;
@@ -203,7 +199,7 @@ void ChristmasWindow::OnCreate()
 	initShadow();
 #endif
 
-	/*loadShaders();*/
+	loadShaders();
 	
 }
 /************************************************************************/
@@ -394,10 +390,9 @@ void ChristmasWindow::LoadStencil()
 	glStencilOp(GL_REPLACE,GL_REPLACE,GL_REPLACE);
 	glFrontFace(GL_CW);
 	glPushMatrix();
-		glTranslatef(0.64,1.0,0.51);
+		glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
 		glRotatef(-270,1,0,0);
-		glScalef(0.5,0.5,0.5);
-
+		glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
 		_pool->Draw();
 		
 	glPopMatrix();
@@ -418,9 +413,8 @@ void ChristmasWindow::DrawReflection()
 //   	glRotatef(90,1,0,0);
 //   	glScalef(0.5,0.5,0.5);
 //   	
-	glTranslatef(0.65,-1.0,0.0);
-// 	glTranslatef(0.65,1,0.5);
- 	glScalef(0.25,0.25,0.25);
+	glTranslatef(tree_pos_x,-tree_pos_y,tree_pos_z);
+ 	glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
 
 	// and front faces become back faces and visa-versa
 	glCullFace(GL_FRONT);
@@ -481,17 +475,9 @@ void ChristmasWindow::OnDisplay()
 		glPopMatrix();
 
 		glPushMatrix();
-#ifdef USEPLATSEAT
 			glTranslatef(0.0,1,0.0);
-#endif
 			glRotatef(-90.0f,1.0,0.0,0.0);
-#ifdef USEPLATSEAT
-			_testface->Draw();
-#else
 			_seat->Draw();
-#endif
-			
-			
 		glPopMatrix();
 
 		
@@ -507,8 +493,8 @@ void ChristmasWindow::OnDisplay()
 		/************************************************************************/
 		/* draw reflection                                                                     */
 		/************************************************************************/
-		glUseProgram(_shaderProgramID);
-		glUseProgram(0);
+// 		glUseProgram(_shaderProgramID);
+// 		glUseProgram(0);
 
 		glDepthMask(GL_FALSE);
 		if (_loadStencilBuffer)
@@ -517,17 +503,15 @@ void ChristmasWindow::OnDisplay()
 		}
 		DrawReflection();
 
-		
-		
 		glDisable(GL_STENCIL_TEST);
 		glDepthMask(GL_TRUE);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glFrontFace(GL_CW);
 		glPushMatrix();
-			glTranslatef(0.64,1.0,0.51);
+			glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
 			glRotatef(-90,1,0,0);
-			glScalef(0.5,0.5,0.5);
+			glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
 			_pool->Draw();
 		glPopMatrix();
 		glFrontFace(GL_CCW);
@@ -535,9 +519,13 @@ void ChristmasWindow::OnDisplay()
 		
 		
 #endif
+		/**
+		**glTranslatef(0.65,-1.0,0.0);
+		glScalef(0.25,0.25,0.25);
+		*/
 		glPushMatrix();
-			glTranslatef(0.65,1,0.0);
-			glScalef(0.25,0.25,0.25);
+			glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
+			glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
 			_tree->Draw();
 		glPopMatrix();
 
@@ -549,9 +537,9 @@ void ChristmasWindow::OnDisplay()
 #endif
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glPushMatrix();
-			glTranslatef(0.64,1.0,0.51);
+			glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
 			glRotatef(-90,1,0,0);
-			glScalef(0.5,0.5,0.5);
+			glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
 			_pool->Draw();
 		glPopMatrix();
 #ifdef DRAWREFLECTION
@@ -656,13 +644,13 @@ void ChristmasWindow::OnMouseButton(MouseButton button, bool down) {
 
 
 void ChristmasWindow::drawSporLights(){
-	_spotlightRed.setPosition(Vector4f(0,5,0,1.0f));
+	_spotlightRed.setPosition(Vector4f(0,8,0,1.0f));
 	_spotlightRed.setDirection(Vector4f(1.0f,-4.0f,0.0f, 0.0f));
-	_spotlightGreen.setPosition(Vector4f(0,5,0,1.0f));
+	_spotlightGreen.setPosition(Vector4f(0,8,0,1.0f));
 	_spotlightGreen.setDirection(Vector4f(-1.0f,-4.0f,0.0f, 0.0f));
-	_spotlightBlue.setPosition(Vector4f(0,5,0,1.0f));
+	_spotlightBlue.setPosition(Vector4f(0,8,0,1.0f));
 	_spotlightBlue.setDirection(Vector4f(0.0f,-4.0f,1.0f, 0.0f));
-	_spotlightWhite.setPosition(Vector4f(0,5,0,1.0f));
+	_spotlightWhite.setPosition(Vector4f(0,8,0,1.0f));
 	_spotlightWhite.setDirection(Vector4f(0.0f,-4.0f,-1.0f, 0.0f));
 
 }

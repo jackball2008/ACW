@@ -88,8 +88,6 @@ private:
 	IDisplayObject* _ball;
 	DisplayObjectModel* _tree;
 	IDisplayObject* _pool;
-
-	IDisplayObject* _testface;
 	/************************************************************************/
 	/* simulating season changing                                                                     */
 	/************************************************************************/
