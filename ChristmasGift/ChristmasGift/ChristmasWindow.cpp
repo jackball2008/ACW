@@ -482,10 +482,8 @@ void ChristmasWindow::OnDisplay()
 
 		glPushMatrix();
 #ifdef USEPLATSEAT
-		glTranslatef(0,1,0);
+			glTranslatef(0.0,1,0.0);
 #endif
-			
-			
 			glRotatef(-90.0f,1.0,0.0,0.0);
 #ifdef USEPLATSEAT
 			_testface->Draw();
@@ -510,6 +508,7 @@ void ChristmasWindow::OnDisplay()
 		/* draw reflection                                                                     */
 		/************************************************************************/
 		glUseProgram(_shaderProgramID);
+		glUseProgram(0);
 
 		glDepthMask(GL_FALSE);
 		if (_loadStencilBuffer)
@@ -517,6 +516,8 @@ void ChristmasWindow::OnDisplay()
 			LoadStencil();
 		}
 		DrawReflection();
+
+		
 		
 		glDisable(GL_STENCIL_TEST);
 		glDepthMask(GL_TRUE);
@@ -531,6 +532,8 @@ void ChristmasWindow::OnDisplay()
 		glPopMatrix();
 		glFrontFace(GL_CCW);
 		glDisable(GL_BLEND);
+		
+		
 #endif
 		glPushMatrix();
 			glTranslatef(0.65,1,0.0);
@@ -538,6 +541,7 @@ void ChristmasWindow::OnDisplay()
 			_tree->Draw();
 		glPopMatrix();
 
+		
 #ifdef DRAWREFLECTION
 		glDisable(GL_STENCIL_TEST);
 		glDepthMask(GL_TRUE);
@@ -553,13 +557,13 @@ void ChristmasWindow::OnDisplay()
 #ifdef DRAWREFLECTION
 		glDisable(GL_BLEND);
 #endif
-
+		
 		
 
 		glPushMatrix();
 			glTranslatef(0.0f, 3.29f, 0.0f);
   			glScalef(3,3,3);
- 			_ball->Draw();
+ 			/*_ball->Draw();*/
 		glPopMatrix();
 	glPopMatrix();
 
