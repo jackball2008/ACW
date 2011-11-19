@@ -511,6 +511,7 @@ void ChristmasWindow::OnDisplay()
 
 
 		glPushMatrix();
+			glTranslatef(0,1,0);
 			pp.Draw();
 		glPopMatrix();
 

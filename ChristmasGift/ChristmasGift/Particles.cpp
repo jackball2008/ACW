@@ -8,11 +8,6 @@ static GLfloat colors[12][3]=               // Rainbow Of Colors
 };
 Particles::Particles(void)
 {
-	
-
-
-	
-
 	rainbow = true;
 }
 
@@ -65,6 +60,8 @@ void Particles::Draw(){
 			float y=particle[loop].y;               // Grab Our Particle Y Position
 			float z=particle[loop].z+zoom;              // Particle Z Pos + Zoom
 
+			glEnable(GL_TEXTURE_2D);                        // Enable Texture Mapping
+			glBindTexture(GL_TEXTURE_2D,texture); 
 			// Draw The Particle Using Our RGB Values, Fade The Particle Based On It's Life
 			glColor4f(particle[loop].r,particle[loop].g,particle[loop].b,particle[loop].life);
 			glBegin(GL_TRIANGLE_STRIP);             // Build Quad From A Triangle Strip
@@ -81,6 +78,7 @@ void Particles::Draw(){
 			particle[loop].yi+=particle[loop].yg;           // Take Pull On Y Axis Into Account
 			particle[loop].zi+=particle[loop].zg;           // Take Pull On Z Axis Into Account
 			particle[loop].life-=particle[loop].fade;       // Reduce Particles Life By 'Fade'
+
 			if (particle[loop].life<0.0f){						// If Particle Is Burned Out
 				particle[loop].life=1.0f;               // Give It New Life
 				particle[loop].fade=float(rand()%100)/1000.0f+0.003f;   // Random Fade Value
