@@ -75,6 +75,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BasicParticles.h" />
     <ClInclude Include="ChristmasGiftApp.h" />
     <ClInclude Include="ChristmasTree.h" />
     <ClInclude Include="ChristmasWindow.h" />
@@ -89,20 +90,20 @@
     <ClInclude Include="mxyMatrix.h" />
     <ClInclude Include="mxyVector.h" />
     <ClInclude Include="Particles.h" />
-    <ClInclude Include="ReflectDisplayObjectModel.h" />
+    <ClInclude Include="ParticleStruct.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Vector3f.h" />
     <ClInclude Include="Vector4f.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BasicParticles.cpp" />
     <ClCompile Include="ChristmasGiftApp.cpp" />
     <ClCompile Include="ChristmasTree.cpp" />
     <ClCompile Include="ChristmasWindow.cpp" />
     <ClCompile Include="DisplayObjectModel.cpp" />
     <ClCompile Include="ModelController.cpp" />
     <ClCompile Include="Particles.cpp" />
-    <ClCompile Include="ReflectDisplayObjectModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="demoshader.glsl" />

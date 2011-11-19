@@ -368,7 +368,7 @@ void ModelController::LoadTexture(){
 	_images[1].Load("seattexture.jpg");
 	_images[2].Load("seattexture_grass.jpg");
 	_images[3].Load("seattexture2.jpg");
-	_images[4].Load("Particle.bmp");
+	_images[4].Load("SnowFlake2.tga");
 
 	glGenTextures(5, &_textures[0]);
 

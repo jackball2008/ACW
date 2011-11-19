@@ -38,9 +38,9 @@ ChristmasWindow::ChristmasWindow(void) :_loadStencilBuffer(true),_drawSpotLights
 	
 	_switch = false;
 
-	_cameraPositionVec3f.x = 0;
-	_cameraPositionVec3f.y = 0;
-	_cameraPositionVec3f.z = _cameraPosition;
+// 	_cameraPositionVec3f.x = 0;
+// 	_cameraPositionVec3f.y = 0;
+// 	_cameraPositionVec3f.z = _cameraPosition;
 
 }
 
@@ -262,19 +262,26 @@ void ChristmasWindow::tree()
 
 	/*glLoadMatrixf(matrix);*/
 	glDisable(GL_CULL_FACE);
-	glBegin(GL_TRIANGLES);
+	glPointSize(10.0);
+	glBegin(GL_TRIANGLES);//GL_POINT,GL_TRIANGLES
+	glColor3f(1,1,1);
 	glNormal3f(0.0f,0.0f,1.0f);
 	glVertex3f(-1.0f,1.0f,0.0f);
 	glVertex3f(1.0f,1.0f,0.0f);
 	glVertex3f(0.0f,2.0f,0.0f);
-// 	glVertex3f(-0.25f,0.0f,0.0f);
-// 	glVertex3f(0.25f,0.0f,0.0f);
-// 	glVertex3f(-0.25f,1.0f,0.0f);
-// 	glVertex3f(0.25f,0.0f,0.0f);
-// 	glVertex3f(0.25f,1.0f,0.0f);
-// 	glVertex3f(-0.25f,1.0f,0.0f);
+
 	glEnd();
 	glEnable(GL_CULL_FACE);
+
+/*	glEnable(GL_POINT_SPRITE);*/
+// 	glPointSize(10.0);
+// 	glBegin(GL_POINT);
+// 	glColor3f(1,1,1);
+// 
+// 	glVertex3f(0, 3,0);
+// 
+// 	glEnd();
+
 	glPopMatrix();
 
 }
@@ -509,9 +516,10 @@ void ChristmasWindow::OnDisplay()
 		glRotatef(_cameraAngle, 1.0,0.0,0.0);
 		glRotatef(_cameraRotation, 0.0, 1.0, 0.0);
 
+		
 
 		glPushMatrix();
-			glTranslatef(0,1,0);
+			glTranslatef(0,4,0);
 			pp.Draw();
 		glPopMatrix();
 
@@ -538,12 +546,12 @@ void ChristmasWindow::OnDisplay()
 
 		glPushMatrix();
 			if(_drawSpotLights){
-				//glDisable(GL_LIGHT0);
+				
 				_spotlightRed.apply();
 				_spotlightGreen.apply();
 				_spotlightBlue.apply();
 				_spotlightWhite.apply();
-				drawSporLights();
+				
 			}
 			else{
 				glDisable(GL_LIGHT1);

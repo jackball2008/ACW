@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#define MAX_PARTICLES 1000
+#define MAX_PARTICLES 100
 class Particles :
 	public DisplayObjectModel
 {
@@ -42,20 +42,6 @@ public:
 
 
 	particles particle[MAX_PARTICLES];
-
-	/*static GLfloat colors[12][3];*/
-
-// 	static GLfloat colors[12][3]=               // Rainbow Of Colors
-// 	{
-// 		{1.0f,0.5f,0.5f},{1.0f,0.75f,0.5f},{1.0f,1.0f,0.5f},{0.75f,1.0f,0.5f},
-// 		{0.5f,1.0f,0.5f},{0.5f,1.0f,0.75f},{0.5f,1.0f,1.0f},{0.5f,0.75f,1.0f},
-// 		{0.5f,0.5f,1.0f},{0.75f,0.5f,1.0f},{1.0f,0.5f,1.0f},{1.0f,0.5f,0.75f}
-// 	};
-
-
-
-
-
 
 	Particles(void);
 	~Particles(void);

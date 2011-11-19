@@ -102,10 +102,13 @@
     <ClInclude Include="Light.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
-    <ClInclude Include="ReflectDisplayObjectModel.h">
+    <ClInclude Include="Particles.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Particles.h">
+    <ClInclude Include="ParticleStruct.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicParticles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -125,10 +128,10 @@
     <ClCompile Include="ChristmasTree.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="ReflectDisplayObjectModel.cpp">
+    <ClCompile Include="Particles.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Particles.cpp">
+    <ClCompile Include="BasicParticles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

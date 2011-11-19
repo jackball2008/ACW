@@ -17,16 +17,12 @@ Particles::~Particles(void)
 }
 
 void Particles::Initialize(){
-	glShadeModel(GL_SMOOTH);                        // Enables Smooth Shading
-	glClearColor(0.0f,0.0f,0.0f,0.0f);                  // Black Background
-	glClearDepth(1.0f);                         // Depth Buffer Setup
-	glDisable(GL_DEPTH_TEST);                       // Disables Depth Testing
-	glEnable(GL_BLEND);                         // Enable Blending
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE);                   // Type Of Blending To Perform
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);           // Really Nice Perspective Calculations
-	glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);                 // Really Nice Point Smoothing
-	glEnable(GL_TEXTURE_2D);                        // Enable Texture Mapping
-	glBindTexture(GL_TEXTURE_2D,texture); 
+// 	glShadeModel(GL_SMOOTH);                        // Enables Smooth Shading
+// 	glClearColor(0.0f,0.0f,0.0f,0.0f);                  // Black Background
+// 	glClearDepth(1.0f);                         // Depth Buffer Setup
+// 	glDisable(GL_DEPTH_TEST);                       // Disables Depth Testing
+	
+	
 
 	for (loop=0;loop<MAX_PARTICLES;loop++){
 		particle[loop].active=true;                 // Make All The Particles Active
@@ -60,16 +56,28 @@ void Particles::Draw(){
 			float y=particle[loop].y;               // Grab Our Particle Y Position
 			float z=particle[loop].z+zoom;              // Particle Z Pos + Zoom
 
+			glClearColor(0.0f,0.0f,0.0f,0.0f);
+			glEnable(GL_BLEND);                         // Enable Blending
+			glBlendFunc(GL_SRC_ALPHA,GL_ONE);                   // Type Of Blending To Perform
+			glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);           // Really Nice Perspective Calculations
+			glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);                 // Really Nice Point Smoothing
+
+
 			glEnable(GL_TEXTURE_2D);                        // Enable Texture Mapping
 			glBindTexture(GL_TEXTURE_2D,texture); 
 			// Draw The Particle Using Our RGB Values, Fade The Particle Based On It's Life
-			glColor4f(particle[loop].r,particle[loop].g,particle[loop].b,particle[loop].life);
-			glBegin(GL_TRIANGLE_STRIP);             // Build Quad From A Triangle Strip
-				glTexCoord2d(1,1); glVertex3f(x+0.5f,y+0.5f,z); // Top Right
-				glTexCoord2d(0,1); glVertex3f(x-0.5f,y+0.5f,z); // Top Left
-				glTexCoord2d(1,0); glVertex3f(x+0.5f,y-0.5f,z); // Bottom Right
-				glTexCoord2d(0,0); glVertex3f(x-0.5f,y-0.5f,z); // Bottom Left
-			glEnd(); 
+			glColor4f(particle[loop].r,particle[loop].g,particle[loop].b,particle[loop].life);//
+
+// 			glEnable(GL_POINT_SPRITE);
+// 			glBegin(GL_POINT);
+// 			glEnd(); 
+// 			glBegin(GL_TRIANGLE_STRIP);             // Build Quad From A Triangle Strip
+// 				glTexCoord2d(1,1); glVertex3f(x+0.5f,y+0.5f,z); // Top Right
+// 				glTexCoord2d(0,1); glVertex3f(x-0.5f,y+0.5f,z); // Top Left
+// 				glTexCoord2d(1,0); glVertex3f(x+0.5f,y-0.5f,z); // Bottom Right
+// 				glTexCoord2d(0,0); glVertex3f(x-0.5f,y-0.5f,z); // Bottom Left
+// 			glEnd(); 
+			glDisable(GL_BLEND); 
 			particle[loop].x+=particle[loop].xi/(slowdown*1000);    // Move On The X Axis By X Speed
 			particle[loop].y+=particle[loop].yi/(slowdown*1000);    // Move On The Y Axis By Y Speed
 			particle[loop].z+=particle[loop].zi/(slowdown*1000);    // Move On The Z Axis By Z Speed
