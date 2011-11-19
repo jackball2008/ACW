@@ -368,15 +368,15 @@ void ModelController::LoadTexture(){
 	_images[1].Load("seattexture.jpg");
 	_images[2].Load("seattexture_grass.jpg");
 	_images[3].Load("seattexture2.jpg");
-	
+	_images[4].Load("Particle.bmp");
 
-	glGenTextures(4, &_textures[0]);
+	glGenTextures(5, &_textures[0]);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 	// build 2D mip-maps from image
-	for (int i = 0; i<4; i++) {
+	for (int i = 0; i<5; i++) {
 		glBindTexture(GL_TEXTURE_2D, _textures[i]);
 		_images[i].gluBuild2DMipmaps();
 		_images[i].Free();

@@ -205,9 +205,15 @@ void ChristmasWindow::OnCreate()
 #endif
 
 	loadShaders();
-
 	_green.create(Color::black(), Color::green());
-	
+
+	/************************************************************************/
+	/* particles                                                                     */
+	/************************************************************************/
+	pp.setTexture(modelController->_textures[4]);
+	pp.Initialize();
+
+
 }
 const vec3f _startup(0,1,0);
 void ChristmasWindow::tree()
@@ -236,7 +242,7 @@ void ChristmasWindow::tree()
 
 	glPushMatrix();
 
-	glGetFloatv(GL_MODELVIEW_MATRIX , matrix);
+	/*glGetFloatv(GL_MODELVIEW_MATRIX , matrix);*/
 
 // 	matrix[0] = matrix[10] = matrix[15] = 1.0f;
 // 	matrix[1] = matrix[2] = matrix[8] = matrix[9] = 0.0f;
@@ -254,7 +260,7 @@ void ChristmasWindow::tree()
 	matrix[12] = 0;			matrix[13] =1;			matrix[14] = 0;				matrix[15] = 1;
 
 
-	glLoadMatrixf(matrix);
+	/*glLoadMatrixf(matrix);*/
 	glDisable(GL_CULL_FACE);
 	glBegin(GL_TRIANGLES);
 	glNormal3f(0.0f,0.0f,1.0f);
@@ -502,6 +508,11 @@ void ChristmasWindow::OnDisplay()
 		glTranslatef(0.0f, 0.0f,_cameraPosition);
 		glRotatef(_cameraAngle, 1.0,0.0,0.0);
 		glRotatef(_cameraRotation, 0.0, 1.0, 0.0);
+
+
+		glPushMatrix();
+			pp.Draw();
+		glPopMatrix();
 
 
 #ifdef	USECASTSHADOW 

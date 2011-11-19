@@ -14,6 +14,7 @@
 #include "Materials.h"
 
 #include "mxyMatrix.h"
+#include "Particles.h"
 
 using namespace gxbase;
 
@@ -63,6 +64,7 @@ private:
 	Materials _green;
 	vec3f	_cameraPositionVec3f;
 	void tree();
+	Particles pp;
 	/************************************************************************/
 	/* reflection stencil buffer control                                                                     */
 	/************************************************************************/
