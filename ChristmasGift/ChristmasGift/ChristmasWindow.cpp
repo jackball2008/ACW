@@ -37,6 +37,11 @@ ChristmasWindow::ChristmasWindow(void) :_loadStencilBuffer(true),_drawSpotLights
 	SetTitle("Christmas Gift From Xiaoyu Ma");
 	
 	_switch = false;
+
+	_cameraPositionVec3f.x = 0;
+	_cameraPositionVec3f.y = 0;
+	_cameraPositionVec3f.z = _cameraPosition;
+
 }
 
 
@@ -200,7 +205,72 @@ void ChristmasWindow::OnCreate()
 #endif
 
 	loadShaders();
+
+	_green.create(Color::black(), Color::green());
 	
+}
+const vec3f _startup(0,1,0);
+void ChristmasWindow::tree()
+{
+	float matrix[16];
+
+	vec3f campos(0,0,_cameraPosition);
+	vec3f veceye(0,0,-_cameraPosition);
+
+	//test
+	/*vec3f test(10,10,10);*/
+
+	vec3f vectoreye = -campos;
+
+	
+	vec3f look = mxy::normalize(vectoreye);
+
+	vec3f tempup(0,1,0);
+
+	vec3f right = mxy::normalize(cross(look,tempup));
+	vec3f rightup = mxy::normalize(cross(right,look));
+
+// 	vec3f right = mxy::normalize(cross( canpos, _startup));
+// 	vec3f up = normalize( cross( right, canpos));
+// 	vec3f look = normalize( cross( up, right));
+
+	glPushMatrix();
+
+	glGetFloatv(GL_MODELVIEW_MATRIX , matrix);
+
+// 	matrix[0] = matrix[10] = matrix[15] = 1.0f;
+// 	matrix[1] = matrix[2] = matrix[8] = matrix[9] = 0.0f;
+// 	matrix[0] = right.x; matrix[1] =rightup.x; matrix[2] = look.x; matrix[3] = 0;
+// 	matrix[4] = right.y; matrix[5] =rightup.y; matrix[6] = look.y; matrix[7] = 1;
+// 	matrix[8] = right.z; matrix[9] =rightup.z; matrix[10] = look.z; matrix[11] = 0;
+// 	matrix[12] = 0; matrix[13] =0; matrix[14] = 0; matrix[15] = 1;
+
+	matrix[0] = right.x;	matrix[1] =right.y;		matrix[2] = right.z;		matrix[3] = 0;
+
+	matrix[4] = rightup.x;	matrix[5] =rightup.y;	matrix[6] = rightup.z;		matrix[7] = 0;
+
+	matrix[8] = look.x;		matrix[9] =look.y;		matrix[10] = look.z;		matrix[11] = 0;
+
+	matrix[12] = 0;			matrix[13] =1;			matrix[14] = 0;				matrix[15] = 1;
+
+
+	glLoadMatrixf(matrix);
+	glDisable(GL_CULL_FACE);
+	glBegin(GL_TRIANGLES);
+	glNormal3f(0.0f,0.0f,1.0f);
+	glVertex3f(-1.0f,1.0f,0.0f);
+	glVertex3f(1.0f,1.0f,0.0f);
+	glVertex3f(0.0f,2.0f,0.0f);
+// 	glVertex3f(-0.25f,0.0f,0.0f);
+// 	glVertex3f(0.25f,0.0f,0.0f);
+// 	glVertex3f(-0.25f,1.0f,0.0f);
+// 	glVertex3f(0.25f,0.0f,0.0f);
+// 	glVertex3f(0.25f,1.0f,0.0f);
+// 	glVertex3f(-0.25f,1.0f,0.0f);
+	glEnd();
+	glEnable(GL_CULL_FACE);
+	glPopMatrix();
+
 }
 /************************************************************************/
 /* load shaders                                                                     */
@@ -408,11 +478,7 @@ void ChristmasWindow::DrawReflection()
 
 	glPushMatrix();
 	// reflect all objects about y=0 plane 
-	glScalef(1.0, -1.0, 1.0);
-//   	glTranslatef(0.64,-1.0,0.51);
-//   	glRotatef(90,1,0,0);
-//   	glScalef(0.5,0.5,0.5);
-//   	
+	glScalef(1.0, -1.0, 1.0);	
 	glTranslatef(tree_pos_x,-tree_pos_y,tree_pos_z);
  	glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
 
@@ -421,8 +487,9 @@ void ChristmasWindow::DrawReflection()
 
 	_tree->Draw();
 	
-	glPopMatrix();
 	glCullFace(GL_BACK);
+	glPopMatrix();
+	
 }
 
 void ChristmasWindow::OnDisplay()
@@ -488,19 +555,18 @@ void ChristmasWindow::OnDisplay()
 			_house->Draw();
 		glPopMatrix();
 
-		
+		// 		glUseProgram(_shaderProgramID);
+		// 		glUseProgram(0);	
 #ifdef DRAWREFLECTION
 		/************************************************************************/
 		/* draw reflection                                                                     */
 		/************************************************************************/
-// 		glUseProgram(_shaderProgramID);
-// 		glUseProgram(0);
-
 		glDepthMask(GL_FALSE);
 		if (_loadStencilBuffer)
 		{
 			LoadStencil();
 		}
+
 		DrawReflection();
 
 		glDisable(GL_STENCIL_TEST);
@@ -516,19 +582,7 @@ void ChristmasWindow::OnDisplay()
 		glPopMatrix();
 		glFrontFace(GL_CCW);
 		glDisable(GL_BLEND);
-		
-		
 #endif
-		/**
-		**glTranslatef(0.65,-1.0,0.0);
-		glScalef(0.25,0.25,0.25);
-		*/
-		glPushMatrix();
-			glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
-			glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
-			_tree->Draw();
-		glPopMatrix();
-
 		
 #ifdef DRAWREFLECTION
 		glDisable(GL_STENCIL_TEST);
@@ -545,14 +599,31 @@ void ChristmasWindow::OnDisplay()
 #ifdef DRAWREFLECTION
 		glDisable(GL_BLEND);
 #endif
+		glPushMatrix();
+		glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
+		glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
+		_tree->Draw();
+		glPopMatrix();
 		
+
 		
 
 		glPushMatrix();
-			glTranslatef(0.0f, 3.29f, 0.0f);
-  			glScalef(3,3,3);
- 			/*_ball->Draw();*/
+			_green.apply();
+			glTranslatef(0.0f, 1.0f, 0.0f);
+			tree();
 		glPopMatrix();
+
+		/************************************************************************/
+		/* last draw the ball                                                                     */
+		/************************************************************************/
+		
+		glPushMatrix();
+		glTranslatef(0.0f, 3.29f, 0.0f);
+		glScalef(3,3,3);
+		/*_ball->Draw();*/
+		glPopMatrix();
+
 	glPopMatrix();
 
 	glDisable(GL_LIGHTING);

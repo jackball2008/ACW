@@ -8,12 +8,17 @@
 #include "GXBase.h"
 #include "ModelController.h"
 #include "DisplayObjectModel.h"
-/*#include "Sphere.h"*/
+
 #include "ChristmasTree.h"
 #include "Light.h"
 #include "Materials.h"
 
+#include "mxyMatrix.h"
+
 using namespace gxbase;
+
+typedef mxy::matrix4<float> matrix4f;
+
 
 #define SEASONLENGTH 3*30*24*60*60
 
@@ -51,10 +56,13 @@ public:
 	/* shader function                                                                     */
 	/************************************************************************/
 	
-
-	Materials _material1, _material2, _material3;//_red test
-	/*Sphere _mainLightRepresent;*///_sphere2 test
 private:
+	/************************************************************************/
+	/* test materials  billboard practices                                                         */
+	/************************************************************************/
+	Materials _green;
+	vec3f	_cameraPositionVec3f;
+	void tree();
 	/************************************************************************/
 	/* reflection stencil buffer control                                                                     */
 	/************************************************************************/

@@ -105,6 +105,9 @@
     <ClInclude Include="ReflectDisplayObjectModel.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Particles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChristmasWindow.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="ReflectDisplayObjectModel.cpp">
       <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Particles.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
