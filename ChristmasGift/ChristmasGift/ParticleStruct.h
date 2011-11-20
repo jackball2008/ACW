@@ -43,5 +43,9 @@ typedef struct{
 	float   yg;                 // Y Gravity
 	float   zg;                 // Z Gravity
 
+	float	ini_x_speed;
+	float	ini_y_speed;
+	float	ini_z_speed;
+
 
 } ParticlesStruct;

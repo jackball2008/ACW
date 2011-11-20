@@ -18,6 +18,7 @@
 #include "Particles.h"
 #include "BasicParticles.h"
 #include "PointPaticles.h"
+#include "SmokeParticles.h"
 
 using namespace gxbase;
 
@@ -66,12 +67,11 @@ private:
 	/************************************************************************/
 	/* test materials  billboard practices                                                         */
 	/************************************************************************/
-	Materials _green;
-	/*vec3f	_cameraPositionVec3f;*/
+	/*Materials _green;*/
+	
 	void TestMethod();
-	/*Particles pp;*/
-
-	PointPaticles pp1;
+	
+	SmokeParticles _smoke;
 
 	/*GLuint testtexid;*/
 

@@ -6,10 +6,10 @@
 
 #define MAXPARTICLES 500
 
-const float gravity = 0.98f;
 
 
-enum ParticlesType{USEPOINT,USELINE,USETEXTURED_POLYGON};
+
+
 
 /*typedef mxy::vec3<float> vec3f;*/
 
@@ -20,7 +20,8 @@ public:
 	/************************************************************************/
 	/* type                                                                      */
 	/************************************************************************/
-	ParticlesType type;
+	/*ParticlesType type;*/
+	float intervaltime;
 	/************************************************************************/
 	/*                                                                      */
 	/************************************************************************/
@@ -48,13 +49,13 @@ public:
 	~BasicPaticles(void);
 
 	void Initialize();
-	void Update();
+	void Update(const float& t);
 	void Draw();
 
 	void Start();
 	void Stop();
 
-	void SetParticlesType(const ParticlesType& type);
+	
 
 
 

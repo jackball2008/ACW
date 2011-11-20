@@ -205,17 +205,14 @@ void ChristmasWindow::OnCreate()
 #endif
 
 	loadShaders();
-	_green.create(Color::black(), Color::green());
+	/*_green.create(Color::black(), Color::green());*/
 
 	/************************************************************************/
 	/* particles                                                                     */
 	/************************************************************************/
-// 	pp.setTexture(modelController->_textures[4]);
-// 	pp.Initialize();
-	pp1.working = true;
-	pp1.Initialize();
 
-	/*testtexid = modelController->_textures[4];*/
+	_smoke.Initialize();
+
 }
 const vec3f _startup(0,1,0);
 void ChristmasWindow::TestMethod()
@@ -528,7 +525,12 @@ void ChristmasWindow::OnUpdate(){
 #ifdef USECASTSHADOW
 	updateShadow();
 #endif
-	
+
+	/************************************************************************/
+	/* update particles                                                                     */
+	/************************************************************************/
+	_smoke.Update(deltaTime);
+
 }
 
 
@@ -586,11 +588,14 @@ void ChristmasWindow::OnDisplay()
 		glRotatef(_cameraRotation, 0.0, 1.0, 0.0);
 
 		
-
+		/************************************************************************/
+		/* draw smoke                                                                     */
+		/************************************************************************/
 		glPushMatrix();
 			glTranslatef(0,4,0);
-			
-			pp1.Draw();
+			if(_smoke.working){
+				_smoke.Draw();
+			}
 			
 		glPopMatrix();
 
@@ -757,6 +762,9 @@ void ChristmasWindow::OnKeyboard(int key, bool down)
 		
 		case 'l':
 			_drawSpotLights = !_drawSpotLights;
+			break;
+		case 'u':
+			_smoke.working = !_smoke.working;
 			break;
 		default:
 			break;

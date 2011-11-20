@@ -109,9 +109,12 @@
       <Filter>Header Files\Data</Filter>
     </ClInclude>
     <ClInclude Include="BasicParticles.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="PointPaticles.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="SmokeParticles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -135,9 +138,12 @@
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="BasicParticles.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="PointPaticles.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="SmokeParticles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
