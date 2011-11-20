@@ -14,8 +14,6 @@ public:
 	/************************************************************************/
 	ParticlesStruct pool[MAXPOINTPARTICLES];
 
-	
-
 	PointPaticles(void);
 	~PointPaticles(void);
 

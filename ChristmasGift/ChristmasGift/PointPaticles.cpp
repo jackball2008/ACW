@@ -8,7 +8,7 @@ static GLfloat colors[12][3]=               // Rainbow Of Colors
 };
 PointPaticles::PointPaticles(void)
 {
-	slowdown = 10.0f;	
+	slowdown = 1.0f;	
 }
 
 
@@ -22,7 +22,9 @@ void PointPaticles::Initialize(){
 		pool[i].active=true;                 // Make All The Particles Active
 		pool[i].life=1.0f;                   // Give All The Particles Full Life
 
-		pool[i].fade=float(rand()%100)/1000.0f+0.003f;       // Random Fade Speed
+		float c = gravity;
+
+		pool[i].fade=float(rand()%100)/1000.0f;//+0.003f;       // Random Fade Speed
 
 		pool[i].r=colors[i*(12/MAXPOINTPARTICLES)][0];        // Select Red Rainbow Color
 		pool[i].g=colors[i*(12/MAXPOINTPARTICLES)][1];        // Select Red Rainbow Color
@@ -54,7 +56,7 @@ void PointPaticles::Draw(){
 				/************************************************************************/
 				/* draw                                                                     */
 				/************************************************************************/
-				float quadratic[] =  { 1.0f, 0.0f, 0.01f };
+				float quadratic[] =  { 1.0f, 1.0f, 1.01f };
 				glPointParameterfv( GL_POINT_DISTANCE_ATTENUATION, quadratic );
 				float maxSize = 0.0f;
 				glGetFloatv( GL_POINT_SIZE_MAX, &maxSize  );
@@ -66,7 +68,7 @@ void PointPaticles::Draw(){
 				glEnable( GL_POINT_SPRITE );
 				glBegin( GL_POINTS );
 				{
-					glColor4f(pool[loop].r,pool[loop].g,pool[loop].b,1.0f);
+					glColor4f(pool[loop].r,pool[loop].g,pool[loop].b,pool[loop].a);
 					glVertex3f(x,y,z);
 				}
 				glEnd();

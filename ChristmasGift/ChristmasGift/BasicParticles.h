@@ -6,6 +6,7 @@
 
 #define MAXPARTICLES 500
 
+const float gravity = 0.98f;
 
 
 enum ParticlesType{USEPOINT,USELINE,USETEXTURED_POLYGON};

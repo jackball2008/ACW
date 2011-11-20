@@ -1,11 +1,12 @@
 #include "BasicParticles.h"
 
 
+
+
 BasicPaticles::BasicPaticles(void):working(false)
 {
 	slowdown = 1.0f;
 }
-
 
 BasicPaticles::~BasicPaticles(void)
 {

@@ -68,12 +68,12 @@ private:
 	/************************************************************************/
 	Materials _green;
 	/*vec3f	_cameraPositionVec3f;*/
-	void tree();
-	Particles pp;
+	void TestMethod();
+	/*Particles pp;*/
 
 	PointPaticles pp1;
 
-	GLuint testtexid;
+	/*GLuint testtexid;*/
 
 	
 	/************************************************************************/

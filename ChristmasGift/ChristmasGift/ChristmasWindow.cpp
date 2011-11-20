@@ -210,15 +210,15 @@ void ChristmasWindow::OnCreate()
 	/************************************************************************/
 	/* particles                                                                     */
 	/************************************************************************/
-	pp.setTexture(modelController->_textures[4]);
-	pp.Initialize();
+// 	pp.setTexture(modelController->_textures[4]);
+// 	pp.Initialize();
 	pp1.working = true;
 	pp1.Initialize();
 
-	testtexid = modelController->_textures[4];
+	/*testtexid = modelController->_textures[4];*/
 }
 const vec3f _startup(0,1,0);
-void ChristmasWindow::tree()
+void ChristmasWindow::TestMethod()
 {
 	float matrix[16];
 
@@ -589,9 +589,9 @@ void ChristmasWindow::OnDisplay()
 
 		glPushMatrix();
 			glTranslatef(0,4,0);
-			/*pp.Draw();*/
+			
 			pp1.Draw();
-			/*DrawARBPointSprites();*/
+			
 		glPopMatrix();
 
 // 		glPushMatrix();
