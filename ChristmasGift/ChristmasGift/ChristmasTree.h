@@ -5,7 +5,7 @@
 #include <iostream>
 #include "DisplayObjectModel.h"
 #include "mxyVector.h"
-/*#include "mxyMatrix.h"*/
+
 
 typedef mxy::vec3<float> vec3f;
 

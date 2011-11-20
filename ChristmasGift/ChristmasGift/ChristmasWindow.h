@@ -9,17 +9,19 @@
 #include "ModelController.h"
 #include "DisplayObjectModel.h"
 
-#include "ChristmasTree.h"
+
 #include "Light.h"
 #include "Materials.h"
 
-#include "mxyMatrix.h"
+#include "ChristmasTree.h"
+
 #include "Particles.h"
 #include "BasicParticles.h"
+#include "PointPaticles.h"
 
 using namespace gxbase;
 
-typedef mxy::matrix4<float> matrix4f;
+
 
 
 #define SEASONLENGTH 3*30*24*60*60
@@ -59,6 +61,8 @@ public:
 	/************************************************************************/
 	
 private:
+	ModelController* modelController;
+
 	/************************************************************************/
 	/* test materials  billboard practices                                                         */
 	/************************************************************************/
@@ -66,6 +70,12 @@ private:
 	/*vec3f	_cameraPositionVec3f;*/
 	void tree();
 	Particles pp;
+
+	PointPaticles pp1;
+
+	GLuint testtexid;
+
+	
 	/************************************************************************/
 	/* reflection stencil buffer control                                                                     */
 	/************************************************************************/

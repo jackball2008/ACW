@@ -125,7 +125,7 @@ void ChristmasWindow::OnCreate()
 	/************************************************************************/
 	/* test for modelcontroller       test passed                           */
 	/************************************************************************/
-	ModelController* modelController = ModelController::GetInstance();
+	/*ModelController* */modelController = ModelController::GetInstance();
 	/************************************************************************/
 	/* load texture together                                                */
 	/************************************************************************/
@@ -212,8 +212,10 @@ void ChristmasWindow::OnCreate()
 	/************************************************************************/
 	pp.setTexture(modelController->_textures[4]);
 	pp.Initialize();
+	pp1.working = true;
+	pp1.Initialize();
 
-
+	testtexid = modelController->_textures[4];
 }
 const vec3f _startup(0,1,0);
 void ChristmasWindow::tree()
@@ -261,30 +263,97 @@ void ChristmasWindow::tree()
 
 
 	/*glLoadMatrixf(matrix);*/
-	glDisable(GL_CULL_FACE);
-	glPointSize(10.0);
-	glBegin(GL_TRIANGLES);//GL_POINT,GL_TRIANGLES
+// 	glDisable(GL_CULL_FACE);
+// 	glPointSize(10.0);
+// 	glBegin(GL_TRIANGLES);//GL_POINT,GL_TRIANGLES
+// 	glColor3f(1,1,1);
+// 	glNormal3f(0.0f,0.0f,1.0f);
+// 	glVertex3f(-1.0f,1.0f,0.0f);
+// 	glVertex3f(1.0f,1.0f,0.0f);
+// 	glVertex3f(0.0f,2.0f,0.0f);
+// 
+// 	glEnd();
+// 	glEnable(GL_CULL_FACE);
+
+
+	/**
+	float quadratic[] = { 1.0f, 0.0f, 0.01f };
+	
+	glPointParameterfvARB( GL_POINT_DISTANCE_ATTENUATION_ARB, quadratic );
+	glPointParameterfARB( GL_POINT_FADE_THRESHOLD_SIZE_ARB, 60.0f );
+	glPointParameterfARB( GL_POINT_SIZE_MIN_ARB, 13.0f );
+	glPointParameterfARB( GL_POINT_SIZE_MAX_ARB, 100.0f );
+
+	glTexEnvf( GL_POINT_SPRITE_ARB, GL_COORD_REPLACE_ARB, GL_TRUE );
+
+	glEnable( GL_POINT_SPRITE_ARB );
+	/*glPointParameterf(GL_POINT_DISTANCE_ATTENUATION_ARB, 0.1);*/
+	/*glEnable(GL_POINT_SPRITE);*/
+	/**
+	glPointSize(30.0);
+	glBegin(GL_POINT);
 	glColor3f(1,1,1);
-	glNormal3f(0.0f,0.0f,1.0f);
-	glVertex3f(-1.0f,1.0f,0.0f);
-	glVertex3f(1.0f,1.0f,0.0f);
-	glVertex3f(0.0f,2.0f,0.0f);
+	glVertex3f(0, 3,0);
 
 	glEnd();
-	glEnable(GL_CULL_FACE);
-
-/*	glEnable(GL_POINT_SPRITE);*/
-// 	glPointSize(10.0);
-// 	glBegin(GL_POINT);
-// 	glColor3f(1,1,1);
+	glDisable( GL_POINT_SPRITE_ARB );
+	*/
+// 	bool m_PointARBEnable;
+// 	bool m_PointNVEnable;
+// 	PFNGLPOINTPARAMETERFARBPROC  glPointParameterfARB  ;
+// 	PFNGLPOINTPARAMETERFVARBPROC glPointParameterfvARB ;
+// 	void CheckForExtension(void);
 // 
+// 	char *ext = (char*)glGetString(GL_EXTENSIONS);
+// 	if(strstr(ext, "GL_ARB_point_parameters") != NULL){
+// 		glPointParameterfARB  = (PFNGLPOINTPARAMETERFEXTPROC)wglGetProcAddress("glPointParameterfARB");
+// 		glPointParameterfvARB = (PFNGLPOINTPARAMETERFVEXTPROC)wglGetProcAddress("glPointParameterfvARB");
+// 		if( !glPointParameterfARB || !glPointParameterfvARB )
+// 		{
+// 			/*LOGFILE<<"One or more GL_EXT_point_parameters functions were not found"<<std::endl;*/
+// 			m_PointARBEnable=false;
+// 		}
+// 		m_PointARBEnable=true;
+// 	}
+
+
+// 	glBindTexture(GL_TEXTURE_2D,testtexid);
+// 	glEnable(GL_POINT_SPRITE);
+// 	glTexEnvi(GL_POINT_SPRITE,GL_COORD_REPLACE,GL_TRUE);
+// 	
+// 	glPointSize(30.0);
+// 	glBegin(GL_POINT);
+// 	glColor3f(1,0,0);
 // 	glVertex3f(0, 3,0);
 // 
 // 	glEnd();
+// 	
+	float quadratic[] =  { 10.0f, 0.0f, 0.01f };
+	glPointParameterfv( GL_POINT_DISTANCE_ATTENUATION, quadratic );
+	float maxSize = 0.0f;
+	glGetFloatv( GL_POINT_SIZE_MAX, &maxSize  );
+	glPointSize( /*maxSize*/ 2 );
+	glPointParameterf( GL_POINT_SIZE_MAX, maxSize );
+	glPointParameterf( GL_POINT_SIZE_MIN, 0.5f );
+	glTexEnvf( GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE );
+	
+	glEnable( GL_POINT_SPRITE );
+	glBegin( GL_POINTS );
+	{
+		glColor4f(1,0,1,1.0f);
+		glVertex3f(2,1,0);
+	}
+	glEnd();
+	glDisable( GL_POINT_SPRITE );
+
 
 	glPopMatrix();
 
 }
+/************************************************************************/
+/* test for particles                                                                     */
+/************************************************************************/
+
 /************************************************************************/
 /* load shaders                                                                     */
 /************************************************************************/
@@ -520,8 +589,16 @@ void ChristmasWindow::OnDisplay()
 
 		glPushMatrix();
 			glTranslatef(0,4,0);
-			pp.Draw();
+			/*pp.Draw();*/
+			pp1.Draw();
+			/*DrawARBPointSprites();*/
 		glPopMatrix();
+
+// 		glPushMatrix();
+// 			_green.apply();
+// 			glTranslatef(0.0f, 1.0f, 0.0f);
+// 			/*tree();*/
+// 		glPopMatrix();
 
 
 #ifdef	USECASTSHADOW 
@@ -551,7 +628,7 @@ void ChristmasWindow::OnDisplay()
 				_spotlightGreen.apply();
 				_spotlightBlue.apply();
 				_spotlightWhite.apply();
-				
+				drawSporLights();
 			}
 			else{
 				glDisable(GL_LIGHT1);
@@ -628,11 +705,7 @@ void ChristmasWindow::OnDisplay()
 
 		
 
-		glPushMatrix();
-			_green.apply();
-			glTranslatef(0.0f, 1.0f, 0.0f);
-			tree();
-		glPopMatrix();
+		
 
 		/************************************************************************/
 		/* last draw the ball                                                                     */

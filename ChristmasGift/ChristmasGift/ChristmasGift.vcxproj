@@ -91,6 +91,7 @@
     <ClInclude Include="mxyVector.h" />
     <ClInclude Include="Particles.h" />
     <ClInclude Include="ParticleStruct.h" />
+    <ClInclude Include="PointPaticles.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Vector3f.h" />
     <ClInclude Include="Vector4f.h" />
@@ -104,6 +105,7 @@
     <ClCompile Include="DisplayObjectModel.cpp" />
     <ClCompile Include="ModelController.cpp" />
     <ClCompile Include="Particles.cpp" />
+    <ClCompile Include="PointPaticles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="demoshader.glsl" />

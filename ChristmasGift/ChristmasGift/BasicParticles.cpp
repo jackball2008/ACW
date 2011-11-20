@@ -3,6 +3,7 @@
 
 BasicPaticles::BasicPaticles(void):working(false)
 {
+	slowdown = 1.0f;
 }
 
 

@@ -26,13 +26,15 @@ typedef struct{
 	/* charchter                                                                     */
 	/************************************************************************/
 	float	mass;
+
 	bool    active;                 // Active (Yes/No)
+
 	float   life;                   // Particle Life
-	int		parentID;
-	
 	float   fade;                   // Fade Speed
 
-
+	int		parentID;
+	
+	
 	float   xi;                 // X Direction
 	float   yi;                 // Y Direction
 	float   zi;                 // Z Direction

@@ -111,6 +111,9 @@
     <ClInclude Include="BasicParticles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PointPaticles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChristmasWindow.cpp">
@@ -132,6 +135,9 @@
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="BasicParticles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PointPaticles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
