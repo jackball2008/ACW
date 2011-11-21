@@ -2,7 +2,7 @@
 #include "BasicParticles.h"
 
 #define MAXPOINTPARTICLES 1000
-#define MAXPOINTSIZE 5
+#define MAXPOINTSIZE 8
 #define MINPOINTSIZE 1
 
 
@@ -17,5 +17,7 @@ public:
 	void Initialize();
 	void Update(const float& t);
 	void Draw();
+
+	
 };
 

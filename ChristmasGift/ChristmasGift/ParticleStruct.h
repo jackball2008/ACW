@@ -39,13 +39,17 @@ typedef struct{
 	float   yi;                 // Y Direction
 	float   zi;                 // Z Direction
 
-	float   xg;                 // X Gravity
-	float   yg;                 // Y Gravity
-	float   zg;                 // Z Gravity
+	float   xa;                 // X Gravity
+	float   ya;                 // Y Gravity
+	float   za;                 // Z Gravity
 
-	float	ini_x_speed;
-	float	ini_y_speed;
-	float	ini_z_speed;
+	float	x_speed;
+	float	y_speed;
+	float	z_speed;
+
+	float	x_old_speed;
+	float	y_old_speed;
+	float	z_old_speed;
 
 
 } ParticlesStruct;

@@ -36,9 +36,9 @@ void PointPaticles::Initialize(){
 		pool[i].yi=float((rand()%50)-25.0f)*10.0f;       // Random Speed On Y Axis
 		pool[i].zi=float((rand()%50)-25.0f)*10.0f;       // Random Speed On Z Axis
 
-		pool[i].xg=0.0f;                     // Set Horizontal Pull To Zero
-		pool[i].yg=-0.8f;                    // Set Vertical Pull Downward
-		pool[i].zg=0.0f; 
+		pool[i].xa=0.0f;                     // Set Horizontal Pull To Zero
+		pool[i].ya=-0.8f;                    // Set Vertical Pull Downward
+		pool[i].za=0.0f; 
 	}
 }
 void PointPaticles::Update(){
@@ -86,9 +86,9 @@ void PointPaticles::Draw(){
 				pool[loop].y+=pool[loop].yi/(slowdown*1000);    // Move On The Y Axis By Y Speed
 				pool[loop].z+=pool[loop].zi/(slowdown*1000);    // Move On The Z Axis By Z Speed
 
-				pool[loop].xi+=pool[loop].xg;           // Take Pull On X Axis Into Account
-				pool[loop].yi+=pool[loop].yg;           // Take Pull On Y Axis Into Account
-				pool[loop].zi+=pool[loop].zg;           // Take Pull On Z Axis Into Account
+				pool[loop].xi+=pool[loop].xa;           // Take Pull On X Axis Into Account
+				pool[loop].yi+=pool[loop].ya;           // Take Pull On Y Axis Into Account
+				pool[loop].zi+=pool[loop].za;           // Take Pull On Z Axis Into Account
 				pool[loop].life-=pool[loop].fade;       // Reduce Particles Life By 'Fade'
 
 				if (pool[loop].life<0.0f){						// If Particle Is Burned Out

@@ -325,23 +325,23 @@ void ChristmasWindow::TestMethod()
 // 
 // 	glEnd();
 // 	
-	float quadratic[] =  { 10.0f, 0.0f, 0.01f };
-	glPointParameterfv( GL_POINT_DISTANCE_ATTENUATION, quadratic );
-	float maxSize = 0.0f;
-	glGetFloatv( GL_POINT_SIZE_MAX, &maxSize  );
-	glPointSize( /*maxSize*/ 2 );
-	glPointParameterf( GL_POINT_SIZE_MAX, maxSize );
-	glPointParameterf( GL_POINT_SIZE_MIN, 0.5f );
-	glTexEnvf( GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE );
-	
-	glEnable( GL_POINT_SPRITE );
-	glBegin( GL_POINTS );
-	{
-		glColor4f(1,0,1,1.0f);
-		glVertex3f(2,1,0);
-	}
-	glEnd();
-	glDisable( GL_POINT_SPRITE );
+// 	float quadratic[] =  { 10.0f, 0.0f, 0.01f };
+// 	glPointParameterfv( GL_POINT_DISTANCE_ATTENUATION, quadratic );
+// 	float maxSize = 0.0f;
+// 	glGetFloatv( GL_POINT_SIZE_MAX, &maxSize  );
+// 	glPointSize( /*maxSize*/ 2 );
+// 	glPointParameterf( GL_POINT_SIZE_MAX, maxSize );
+// 	glPointParameterf( GL_POINT_SIZE_MIN, 0.5f );
+// 	glTexEnvf( GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE );
+// 	
+// 	glEnable( GL_POINT_SPRITE );
+// 	glBegin( GL_POINTS );
+// 	{
+// 		glColor4f(1,0,1,1.0f);
+// 		glVertex3f(2,1,0);
+// 	}
+// 	glEnd();
+// 	glDisable( GL_POINT_SPRITE );
 
 
 	glPopMatrix();
@@ -592,7 +592,8 @@ void ChristmasWindow::OnDisplay()
 		/* draw smoke                                                                     */
 		/************************************************************************/
 		glPushMatrix();
-			glTranslatef(0,4,0);
+			glTranslatef(-1.4,2.05,0);
+			
 			if(_smoke.working){
 				_smoke.Draw();
 			}
@@ -719,7 +720,7 @@ void ChristmasWindow::OnDisplay()
 		glPushMatrix();
 		glTranslatef(0.0f, 3.29f, 0.0f);
 		glScalef(3,3,3);
-		/*_ball->Draw();*/
+		_ball->Draw();
 		glPopMatrix();
 
 	glPopMatrix();
