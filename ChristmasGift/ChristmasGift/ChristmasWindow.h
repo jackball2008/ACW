@@ -67,7 +67,7 @@ private:
 	/************************************************************************/
 	/* test materials  billboard practices                                                         */
 	/************************************************************************/
-	/*Materials _green;*/
+	Materials _green;
 	
 	void TestMethod();
 	

@@ -77,7 +77,7 @@ void SmokeParticles::Draw(){
 		/************************************************************************/
 		/* draw                                                                     */
 		/************************************************************************/
-		glPointParameterfv( GL_POINT_DISTANCE_ATTENUATION, quadratic );
+		/*glPointParameterfv( GL_POINT_DISTANCE_ATTENUATION, quadratic );*/
 		glPointSize( pool[loop].size );
 		glPointParameterf( GL_POINT_SIZE_MAX, MAXPOINTSIZE );
 		glPointParameterf( GL_POINT_SIZE_MIN, MINPOINTSIZE );

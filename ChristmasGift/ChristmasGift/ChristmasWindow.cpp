@@ -205,7 +205,7 @@ void ChristmasWindow::OnCreate()
 #endif
 
 	loadShaders();
-	/*_green.create(Color::black(), Color::green());*/
+	_green.create(Color::black(), Color::green());
 
 	/************************************************************************/
 	/* particles                                                                     */
@@ -220,31 +220,25 @@ void ChristmasWindow::TestMethod()
 	float matrix[16];
 
 	vec3f campos(0,0,_cameraPosition);
-	vec3f veceye(0,0,-_cameraPosition);
+	/*vec3f veceye(0,0,-_cameraPosition);*/
 
 	//test
 	/*vec3f test(10,10,10);*/
 
 	vec3f vectoreye = -campos;
-
+	vec3f tempup(0,1,0);
 	
 	vec3f look = mxy::normalize(vectoreye);
-
-	vec3f tempup(0,1,0);
-
 	vec3f right = mxy::normalize(cross(look,tempup));
 	vec3f rightup = mxy::normalize(cross(right,look));
 
-// 	vec3f right = mxy::normalize(cross( canpos, _startup));
-// 	vec3f up = normalize( cross( right, canpos));
-// 	vec3f look = normalize( cross( up, right));
-
 	glPushMatrix();
 
-	/*glGetFloatv(GL_MODELVIEW_MATRIX , matrix);*/
+	glGetFloatv(GL_MODELVIEW_MATRIX , matrix);
 
 // 	matrix[0] = matrix[10] = matrix[15] = 1.0f;
 // 	matrix[1] = matrix[2] = matrix[8] = matrix[9] = 0.0f;
+	
 // 	matrix[0] = right.x; matrix[1] =rightup.x; matrix[2] = look.x; matrix[3] = 0;
 // 	matrix[4] = right.y; matrix[5] =rightup.y; matrix[6] = look.y; matrix[7] = 1;
 // 	matrix[8] = right.z; matrix[9] =rightup.z; matrix[10] = look.z; matrix[11] = 0;
@@ -256,92 +250,22 @@ void ChristmasWindow::TestMethod()
 
 	matrix[8] = look.x;		matrix[9] =look.y;		matrix[10] = look.z;		matrix[11] = 0;
 
-	matrix[12] = 0;			matrix[13] =1;			matrix[14] = 0;				matrix[15] = 1;
+	//matrix[12] = -vectoreye.x;			matrix[13] = -vectoreye.y+1;			matrix[14] = -vectoreye.z;				matrix[15] = 1;
 
 
-	/*glLoadMatrixf(matrix);*/
-// 	glDisable(GL_CULL_FACE);
-// 	glPointSize(10.0);
-// 	glBegin(GL_TRIANGLES);//GL_POINT,GL_TRIANGLES
-// 	glColor3f(1,1,1);
-// 	glNormal3f(0.0f,0.0f,1.0f);
-// 	glVertex3f(-1.0f,1.0f,0.0f);
-// 	glVertex3f(1.0f,1.0f,0.0f);
-// 	glVertex3f(0.0f,2.0f,0.0f);
-// 
-// 	glEnd();
-// 	glEnable(GL_CULL_FACE);
-
-
-	/**
-	float quadratic[] = { 1.0f, 0.0f, 0.01f };
-	
-	glPointParameterfvARB( GL_POINT_DISTANCE_ATTENUATION_ARB, quadratic );
-	glPointParameterfARB( GL_POINT_FADE_THRESHOLD_SIZE_ARB, 60.0f );
-	glPointParameterfARB( GL_POINT_SIZE_MIN_ARB, 13.0f );
-	glPointParameterfARB( GL_POINT_SIZE_MAX_ARB, 100.0f );
-
-	glTexEnvf( GL_POINT_SPRITE_ARB, GL_COORD_REPLACE_ARB, GL_TRUE );
-
-	glEnable( GL_POINT_SPRITE_ARB );
-	/*glPointParameterf(GL_POINT_DISTANCE_ATTENUATION_ARB, 0.1);*/
-	/*glEnable(GL_POINT_SPRITE);*/
-	/**
-	glPointSize(30.0);
-	glBegin(GL_POINT);
-	glColor3f(1,1,1);
-	glVertex3f(0, 3,0);
+	glLoadMatrixf(matrix);
+	glDisable(GL_CULL_FACE);
+	glPointSize(10.0);
+	glBegin(GL_TRIANGLES);//GL_POINT,GL_TRIANGLES
+	glColor3f(0,1,0);
+	glNormal3f(0.0f,0.0f,1.0f);
+	glVertex3f(-1.0f,1.0f,0.0f);
+	glVertex3f(1.0f,1.0f,0.0f);
+	glVertex3f(0.0f,2.0f,0.0f);
 
 	glEnd();
-	glDisable( GL_POINT_SPRITE_ARB );
-	*/
-// 	bool m_PointARBEnable;
-// 	bool m_PointNVEnable;
-// 	PFNGLPOINTPARAMETERFARBPROC  glPointParameterfARB  ;
-// 	PFNGLPOINTPARAMETERFVARBPROC glPointParameterfvARB ;
-// 	void CheckForExtension(void);
-// 
-// 	char *ext = (char*)glGetString(GL_EXTENSIONS);
-// 	if(strstr(ext, "GL_ARB_point_parameters") != NULL){
-// 		glPointParameterfARB  = (PFNGLPOINTPARAMETERFEXTPROC)wglGetProcAddress("glPointParameterfARB");
-// 		glPointParameterfvARB = (PFNGLPOINTPARAMETERFVEXTPROC)wglGetProcAddress("glPointParameterfvARB");
-// 		if( !glPointParameterfARB || !glPointParameterfvARB )
-// 		{
-// 			/*LOGFILE<<"One or more GL_EXT_point_parameters functions were not found"<<std::endl;*/
-// 			m_PointARBEnable=false;
-// 		}
-// 		m_PointARBEnable=true;
-// 	}
+	glEnable(GL_CULL_FACE);
 
-
-// 	glBindTexture(GL_TEXTURE_2D,testtexid);
-// 	glEnable(GL_POINT_SPRITE);
-// 	glTexEnvi(GL_POINT_SPRITE,GL_COORD_REPLACE,GL_TRUE);
-// 	
-// 	glPointSize(30.0);
-// 	glBegin(GL_POINT);
-// 	glColor3f(1,0,0);
-// 	glVertex3f(0, 3,0);
-// 
-// 	glEnd();
-// 	
-// 	float quadratic[] =  { 10.0f, 0.0f, 0.01f };
-// 	glPointParameterfv( GL_POINT_DISTANCE_ATTENUATION, quadratic );
-// 	float maxSize = 0.0f;
-// 	glGetFloatv( GL_POINT_SIZE_MAX, &maxSize  );
-// 	glPointSize( /*maxSize*/ 2 );
-// 	glPointParameterf( GL_POINT_SIZE_MAX, maxSize );
-// 	glPointParameterf( GL_POINT_SIZE_MIN, 0.5f );
-// 	glTexEnvf( GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE );
-// 	
-// 	glEnable( GL_POINT_SPRITE );
-// 	glBegin( GL_POINTS );
-// 	{
-// 		glColor4f(1,0,1,1.0f);
-// 		glVertex3f(2,1,0);
-// 	}
-// 	glEnd();
-// 	glDisable( GL_POINT_SPRITE );
 
 
 	glPopMatrix();
@@ -600,11 +524,12 @@ void ChristmasWindow::OnDisplay()
 			
 		glPopMatrix();
 
-// 		glPushMatrix();
-// 			_green.apply();
-// 			glTranslatef(0.0f, 1.0f, 0.0f);
-// 			/*tree();*/
-// 		glPopMatrix();
+		glPushMatrix();
+			_green.apply();
+			glTranslatef(0.0f, 1.0f, 0.0f);
+			TestMethod();
+			/*tree();*/
+		glPopMatrix();
 
 
 #ifdef	USECASTSHADOW 
@@ -629,7 +554,6 @@ void ChristmasWindow::OnDisplay()
 
 		glPushMatrix();
 			if(_drawSpotLights){
-				
 				_spotlightRed.apply();
 				_spotlightGreen.apply();
 				_spotlightBlue.apply();
