@@ -117,6 +117,9 @@
     <ClInclude Include="SmokeParticles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SnowFlakeParticles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChristmasWindow.cpp">
@@ -144,6 +147,9 @@
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="SmokeParticles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SnowFlakeParticles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

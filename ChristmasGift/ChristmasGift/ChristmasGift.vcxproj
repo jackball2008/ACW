@@ -93,6 +93,7 @@
     <ClInclude Include="ParticleStruct.h" />
     <ClInclude Include="PointPaticles.h" />
     <ClInclude Include="SmokeParticles.h" />
+    <ClInclude Include="SnowFlakeParticles.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Vector3f.h" />
     <ClInclude Include="Vector4f.h" />
@@ -108,6 +109,7 @@
     <ClCompile Include="Particles.cpp" />
     <ClCompile Include="PointPaticles.cpp" />
     <ClCompile Include="SmokeParticles.cpp" />
+    <ClCompile Include="SnowFlakeParticles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="demoshader.glsl" />

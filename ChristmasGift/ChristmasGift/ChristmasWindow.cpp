@@ -12,7 +12,7 @@ const Vector4f _PQ = Vector4f(0.0f,0.0f,0.0f,1.0f);
 
 /*(0.64,1.0,0.51*/
 const float pool_pos_x = 0.55;
-const float pool_pos_y = 0.94;
+const float pool_pos_y = -0.06;
 const float pool_pos_z = 0.53;
 /*0.5,0.5,0.5*/
 const float pool_scal_x = 0.58;
@@ -23,7 +23,7 @@ const float pool_scal_z = 0.58;
 glScalef(0.25,0.25,0.25);                                                                   */
 /************************************************************************/
 const float tree_pos_x = 0.6;
-const float tree_pos_y = 1.0;
+const float tree_pos_y = 0.0;
 const float tree_pos_z = -0.2;
 const float tree_scal_x = 0.2;
 const float tree_scal_y = 0.2;
@@ -38,10 +38,6 @@ ChristmasWindow::ChristmasWindow(void) :_loadStencilBuffer(true),_drawSpotLights
 	
 	_switch = false;
 
-// 	_cameraPositionVec3f.x = 0;
-// 	_cameraPositionVec3f.y = 0;
-// 	_cameraPositionVec3f.z = _cameraPosition;
-
 }
 
 
@@ -51,8 +47,8 @@ void ChristmasWindow::initialiseLights(){
 	/************************************************************************/
 	/* initialize lighting                                                                     */
 	/************************************************************************/
-	_sunPos.Assign(0.0,0.0,5.0,1.0);
-	_sun.create(0, Color(0.2f,0.2f,0.2f,1.0f), Color(0.7f,0.7f,0.7f,1.0f),_sunPos);
+	_sunPos.Assign(0.0,1.0,5.0,1.0);
+	_sun.create(0, Color(0.8f,0.8f,0.8f,1.0f), Color(0.7f,0.7f,0.7f,1.0f),_sunPos);
 	
 	/*_sun.setPosition(Vector4f(0.0,0.0,5.0,1.0));*/
 	
@@ -167,12 +163,6 @@ void ChristmasWindow::OnCreate()
 	/* glass ball                                                                     */
 	/************************************************************************/
 	_ball = new DisplayObjectModel();
-// 	Materials _ballMaterials;
-// 	_ballMaterials.create(Color::black(), Color(1.0,0.0,0.0,0.0));
-// 	bool _ballRenderTextures = false;
-// 	bool _ballRenderMaterials = true;
-// 	bool _ballEnableTransparency = true;
-	/*_ball->setMaterials(_ballMaterials);*/
 	_ball->setEnableTransparency(true);
 	_ball->setRenderTexture(false);
 	_ball->setRenderMaterials(false);
@@ -183,9 +173,6 @@ void ChristmasWindow::OnCreate()
 	/* water pool                                                                     */
 	/************************************************************************/
 	_pool = new DisplayObjectModel();
-// 	bool _poolRenterTextures = false;
-// 	bool _poolRenderMaterials = false;
-// 	bool _poolEnableTransparency = true;
 	_pool->setRenderTexture(false);
 	_pool->setRenderMaterials(false);
 	_pool->setEnableTransparency(true);
@@ -212,7 +199,8 @@ void ChristmasWindow::OnCreate()
 	/************************************************************************/
 
 	_smoke.Initialize();
-
+	_snowflake.Initialize();
+	_snowflake.setTexture(modelController->_textures[4]);
 }
 const vec3f _startup(0,1,0);
 void ChristmasWindow::TestMethod()
@@ -220,10 +208,6 @@ void ChristmasWindow::TestMethod()
 	float matrix[16];
 
 	vec3f campos(0,0,_cameraPosition);
-	/*vec3f veceye(0,0,-_cameraPosition);*/
-
-	//test
-	/*vec3f test(10,10,10);*/
 
 	vec3f vectoreye = -campos;
 	vec3f tempup(0,1,0);
@@ -235,14 +219,6 @@ void ChristmasWindow::TestMethod()
 	glPushMatrix();
 
 	glGetFloatv(GL_MODELVIEW_MATRIX , matrix);
-
-// 	matrix[0] = matrix[10] = matrix[15] = 1.0f;
-// 	matrix[1] = matrix[2] = matrix[8] = matrix[9] = 0.0f;
-	
-// 	matrix[0] = right.x; matrix[1] =rightup.x; matrix[2] = look.x; matrix[3] = 0;
-// 	matrix[4] = right.y; matrix[5] =rightup.y; matrix[6] = look.y; matrix[7] = 1;
-// 	matrix[8] = right.z; matrix[9] =rightup.z; matrix[10] = look.z; matrix[11] = 0;
-// 	matrix[12] = 0; matrix[13] =0; matrix[14] = 0; matrix[15] = 1;
 
 	matrix[0] = right.x;	matrix[1] =right.y;		matrix[2] = right.z;		matrix[3] = 0;
 
@@ -267,6 +243,8 @@ void ChristmasWindow::TestMethod()
 	glEnable(GL_CULL_FACE);
 
 
+	float matrix2[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX,&matrix2[0]);
 
 	glPopMatrix();
 
@@ -516,7 +494,7 @@ void ChristmasWindow::OnDisplay()
 		/* draw smoke                                                                     */
 		/************************************************************************/
 		glPushMatrix();
-			glTranslatef(-1.4,2.05,0);
+			glTranslatef(-1.4,1.06,0);
 			
 			if(_smoke.working){
 				_smoke.Draw();
@@ -527,8 +505,15 @@ void ChristmasWindow::OnDisplay()
 		glPushMatrix();
 			_green.apply();
 			glTranslatef(0.0f, 1.0f, 0.0f);
-			TestMethod();
+			/*TestMethod();*/
 			/*tree();*/
+		glPopMatrix();
+
+		
+		glPushMatrix();
+			glTranslatef(0.0f, 1.0f, 0.0f);
+			_snowflake.setCameraPos(0.0f, 0.0f,_cameraPosition);
+			_snowflake.Draw();
 		glPopMatrix();
 
 
@@ -568,19 +553,7 @@ void ChristmasWindow::OnDisplay()
 			}
 		glPopMatrix();
 
-		glPushMatrix();
-			glTranslatef(0.0,1,0.0);
-			glRotatef(-90.0f,1.0,0.0,0.0);
-			_seat->Draw();
-		glPopMatrix();
-
 		
-		glPushMatrix();
-			glScalef(0.25,0.25,0.25);
-			glTranslatef(-4.0,5.0,0.0f);
-			glRotatef(-90,1.0,0.0,0.0);
-			_house->Draw();
-		glPopMatrix();
 
 		// 		glUseProgram(_shaderProgramID);
 		// 		glUseProgram(0);	
@@ -633,18 +606,27 @@ void ChristmasWindow::OnDisplay()
 		glPopMatrix();
 		
 
-		
+		glPushMatrix();
+			glRotatef(-90.0f,1.0,0.0,0.0);
+			_seat->Draw();
+		glPopMatrix();
 
-		
 
+		glPushMatrix();
+			glTranslatef(-1.0,0.28,0.0f);
+			glScalef(0.25,0.25,0.25);
+			glRotatef(-90,1.0,0.0,0.0);
+			_house->Draw();
+		glPopMatrix();
+		
 		/************************************************************************/
 		/* last draw the ball                                                                     */
 		/************************************************************************/
 		
 		glPushMatrix();
-		glTranslatef(0.0f, 3.29f, 0.0f);
-		glScalef(3,3,3);
-		_ball->Draw();
+			glTranslatef(0.0f, 2.3f, 0.0f);
+			glScalef(3,3,3);
+			_ball->Draw();
 		glPopMatrix();
 
 	glPopMatrix();
@@ -690,6 +672,9 @@ void ChristmasWindow::OnKeyboard(int key, bool down)
 			break;
 		case 'u':
 			_smoke.working = !_smoke.working;
+			break;
+		case 'y':
+			_snowflake.working = !_snowflake.working;
 			break;
 		default:
 			break;

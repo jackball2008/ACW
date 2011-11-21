@@ -19,6 +19,7 @@
 #include "BasicParticles.h"
 #include "PointPaticles.h"
 #include "SmokeParticles.h"
+#include "SnowFlakeParticles.h"
 
 using namespace gxbase;
 
@@ -72,6 +73,8 @@ private:
 	void TestMethod();
 	
 	SmokeParticles _smoke;
+
+	SnowFlakeParticles _snowflake;
 
 	/*GLuint testtexid;*/
 

@@ -1,3 +1,4 @@
+#pragma once
 /************************************************************************/
 /* here is powerful vextor template
  * be referenced from nvidia.

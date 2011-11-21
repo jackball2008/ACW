@@ -1,3 +1,4 @@
+#pragma once
 #include <GXBase.h>
 #include <math.h>
 #include "mxyVector.h"

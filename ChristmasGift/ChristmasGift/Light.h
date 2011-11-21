@@ -1,3 +1,4 @@
+#pragma once
 #include <GXBase.h>
 #include "Color.h"
 #include "Vector4f.h"
