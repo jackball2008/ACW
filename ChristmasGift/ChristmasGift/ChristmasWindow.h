@@ -14,7 +14,7 @@
 #include "Materials.h"
 
 #include "ChristmasTree.h"
-
+#include "Sphere.h"
 #include "Particles.h"
 #include "BasicParticles.h"
 #include "PointPaticles.h"
@@ -91,8 +91,9 @@ private:
 	/* main light                                                                     */
 	/************************************************************************/
 	Lights _sunLight;
-	Lights _testLight;
 	Vector4f _sunPos;
+	Sphere _sunSphere;
+	Materials  _sunMaterial;
 	/************************************************************************/
 	/* spotlights                                                                     */
 	/************************************************************************/

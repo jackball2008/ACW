@@ -37,7 +37,7 @@ ChristmasWindow::ChristmasWindow(void) :_loadStencilBuffer(true),_drawSpotLights
 	SetTitle("Christmas Gift From Xiaoyu Ma");
 	
 	_switch = false;
-
+	_angle = 0.0f;
 }
 
 
@@ -47,15 +47,11 @@ void ChristmasWindow::initialiseLights(){
 	/************************************************************************/
 	/* initialize lighting                                                                     */
 	/************************************************************************/
-	/*_sunPos.Assign(0.0,4.0,0.0,1.0);*/
-	_sunLight.create(0, Color::black(), Color::red());
-	
-	_sunLight.setPosition(Vector4f(-10.0,30.0,0.0,1.0));
-	
-	_testLight.create(5,Color::black(),Color::white());
-	_testLight.setPosition(Vector4f(10,30.5,0,1.0));
-	
+	_sunLight.create(0, Color::black(), Color::white());
 
+	/************************************************************************/
+	/*                                                                      */
+	/************************************************************************/
 	_spotlightRed.create(1,Color::black(),Color::red());
 	_spotlightRed.setSpot(30.0,100.0f);
 
@@ -71,15 +67,15 @@ void ChristmasWindow::initialiseLights(){
 	// turn the global ambient off by setting it to zero
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Color::black().rgba());
 
-	_testLight.apply();
-
 	_sunLight.apply();
 
 	_spotlightRed.apply();
-// 	_spotlightGreen.apply();
-// 	_spotlightBlue.apply();
-// 	_spotlightWhite.apply();
+	_spotlightGreen.apply();
+	_spotlightBlue.apply();
+	_spotlightWhite.apply();
 
+	_sunSphere.create(0.1f, 10, 10, false);
+	_sunMaterial.create(Color::black(), Color::black(), Color(0.7,0.7,0.2,0.7));
 	
 }
 
@@ -204,8 +200,13 @@ void ChristmasWindow::OnCreate()
 	/************************************************************************/
 
 	_smoke.Initialize();
-	_snowflake.Initialize();
+
+	
 	_snowflake.setTexture(modelController->_textures[4]);
+	_snowflake.setHeight(2.7);
+	_snowflake.setRaius(2.2);
+	_snowflake.Initialize();
+
 }
 const vec3f _startup(0,1,0);
 void ChristmasWindow::TestMethod()
@@ -438,6 +439,10 @@ void ChristmasWindow::OnUpdate(){
 	/************************************************************************/
 	_smoke.Update(deltaTime);
 	_snowflake.Update(deltaTime);
+
+	_angle += _angleInc * deltaTime;
+	if(_angle > 360.0f) 
+		_angle -=360.0f;
 }
 
 
@@ -486,6 +491,8 @@ void ChristmasWindow::DrawReflection()
 void ChristmasWindow::OnDisplay()
 {
 	this->OnUpdate();
+
+	
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
@@ -493,35 +500,6 @@ void ChristmasWindow::OnDisplay()
 		glTranslatef(0.0f, 0.0f,_cameraPosition);
 		glRotatef(_cameraAngle, 1.0,0.0,0.0);
 		glRotatef(_cameraRotation, 0.0, 1.0, 0.0);
-
-		
-		/************************************************************************/
-		/* draw smoke                                                                     */
-		/************************************************************************/
-		glPushMatrix();
-			glTranslatef(-1.4,1.06,0);
-			if(_smoke.working){
-				_smoke.Draw();
-			}
-			
-		glPopMatrix();
-
-// 		glPushMatrix();
-// 			_green.apply();
-// 			glTranslatef(0.0f, 1.0f, 0.0f);
-// 			/*TestMethod();*/
-// 			/*tree();*/
-// 		glPopMatrix();
-
-		
-		glPushMatrix();
-		glTranslatef(0.0f, 1.0f, 0.0f);
-			if(_snowflake.working){
-				_snowflake.setCameraPos(0.0f, 0.0f,_cameraPosition);
-				_snowflake.Draw();
-			}
-			
-		glPopMatrix();
 
 		/*glPushMatrix();*/
 		if(_drawSpotLights){
@@ -540,7 +518,63 @@ void ChristmasWindow::OnDisplay()
 			glDisable(GL_LIGHT4);
 		}
 		/*glPopMatrix();*/
+		glPushMatrix();
+		glRotatef(-4*_angle, 0.0, 0.0, 1.0);
+		_sunLight.setPosition(Vector4f(0.0,6.0,0.0,1.0));
+		glTranslatef(0.0,6.0,0.0);
+		_sunMaterial.apply();
+		_sunSphere.draw();
+		glPopMatrix();
 
+		
+		/************************************************************************/
+		/* draw smoke                                                                     */
+		/************************************************************************/
+		glPushMatrix();
+			if(_smoke.working){
+				_smoke.Draw();
+			}
+			
+		glPopMatrix();
+
+		/************************************************************************/
+		/* draw snoke                                                                     */
+		/************************************************************************/
+		glPushMatrix();
+		glTranslatef(0,0.1,0);
+			if(_snowflake.working){
+				_snowflake.setCameraPos(0.0f, 0.0f,_cameraPosition);
+				_snowflake.Draw();
+			}
+		glPopMatrix();
+
+// 		glPushMatrix();
+// 		_green.apply();
+// 		glTranslatef(0.0f,3.0f,0.0f);
+// 		TestMethod();
+// 		glPopMatrix();
+
+		
+
+
+		glPushMatrix();
+		glRotatef(-90.0f,1.0,0.0,0.0);
+		_seat->Draw();
+		glPopMatrix();
+
+
+		glPushMatrix();
+		glTranslatef(-1.0,0.28,0.0f);
+		glScalef(0.25,0.25,0.25);
+		glRotatef(-90,1.0,0.0,0.0);
+		_house->Draw();
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
+		glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
+		_tree->Draw();
+		glPopMatrix();
 
 #ifdef	USECASTSHADOW 
 
@@ -610,27 +644,6 @@ void ChristmasWindow::OnDisplay()
 #ifdef DRAWREFLECTION
 		glDisable(GL_BLEND);
 #endif
-		glPushMatrix();
-			glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
-			glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
-			_tree->Draw();
-		glPopMatrix();
-		
-
-		glPushMatrix();
-			/*glTranslatef(0,1,0);*/
-			glRotatef(-90.0f,1.0,0.0,0.0);
-			
-			_seat->Draw();
-		glPopMatrix();
-
-
-		glPushMatrix();
-			glTranslatef(-1.0,0.28,0.0f);
-			glScalef(0.25,0.25,0.25);
-			glRotatef(-90,1.0,0.0,0.0);
-			_house->Draw();
-		glPopMatrix();
 		
 		/************************************************************************/
 		/* last draw the ball                                                                     */
@@ -639,7 +652,7 @@ void ChristmasWindow::OnDisplay()
 		glPushMatrix();
 			glTranslatef(0.0f, 2.3f, 0.0f);
 			glScalef(3,3,3);
-			/*_ball->Draw();*/
+			_ball->Draw();
 		glPopMatrix();
 
 	glPopMatrix();
@@ -741,11 +754,11 @@ void ChristmasWindow::OnMouseButton(MouseButton button, bool down) {
 void ChristmasWindow::drawSporLights(){
 	_spotlightRed.setPosition(Vector4f(0,8,0,1.0f));
 	_spotlightRed.setDirection(Vector4f(1.0f,-4.0f,0.0f,0.0f));
-// 	_spotlightGreen.setPosition(Vector4f(0,3,0,1.0f));
-// 	_spotlightGreen.setDirection(Vector4f(-1.0f,-4.0f,0.0f, 0.0f));
-// 	_spotlightBlue.setPosition(Vector4f(0,3,0,1.0f));
-// 	_spotlightBlue.setDirection(Vector4f(0.0f,-4.0f,1.0f, 0.0f));
-// 	_spotlightWhite.setPosition(Vector4f(0,3,0,1.0f));
-// 	_spotlightWhite.setDirection(Vector4f(0.0f,-4.0f,-1.0f, 0.0f));
+	_spotlightGreen.setPosition(Vector4f(0,3,0,1.0f));
+	_spotlightGreen.setDirection(Vector4f(-1.0f,-4.0f,0.0f, 0.0f));
+	_spotlightBlue.setPosition(Vector4f(0,3,0,1.0f));
+	_spotlightBlue.setDirection(Vector4f(0.0f,-4.0f,1.0f, 0.0f));
+	_spotlightWhite.setPosition(Vector4f(0,3,0,1.0f));
+	_spotlightWhite.setDirection(Vector4f(0.0f,-4.0f,-1.0f, 0.0f));
 
 }

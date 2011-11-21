@@ -4,7 +4,8 @@
 #include "mxyVector.h"
 typedef mxy::vec3<float> vec3f;
 
-#define MAXPOINTPARTICLES 1000
+#define MAXPOINTPARTICLES 300
+#define RANGEOFANGLE float(3.1415926/4)
 
 class SnowFlakeParticles :
 	public BasicPaticles
