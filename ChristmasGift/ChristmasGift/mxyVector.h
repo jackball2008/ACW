@@ -6,6 +6,7 @@
  * that's why I want to referenced some resources from their websit		
  * If you like , take away, don't need to tell me						*/
 /************************************************************************/
+#include <math.h>
 
 namespace mxy {
 
@@ -697,3 +698,4 @@ inline T max( const T & lhs, const T & rhs ) {
 };
 
 
+/*typedef mxy::vec3<float> vec3f;*/

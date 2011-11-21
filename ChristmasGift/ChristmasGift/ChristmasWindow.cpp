@@ -47,33 +47,38 @@ void ChristmasWindow::initialiseLights(){
 	/************************************************************************/
 	/* initialize lighting                                                                     */
 	/************************************************************************/
-	_sunPos.Assign(0.0,1.0,5.0,1.0);
-	_sun.create(0, Color(0.8f,0.8f,0.8f,1.0f), Color(0.7f,0.7f,0.7f,1.0f),_sunPos);
+	/*_sunPos.Assign(0.0,4.0,0.0,1.0);*/
+	_sunLight.create(0, Color::black(), Color::red());
 	
-	/*_sun.setPosition(Vector4f(0.0,0.0,5.0,1.0));*/
+	_sunLight.setPosition(Vector4f(-10.0,30.0,0.0,1.0));
+	
+	_testLight.create(5,Color::black(),Color::white());
+	_testLight.setPosition(Vector4f(10,30.5,0,1.0));
 	
 
-	_spotlightRed.create(1,Color::black(),Color(1.0f,0.0f,0.0f,1.0f));
+	_spotlightRed.create(1,Color::black(),Color::red());
 	_spotlightRed.setSpot(30.0,100.0f);
 
-	_spotlightGreen.create(2,Color::black(),Color(0.0f,1.0f,0.0f,1.0f));
+	_spotlightGreen.create(2,Color::black(),Color::green());
 	_spotlightGreen.setSpot(30.0,100.0f);
 
-	_spotlightBlue.create(3,Color::black(),Color(0.0f,0.0f,1.0f,1.0f));
+	_spotlightBlue.create(3,Color::black(),Color::blue());
 	_spotlightBlue.setSpot(30.0,100.0f);
 
-	_spotlightWhite.create(4,Color::black(),Color(1.0f,1.0f,0.0f,1.0f));
+	_spotlightWhite.create(4,Color::black(),Color::white());
 	_spotlightWhite.setSpot(30.0,100.0f);
 
 	// turn the global ambient off by setting it to zero
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Color::black().rgba());
 
-	_sun.apply();
+	_testLight.apply();
+
+	_sunLight.apply();
 
 	_spotlightRed.apply();
- 	_spotlightGreen.apply();
-	_spotlightBlue.apply();
-	_spotlightWhite.apply();
+// 	_spotlightGreen.apply();
+// 	_spotlightBlue.apply();
+// 	_spotlightWhite.apply();
 
 	
 }
@@ -211,7 +216,7 @@ void ChristmasWindow::TestMethod()
 
 	vec3f vectoreye = -campos;
 	vec3f tempup(0,1,0);
-	
+
 	vec3f look = mxy::normalize(vectoreye);
 	vec3f right = mxy::normalize(cross(look,tempup));
 	vec3f rightup = mxy::normalize(cross(right,look));
@@ -378,7 +383,7 @@ void ChristmasWindow::updateShadow(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
-		gluLookAt(_sun[0], _sun[1], _sun[2], _planepos[0], _planepos[1], _planepos[2], 0.0f, 1.0f, 0.0f); 
+		gluLookAt(_sunLight[0], _sunLight[1], _sunLight[2], _planepos[0], _planepos[1], _planepos[2], 0.0f, 1.0f, 0.0f); 
 		glTranslatef(_planepos[0],_planepos[1],_planepos[2]);
 		
 		glDisable(GL_CULL_FACE);
@@ -432,7 +437,7 @@ void ChristmasWindow::OnUpdate(){
 	/* update particles                                                                     */
 	/************************************************************************/
 	_smoke.Update(deltaTime);
-
+	_snowflake.Update(deltaTime);
 }
 
 
@@ -495,26 +500,46 @@ void ChristmasWindow::OnDisplay()
 		/************************************************************************/
 		glPushMatrix();
 			glTranslatef(-1.4,1.06,0);
-			
 			if(_smoke.working){
 				_smoke.Draw();
 			}
 			
 		glPopMatrix();
 
-		glPushMatrix();
-			_green.apply();
-			glTranslatef(0.0f, 1.0f, 0.0f);
-			/*TestMethod();*/
-			/*tree();*/
-		glPopMatrix();
+// 		glPushMatrix();
+// 			_green.apply();
+// 			glTranslatef(0.0f, 1.0f, 0.0f);
+// 			/*TestMethod();*/
+// 			/*tree();*/
+// 		glPopMatrix();
 
 		
 		glPushMatrix();
-			glTranslatef(0.0f, 1.0f, 0.0f);
-			_snowflake.setCameraPos(0.0f, 0.0f,_cameraPosition);
-			_snowflake.Draw();
+		glTranslatef(0.0f, 1.0f, 0.0f);
+			if(_snowflake.working){
+				_snowflake.setCameraPos(0.0f, 0.0f,_cameraPosition);
+				_snowflake.Draw();
+			}
+			
 		glPopMatrix();
+
+		/*glPushMatrix();*/
+		if(_drawSpotLights){
+			glDisable(GL_LIGHT0);
+			_spotlightRed.apply();
+			_spotlightGreen.apply();
+			_spotlightBlue.apply();
+			_spotlightWhite.apply();
+			drawSporLights();
+		}
+		else{
+			glEnable(GL_LIGHT0);
+			glDisable(GL_LIGHT1);
+			glDisable(GL_LIGHT2);
+			glDisable(GL_LIGHT3);
+			glDisable(GL_LIGHT4);
+		}
+		/*glPopMatrix();*/
 
 
 #ifdef	USECASTSHADOW 
@@ -530,28 +555,14 @@ void ChristmasWindow::OnDisplay()
 		glMatrixMode(GL_TEXTURE);
 		glPopMatrix();
 		glPushMatrix();
-		gluLookAt(_sun[0], _sun[1], _sun[2], _planepos[0], _planepos[1], _planepos[2], 0.0f, 1.0f, 0.0f); 
+		gluLookAt(_sunLight[0], _sunLight[1], _sunLight[2], _planepos[0], _planepos[1], _planepos[2], 0.0f, 1.0f, 0.0f); 
 		glMatrixMode(GL_MODELVIEW);
 		glActiveTextureARB(GL_TEXTURE0_ARB);
 		glEnable(GL_TEXTURE_2D);
 
 #endif
 
-		glPushMatrix();
-			if(_drawSpotLights){
-				_spotlightRed.apply();
-				_spotlightGreen.apply();
-				_spotlightBlue.apply();
-				_spotlightWhite.apply();
-				drawSporLights();
-			}
-			else{
-				glDisable(GL_LIGHT1);
-				glDisable(GL_LIGHT2);
-				glDisable(GL_LIGHT3);
-				glDisable(GL_LIGHT4);
-			}
-		glPopMatrix();
+		
 
 		
 
@@ -600,14 +611,16 @@ void ChristmasWindow::OnDisplay()
 		glDisable(GL_BLEND);
 #endif
 		glPushMatrix();
-		glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
-		glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
-		_tree->Draw();
+			glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
+			glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
+			_tree->Draw();
 		glPopMatrix();
 		
 
 		glPushMatrix();
+			/*glTranslatef(0,1,0);*/
 			glRotatef(-90.0f,1.0,0.0,0.0);
+			
 			_seat->Draw();
 		glPopMatrix();
 
@@ -626,7 +639,7 @@ void ChristmasWindow::OnDisplay()
 		glPushMatrix();
 			glTranslatef(0.0f, 2.3f, 0.0f);
 			glScalef(3,3,3);
-			_ball->Draw();
+			/*_ball->Draw();*/
 		glPopMatrix();
 
 	glPopMatrix();
@@ -727,12 +740,12 @@ void ChristmasWindow::OnMouseButton(MouseButton button, bool down) {
 
 void ChristmasWindow::drawSporLights(){
 	_spotlightRed.setPosition(Vector4f(0,8,0,1.0f));
-	_spotlightRed.setDirection(Vector4f(1.0f,-4.0f,0.0f, 0.0f));
-	_spotlightGreen.setPosition(Vector4f(0,8,0,1.0f));
-	_spotlightGreen.setDirection(Vector4f(-1.0f,-4.0f,0.0f, 0.0f));
-	_spotlightBlue.setPosition(Vector4f(0,8,0,1.0f));
-	_spotlightBlue.setDirection(Vector4f(0.0f,-4.0f,1.0f, 0.0f));
-	_spotlightWhite.setPosition(Vector4f(0,8,0,1.0f));
-	_spotlightWhite.setDirection(Vector4f(0.0f,-4.0f,-1.0f, 0.0f));
+	_spotlightRed.setDirection(Vector4f(1.0f,-4.0f,0.0f,0.0f));
+// 	_spotlightGreen.setPosition(Vector4f(0,3,0,1.0f));
+// 	_spotlightGreen.setDirection(Vector4f(-1.0f,-4.0f,0.0f, 0.0f));
+// 	_spotlightBlue.setPosition(Vector4f(0,3,0,1.0f));
+// 	_spotlightBlue.setDirection(Vector4f(0.0f,-4.0f,1.0f, 0.0f));
+// 	_spotlightWhite.setPosition(Vector4f(0,3,0,1.0f));
+// 	_spotlightWhite.setDirection(Vector4f(0.0f,-4.0f,-1.0f, 0.0f));
 
 }
