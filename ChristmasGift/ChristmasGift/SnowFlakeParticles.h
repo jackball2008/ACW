@@ -4,11 +4,11 @@
 #include "mxyVector.h"
 typedef mxy::vec3<float> vec3f;
 
-#define MAXPOINTPARTICLES 300
+#define MAXSNOWPOINTPARTICLES 300
 #define RANGEOFANGLE float(3.1415926/4)
 
 class SnowFlakeParticles :
-	public BasicPaticles
+	public BasicParticles
 {
 public:
 	SnowFlakeParticles(void);
@@ -20,7 +20,7 @@ public:
 
 	float	camx,camy,camz;
 
-	ParticlesStruct pool[MAXPOINTPARTICLES];
+	ParticlesStruct pool[MAXSNOWPOINTPARTICLES];
 	void Initialize();
 	void Update(const float& t);
 	void Draw();

@@ -52,5 +52,9 @@ typedef struct{
 	float	y_old_speed;
 	float	z_old_speed;
 
+	/************************************************************************/
+	/* distance from original                                                                     */
+	/************************************************************************/
+	float distance;
 
 } ParticlesStruct;

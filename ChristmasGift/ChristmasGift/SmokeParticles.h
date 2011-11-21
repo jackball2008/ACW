@@ -7,7 +7,7 @@
 
 
 class SmokeParticles :
-	public BasicPaticles
+	public BasicParticles
 {
 public:
 	SmokeParticles(void);

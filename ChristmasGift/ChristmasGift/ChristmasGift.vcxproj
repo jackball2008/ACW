@@ -81,6 +81,7 @@
     <ClInclude Include="ChristmasWindow.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="DisplayObjectModel.h" />
+    <ClInclude Include="FireParticles.h" />
     <ClInclude Include="IController.h" />
     <ClInclude Include="IDisplayObject.h" />
     <ClInclude Include="Light.h" />
@@ -105,6 +106,7 @@
     <ClCompile Include="ChristmasTree.cpp" />
     <ClCompile Include="ChristmasWindow.cpp" />
     <ClCompile Include="DisplayObjectModel.cpp" />
+    <ClCompile Include="FireParticles.cpp" />
     <ClCompile Include="ModelController.cpp" />
     <ClCompile Include="Particles.cpp" />
     <ClCompile Include="PointPaticles.cpp" />

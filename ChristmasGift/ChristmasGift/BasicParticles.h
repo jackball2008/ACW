@@ -13,7 +13,7 @@
 
 /*typedef mxy::vec3<float> vec3f;*/
 
-class BasicPaticles :
+class BasicParticles :
 	public DisplayObjectModel
 {
 public:
@@ -45,8 +45,8 @@ public:
 	/************************************************************************/
 	ParticlesStruct pool[MAXPARTICLES];
 	
-	BasicPaticles(void);
-	~BasicPaticles(void);
+	BasicParticles(void);
+	~BasicParticles(void);
 
 	void Initialize();
 	void Update(const float& t);

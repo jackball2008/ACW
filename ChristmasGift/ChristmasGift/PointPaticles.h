@@ -6,7 +6,7 @@
  #define MAXPOINTPARTICLES 1000
 
 class PointPaticles :
-	public BasicPaticles
+	public BasicParticles
 {
 public:
 	/************************************************************************/

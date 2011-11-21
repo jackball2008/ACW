@@ -33,7 +33,7 @@ SnowFlakeParticles::~SnowFlakeParticles(void)
 
 
 void SnowFlakeParticles::Initialize(){
-	for(int loop  =0; loop< MAXPOINTPARTICLES;loop++){
+	for(int loop  =0; loop< MAXSNOWPOINTPARTICLES;loop++){
 		float anglex = RANGEOFANGLE * randf1();
 		float anflez = RANGEOFANGLE * randf1();
 		pool[loop].x = radius * sin(anglex);
@@ -69,7 +69,8 @@ void SnowFlakeParticles::Update(const float& t){
 }
 const vec3f tempup(0,1,0);
 void SnowFlakeParticles::Draw(){
-	for(int loop  =0; loop< MAXPOINTPARTICLES;loop++){
+	
+	for(int loop  =0; loop< MAXSNOWPOINTPARTICLES;loop++){
 
 		float matrix[16];
 		vec3f campos(camx,camy,camz);
@@ -81,7 +82,7 @@ void SnowFlakeParticles::Draw(){
 
 		glPushMatrix();
 
-		glGetFloatv(GL_MODELVIEW_MATRIX , matrix);
+		/*glGetFloatv(GL_MODELVIEW_MATRIX , matrix);*/
 
 		matrix[0] = right.x;	matrix[1] =right.y;		matrix[2] = right.z;		matrix[3] = 0;
 
@@ -89,7 +90,7 @@ void SnowFlakeParticles::Draw(){
 
 		matrix[8] = look.x;		matrix[9] =look.y;		matrix[10] = look.z;		matrix[11] = 0;
 
-		glLoadMatrixf(matrix);
+		/*glLoadMatrixf(matrix);*/
 
 		glEnable(GL_BLEND);                        // Enable Blending
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE);                   // Type Of Blending To Perform
@@ -158,6 +159,8 @@ void SnowFlakeParticles::Draw(){
 		}
 
 	}
+
+	
 }
 
 void SnowFlakeParticles::setTexture(GLuint &t){

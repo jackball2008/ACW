@@ -3,36 +3,36 @@
 
 
 
-BasicPaticles::BasicPaticles(void):working(false)
+BasicParticles::BasicParticles(void):working(false)
 {
 	slowdown = 1.0f;
 }
 
-BasicPaticles::~BasicPaticles(void)
+BasicParticles::~BasicParticles(void)
 {
 }
 
-void BasicPaticles::Initialize(){
+void BasicParticles::Initialize(){
 // 	for(int i  =0; i< MAXPARTICLES;i++){
 // 
 // 	}
 }
-void BasicPaticles::Update(const float& t){
+void BasicParticles::Update(const float& t){
 // 	if(working)
 // 	for(int i  =0; i< MAXPARTICLES;i++){
 // 
 // 	}
 }
-void BasicPaticles::Draw(){
+void BasicParticles::Draw(){
 // 	if(working)
 // 	for(int i  =0; i< MAXPARTICLES;i++){
 // 
 // 	}
 }
-void BasicPaticles::Start(){
+void BasicParticles::Start(){
 	working = true;
 }
-void BasicPaticles::Stop(){
+void BasicParticles::Stop(){
 	working = false;
 }
 

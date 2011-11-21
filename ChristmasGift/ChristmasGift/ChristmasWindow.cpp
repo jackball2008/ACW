@@ -75,7 +75,7 @@ void ChristmasWindow::initialiseLights(){
 	_spotlightWhite.apply();
 
 	_sunSphere.create(0.1f, 10, 10, false);
-	_sunMaterial.create(Color::black(), Color::black(), Color(0.7,0.7,0.2,0.7));
+	_sunMaterial.create(Color::black(), Color::black(), Color(0.7,0.7,0.7,0.7));
 	
 }
 
@@ -206,6 +206,8 @@ void ChristmasWindow::OnCreate()
 	_snowflake.setHeight(2.7);
 	_snowflake.setRaius(2.2);
 	_snowflake.Initialize();
+
+	_fire.Initialize();
 
 }
 const vec3f _startup(0,1,0);
@@ -439,7 +441,7 @@ void ChristmasWindow::OnUpdate(){
 	/************************************************************************/
 	_smoke.Update(deltaTime);
 	_snowflake.Update(deltaTime);
-
+	_fire.Update(deltaTime);
 	_angle += _angleInc * deltaTime;
 	if(_angle > 360.0f) 
 		_angle -=360.0f;
@@ -519,10 +521,10 @@ void ChristmasWindow::OnDisplay()
 		}
 		/*glPopMatrix();*/
 		glPushMatrix();
-		glRotatef(-4*_angle, 0.0, 0.0, 1.0);
+		/*glRotatef(-4*_angle, 0.0, 0.0, 1.0);*/
 		_sunLight.setPosition(Vector4f(0.0,6.0,0.0,1.0));
 		glTranslatef(0.0,6.0,0.0);
-		_sunMaterial.apply();
+		/*_sunMaterial.apply();*/
 		_sunSphere.draw();
 		glPopMatrix();
 
@@ -531,6 +533,7 @@ void ChristmasWindow::OnDisplay()
 		/* draw smoke                                                                     */
 		/************************************************************************/
 		glPushMatrix();
+			glTranslatef(-1.4f,1.06,0);
 			if(_smoke.working){
 				_smoke.Draw();
 			}
@@ -553,7 +556,14 @@ void ChristmasWindow::OnDisplay()
 // 		glTranslatef(0.0f,3.0f,0.0f);
 // 		TestMethod();
 // 		glPopMatrix();
+// 		
+		glPushMatrix();
+		glTranslatef(0.0f,1.06f,0.0f);
+		if(_fire.working){
+			_fire.Draw();
+		}
 
+		glPopMatrix();
 		
 
 
@@ -701,6 +711,9 @@ void ChristmasWindow::OnKeyboard(int key, bool down)
 			break;
 		case 'y':
 			_snowflake.working = !_snowflake.working;
+			break;
+		case 't':
+			_fire.working = !_fire.working;
 			break;
 		default:
 			break;
