@@ -10,6 +10,8 @@ const float life = 1.0f;
 
 const float snowflakesize = 0.1;
 
+const vec3f tempup(0,1,0);
+
 /************************************************************************/
 /* static utils                                                                     */
 /************************************************************************/
@@ -67,7 +69,7 @@ void SnowFlakeParticles::Initialize(){
 void SnowFlakeParticles::Update(const float& t){
 	intervaltime = t;
 }
-const vec3f tempup(0,1,0);
+
 void SnowFlakeParticles::Draw(){
 	
 	for(int loop  =0; loop< MAXSNOWPOINTPARTICLES;loop++){
@@ -83,6 +85,10 @@ void SnowFlakeParticles::Draw(){
 		glPushMatrix();
 
 		glGetFloatv(GL_MODELVIEW_MATRIX , matrix);
+
+// 		matrix[0] = matrix[10] = 1.0f;
+// 
+// 		matrix[2] = matrix[4] = matrix[6] = matrix[8] = 0.0f;
 
 		matrix[0] = right.x;	matrix[1] =right.y;		matrix[2] = right.z;		matrix[3] = 0;
 

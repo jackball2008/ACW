@@ -27,7 +27,6 @@ using namespace gxbase;
 
 
 
-#define SEASONLENGTH 3*30*24*60*60
 
 #define USESHADER
 
@@ -35,24 +34,32 @@ class ChristmasWindow: public GLWindowEx
 {
 public:
 	ChristmasWindow(void);
-	
+	/************************************************************************/
+	/* main logic                                                                     */
+	/************************************************************************/
 	void OnCreate();
 	void OnDisplay();
 	void OnIdle();
 	void OnKeyboard(int key, bool down);
-	void initialiseLights();
-	void initShadow();
-	void updateShadow();
 	void OnMouseMove(int x, int y);
 	void OnMouseButton(MouseButton button, bool down);
 	void OnUpdate();
-	void drawSporLights();
-
+	
+	/************************************************************************/
+	/* lighting                                                                     */
+	/************************************************************************/
+	void InitialiseLights();
+	void DrawSporLights();
+	/************************************************************************/
+	/* shadow                                                                     */
+	/************************************************************************/
+	void InitialiseShadow();
+	void UpdateShadow();
 	/************************************************************************/
 	/* shader                                                                     */
 	/************************************************************************/
-	void loadShaders();
-	GLuint generateShaderObject(std::string filename, GLenum shaderType);
+	void LoadShaders();
+	GLuint GenerateShaderObject(std::string filename, GLenum shaderType);
 
 	/************************************************************************/
 	/* reflection                                                                     */
@@ -60,36 +67,39 @@ public:
 	void LoadStencil();
 	void DrawReflection();
 	/************************************************************************/
-	/* shader function                                                                     */
+	/* Model Create                                                                     */
 	/************************************************************************/
+	void InitialiseModels();
+
+	void InitialiseCamera();
+
+	void InitialiseParicles();
+
+	void InitialiseShader();
 	
 private:
 	ModelController* modelController;
 
 	/************************************************************************/
+	/* shader                                                                     */
+	/************************************************************************/
+	GLuint _shaderProgramID;
+	/************************************************************************/
+	/* particles                                                                     */
+	/************************************************************************/
+	SmokeParticles _smoke;
+	SnowFlakeParticles _snowflake;
+	FireParticles _fire;
+	/************************************************************************/
 	/* test materials  billboard practices                                                         */
 	/************************************************************************/
-	Materials _green;
-	
-	void TestMethod();
-	
-	SmokeParticles _smoke;
-
-	SnowFlakeParticles _snowflake;
-
-	FireParticles _fire;
-
+// 	Materials _green;
+// 	void TestMethod();
 	/*GLuint testtexid;*/
-
-	
 	/************************************************************************/
 	/* reflection stencil buffer control                                                                     */
 	/************************************************************************/
 	bool _loadStencilBuffer;
-	/************************************************************************/
-	/* shader                                                                     */
-	/************************************************************************/
-	GLuint _shaderProgramID;
 	/************************************************************************/
 	/* main light                                                                     */
 	/************************************************************************/
@@ -106,7 +116,7 @@ private:
 	/* shadow map         not work now                           */
 	/************************************************************************/
 	GLuint _shadow;
-	Vector4f _planepos;
+	Vector4f _shadowPlanepos;
 	const Vector4f _PS, _PT, _PR, _PQ;
 	bool _switch;
 	/************************************************************************/
@@ -132,7 +142,7 @@ private:
 	float _cameraAngle, _cameraPositionZ, _cameraRotation,_cameraHerical;
 	bool _leftDown, _rightDown;
 	/************************************************************************/
-	/* shadow and mutil texture                                                                     */
+	/* shadow and mutil texture  Flag                                                                   */
 	/************************************************************************/
 	bool   _bHaveMultitex;	// do we have mulitexture support?
 	bool   _bMultitex;		// using multitexturing?

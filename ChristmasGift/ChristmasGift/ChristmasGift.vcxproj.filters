@@ -49,6 +49,12 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{d28fbdc2-9531-4f6b-849c-cc31ac706954}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Particles">
+      <UniqueIdentifier>{c79534c3-bbb9-4ebf-b06a-642b84044248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Particles">
+      <UniqueIdentifier>{d0c632bf-acf3-4a8d-b07c-6362fc9688f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vertex.h">
@@ -102,26 +108,26 @@
     <ClInclude Include="Light.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Particles.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
     <ClInclude Include="ParticleStruct.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
     <ClInclude Include="BasicParticles.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="PointPaticles.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="SmokeParticles.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="SnowFlakeParticles.h">
-      <Filter>Header Files\Model</Filter>
+      <Filter>Header Files\Particles</Filter>
     </ClInclude>
     <ClInclude Include="FireParticles.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Particles.h">
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="PointPaticles.h">
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="SmokeParticles.h">
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="SnowFlakeParticles.h">
+      <Filter>Header Files\Particles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -140,23 +146,23 @@
     <ClCompile Include="ChristmasTree.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Particles.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
     <ClCompile Include="BasicParticles.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="PointPaticles.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="SmokeParticles.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="SnowFlakeParticles.cpp">
-      <Filter>Source Files\Model</Filter>
+      <Filter>Source Files\Particles</Filter>
     </ClCompile>
     <ClCompile Include="FireParticles.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Particles.cpp">
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="PointPaticles.cpp">
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="SmokeParticles.cpp">
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="SnowFlakeParticles.cpp">
+      <Filter>Source Files\Particles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

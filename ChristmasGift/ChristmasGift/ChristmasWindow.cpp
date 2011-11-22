@@ -1,5 +1,6 @@
 #include "ChristmasWindow.h"
 
+#define SEASONLENGTH 3*30*24*60*60
 
 #define USECASTSHADOW1
 #define DRAWREFLECTION
@@ -43,42 +44,6 @@ ChristmasWindow::ChristmasWindow(void) :_loadStencilBuffer(true),_drawSpotLights
 
 
 
-void ChristmasWindow::initialiseLights(){
-	/************************************************************************/
-	/* initialize lighting                                                                     */
-	/************************************************************************/
-	_sunLight.create(0, Color::black(), Color::white());
-
-	/************************************************************************/
-	/*                                                                      */
-	/************************************************************************/
-	_spotlightRed.create(1,Color::black(),Color::red());
-	_spotlightRed.setSpot(30.0,100.0f);
-
-	_spotlightGreen.create(2,Color::black(),Color::green());
-	_spotlightGreen.setSpot(30.0,100.0f);
-
-	_spotlightBlue.create(3,Color::black(),Color::blue());
-	_spotlightBlue.setSpot(30.0,100.0f);
-
-	_spotlightWhite.create(4,Color::black(),Color::white());
-	_spotlightWhite.setSpot(30.0,100.0f);
-
-	// turn the global ambient off by setting it to zero
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Color::black().rgba());
-
-	_sunLight.apply();
-
-	_spotlightRed.apply();
-	_spotlightGreen.apply();
-	_spotlightBlue.apply();
-	_spotlightWhite.apply();
-
-	_sunSphere.create(0.1f, 10, 10, false);
-	_sunMaterial.create(Color::black(), Color::black(), Color(0.7,0.7,0.7,0.7));
-	
-}
-
 void ChristmasWindow::OnCreate()
 {
 	GLWindowEx::OnCreate();
@@ -96,7 +61,6 @@ void ChristmasWindow::OnCreate()
 	// clear window first: it might take a moment before image loads
 	glClear(GL_COLOR_BUFFER_BIT);
 	SwapBuffers();
-
 	// turns vsync off so the frame rate is not limited
 	wglSwapIntervalEXT(0);
 	
@@ -116,297 +80,34 @@ void ChristmasWindow::OnCreate()
 	// remove back faces
 	glEnable(GL_CULL_FACE);
 	//////////////////////////////////////////////////////////////////////////
-	initialiseLights();
+	InitialiseLights();
 	//////////////////////////////////////////////////////////////////////////
-	
-	/************************************************************************/
-	/* test for modelcontroller       test passed                           */
-	/************************************************************************/
-	/*ModelController* */modelController = ModelController::GetInstance();
-	/************************************************************************/
-	/* load texture together                                                */
-	/************************************************************************/
-	//GLuint* _textures;
-	modelController->LoadTexture();
+	InitialiseModels();
+	//////////////////////////////////////////////////////////////////////////
+	InitialiseCamera();
+	//////////////////////////////////////////////////////////////////////////
+	InitialiseParicles();
+	//////////////////////////////////////////////////////////////////////////
+	InitialiseShader();
+
+	/*_green.create(Color::black(), Color::green());*/
+
 #ifdef USECASTSHADOW
 	glActiveTextureARB(GL_TEXTURE0_ARB);
-#endif
-	//////////////////////////////////////////////////////////////////////////
 	/************************************************************************/
 	/* use mutil textue, purpose for shadow                                 */
 	/************************************************************************/	
-	_planepos.Assign(0.0f,3.3f,0.0f,1.0f);
-	
-	/************************************************************************/
-	/* start to create model in this scene                                   */
-	/************************************************************************/
-	_house = new DisplayObjectModel();
-	_house->setRenderTexture(true);
-	_house->setRenderMaterials(false);
-	modelController->AssemblyModelFromFile(_house,"House2.mxy",modelController->_textures[0]);
-
-	/************************************************************************/
-	/* seat                                                                     */
-	/************************************************************************/
-	_seat = new DisplayObjectModel();
-	_seat->setRenderTexture(true);
-	_seat->setRenderMaterials(false);
-	modelController->AssemblyModelFromFile(_seat,"ground.mxy",modelController->_textures[2]);
-	
-	/************************************************************************/
-	/* tree                                                                     */
-	/************************************************************************/
- 	_tree = new ChristmasTree();
- 	_tree->setTreeParameter();
- 	_tree->Initialize();
-	
-
-	/************************************************************************/
-	/* glass ball                                                                     */
-	/************************************************************************/
-	_ball = new DisplayObjectModel();
-	_ball->setEnableTransparency(true);
-	_ball->setRenderTexture(false);
-	_ball->setRenderMaterials(false);
-	_ball->setColorApalha(0.1);
-	modelController->AssemblyTransparencyPartSphere(_ball,1.0,40,40,modelController->_textures[0]);
-
-	/************************************************************************/
-	/* water pool                                                                     */
-	/************************************************************************/
-	_pool = new DisplayObjectModel();
-	_pool->setRenderTexture(false);
-	_pool->setRenderMaterials(false);
-	_pool->setEnableTransparency(true);
-	_pool->setColorApalha(0.5);
-	modelController->AssemblyModelFromFile(_pool,"pool.mxy",modelController->_textures[0]);
-	_pool->setEnableTransparency(false);
-	
-	//////////////////////////////////////////////////////////////////////////
-	_cameraAngle = 30.0;
-	_cameraPositionZ = -5.0;
-	_cameraRotation = 0.0;
-	_cameraHerical = 0.0;
-	
-	//////////////////////////////////////////////////////////////////////////
-#ifdef USECASTSHADOW
-	initShadow();
+	_shadowPlanepos.Assign(0.0f,3.3f,0.0f,1.0f);
+	InitialiseShadow();
 #endif
 
-	loadShaders();
-	_green.create(Color::black(), Color::green());
-
-	/************************************************************************/
-	/* particles                                                                     */
-	/************************************************************************/
-
-	_smoke.Initialize();
-
-	
-	_snowflake.setTexture(modelController->_textures[4]);
-	_snowflake.setHeight(2.7);
-	_snowflake.setRaius(2.2);
-	_snowflake.Initialize();
-
-	_fire.Initialize();
-
 }
-const vec3f _startup(0,1,0);
-void ChristmasWindow::TestMethod()
-{
-	float matrix[16];
-
-	vec3f campos(0,0,_cameraPositionZ);
-
-	vec3f vectoreye = -campos;
-	vec3f tempup(0,1,0);
-
-	vec3f look = mxy::normalize(vectoreye);
-	vec3f right = mxy::normalize(cross(look,tempup));
-	vec3f rightup = mxy::normalize(cross(right,look));
-
-	glPushMatrix();
-
-	glGetFloatv(GL_MODELVIEW_MATRIX , matrix);
-
-	matrix[0] = right.x;	matrix[1] =right.y;		matrix[2] = right.z;		matrix[3] = 0;
-
-	matrix[4] = rightup.x;	matrix[5] =rightup.y;	matrix[6] = rightup.z;		matrix[7] = 0;
-
-	matrix[8] = look.x;		matrix[9] =look.y;		matrix[10] = look.z;		matrix[11] = 0;
-
-	//matrix[12] = -vectoreye.x;			matrix[13] = -vectoreye.y+1;			matrix[14] = -vectoreye.z;				matrix[15] = 1;
 
 
-	glLoadMatrixf(matrix);
-	glDisable(GL_CULL_FACE);
-	glPointSize(10.0);
-	glBegin(GL_TRIANGLES);//GL_POINT,GL_TRIANGLES
-	glColor3f(0,1,0);
-	glNormal3f(0.0f,0.0f,1.0f);
-	glVertex3f(-1.0f,1.0f,0.0f);
-	glVertex3f(1.0f,1.0f,0.0f);
-	glVertex3f(0.0f,2.0f,0.0f);
-
-	glEnd();
-	glEnable(GL_CULL_FACE);
 
 
-	float matrix2[16];
-	glGetFloatv(GL_MODELVIEW_MATRIX,&matrix2[0]);
 
-	glPopMatrix();
 
-}
-/************************************************************************/
-/* test for particles                                                                     */
-/************************************************************************/
-
-/************************************************************************/
-/* load shaders                                                                     */
-/************************************************************************/
-void ChristmasWindow::loadShaders(){
-	_shaderProgramID = glCreateProgram();
-
-	GLuint vertexShaderID;
-	GLuint fragmentShaderID;
-
-	try
-	{
-		vertexShaderID = generateShaderObject("phongvertexshader.txt", GL_VERTEX_SHADER);
-		fragmentShaderID = generateShaderObject("phongfragmentshader.txt", GL_FRAGMENT_SHADER);
-
-		glAttachShader(_shaderProgramID, vertexShaderID);
-		glAttachShader(_shaderProgramID, fragmentShaderID);
-
-		glLinkProgram(_shaderProgramID);
-
-	}
-	catch(exception& e)
-	{
-		cerr << e.what() << endl;
-	}
-}
-GLuint ChristmasWindow::generateShaderObject(std::string filename, GLenum shaderType){
-	// Attempt to load filename
-	ifstream file;
-	file.open(filename, ios::in);
-	if (!file)
-	{
-		cerr << "Error loading " << filename << " - file not found" << endl;
-		throw exception("Error loading shader");
-	}
-
-	stringstream srcBuilder;
-	while (!file.eof())
-	{
-		unsigned char in = file.get();
-		srcBuilder << in;
-	}
-	file.close();
-	string shaderSrc = srcBuilder.str();
-	// Remove EOF char
-	shaderSrc = shaderSrc.substr(0, shaderSrc.size()-1);
-
-	file.close();
-
-	////////////////////////
-	// Try to build shader
-
-	// Create shader object
-	GLuint id = glCreateShader(shaderType);
-	if (id == 0)
-	{
-		cerr << "Could not create shader object" << endl;
-		throw exception("Could not create shader object");
-	}
-
-	// Assign source
-	GLint len[1];
-	len[0] = shaderSrc.size();
-	GLchar** src = new GLchar*[1];
-	src[0] = new GLchar[len[0]];
-	for (int i = 0; i < len[0]; i++) src[0][i] = shaderSrc[i];
-	glShaderSource(id, 1, (const GLchar**) src, len);
-
-	// Compile shader
-	glCompileShader(id);
-
-	return id;
-}
-/************************************************************************/
-/* initialize shadow                                                                     */
-/************************************************************************/
-void ChristmasWindow::initShadow(){
-	glGenTextures(1,&_shadow);
-	glActiveTextureARB(GL_TEXTURE1_ARB);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, _shadow);
-	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, 0, 0, 512, 512, 0);
-
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	// enter texture stack
-	glMatrixMode(GL_TEXTURE);
-	glLoadIdentity();
-	glTranslatef(0.5f, 0.5f, 0.0f);
-	glScalef(0.5f, 0.5f, 1.0f);
-	gluPerspective(60.0f, 1.0f, 0.01f, 10.0f);
-	glPushMatrix();
-	// leave texture stack
-	glMatrixMode(GL_MODELVIEW);
-	glEnable(GL_TEXTURE_GEN_S);
-	glEnable(GL_TEXTURE_GEN_T);
-	glEnable(GL_TEXTURE_GEN_R);
-	glEnable(GL_TEXTURE_GEN_Q);
-	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-	glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-	glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-	glTexGeni(GL_Q, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-	glDisable(GL_TEXTURE_2D);
-
-}
-/************************************************************************/
-/* update shadow                                                                     */
-/************************************************************************/
-void ChristmasWindow::updateShadow(){
-	glActiveTextureARB(GL_TEXTURE1_ARB);
-	glViewport(0,0,512,512);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(60.0f,1.0f, 0.01f, 10.0f);
-	glMatrixMode(GL_MODELVIEW);
-
-	glDisable(GL_LIGHTING);
-	glColor3f(0.5f,0.5f,0.5f);//gray
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glPushMatrix();
-		gluLookAt(_sunLight[0], _sunLight[1], _sunLight[2], _planepos[0], _planepos[1], _planepos[2], 0.0f, 1.0f, 0.0f); 
-		glTranslatef(_planepos[0],_planepos[1],_planepos[2]);
-		
-		glDisable(GL_CULL_FACE);
-		
-		_house->Draw();
-
-		glEnable(GL_CULL_FACE);
-
-	glPopMatrix();
-
-	glBindTexture(GL_TEXTURE_2D, _shadow);
-	glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, 512, 512);
-
-	// start lights again
-	glEnable(GL_LIGHTING);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-	OnResize(Width(),Height());
-}
 /************************************************************************/
 /* update function                                                                     */
 /************************************************************************/
@@ -434,7 +135,7 @@ void ChristmasWindow::OnUpdate(){
 	}
 
 #ifdef USECASTSHADOW
-	updateShadow();
+	UpdateShadow();
 #endif
 
 	/************************************************************************/
@@ -514,7 +215,7 @@ void ChristmasWindow::OnDisplay()
 			_spotlightGreen.apply();
 			_spotlightBlue.apply();
 			_spotlightWhite.apply();
-			drawSporLights();
+			DrawSporLights();
 		}
 		else{
 			glEnable(GL_LIGHT0);
@@ -525,11 +226,11 @@ void ChristmasWindow::OnDisplay()
 		}
 		/*glPopMatrix();*/
 		glPushMatrix();
-		glRotatef(-4*_angle, 0.0, 1.0, 0.0);
-		_sunLight.setPosition(Vector4f(6.0,6.0,0.0,1.0));
-		glTranslatef(6.0,6.0,0.0);
-		_sunMaterial.apply();
-		_sunSphere.draw();
+			glRotatef(-4*_angle, 0.0, 1.0, 0.0);
+			_sunLight.setPosition(Vector4f(6.0,6.0,0.0,1.0));
+			glTranslatef(6.0,6.0,0.0);
+			_sunMaterial.apply();
+			_sunSphere.draw();
 		glPopMatrix();
 
 		
@@ -562,32 +263,30 @@ void ChristmasWindow::OnDisplay()
 // 		glPopMatrix();
 // 		
 		glPushMatrix();
-		glTranslatef(0.0f,1.06f,0.0f);
-		if(_fire.working){
-			_fire.Draw();
-		}
-
+			glTranslatef(0.0f,1.06f,0.0f);
+			if(_fire.working){
+				_fire.Draw();
+			}
 		glPopMatrix();
 		
 
-
 		glPushMatrix();
-		glRotatef(-90.0f,1.0,0.0,0.0);
-		_seat->Draw();
+			glRotatef(-90.0f,1.0,0.0,0.0);
+			_seat->Draw();
 		glPopMatrix();
 
 
 		glPushMatrix();
-		glTranslatef(-1.0,0.28,0.0f);
-		glScalef(0.25,0.25,0.25);
-		glRotatef(-90,1.0,0.0,0.0);
-		_house->Draw();
+			glTranslatef(-1.0,0.28,0.0f);
+			glScalef(0.25,0.25,0.25);
+			glRotatef(-90,1.0,0.0,0.0);
+			_house->Draw();
 		glPopMatrix();
 
 		glPushMatrix();
-		glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
-		glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
-		_tree->Draw();
+			glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
+			glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
+			_tree->Draw();
 		glPopMatrix();
 
 #ifdef	USECASTSHADOW 
@@ -603,16 +302,12 @@ void ChristmasWindow::OnDisplay()
 		glMatrixMode(GL_TEXTURE);
 		glPopMatrix();
 		glPushMatrix();
-		gluLookAt(_sunLight[0], _sunLight[1], _sunLight[2], _planepos[0], _planepos[1], _planepos[2], 0.0f, 1.0f, 0.0f); 
+		gluLookAt(_sunLight[0], _sunLight[1], _sunLight[2], _shadowPlanepos[0], _shadowPlanepos[1], _shadowPlanepos[2], 0.0f, 1.0f, 0.0f); 
 		glMatrixMode(GL_MODELVIEW);
 		glActiveTextureARB(GL_TEXTURE0_ARB);
 		glEnable(GL_TEXTURE_2D);
 
 #endif
-
-		
-
-		
 
 		// 		glUseProgram(_shaderProgramID);
 		// 		glUseProgram(0);	
@@ -768,7 +463,7 @@ void ChristmasWindow::OnMouseButton(MouseButton button, bool down) {
 
 
 
-void ChristmasWindow::drawSporLights(){
+void ChristmasWindow::DrawSporLights(){
 	_spotlightRed.setPosition(Vector4f(0,8,0,1.0f));
 	_spotlightRed.setDirection(Vector4f(1.0f,-4.0f,0.0f,0.0f));
 	_spotlightGreen.setPosition(Vector4f(0,3,0,1.0f));
@@ -779,3 +474,323 @@ void ChristmasWindow::drawSporLights(){
 	_spotlightWhite.setDirection(Vector4f(0.0f,-4.0f,-1.0f, 0.0f));
 
 }
+
+
+
+void ChristmasWindow::InitialiseLights(){
+	/************************************************************************/
+	/* initialize lighting                                                                     */
+	/************************************************************************/
+	_sunLight.create(0, Color::black(), Color::white());
+
+	/************************************************************************/
+	/*                                                                      */
+	/************************************************************************/
+	_spotlightRed.create(1,Color::black(),Color::red());
+	_spotlightRed.setSpot(30.0,100.0f);
+
+	_spotlightGreen.create(2,Color::black(),Color::green());
+	_spotlightGreen.setSpot(30.0,100.0f);
+
+	_spotlightBlue.create(3,Color::black(),Color::blue());
+	_spotlightBlue.setSpot(30.0,100.0f);
+
+	_spotlightWhite.create(4,Color::black(),Color::white());
+	_spotlightWhite.setSpot(30.0,100.0f);
+
+	// turn the global ambient off by setting it to zero
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Color::black().rgba());
+
+	_sunLight.apply();
+
+	_spotlightRed.apply();
+	_spotlightGreen.apply();
+	_spotlightBlue.apply();
+	_spotlightWhite.apply();
+
+	_sunSphere.create(0.1f, 10, 10, false);
+	_sunMaterial.create(Color::black(), Color::black(), Color(0.7,0.7,0.7,0.7));
+
+}
+
+
+void ChristmasWindow::InitialiseModels(){
+	/************************************************************************/
+	/* test for modelcontroller       test passed                           */
+	/************************************************************************/
+	modelController = ModelController::GetInstance();
+	/************************************************************************/
+	/* load texture together                                                */
+	/************************************************************************/
+	modelController->LoadTexture();
+	/************************************************************************/
+	/* start to create model in this scene                                   */
+	/************************************************************************/
+	_house = new DisplayObjectModel();
+	_house->setRenderTexture(true);
+	_house->setRenderMaterials(false);
+	modelController->AssemblyModelFromFile(_house,"House2.mxy",modelController->_textures[0]);
+
+	/************************************************************************/
+	/* seat                                                                     */
+	/************************************************************************/
+	_seat = new DisplayObjectModel();
+	_seat->setRenderTexture(true);
+	_seat->setRenderMaterials(false);
+	modelController->AssemblyModelFromFile(_seat,"ground.mxy",modelController->_textures[2]);
+
+	/************************************************************************/
+	/* tree                                                                     */
+	/************************************************************************/
+	_tree = new ChristmasTree();
+	_tree->setTreeParameter();
+	_tree->Initialize();
+
+
+	/************************************************************************/
+	/* glass ball                                                                     */
+	/************************************************************************/
+	_ball = new DisplayObjectModel();
+	_ball->setEnableTransparency(true);
+	_ball->setRenderTexture(false);
+	_ball->setRenderMaterials(false);
+	_ball->setColorApalha(0.1);
+	modelController->AssemblyTransparencyPartSphere(_ball,1.0,40,40,modelController->_textures[0]);
+
+	/************************************************************************/
+	/* water pool                                                                     */
+	/************************************************************************/
+	_pool = new DisplayObjectModel();
+	_pool->setRenderTexture(false);
+	_pool->setRenderMaterials(false);
+	_pool->setEnableTransparency(true);
+	_pool->setColorApalha(0.5);
+	modelController->AssemblyModelFromFile(_pool,"pool.mxy",modelController->_textures[0]);
+	_pool->setEnableTransparency(false);
+
+	//////////////////////////////////////////////////////////////////////////
+}
+
+void ChristmasWindow::InitialiseCamera(){
+	_cameraAngle = 30.0;
+	_cameraPositionZ = -5.0;
+	_cameraRotation = 0.0;
+	_cameraHerical = 0.0;
+}
+
+void ChristmasWindow::InitialiseParicles(){
+	/************************************************************************/
+	/* particles                                                                     */
+	/************************************************************************/
+
+	_smoke.Initialize();
+
+
+	_snowflake.setTexture(modelController->_textures[4]);
+	_snowflake.setHeight(2.7);
+	_snowflake.setRaius(2.2);
+	_snowflake.Initialize();
+
+	_fire.Initialize();
+}
+
+
+void ChristmasWindow::InitialiseShader(){
+	LoadShaders();
+}
+/************************************************************************/
+/* load shaders                                                                     */
+/************************************************************************/
+void ChristmasWindow::LoadShaders(){
+	_shaderProgramID = glCreateProgram();
+
+	GLuint vertexShaderID;
+	GLuint fragmentShaderID;
+
+	try
+	{
+		vertexShaderID = GenerateShaderObject("phongvertexshader.txt", GL_VERTEX_SHADER);
+		fragmentShaderID = GenerateShaderObject("phongfragmentshader.txt", GL_FRAGMENT_SHADER);
+
+		glAttachShader(_shaderProgramID, vertexShaderID);
+		glAttachShader(_shaderProgramID, fragmentShaderID);
+
+		glLinkProgram(_shaderProgramID);
+
+	}
+	catch(exception& e)
+	{
+		cerr << e.what() << endl;
+	}
+}
+GLuint ChristmasWindow::GenerateShaderObject(std::string filename, GLenum shaderType){
+	// Attempt to load filename
+	ifstream file;
+	file.open(filename, ios::in);
+	if (!file)
+	{
+		cerr << "Error loading " << filename << " - file not found" << endl;
+		throw exception("Error loading shader");
+	}
+
+	stringstream srcBuilder;
+	while (!file.eof())
+	{
+		unsigned char in = file.get();
+		srcBuilder << in;
+	}
+	file.close();
+	string shaderSrc = srcBuilder.str();
+	// Remove EOF char
+	shaderSrc = shaderSrc.substr(0, shaderSrc.size()-1);
+
+	file.close();
+
+	////////////////////////
+	// Try to build shader
+
+	// Create shader object
+	GLuint id = glCreateShader(shaderType);
+	if (id == 0)
+	{
+		cerr << "Could not create shader object" << endl;
+		throw exception("Could not create shader object");
+	}
+
+	// Assign source
+	GLint len[1];
+	len[0] = shaderSrc.size();
+	GLchar** src = new GLchar*[1];
+	src[0] = new GLchar[len[0]];
+	for (int i = 0; i < len[0]; i++) src[0][i] = shaderSrc[i];
+	glShaderSource(id, 1, (const GLchar**) src, len);
+
+	// Compile shader
+	glCompileShader(id);
+
+	return id;
+}
+
+/************************************************************************/
+/* initialize shadow                                                                     */
+/************************************************************************/
+void ChristmasWindow::InitialiseShadow(){
+	glGenTextures(1,&_shadow);
+	glActiveTextureARB(GL_TEXTURE1_ARB);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, _shadow);
+	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, 0, 0, 512, 512, 0);
+
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	// enter texture stack
+	glMatrixMode(GL_TEXTURE);
+	glLoadIdentity();
+	glTranslatef(0.5f, 0.5f, 0.0f);
+	glScalef(0.5f, 0.5f, 1.0f);
+	gluPerspective(60.0f, 1.0f, 0.01f, 10.0f);
+	glPushMatrix();
+	// leave texture stack
+	glMatrixMode(GL_MODELVIEW);
+	glEnable(GL_TEXTURE_GEN_S);
+	glEnable(GL_TEXTURE_GEN_T);
+	glEnable(GL_TEXTURE_GEN_R);
+	glEnable(GL_TEXTURE_GEN_Q);
+	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+	glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+	glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+	glTexGeni(GL_Q, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+	glDisable(GL_TEXTURE_2D);
+
+}
+/************************************************************************/
+/* update shadow                                                                     */
+/************************************************************************/
+void ChristmasWindow::UpdateShadow(){
+	glActiveTextureARB(GL_TEXTURE1_ARB);
+	glViewport(0,0,512,512);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(60.0f,1.0f, 0.01f, 10.0f);
+	glMatrixMode(GL_MODELVIEW);
+
+	glDisable(GL_LIGHTING);
+	glColor3f(0.5f,0.5f,0.5f);//gray
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glPushMatrix();
+	gluLookAt(_sunLight[0], _sunLight[1], _sunLight[2], _shadowPlanepos[0], _shadowPlanepos[1], _shadowPlanepos[2], 0.0f, 1.0f, 0.0f); 
+	glTranslatef(_shadowPlanepos[0],_shadowPlanepos[1],_shadowPlanepos[2]);
+
+	glDisable(GL_CULL_FACE);
+
+	_house->Draw();
+
+	glEnable(GL_CULL_FACE);
+
+	glPopMatrix();
+
+	glBindTexture(GL_TEXTURE_2D, _shadow);
+	glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, 512, 512);
+
+	// start lights again
+	glEnable(GL_LIGHTING);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+	OnResize(Width(),Height());
+}
+
+/**
+const vec3f _startup(0,1,0);
+void ChristmasWindow::TestMethod()
+{
+	float matrix[16];
+
+	vec3f campos(0,0,_cameraPositionZ);
+
+	vec3f vectoreye = -campos;
+	vec3f tempup(0,1,0);
+
+	vec3f look = mxy::normalize(vectoreye);
+	vec3f right = mxy::normalize(cross(look,tempup));
+	vec3f rightup = mxy::normalize(cross(right,look));
+
+	glPushMatrix();
+
+	glGetFloatv(GL_MODELVIEW_MATRIX , matrix);
+
+	matrix[0] = right.x;	matrix[1] =right.y;		matrix[2] = right.z;		matrix[3] = 0;
+
+	matrix[4] = rightup.x;	matrix[5] =rightup.y;	matrix[6] = rightup.z;		matrix[7] = 0;
+
+	matrix[8] = look.x;		matrix[9] =look.y;		matrix[10] = look.z;		matrix[11] = 0;
+
+	//matrix[12] = -vectoreye.x;			matrix[13] = -vectoreye.y+1;			matrix[14] = -vectoreye.z;				matrix[15] = 1;
+
+
+	glLoadMatrixf(matrix);
+	glDisable(GL_CULL_FACE);
+	glPointSize(10.0);
+	glBegin(GL_TRIANGLES);//GL_POINT,GL_TRIANGLES
+	glColor3f(0,1,0);
+	glNormal3f(0.0f,0.0f,1.0f);
+	glVertex3f(-1.0f,1.0f,0.0f);
+	glVertex3f(1.0f,1.0f,0.0f);
+	glVertex3f(0.0f,2.0f,0.0f);
+
+	glEnd();
+	glEnable(GL_CULL_FACE);
+
+
+	float matrix2[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX,&matrix2[0]);
+
+	glPopMatrix();
+
+}
+*/
