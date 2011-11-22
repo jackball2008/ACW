@@ -129,7 +129,7 @@ private:
 	/************************************************************************/
 	const float _angleInc;
 	float _angle;
-	float _cameraAngle, _cameraPosition, _cameraRotation,_cameraHerical;
+	float _cameraAngle, _cameraPositionZ, _cameraRotation,_cameraHerical;
 	bool _leftDown, _rightDown;
 	/************************************************************************/
 	/* shadow and mutil texture                                                                     */

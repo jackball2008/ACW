@@ -184,7 +184,7 @@ void ChristmasWindow::OnCreate()
 	
 	//////////////////////////////////////////////////////////////////////////
 	_cameraAngle = 30.0;
-	_cameraPosition = -5.0;
+	_cameraPositionZ = -5.0;
 	_cameraRotation = 0.0;
 	_cameraHerical = 0.0;
 	
@@ -216,7 +216,7 @@ void ChristmasWindow::TestMethod()
 {
 	float matrix[16];
 
-	vec3f campos(0,0,_cameraPosition);
+	vec3f campos(0,0,_cameraPositionZ);
 
 	vec3f vectoreye = -campos;
 	vec3f tempup(0,1,0);
@@ -500,7 +500,7 @@ void ChristmasWindow::OnDisplay()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	glPushMatrix();
-		glTranslatef(0.0f, 0.0f,_cameraPosition);
+		glTranslatef(0.0f, 0.0f,_cameraPositionZ);
 		glRotatef(_cameraAngle, 1.0,0.0,0.0);
 		glRotatef(_cameraRotation, 0.0, 1.0, 0.0);
 
@@ -522,10 +522,10 @@ void ChristmasWindow::OnDisplay()
 		}
 		/*glPopMatrix();*/
 		glPushMatrix();
-		/*glRotatef(-4*_angle, 0.0, 0.0, 1.0);*/
-		_sunLight.setPosition(Vector4f(0.0,6.0,0.0,1.0));
-		glTranslatef(0.0,6.0,0.0);
-		/*_sunMaterial.apply();*/
+		glRotatef(-4*_angle, 0.0, 1.0, 0.0);
+		_sunLight.setPosition(Vector4f(6.0,6.0,0.0,1.0));
+		glTranslatef(6.0,6.0,0.0);
+		_sunMaterial.apply();
 		_sunSphere.draw();
 		glPopMatrix();
 
@@ -547,7 +547,7 @@ void ChristmasWindow::OnDisplay()
 		glPushMatrix();
 		glTranslatef(0,0.1,0);
 			if(_snowflake.working){
-				_snowflake.setCameraPos(0.0f, 0.0f,_cameraPosition);
+				_snowflake.setCameraPos(0.0f, 0.0f,_cameraPositionZ);
 				_snowflake.Draw();
 			}
 		glPopMatrix();
@@ -723,7 +723,7 @@ void ChristmasWindow::OnKeyboard(int key, bool down)
 void ChristmasWindow::OnMouseMove(int x, int y) {
 	static int temp_x, temp_y;
 	if(_leftDown) {
-		_cameraPosition += (y-temp_y)*0.05f;
+		_cameraPositionZ += (y-temp_y)*0.05f;
 	}
 	if(_rightDown) {
 		_cameraRotation += (x-temp_x)*0.5f;

@@ -100,6 +100,7 @@ void FireParticles::Draw(){
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnable( GL_POINT_SPRITE );
+		glDisable(GL_LIGHTING);
 
 		//////////////////////////////////////////////////////////////////////////
 		//pool[loop].matrial.apply();
@@ -112,6 +113,8 @@ void FireParticles::Draw(){
 			glVertex3f(pool[loop].x,pool[loop].y,pool[loop].z);
 		}
 		glEnd();
+
+		glEnable(GL_LIGHTING);
 		glDisable( GL_POINT_SPRITE );
 
 		glDisable(GL_BLEND);
