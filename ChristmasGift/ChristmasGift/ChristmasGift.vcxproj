@@ -115,12 +115,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="demoshader.glsl" />
+    <None Include="ground.mxy" />
     <None Include="ground1.bmp" />
     <None Include="house2.jpg" />
     <None Include="House2.mxy" />
+    <None Include="Particle.bmp" />
     <None Include="phongfragmentshader.txt" />
     <None Include="phongvertexshader.txt" />
+    <None Include="pool.mxy" />
     <None Include="seatmap.bmp" />
+    <None Include="seatmap1.bmp" />
+    <None Include="seatmap2.bmp" />
+    <None Include="seatmap3.bmp" />
+    <None Include="SnowFlake1.tga" />
+    <None Include="SnowFlake2.tga" />
+    <None Include="SnowFlake3.tga" />
+    <None Include="t1.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

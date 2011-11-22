@@ -181,5 +181,35 @@
     <None Include="phongvertexshader.txt">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="seatmap3.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="seatmap2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="seatmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="t1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Particle.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SnowFlake3.tga">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SnowFlake2.tga">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SnowFlake1.tga">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pool.mxy">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ground.mxy">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
