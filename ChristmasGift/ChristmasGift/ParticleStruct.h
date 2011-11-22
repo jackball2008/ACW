@@ -57,4 +57,6 @@ typedef struct{
 	/************************************************************************/
 	float distance;
 
+	/*Materials matrial;*/
+
 } ParticlesStruct;

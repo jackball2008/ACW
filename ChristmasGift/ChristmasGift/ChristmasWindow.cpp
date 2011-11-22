@@ -159,6 +159,7 @@ void ChristmasWindow::OnCreate()
  	_tree = new ChristmasTree();
  	_tree->setTreeParameter();
  	_tree->Initialize();
+	
 
 	/************************************************************************/
 	/* glass ball                                                                     */

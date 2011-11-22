@@ -1,6 +1,8 @@
 #pragma once
 #include "BasicParticles.h"
 #include <math.h>
+#include "Light.h"
+
 
 #define MAXFIREPOINTPARTICLES 500
 #define MAXFIREPOINTSIZE 25
@@ -13,6 +15,8 @@ class FireParticles :
 public:
 	FireParticles(void);
 	~FireParticles(void);
+
+	/*Lights light;*/
 
 	ParticlesStruct pool[MAXFIREPOINTPARTICLES];
 	void Initialize();

@@ -30,6 +30,7 @@ static float rand2f1() {
 
 FireParticles::FireParticles(void)
 {
+	//light.create(5, Color::black(), Color::white());
 }
 
 
@@ -66,6 +67,9 @@ void FireParticles::Initialize(){
 		pool[loop].y = PYFUNC; //(rand()%10)*rand2f1()+randf1();
 		pool[loop].z = PZFUNC; //(rand()%10)*rand2f1()+randf1();
 
+		
+		//pool[loop].matrial.create(Color::yellow(),Color::yellow(),Color(pool[loop].r,pool[loop].g,pool[loop].b,pool[loop].a));
+		
 
 	}
 
@@ -80,6 +84,7 @@ void FireParticles::Update(const float& t){
 }
 
 void FireParticles::Draw(){
+	//light.apply();
 	for(int loop  =0; loop< MAXFIREPOINTPARTICLES;loop++){
 		/************************************************************************/
 		/* draw                                                                     */
@@ -95,6 +100,12 @@ void FireParticles::Draw(){
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnable( GL_POINT_SPRITE );
+
+		//////////////////////////////////////////////////////////////////////////
+		//pool[loop].matrial.apply();
+		//light.setPosition(Vector4f(pool[loop].x,pool[loop].y,pool[loop].z,1.0));
+		//////////////////////////////////////////////////////////////////////////
+
 		glBegin( GL_POINTS );
 		{
 			glColor4f(pool[loop].r,pool[loop].g,pool[loop].b,pool[loop].a);
@@ -163,7 +174,6 @@ void FireParticles::Draw(){
 
 
 		if (pool[loop].life<0.0f){
-
 
 			pool[loop].active=true;                 // Make All The Particles Active
 			pool[loop].life=randfPos1();                   // Give All The Particles Full Life
