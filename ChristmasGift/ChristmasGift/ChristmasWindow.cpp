@@ -488,6 +488,9 @@ void ChristmasWindow::DrawReflection()
 	
 	glCullFace(GL_BACK);
 	glPopMatrix();
+
+
+
 	
 }
 
