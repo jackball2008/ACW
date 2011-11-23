@@ -12,7 +12,7 @@
 
 #include "IController.h"
 #include "IDisplayObject.h"
-
+#include "DisplayObjectModel.h"
 
 using namespace std;
 /*using namespace gxbase;*/
@@ -39,6 +39,9 @@ public:
 	void AssemblyBasicTreeData(IDisplayObject*,GLfloat radius, int slices, int stacks);
 
 	void LoadTexture();
+
+
+	void AssemblyModelFromFile2(DisplayObjectModel*, const char*, GLuint texarr);
 
 	
 

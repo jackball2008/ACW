@@ -92,7 +92,7 @@ private:
 	/************************************************************************/
 	/* shader                                                                     */
 	/************************************************************************/
-	GLuint _ballShaderProgramID;
+	GLuint _cubeShaderProgramID;
 	/************************************************************************/
 	/* particles                                                                     */
 	/************************************************************************/
@@ -134,9 +134,9 @@ private:
 	IDisplayObject* _house;
 	IDisplayObject* _seat;
 	IDisplayObject* _ball;
-	DisplayObjectModel* _tree;
+	ChristmasTree* _tree;
 	IDisplayObject* _pool;
-	IDisplayObject* _testObject;
+	DisplayObjectModel* _testObject;
 	/************************************************************************/
 	/* simulating season changing                                                                     */
 	/************************************************************************/

@@ -944,17 +944,17 @@
       <RmRegistryBranch NAME="Effect Workspace.Default_OpenGL_Effect" API="" XML_VERSION="RenderMonkey 1.71">
        <RmRegistryBranch NAME="Disassembly" API="" XML_VERSION="RenderMonkey 1.71"/>
        <RmStringVariable NAME="Editing Shader" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-Vertex Program]]></RmTextDataBlock></RmStringVariable>
+Fragment Program]]></RmTextDataBlock></RmStringVariable>
        <RmStringVariable NAME="Editing Pass" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 Pass 0]]></RmTextDataBlock></RmStringVariable>
-       <RmIntegerVariable NAME="Y" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="0" MIN="-10" MAX="10" CLAMP="FALSE"/>
+       <RmIntegerVariable NAME="Y" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="-1" MIN="-10" MAX="10" CLAMP="FALSE"/>
        <RmIntegerVariable NAME="Width" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="716" MIN="-10" MAX="10" CLAMP="FALSE"/>
        <RmIntegerVariable NAME="Height" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="519" MIN="-10" MAX="10" CLAMP="FALSE"/>
        <RmIntegerVariable NAME="ShowStatus" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="1" MIN="-10" MAX="10" CLAMP="FALSE"/>
        <RmIntegerVariable NAME="Visible" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="1" MIN="-10" MAX="10" CLAMP="FALSE"/>
        <RmIntegerVariable NAME="Minimized X" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="-1" MIN="-10" MAX="10" CLAMP="FALSE"/>
        <RmIntegerVariable NAME="Minimized Y" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="-1" MIN="-10" MAX="10" CLAMP="FALSE"/>
-       <RmIntegerVariable NAME="X" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="349" MIN="-10" MAX="10" CLAMP="FALSE"/>
+       <RmIntegerVariable NAME="X" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="375" MIN="-10" MAX="10" CLAMP="FALSE"/>
       </RmRegistryBranch>
      </RmRegistryBranch>
      <RmRegistryBranch NAME="RmRenderStateBlockEditor" API="" XML_VERSION="RenderMonkey 1.71">
@@ -968,6 +968,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
      </RmRegistryBranch>
      <RmRegistryBranch NAME="RmTextureGenerator" API="" XML_VERSION="RenderMonkey 1.71">
       <RmRegistryBranch NAME="EditNodeRepository" API="" XML_VERSION="RenderMonkey 1.71"/>
+      <RmRegistryBranch NAME="NodeRepository" API="" XML_VERSION="RenderMonkey 1.71"/>
      </RmRegistryBranch>
      <RmRegistryBranch NAME="RmStreamEditor" API="" XML_VERSION="RenderMonkey 1.71">
       <RmRegistryBranch NAME="Effect Workspace.Default_OpenGL_Effect.Stream Mapping" API="" XML_VERSION="RenderMonkey 1.71">
@@ -982,16 +983,12 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
       </RmRegistryBranch>
      </RmRegistryBranch>
      <RmRegistryBranch NAME="RmVectorEditor" API="" XML_VERSION="RenderMonkey 1.71">
-      <RmRegistryBranch NAME="NodeRepository" API="" XML_VERSION="RenderMonkey 1.71">
-       <RmRegistryBranch NAME="Effect Workspace.Default_OpenGL_Effect.f4MyFloat" API="" XML_VERSION="RenderMonkey 1.71">
-        <RmIntegerVariable NAME="DockPaneID" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="1100" MIN="-10" MAX="10" CLAMP="FALSE"/>
-       </RmRegistryBranch>
-      </RmRegistryBranch>
+      <RmRegistryBranch NAME="NodeRepository" API="" XML_VERSION="RenderMonkey 1.71"/>
      </RmRegistryBranch>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-23/11/2011 1:21:58]]></RmTextDataBlock></RmStringVariable>
+23/11/2011 2:16:22]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1035,8 +1032,22 @@ FurTex]]></RmTextDataBlock></RmStringVariable>
     <RmFloatVariable NAME="mHairEndCurlRadiusStdDev32f" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="0.300000" MIN="-1.000000" MAX="1.000000" CLAMP="FALSE"/>
     <RmIntegerVariable NAME="mUseHoleFilling32i" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="1" MIN="-10" MAX="10" CLAMP="FALSE"/>
    </RmPlugInData>
-   <RmVectorVariable NAME="f4MyFloat" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE_0="0.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="1.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
-   <Rm2DTextureVariable NAME="my2DTexture" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" FILE_NAME=".\house2.jpg" ORIGIN="0"/>
+   <Rm2DTextureVariable NAME="my2DTexture" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" FILE_NAME="" ORIGIN="0">
+    <RmPlugInData NAME="Procedural Texture Generator" API="" PLUGIN_GUID="757e2b89-9fab-4ceb-b86f-b2c2ce6d7eac"><RmTextDataBlock TYPE="TEXT"><![CDATA[
+float4 Texture2DFill( float2 vTexCoord : POSITION,
+                      float2 vTexelSize : PSIZE) : COLOR
+{
+   return float4( vTexCoord.x, vTexCoord.y, 0.0f, 1.0f );
+}]]></RmTextDataBlock>
+     <RmStringVariable NAME="ENTRY_PT" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
+Texture2DFill]]></RmTextDataBlock></RmStringVariable>
+     <RmIntegerVariable NAME="HEIGHT" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="512" MIN="-10" MAX="10" CLAMP="FALSE"/>
+     <RmIntegerVariable NAME="DEPTH" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="128" MIN="-10" MAX="10" CLAMP="FALSE"/>
+     <RmIntegerVariable NAME="FORMAT" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="3" MIN="-10" MAX="10" CLAMP="FALSE"/>
+     <RmIntegerVariable NAME="WIDTH" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="512" MIN="-10" MAX="10" CLAMP="FALSE"/>
+     <RmIntegerVariable NAME="MIPMAP_CODE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="1" MIN="-10" MAX="10" CLAMP="FALSE"/>
+    </RmPlugInData>
+   </Rm2DTextureVariable>
    <RmStreamMap NAME="Stream Mapping" API="">
     <RmStream NAME="Stream" API="" STRIDE="32">
      <RmStreamChannel NAME="Position_0" API="" DATA_SIZE="12" DATA_TYPE="2" REGISTER="0" USAGE="0" USAGE_INDEX="0" ATTRIBUTE_NAME="rm_Vertex"/>
@@ -1044,33 +1055,39 @@ FurTex]]></RmTextDataBlock></RmStringVariable>
      <RmStreamChannel NAME="TexCoord_0" API="" DATA_SIZE="8" DATA_TYPE="1" REGISTER="0" USAGE="5" USAGE_INDEX="0" ATTRIBUTE_NAME="rm_TexCoord0"/>
     </RmStream>
    </RmStreamMap>
-   <RmModelData NAME="Model" API="" FILE_NAME="D:\Program Files (x86)\AMD\RenderMonkey 1.82\Examples\Media\Models\Disc2.3ds" ORIENTATION="0"/>
+   <RmModelData NAME="Model" API="" FILE_NAME="D:\Program Files (x86)\AMD\RenderMonkey 1.82\Examples\Media\Models\mycube.3ds" ORIENTATION="0"/>
    <RmGLPass NAME="Pass 0" API="OpenGL" PASS_INDEX="0" ENABLED="TRUE">
     <RmModelReference NAME="Model" API=""/>
     <RmGLShader NAME="Vertex Program" API="OpenGL" PIXEL_SHADER="FALSE"><RmShaderCode TYPE="TEXT"><![CDATA[
 #version 400
-
-in vec3 VertexPosition;
-in vec3 VertexColor;
-
-out vec3 Color;
-
+layout (location = 0) in vec3 VertexPosition;
+layout (location = 1) in vec3 VertexTexCoord;
+out vec3 TexCoord;
 void main()
 {
-    Color = VertexColor;
-
+    TexCoord = VertexTexCoord;
     gl_Position = vec4(VertexPosition,1.0);
 }]]></RmShaderCode></RmGLShader>
     <RmGLShader NAME="Fragment Program" API="OpenGL" PIXEL_SHADER="TRUE"><RmShaderCode TYPE="TEXT"><![CDATA[
 #version 400
+in vec3 TexCoord;
+layout (location = 0) out vec4 FragColor;
 
-in vec3 Color;
-out vec4 FragColor;
-
+uniform BlobSettings {
+  vec4 InnerColor;
+  vec4 OuterColor;
+  float RadiusInner;
+  float RadiusOuter;
+};
 void main() {
-    FragColor = vec4(Color, 1.0);
-}
-]]></RmShaderCode></RmGLShader>
+    float dx = TexCoord.x - 0.5;
+    float dy = TexCoord.y - 0.5;
+    float dist = sqrt(dx * dx + dy * dy);
+    FragColor =
+       mix( InnerColor, OuterColor,
+             smoothstep( RadiusInner, RadiusOuter, dist )
+            );
+}]]></RmShaderCode></RmGLShader>
     <RmStreamMapReference NAME="Stream Mapping" API=""/>
    </RmGLPass>
   </RmOpenGLEffect>

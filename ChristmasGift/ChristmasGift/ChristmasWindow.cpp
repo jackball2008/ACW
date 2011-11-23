@@ -8,6 +8,9 @@
 
 #define DRAWSEAT1
 
+
+
+
 const Vector4f _PS = Vector4f(1.0f,0.0f,0.0f,0.0f);
 const Vector4f _PT = Vector4f(0.0f,1.0f,0.0f,0.0f);
 const Vector4f _PR = Vector4f(0.0f,0.0f,1.0f,0.0f);
@@ -239,7 +242,12 @@ void ChristmasWindow::OnDisplay()
 		
 		glPushMatrix();
 			glTranslatef(0.0,2.0,0.0);
-			_testObject->Draw();
+			if(_testObject->_useShader){
+				_testObject->ShaderDraw();
+			}else{
+				_testObject->Draw();
+			}
+			
 		glPopMatrix();
 
 		glPushMatrix();
@@ -551,8 +559,8 @@ void ChristmasWindow::InitialiseModels(){
 
 	_testObject = new DisplayObjectModel();
 	_testObject->setEnableShaderProgram(true);
-	_testObject->setShaderProgramID(_ballShaderProgramID);
-	modelController->AssemblyModelFromFile(_testObject,"cube.mxy",modelController->_textures[0]);
+	_testObject->setShaderProgramID(_cubeShaderProgramID);
+	modelController->AssemblyModelFromFile2(_testObject,"cube.mxy",modelController->_textures[0]);
 	/************************************************************************/
 	/* seat                                                                     */
 	/************************************************************************/
@@ -618,11 +626,13 @@ void ChristmasWindow::InitialiseParicles(){
 void ChristmasWindow::InitialiseShader(){
 
 	CheckShaderEnvironment();
+	//init cube shader
 	GLuint vid;
 	GLuint fid;
-	if(GenerateShaderProgram(_ballShaderProgramID,vid,fid,"testvertexshader.vert","testfragshader.frag")){
+	if(GenerateShaderProgram(_cubeShaderProgramID,vid,fid,"testvertexshader.vert","testfragshader.frag")){
 		printf("generate ok\n");
-		/*glUseProgram(_houseShaderProgramID);*/
+		glBindAttribLocation(_cubeShaderProgramID,0, "VertexPosition");
+		glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
 
 	}
 
@@ -646,7 +656,7 @@ void ChristmasWindow::CheckShaderEnvironment(){
 	printf("GLSL Version : %s\n", glslVersion);  
 }
 void ChristmasWindow::LoadShaders(){
-	_ballShaderProgramID = glCreateProgram();
+	_cubeShaderProgramID = glCreateProgram();
 
 	GLuint vertexShaderID;
 	GLuint fragmentShaderID;
@@ -656,10 +666,10 @@ void ChristmasWindow::LoadShaders(){
 		vertexShaderID = GenerateShaderObject("testvertexshader.vert", GL_VERTEX_SHADER);
 		fragmentShaderID = GenerateShaderObject("testfragshader.frag", GL_FRAGMENT_SHADER);
 
-		glAttachShader(_ballShaderProgramID, vertexShaderID);
-		glAttachShader(_ballShaderProgramID, fragmentShaderID);
+		glAttachShader(_cubeShaderProgramID, vertexShaderID);
+		glAttachShader(_cubeShaderProgramID, fragmentShaderID);
 
-		glLinkProgram(_ballShaderProgramID);
+		glLinkProgram(_cubeShaderProgramID);
 
 	}
 	catch(exception& e)

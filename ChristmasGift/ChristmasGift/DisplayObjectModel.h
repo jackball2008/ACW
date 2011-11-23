@@ -6,6 +6,7 @@
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
+
 enum seasons {Spring,Summer,Autumn,Winter};
 
 class DisplayObjectModel :
@@ -20,9 +21,10 @@ public:
 	/************************************************************************/
 	seasons _currentSeason;
 	//////////////////////////////////////////////////////////////////////////
-	GLuint _vboids;
+	GLuint _vboID;
 
-	GLuint _indexVboId;    
+	GLuint _iboID;   
+	GLuint _vaoID;
 
 	
 
@@ -55,7 +57,7 @@ public:
 
 	virtual void setVertexes(Vertex (*_vertices), GLuint (*_indicesaddr),const int& numofvertex,const int& numofindex, const GLuint& texarr, const GLenum& drawtype);
 	
-	virtual void setTreeParameter();
+	/*virtual void setTreeParameter();*/
 	
 	virtual void setRenderTexture(bool v);
 
@@ -80,6 +82,13 @@ public:
 
 	virtual void setEnableShaderProgram(bool b);
 	virtual void setShaderProgramID(GLuint id);
+
+	void ShaderDraw();
+	void Initialize2();
+
+	void SetVBOData(GLfloat* vp, GLfloat* vn,GLfloat* vc, GLfloat* vt, int* idx, int numofv, int numofidx );
+
+	bool	_useShader;
 private:
 	float _colorapalha;
 	bool _enableCullFront;
@@ -89,6 +98,6 @@ private:
 	/* important shader atribute                                                                     */
 	/************************************************************************/
 	GLuint _shaderID;
-	bool	_useShader;
+	
 };
 

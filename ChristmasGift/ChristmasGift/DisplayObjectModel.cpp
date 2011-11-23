@@ -19,7 +19,7 @@ DisplayObjectModel::~DisplayObjectModel(void)
 	_vertices = NULL;
 	_indices = NULL;
 
-	unsigned int nBuffers[2] = { _vboids, _indexVboId };
+	unsigned int nBuffers[2] = { _vboID, _iboID };
 	glDeleteBuffersARB( 2, nBuffers );      // Free The Memory
 
 
@@ -50,16 +50,16 @@ void DisplayObjectModel::Initialize(){
 	//glGenBuffersARB(1, &_vboId);//ids
 	/*_vboids;*/
 #ifdef USEVBOEX
-	glGenBuffersARB(1, &_vboids);
-	glBindBufferARB(GL_ARRAY_BUFFER_ARB, _vboids);
+	glGenBuffersARB(1, &_vboID);
+	glBindBufferARB(GL_ARRAY_BUFFER_ARB, _vboID);
 
 	glBufferDataARB(GL_ARRAY_BUFFER_ARB, sizeof(Vertex)*_numberOfVertices, 0, GL_STATIC_DRAW_ARB);
 	glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, 0, sizeof(Vertex)*_numberOfVertices, _vertices);             // copy vertices starting from 0 offest
 #else
-	glGenBuffers(1, &_vboids);
-	glBindBuffer(GL_ARRAY_BUFFER, _vboids);
+	glGenBuffers(1, &_vboID);
+	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*_numberOfVertices, 0, GL_STATIC_DRAW_ARB);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*_numberOfVertices, 0, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex)*_numberOfVertices, _vertices);
 #endif	
 	//these function is very interesting
@@ -74,14 +74,14 @@ void DisplayObjectModel::Initialize(){
 	/* if we use gldrawarrays, we don't need to use this index array                                                                     */
 	/************************************************************************/
 	/*_indexVboId;*/
-	glGenBuffers(1, &_indexVboId); // Generate buffer
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexVboId); // Bind the element array buffer
+	glGenBuffers(1, &_iboID); // Generate buffer
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboID); // Bind the element array buffer
 	// Upload the index array, this can be done the same way as above (with NULL as the data, then a 
 	// glBufferSubData call, but doing it all at once for convenience)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numberOfIndices * sizeof(GLuint), _indices, GL_STATIC_DRAW);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(GLuint)*_numberOfIndices, _indices);
 
-
+	/*glGenVertexArrays()*/
 
 #ifdef USEVBOEX
 	glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
@@ -98,8 +98,8 @@ void DisplayObjectModel::Draw()
 	// Bind our buffers much like we would for texturing
 	
 	
-	glBindBuffer(GL_ARRAY_BUFFER, _vboids);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexVboId);
+	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboID);
 	
 	// Set the state of what we are drawing (I don't think order matters here, but I like to do it in the same 
 	// order I set the pointers
@@ -148,11 +148,7 @@ void DisplayObjectModel::Draw()
 	//glDrawArrays( GL_TRIANGLES, 0,6 );
 	// //could be used to find some error
 	//glDrawArrays(GL_TRIANGLES,0,_numberOfVertices);//glDrawArrays don't need the index
-	if(_useShader){
-		glUseProgram(_shaderID);
-
-		
-	}
+	
 	
 	// work for model from blender
 	if(GL_TRIANGLES == _drawtype)
@@ -161,11 +157,6 @@ void DisplayObjectModel::Draw()
 	if(GL_TRIANGLE_STRIP == _drawtype)
 	glDrawElements(GL_TRIANGLE_STRIP, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 	
-	if(_useShader){
-		
-
-		glUseProgram(0);
-	}
 	if(_enableCullBack){
 		glDisable(GL_CULL_FACE);
 	}
@@ -193,9 +184,9 @@ void DisplayObjectModel::Draw()
 }
 
 
-void DisplayObjectModel::setTreeParameter(){
-
-}
+// void DisplayObjectModel::setTreeParameter(){
+// 
+// }
 
 
 void DisplayObjectModel::setRenderTexture(bool v){
@@ -248,4 +239,151 @@ void DisplayObjectModel::setShaderProgramID(GLuint id){
 		glBindAttribLocation(_shaderID, 0, "VertexPosition");
 		glBindAttribLocation(_shaderID, 1,"VertexColor");
 	}
+}
+
+
+
+/************************************************************************/
+/* shader operaion                                                                     */
+/************************************************************************/
+void DisplayObjectModel::Initialize2(){
+
+	/*_indexVboId;*/
+	//IBO
+	glGenBuffers(1, &_iboID); // Generate buffer
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboID); // Bind the element array buffer
+
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numberOfIndices * sizeof(GLuint), _indices, GL_STATIC_DRAW);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(GLuint)*_numberOfIndices, _indices);
+
+	//vbo
+	glGenBuffers(1, &_vboID);
+	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*_numberOfVertices, 0, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex)*_numberOfVertices, _vertices);
+	
+	
+	//vao
+	glGenVertexArrays(1, &_vaoID);
+	glBindVertexArray(_vaoID);
+	//Bind the VBO and setup pointers for the VAO
+	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(0));
+	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), BUFFER_OFFSET(32));
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	//Bind the IBO for the VAO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboID);
+
+	////////////////////////////////////////////
+
+// 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+// 
+// 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+// 	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),BUFFER_OFFSET(0));
+// 	glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,sizeof(Vertex),BUFFER_OFFSET(sizeof(GL_FLOAT)));
+// 
+// 	glEnableVertexAttribArray(0);
+// 	glEnableVertexAttribArray(3);
+}
+void DisplayObjectModel::ShaderDraw(){
+	
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboID);
+	/*glBindVertexArray(_vaoID);*/
+
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+
+	/************************************************************************/
+	/* texture render control                                                                     */
+	/************************************************************************/
+	if(_renderTextures){
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, _textures);
+	}
+
+	// Resetup our pointers.  This doesn't reinitialise any data, only how we walk through it
+	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(0));
+	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(12));
+	glNormalPointer(GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(20));
+	glColorPointer(4, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(32));
+
+	if(_enableTransparency){
+		glDisable( GL_CULL_FACE );
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	}	
+
+	if(_renderMaterials){
+		_materials.apply();
+	}
+
+	if(_enableCullFront){
+		glEnable(GL_CULL_FACE);
+	}
+
+	if(_enableCullBack){
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+	}
+
+
+	
+	
+/*	glUseProgram(_shaderID);*/
+
+	
+
+	// work for model from blender
+	if(GL_TRIANGLES == _drawtype)
+		glDrawElements(GL_TRIANGLES, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+
+	if(GL_TRIANGLE_STRIP == _drawtype)
+		glDrawElements(GL_TRIANGLE_STRIP, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+
+	
+
+
+
+/*	glUseProgram(NULL);*/
+
+
+
+
+	
+	if(_enableCullBack){
+		glDisable(GL_CULL_FACE);
+	}
+
+	if(_enableCullFront){
+		glDisable(GL_CULL_FACE);
+	}
+	if(_enableTransparency){
+		glDisable(GL_BLEND);
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
+
+	}
+
+	// Disable our client state back to normal drawing
+	glDisable(GL_TEXTURE_2D);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void DisplayObjectModel::SetVBOData(GLfloat* vp, GLfloat* vn,GLfloat* vc, GLfloat* vt, int* idx, int numofv, int numofidx ){
+
 }

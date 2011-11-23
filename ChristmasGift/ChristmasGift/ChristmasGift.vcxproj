@@ -93,6 +93,7 @@
     <ClInclude Include="Particles.h" />
     <ClInclude Include="ParticleStruct.h" />
     <ClInclude Include="PointPaticles.h" />
+    <ClInclude Include="ShaderDisplayObjectModel.h" />
     <ClInclude Include="SmokeParticles.h" />
     <ClInclude Include="SnowFlakeParticles.h" />
     <ClInclude Include="Sphere.h" />
@@ -110,6 +111,7 @@
     <ClCompile Include="ModelController.cpp" />
     <ClCompile Include="Particles.cpp" />
     <ClCompile Include="PointPaticles.cpp" />
+    <ClCompile Include="ShaderDisplayObjectModel.cpp" />
     <ClCompile Include="SmokeParticles.cpp" />
     <ClCompile Include="SnowFlakeParticles.cpp" />
   </ItemGroup>

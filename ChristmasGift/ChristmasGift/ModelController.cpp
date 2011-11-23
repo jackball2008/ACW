@@ -864,3 +864,176 @@ void ModelController::AssemblyBasicTreeData(IDisplayObject*,GLfloat radius, int 
 
 }
 
+
+void ModelController::AssemblyModelFromFile2(DisplayObjectModel* model, const char* path, GLuint texarr){
+	ifstream fin(path);
+	if(!fin){
+		cout<<"file open error\n";
+		return;
+	}
+	else{
+		cout<<"read ok"<<endl;
+	}
+
+	char buffer[100];
+	int rA,rB,rv,rn,ru,rc;
+
+	int numofvertex;
+
+	float tempfloat;
+
+	int tempindex;
+
+	bool hasuv,hascol;
+	hasuv = false;
+	hascol = false;
+
+	Vertex (*_vertices);
+
+	GLuint *_indices;
+
+	GLfloat* vp;
+	GLfloat* vn;
+	GLfloat* vc;
+	GLfloat* vt;
+
+
+
+
+	while(!fin.eof()){
+		//analyze each line
+		fin.getline(buffer, sizeof(buffer));
+		int lengthOfLine = fin.gcount();
+		istrstream sin (buffer, lengthOfLine-1);
+		string word;
+		sin>>word;
+
+		rA = rB = rv = rn = ru = rc = -2;
+		rA = word.compare("A");
+		rB = word.compare("B");
+		rv = word.compare("v");
+		rn = word.compare("n");
+		ru = word.compare("u");
+		rc = word.compare("c");
+
+		if(rA == 0){
+			sin>>word;
+			numofvertex = (int)atof(word.c_str());
+			_vertices = new Vertex[numofvertex];
+
+		}
+		if(rB == 0){
+			sin>>word;
+			cout<<"fn = "<<atof(word.c_str())<<endl;
+		}
+		if(rv == 0){
+			sin>>word;
+			tempindex = (int)atof(word.c_str());
+
+			//x
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].position[X_POS] = tempfloat;
+			//y
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].position[Y_POS] = tempfloat;
+			//z
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].position[Z_POS] = tempfloat;
+
+
+
+		}
+		if(rn == 0){
+			sin>>word;
+			tempindex = (int)atof(word.c_str());
+
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].normal[X_POS] = tempfloat;
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].normal[Y_POS] = tempfloat;
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].normal[Z_POS] = tempfloat;
+		}
+		if(ru == 0){
+			sin>>word;
+			tempindex = (int)atof(word.c_str());
+
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].texture[U_POS] = tempfloat;
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].texture[V_POS] = tempfloat;
+
+			hasuv = true;
+		}
+		if(rc == 0){
+			sin>>word;
+			tempindex = (int)atof(word.c_str());
+
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].colour[R_POS] = tempfloat;
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].colour[G_POS] = tempfloat;
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].colour[B_POS] = tempfloat;
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].colour[A_POS] = tempfloat;
+
+			hascol = true;
+		}
+
+	}
+	fin.close();
+
+	if(!hasuv){
+		for(int i = 0; i<numofvertex;i++)
+		{
+			_vertices[i].texture[U_POS] = 0.0;
+			_vertices[i].texture[V_POS] = 0.0;
+		}
+	}
+
+	if(!hascol){
+		for(int i = 0; i<numofvertex;i++){
+			_vertices[i].colour[R_POS] = 0.5;
+			_vertices[i].colour[G_POS] = 0.5;
+			_vertices[i].colour[B_POS] = 0.5;
+			_vertices[i].colour[A_POS] = 1.0;
+
+		}
+
+	}
+
+	if(model->getEnableTransparency()){
+		for(int i = 0; i<numofvertex;i++){
+			_vertices[i].colour[A_POS] =model->getColorApalha();;
+		}
+	}
+
+	_indices = new GLuint[numofvertex];
+	for(int i = 0; i<numofvertex;i++){
+		_indices[i] =  i;
+	}
+
+// 	vp = new GLfloat[numofvertex];
+// 	vn = new GLfloat[numofvertex];
+// 	vc = new GLfloat[numofvertex];
+// 	vt = new GLfloat[numofvertex];
+// 	for(int i = 0; i< numofvertex; i++){
+// 
+// 	}
+
+	model->setVertexes((_vertices),(_indices), numofvertex, numofvertex ,texarr,GL_TRIANGLES);
+	model->Initialize2();
+}
