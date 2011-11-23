@@ -235,6 +235,13 @@ void ChristmasWindow::OnDisplay()
 			glDisable(GL_LIGHT4);
 		}
 		/*glPopMatrix();*/
+
+		
+		glPushMatrix();
+			glTranslatef(0.0,2.0,0.0);
+			_testObject->Draw();
+		glPopMatrix();
+
 		glPushMatrix();
 			glRotatef(-4*_angle, 0.0, 1.0, 0.0);
 			_sunLight.setPosition(Vector4f(6.0,6.0,0.0,1.0));
@@ -540,9 +547,12 @@ void ChristmasWindow::InitialiseModels(){
 	_house = new DisplayObjectModel();
 	_house->setRenderTexture(true);
 	_house->setRenderMaterials(false);
-	
 	modelController->AssemblyModelFromFile(_house,"House2.mxy",modelController->_textures[0]);
 
+	_testObject = new DisplayObjectModel();
+	_testObject->setEnableShaderProgram(true);
+	_testObject->setShaderProgramID(_ballShaderProgramID);
+	modelController->AssemblyModelFromFile(_testObject,"cube.mxy",modelController->_textures[0]);
 	/************************************************************************/
 	/* seat                                                                     */
 	/************************************************************************/
@@ -569,8 +579,7 @@ void ChristmasWindow::InitialiseModels(){
 	_ball->setRenderTexture(false);
 	_ball->setRenderMaterials(false);
 	_ball->setColorApalha(0.1);
-	_ball->setEnableShaderProgram(true);
-	_ball->setShaderProgramID(_ballShaderProgramID);
+	
 	modelController->AssemblyTransparencyPartSphere(_ball,1.0,40,40,modelController->_textures[0]);
 
 	/************************************************************************/

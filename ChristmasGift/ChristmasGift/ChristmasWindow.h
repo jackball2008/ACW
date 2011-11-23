@@ -22,11 +22,14 @@
 #include "SnowFlakeParticles.h"
 #include "FireParticles.h"
 
-#include "glm/glm.hpp"
+// #include "glm/glm.hpp"
+// using glm::mat4;
+// using glm::vec3;
+// #include "glm/gtc/matrix_transform.hpp"
 
 using namespace gxbase;
 
-using glm::mat4;
+
 
 
 
@@ -133,6 +136,7 @@ private:
 	IDisplayObject* _ball;
 	DisplayObjectModel* _tree;
 	IDisplayObject* _pool;
+	IDisplayObject* _testObject;
 	/************************************************************************/
 	/* simulating season changing                                                                     */
 	/************************************************************************/

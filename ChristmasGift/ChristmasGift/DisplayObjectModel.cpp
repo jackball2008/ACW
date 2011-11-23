@@ -150,8 +150,10 @@ void DisplayObjectModel::Draw()
 	//glDrawArrays(GL_TRIANGLES,0,_numberOfVertices);//glDrawArrays don't need the index
 	if(_useShader){
 		glUseProgram(_shaderID);
+
+		
 	}
-	 
+	
 	// work for model from blender
 	if(GL_TRIANGLES == _drawtype)
 	glDrawElements(GL_TRIANGLES, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
@@ -160,6 +162,8 @@ void DisplayObjectModel::Draw()
 	glDrawElements(GL_TRIANGLE_STRIP, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 	
 	if(_useShader){
+		
+
 		glUseProgram(0);
 	}
 	if(_enableCullBack){
