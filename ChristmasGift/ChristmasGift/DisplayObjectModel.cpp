@@ -143,12 +143,9 @@ void DisplayObjectModel::Draw()
 	}
 
 	
-	// Actually do our drawing, parameters are Primative (Triangles, Quads, Triangle Fans etc), Elements to 
-	// draw, Type of each element, Start Offset
-	//glDrawArrays( GL_TRIANGLES, 0,6 );
-	// //could be used to find some error
-	//glDrawArrays(GL_TRIANGLES,0,_numberOfVertices);//glDrawArrays don't need the index
-	
+	/************************************************************************/
+	/* shader                                                                     */
+	/************************************************************************/
 	
 	if(_useShader){
 		glEnableVertexAttribArray(0);

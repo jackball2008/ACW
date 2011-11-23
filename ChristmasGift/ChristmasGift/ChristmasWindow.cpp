@@ -631,8 +631,8 @@ void ChristmasWindow::InitialiseShader(){
 	GLuint fid;
 	if(GenerateShaderProgram(_cubeShaderProgramID,vid,fid,"testvertexshader.vert","testfragshader.frag")){
 		printf("generate ok\n");
-		glBindAttribLocation(_cubeShaderProgramID,0, "VertexPosition");
-		glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
+// 		glBindAttribLocation(_cubeShaderProgramID,0, "VertexPosition");
+// 		glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
 
 	}
 
