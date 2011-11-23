@@ -1,8 +1,8 @@
 #include "ChristmasTree.h"
 
 #define TIMERCOUNT 0.4
-#define NOGROWRADOM
-#define NOGROWENDRADOM
+#define NOGROWRADOM1
+#define NOGROWENDRADOM1
 #define ENDSYNCBETWEENTRUNKANDLEAF
 #define USESEGMENTGROWCHANGE
 /************************************************************************/

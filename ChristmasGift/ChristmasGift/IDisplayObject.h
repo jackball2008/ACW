@@ -52,6 +52,9 @@ public:
 	virtual void setEnableCullFront(bool v);
 
 	virtual void setEnableCullBack(bool v);
+
+	virtual void setEnableShaderProgram(bool b);
+	virtual void setShaderProgramID(GLuint id);
 	
 
 };

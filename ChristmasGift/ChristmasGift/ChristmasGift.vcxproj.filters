@@ -217,5 +217,11 @@
     <None Include="ground.mxy">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="testvertexshader.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="testfragshader.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -6,6 +6,8 @@
 #define DRAWREFLECTION
 #define ALLOWSEATCULLFACE1
 
+#define DRAWSEAT1
+
 const Vector4f _PS = Vector4f(1.0f,0.0f,0.0f,0.0f);
 const Vector4f _PT = Vector4f(0.0f,1.0f,0.0f,0.0f);
 const Vector4f _PR = Vector4f(0.0f,0.0f,1.0f,0.0f);
@@ -31,7 +33,7 @@ const float tree_scal_y = 0.2;
 const float tree_scal_z = 0.2;
 
 
-ChristmasWindow::ChristmasWindow(void) :_loadStencilBuffer(true),_drawSpotLights(false),_bMultitex(false) ,_bHaveMultitex(false) ,_angleInc(30),_currentSeason(Spring),_timerCounter(0),_timeDecFactor(1),_seasonCounter(0)
+ChristmasWindow::ChristmasWindow(void) :_loadStencilBuffer(true),_drawSpotLights(false),_bMultitex(false) ,_bHaveMultitex(false) ,_angleInc(30),_currentSeason(Spring),_timerCounter(0),_timeDecFactor(1)/*,_seasonCounter(0)*/
 {
 	SetSize(512,512);
 	SetDepthBits(24);
@@ -82,13 +84,14 @@ void ChristmasWindow::OnCreate()
 	//////////////////////////////////////////////////////////////////////////
 	InitialiseLights();
 	//////////////////////////////////////////////////////////////////////////
+	InitialiseShader();
+	//////////////////////////////////////////////////////////////////////////
 	InitialiseModels();
 	//////////////////////////////////////////////////////////////////////////
 	InitialiseCamera();
 	//////////////////////////////////////////////////////////////////////////
 	InitialiseParicles();
-	//////////////////////////////////////////////////////////////////////////
-	InitialiseShader();
+	
 
 	/*_green.create(Color::black(), Color::green());*/
 
@@ -114,7 +117,7 @@ void ChristmasWindow::OnCreate()
 void ChristmasWindow::OnUpdate(){
 	float deltaTime = (float)App::GetDeltaTime();
 	_timerCounter = _timerCounter + deltaTime;
-	_seasonCounter++;
+	/*_seasonCounter++;*/
 	if(_timerCounter>= SEASONLENGTH*_timeDecFactor){
 		_tree->Update(deltaTime);
 		_timerCounter = 0;
@@ -134,9 +137,7 @@ void ChristmasWindow::OnUpdate(){
 		_currentSeason = Winter;
 	}
 
-#ifdef USECASTSHADOW
-	UpdateShadow();
-#endif
+
 
 	/************************************************************************/
 	/* update particles                                                                     */
@@ -144,9 +145,18 @@ void ChristmasWindow::OnUpdate(){
 	_smoke.Update(deltaTime);
 	_snowflake.Update(deltaTime);
 	_fire.Update(deltaTime);
+
+	/************************************************************************/
+	/* update light rotate angle                                                                     */
+	/************************************************************************/
 	_angle += _angleInc * deltaTime;
 	if(_angle > 360.0f) 
 		_angle -=360.0f;
+
+
+#ifdef USECASTSHADOW
+	UpdateShadow();
+#endif
 }
 
 
@@ -269,13 +279,14 @@ void ChristmasWindow::OnDisplay()
 			}
 		glPopMatrix();
 		
+#ifdef DRAWSEAT
 
 		glPushMatrix();
 			glRotatef(-90.0f,1.0,0.0,0.0);
 			_seat->Draw();
 		glPopMatrix();
 
-
+#endif
 		glPushMatrix();
 			glTranslatef(-1.0,0.28,0.0f);
 			glScalef(0.25,0.25,0.25);
@@ -529,16 +540,19 @@ void ChristmasWindow::InitialiseModels(){
 	_house = new DisplayObjectModel();
 	_house->setRenderTexture(true);
 	_house->setRenderMaterials(false);
+	
 	modelController->AssemblyModelFromFile(_house,"House2.mxy",modelController->_textures[0]);
 
 	/************************************************************************/
 	/* seat                                                                     */
 	/************************************************************************/
+#ifdef DRAWSEAT
+
 	_seat = new DisplayObjectModel();
 	_seat->setRenderTexture(true);
 	_seat->setRenderMaterials(false);
 	modelController->AssemblyModelFromFile(_seat,"ground.mxy",modelController->_textures[2]);
-
+#endif
 	/************************************************************************/
 	/* tree                                                                     */
 	/************************************************************************/
@@ -555,6 +569,8 @@ void ChristmasWindow::InitialiseModels(){
 	_ball->setRenderTexture(false);
 	_ball->setRenderMaterials(false);
 	_ball->setColorApalha(0.1);
+	_ball->setEnableShaderProgram(true);
+	_ball->setShaderProgramID(_ballShaderProgramID);
 	modelController->AssemblyTransparencyPartSphere(_ball,1.0,40,40,modelController->_textures[0]);
 
 	/************************************************************************/
@@ -579,12 +595,7 @@ void ChristmasWindow::InitialiseCamera(){
 }
 
 void ChristmasWindow::InitialiseParicles(){
-	/************************************************************************/
-	/* particles                                                                     */
-	/************************************************************************/
-
 	_smoke.Initialize();
-
 
 	_snowflake.setTexture(modelController->_textures[4]);
 	_snowflake.setHeight(2.7);
@@ -596,32 +607,102 @@ void ChristmasWindow::InitialiseParicles(){
 
 
 void ChristmasWindow::InitialiseShader(){
-	LoadShaders();
+
+	CheckShaderEnvironment();
+	GLuint vid;
+	GLuint fid;
+	if(GenerateShaderProgram(_ballShaderProgramID,vid,fid,"testvertexshader.vert","testfragshader.frag")){
+		printf("generate ok\n");
+		/*glUseProgram(_houseShaderProgramID);*/
+
+	}
+
 }
 /************************************************************************/
 /* load shaders                                                                     */
 /************************************************************************/
+void ChristmasWindow::CheckShaderEnvironment(){
+	const GLubyte *render = glGetString(GL_RENDER);
+	const GLubyte *vender = glGetString(GL_VENDOR);
+	const GLubyte *version = glGetString(GL_VERSION);
+	const GLubyte *glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+
+	GLint major, minor;
+	glGetIntegerv(GL_MAJOR_VERSION, &major);
+	glGetIntegerv(GL_MINOR_VERSION, &minor);
+	printf("GL Vendor    : %s\n", vender);
+	printf("GL Renderer  : %s\n", render);
+	printf("GL Version (string)  : %s\n", version);
+	printf("GL Version (integer) : %d.%d\n", major, minor);
+	printf("GLSL Version : %s\n", glslVersion);  
+}
 void ChristmasWindow::LoadShaders(){
-	_shaderProgramID = glCreateProgram();
+	_ballShaderProgramID = glCreateProgram();
 
 	GLuint vertexShaderID;
 	GLuint fragmentShaderID;
 
 	try
 	{
-		vertexShaderID = GenerateShaderObject("phongvertexshader.txt", GL_VERTEX_SHADER);
-		fragmentShaderID = GenerateShaderObject("phongfragmentshader.txt", GL_FRAGMENT_SHADER);
+		vertexShaderID = GenerateShaderObject("testvertexshader.vert", GL_VERTEX_SHADER);
+		fragmentShaderID = GenerateShaderObject("testfragshader.frag", GL_FRAGMENT_SHADER);
 
-		glAttachShader(_shaderProgramID, vertexShaderID);
-		glAttachShader(_shaderProgramID, fragmentShaderID);
+		glAttachShader(_ballShaderProgramID, vertexShaderID);
+		glAttachShader(_ballShaderProgramID, fragmentShaderID);
 
-		glLinkProgram(_shaderProgramID);
+		glLinkProgram(_ballShaderProgramID);
 
 	}
 	catch(exception& e)
 	{
 		cerr << e.what() << endl;
 	}
+}
+
+bool ChristmasWindow::GenerateShaderProgram(GLuint &programID, GLuint &vID, GLuint &fID, char* vPath, char* fPath){
+	programID = glCreateProgram();
+
+	try
+	{
+		vID = GenerateShaderObject(vPath, GL_VERTEX_SHADER);
+		fID = GenerateShaderObject(fPath, GL_FRAGMENT_SHADER);
+
+		glAttachShader(programID, vID);
+		glAttachShader(programID, fID);
+
+		/*glBindFragDataLocation(programID,0,"FragColor");*/
+
+		glLinkProgram(programID);
+		
+		/************************************************************************/
+		/* list shader active attributes                                                                     */
+		/************************************************************************/
+		GLint maxLength, nAttribs;
+		glGetProgramiv(programID, GL_ACTIVE_ATTRIBUTES, &nAttribs);
+		glGetProgramiv(programID, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
+
+		GLchar* name = (GLchar*)malloc(maxLength);
+
+		GLint written, size, location;
+		GLenum type;
+		printf(" Index | Name\n");
+		printf("----------------------------\n");
+		for(int i = 0; i<nAttribs; i++){
+			glGetActiveAttrib( programID, i, maxLength, &written, &size, &type, name);
+			location = glGetAttribLocation(programID, name);
+		}
+		free(name);
+
+
+	}
+	catch(exception& e)
+	{
+		cerr << e.what() << endl;
+
+		return false;
+	}
+
+	return true;
 }
 GLuint ChristmasWindow::GenerateShaderObject(std::string filename, GLenum shaderType){
 	// Attempt to load filename
@@ -667,6 +748,22 @@ GLuint ChristmasWindow::GenerateShaderObject(std::string filename, GLenum shader
 
 	// Compile shader
 	glCompileShader(id);
+
+	//verify
+	GLint result;
+	glGetShaderiv(id, GL_COMPILE_STATUS, &result);
+	if(GL_FALSE == result){
+		printf(" shader compilaion failed!\n ");
+// 		GLuint logLen;
+// 		glGetShaderiv(id,GL_INFO_LOG_LENGTH, &logLen);
+// 		if(logLen>0){
+// 
+// 			printf("rewrite shader log: \n");
+// 
+// 		}
+	}else{
+		printf("shader compilation right\n");
+	}
 
 	return id;
 }

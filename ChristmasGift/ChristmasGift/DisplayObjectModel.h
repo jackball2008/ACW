@@ -24,6 +24,9 @@ public:
 
 	GLuint _indexVboId;    
 
+	
+
+
 	bool _renderTextures;
 	bool _renderMaterials;
 	bool _enableTransparency;
@@ -74,9 +77,18 @@ public:
 	virtual void setEnableCullFront(bool v);
 	
 	virtual void setEnableCullBack(bool v);
+
+	virtual void setEnableShaderProgram(bool b);
+	virtual void setShaderProgramID(GLuint id);
 private:
 	float _colorapalha;
 	bool _enableCullFront;
 	bool _enableCullBack;
+
+	/************************************************************************/
+	/* important shader atribute                                                                     */
+	/************************************************************************/
+	GLuint _shaderID;
+	bool	_useShader;
 };
 

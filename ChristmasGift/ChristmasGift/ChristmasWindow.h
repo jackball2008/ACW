@@ -22,9 +22,11 @@
 #include "SnowFlakeParticles.h"
 #include "FireParticles.h"
 
+#include "glm/glm.hpp"
+
 using namespace gxbase;
 
-
+using glm::mat4;
 
 
 
@@ -60,6 +62,8 @@ public:
 	/************************************************************************/
 	void LoadShaders();
 	GLuint GenerateShaderObject(std::string filename, GLenum shaderType);
+	void CheckShaderEnvironment();
+	bool GenerateShaderProgram(GLuint &programID, GLuint &vID, GLuint &fID, char* vPath, char* fPath);
 
 	/************************************************************************/
 	/* reflection                                                                     */
@@ -76,6 +80,8 @@ public:
 	void InitialiseParicles();
 
 	void InitialiseShader();
+
+
 	
 private:
 	ModelController* modelController;
@@ -83,7 +89,7 @@ private:
 	/************************************************************************/
 	/* shader                                                                     */
 	/************************************************************************/
-	GLuint _shaderProgramID;
+	GLuint _ballShaderProgramID;
 	/************************************************************************/
 	/* particles                                                                     */
 	/************************************************************************/
@@ -131,7 +137,7 @@ private:
 	/* simulating season changing                                                                     */
 	/************************************************************************/
 	seasons _currentSeason;
-	long _seasonCounter;
+	/*long _seasonCounter;*/
 	float _timerCounter;
 	float _timeDecFactor;
 	/************************************************************************/

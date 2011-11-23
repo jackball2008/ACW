@@ -2,7 +2,7 @@
 
 #define USEVBOEX1
 
-DisplayObjectModel::DisplayObjectModel(void):_enableCullBack(false),_enableCullFront(false),_currentSeason(Spring)
+DisplayObjectModel::DisplayObjectModel(void):_useShader(false),_enableCullBack(false),_enableCullFront(false),_currentSeason(Spring)
 {
 	glex::Load();
 
@@ -21,6 +21,8 @@ DisplayObjectModel::~DisplayObjectModel(void)
 
 	unsigned int nBuffers[2] = { _vboids, _indexVboId };
 	glDeleteBuffersARB( 2, nBuffers );      // Free The Memory
+
+
 	
 }
 
@@ -78,6 +80,7 @@ void DisplayObjectModel::Initialize(){
 	// glBufferSubData call, but doing it all at once for convenience)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numberOfIndices * sizeof(GLuint), _indices, GL_STATIC_DRAW);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(GLuint)*_numberOfIndices, _indices);
+
 
 
 #ifdef USEVBOEX
@@ -145,7 +148,9 @@ void DisplayObjectModel::Draw()
 	//glDrawArrays( GL_TRIANGLES, 0,6 );
 	// //could be used to find some error
 	//glDrawArrays(GL_TRIANGLES,0,_numberOfVertices);//glDrawArrays don't need the index
-	
+	if(_useShader){
+		glUseProgram(_shaderID);
+	}
 	 
 	// work for model from blender
 	if(GL_TRIANGLES == _drawtype)
@@ -154,7 +159,9 @@ void DisplayObjectModel::Draw()
 	if(GL_TRIANGLE_STRIP == _drawtype)
 	glDrawElements(GL_TRIANGLE_STRIP, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 	
-	
+	if(_useShader){
+		glUseProgram(0);
+	}
 	if(_enableCullBack){
 		glDisable(GL_CULL_FACE);
 	}
@@ -226,4 +233,15 @@ void DisplayObjectModel::setEnableCullFront(bool v){
 
 void DisplayObjectModel::setEnableCullBack(bool v){
 	_enableCullBack = v;
+}
+
+void DisplayObjectModel::setEnableShaderProgram(bool b){
+	_useShader = b;
+}
+void DisplayObjectModel::setShaderProgramID(GLuint id){
+	if(_useShader){
+		_shaderID = id;
+		glBindAttribLocation(_shaderID, 0, "VertexPosition");
+		glBindAttribLocation(_shaderID, 1,"VertexColor");
+	}
 }

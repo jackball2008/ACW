@@ -131,6 +131,8 @@
     <None Include="SnowFlake2.tga" />
     <None Include="SnowFlake3.tga" />
     <None Include="t1.bmp" />
+    <None Include="testfragshader.frag" />
+    <None Include="testvertexshader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
