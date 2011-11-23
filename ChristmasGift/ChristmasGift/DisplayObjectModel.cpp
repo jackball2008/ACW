@@ -150,6 +150,17 @@ void DisplayObjectModel::Draw()
 	//glDrawArrays(GL_TRIANGLES,0,_numberOfVertices);//glDrawArrays don't need the index
 	
 	
+// 	if(_useShader){
+// 		glEnableVertexAttribArray(0);
+// 		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(0));
+// 
+// 		glEnableVertexAttribArray(1);
+// 		glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(32));
+// 
+// 		glUseProgram(_shaderID);
+// 	}
+
+
 	// work for model from blender
 	if(GL_TRIANGLES == _drawtype)
 	glDrawElements(GL_TRIANGLES, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
@@ -157,6 +168,12 @@ void DisplayObjectModel::Draw()
 	if(GL_TRIANGLE_STRIP == _drawtype)
 	glDrawElements(GL_TRIANGLE_STRIP, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 	
+
+// 	if(_useShader){
+// 		glUseProgram(NULL);
+// 		glDisableVertexAttribArray(0);
+// 		glDisableVertexAttribArray(1);
+// 	}
 	if(_enableCullBack){
 		glDisable(GL_CULL_FACE);
 	}
@@ -341,20 +358,20 @@ void DisplayObjectModel::ShaderDraw(){
 // 	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), BUFFER_OFFSET(32));
 
 	
-	/*glUseProgram(_shaderID);*/
+	glUseProgram(_shaderID);
 
 	
 
 	// work for model from blender
 	/*if(GL_TRIANGLES == _drawtype)*/
-		glDrawElements(GL_TRIANGLES, _numberOfIndices, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, _numberOfIndices, GL_UNSIGNED_INT, 0);
 
 // 	if(GL_TRIANGLE_STRIP == _drawtype)
 // 		glDrawElements(GL_TRIANGLE_STRIP, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 
 	
 
-	/*glUseProgram(NULL);*/
+	glUseProgram(NULL);
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
