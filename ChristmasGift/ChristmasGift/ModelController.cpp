@@ -892,10 +892,10 @@ void ModelController::AssemblyModelFromFile2(DisplayObjectModel* model, const ch
 
 	GLuint *_indices;
 
-	GLfloat* vp;
-	GLfloat* vn;
-	GLfloat* vc;
-	GLfloat* vt;
+	vertex* vp;
+	vertex* vn;
+	color* vc;
+	uvcoord* vt;
 
 
 
@@ -1026,14 +1026,32 @@ void ModelController::AssemblyModelFromFile2(DisplayObjectModel* model, const ch
 		_indices[i] =  i;
 	}
 
-// 	vp = new GLfloat[numofvertex];
-// 	vn = new GLfloat[numofvertex];
-// 	vc = new GLfloat[numofvertex];
-// 	vt = new GLfloat[numofvertex];
-// 	for(int i = 0; i< numofvertex; i++){
-// 
-// 	}
+	vp = new vertex[numofvertex];
+	vn = new vertex[numofvertex];
+	vc = new color[numofvertex];
+	vt = new uvcoord[numofvertex];
+	for(int i = 0; i< numofvertex; i++){
+		vp[i].x = _vertices[i].position[X_POS];
+		vp[i].y = _vertices[i].position[Y_POS];
+		vp[i].z = _vertices[i].position[Z_POS];
 
-	model->setVertexes((_vertices),(_indices), numofvertex, numofvertex ,texarr,GL_TRIANGLES);
+		vn[i].x =  _vertices[i].normal[X_POS];
+		vn[i].y =  _vertices[i].normal[Y_POS];
+		vn[i].z =  _vertices[i].normal[Z_POS];
+
+		vc[i].r = _vertices[i].colour[R_POS];
+		vc[i].g = _vertices[i].colour[G_POS];
+		vc[i].b = _vertices[i].colour[B_POS];
+		vc[i].a = _vertices[i].colour[A_POS];
+
+		vt[i].x = _vertices[i].texture[X_POS];
+		vt[i].y = _vertices[i].texture[Y_POS];
+
+	}
+
+	delete [] _vertices;
+
+/*	model->setVertexes((_vertices),(_indices), numofvertex, numofvertex ,texarr,GL_TRIANGLES);*/
+	model->SetVBOData(vp,vn,vc,vt,(_indices),numofvertex,numofvertex);
 	model->Initialize2();
 }

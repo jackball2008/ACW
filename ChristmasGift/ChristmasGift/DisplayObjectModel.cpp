@@ -252,28 +252,55 @@ void DisplayObjectModel::Initialize2(){
 	//IBO
 	glGenBuffers(1, &_iboID); // Generate buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboID); // Bind the element array buffer
-
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numberOfIndices * sizeof(GLuint), _indices, GL_STATIC_DRAW);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(GLuint)*_numberOfIndices, _indices);
 
+
+	glGenBuffers(1, &_vpid);
+	glBindBuffer(GL_ARRAY_BUFFER, _vpid);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex)*_numberOfVertices, 0, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertex)*_numberOfVertices, _vp);
+
+	glGenBuffers(1, &_vnid);
+	glBindBuffer(GL_ARRAY_BUFFER, _vnid);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex)*_numberOfVertices, 0, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertex)*_numberOfVertices, _vn);
+
+	glGenBuffers(1, &_vcid);
+	glBindBuffer(GL_ARRAY_BUFFER, _vcid);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(color)*_numberOfVertices, 0, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(color)*_numberOfVertices, _vc);
+
+	glGenBuffers(1, &_vtid);
+	glBindBuffer(GL_ARRAY_BUFFER, _vtid);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(uvcoord)*_numberOfVertices, 0, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(uvcoord)*_numberOfVertices, _vt);
+
 	//vbo
-	glGenBuffers(1, &_vboID);
-	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*_numberOfVertices, 0, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex)*_numberOfVertices, _vertices);
+// 	glGenBuffers(1, &_vboID);
+// 	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+// 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*_numberOfVertices, 0, GL_STATIC_DRAW);
+// 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex)*_numberOfVertices, _vertices);
 	
-	
+	//set data
+// 	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+// 	glEnableVertexAttribArray(0);
+// 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(0));
+// 
+// 	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+// 	glEnableVertexAttribArray(1);
+// 	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), BUFFER_OFFSET(32));
 	//vao
-	glGenVertexArrays(1, &_vaoID);
-	glBindVertexArray(_vaoID);
-	//Bind the VBO and setup pointers for the VAO
-	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(0));
-	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), BUFFER_OFFSET(32));
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	//Bind the IBO for the VAO
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboID);
+// 	glGenVertexArrays(1, &_vaoID);
+// 	glBindVertexArray(_vaoID);
+// 	//Bind the VBO and setup pointers for the VAO
+// 	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+// 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(0));
+// 	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), BUFFER_OFFSET(32));
+// 	glEnableVertexAttribArray(0);
+// 	glEnableVertexAttribArray(1);
+// 	//Bind the IBO for the VAO
+// 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboID);
 
 	////////////////////////////////////////////
 
@@ -289,101 +316,59 @@ void DisplayObjectModel::Initialize2(){
 }
 void DisplayObjectModel::ShaderDraw(){
 	
-
-
-	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboID);
-	/*glBindVertexArray(_vaoID);*/
 
-
+	glBindBuffer(GL_ARRAY_BUFFER, _vpid);
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, sizeof(vertex),0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _vcid);
 	glEnableClientState(GL_COLOR_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
+	glColorPointer(4, GL_FLOAT, sizeof(color),0);
 
-	/************************************************************************/
-	/* texture render control                                                                     */
-	/************************************************************************/
-	if(_renderTextures){
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, _textures);
-	}
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,NULL);
 
-	// Resetup our pointers.  This doesn't reinitialise any data, only how we walk through it
-	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(0));
-	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(12));
-	glNormalPointer(GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(20));
-	glColorPointer(4, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(32));
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,0,NULL);
 
-	if(_enableTransparency){
-		glDisable( GL_CULL_FACE );
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	}	
-
-	if(_renderMaterials){
-		_materials.apply();
-	}
-
-	if(_enableCullFront){
-		glEnable(GL_CULL_FACE);
-	}
-
-	if(_enableCullBack){
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_FRONT);
-	}
-
+// 	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+// 	glEnableVertexAttribArray(0);
+// 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), BUFFER_OFFSET(0));
+// 
+// 	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+// 	glEnableVertexAttribArray(1);
+// 	glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), BUFFER_OFFSET(32));
 
 	
-	
-/*	glUseProgram(_shaderID);*/
+	/*glUseProgram(_shaderID);*/
 
 	
 
 	// work for model from blender
-	if(GL_TRIANGLES == _drawtype)
-		glDrawElements(GL_TRIANGLES, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+	/*if(GL_TRIANGLES == _drawtype)*/
+		glDrawElements(GL_TRIANGLES, _numberOfIndices, GL_UNSIGNED_INT, 0);
 
-	if(GL_TRIANGLE_STRIP == _drawtype)
-		glDrawElements(GL_TRIANGLE_STRIP, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
-
-	
-
-
-
-/*	glUseProgram(NULL);*/
-
-
-
+// 	if(GL_TRIANGLE_STRIP == _drawtype)
+// 		glDrawElements(GL_TRIANGLE_STRIP, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 
 	
-	if(_enableCullBack){
-		glDisable(GL_CULL_FACE);
-	}
 
-	if(_enableCullFront){
-		glDisable(GL_CULL_FACE);
-	}
-	if(_enableTransparency){
-		glDisable(GL_BLEND);
-		glEnable(GL_CULL_FACE);
-		glEnable(GL_DEPTH_TEST);
+	/*glUseProgram(NULL);*/
 
-	}
-
-	// Disable our client state back to normal drawing
-	glDisable(GL_TEXTURE_2D);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER,NULL);
 }
 
-void DisplayObjectModel::SetVBOData(GLfloat* vp, GLfloat* vn,GLfloat* vc, GLfloat* vt, int* idx, int numofv, int numofidx ){
+void DisplayObjectModel::SetVBOData(vertex* vp, vertex* vn,color* vc, uvcoord* vt, GLuint* idx, int numofv, int numofidx ){
+	_indices = idx;
+	_numberOfVertices = numofv;
+	_numberOfIndices = numofidx;
+	
+	_vp = vp ;
+	_vn = vn;
+	_vc = vc;
+	_vt = vt;
 
 }

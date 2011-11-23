@@ -9,6 +9,23 @@
 
 enum seasons {Spring,Summer,Autumn,Winter};
 
+struct vertex{
+	GLfloat x;
+	GLfloat y;
+	GLfloat z;
+};
+struct color{
+	GLfloat r;
+	GLfloat g;
+	GLfloat b;
+	GLfloat a;
+};
+struct uvcoord{
+	GLfloat x;
+	GLfloat y;
+};
+
+
 class DisplayObjectModel :
 	public IDisplayObject
 {
@@ -86,7 +103,7 @@ public:
 	void ShaderDraw();
 	void Initialize2();
 
-	void SetVBOData(GLfloat* vp, GLfloat* vn,GLfloat* vc, GLfloat* vt, int* idx, int numofv, int numofidx );
+	void SetVBOData(vertex* vp, vertex* vn,color* vc, uvcoord* vt, GLuint* idx, int numofv, int numofidx );
 
 	bool	_useShader;
 private:
@@ -98,6 +115,17 @@ private:
 	/* important shader atribute                                                                     */
 	/************************************************************************/
 	GLuint _shaderID;
+
+
+	vertex* _vp;
+	vertex* _vn;
+	color* _vc;
+	uvcoord* _vt;
+
+	GLuint _vpid;
+	GLuint _vnid;
+	GLuint _vcid;
+	GLuint _vtid;
 	
 };
 
