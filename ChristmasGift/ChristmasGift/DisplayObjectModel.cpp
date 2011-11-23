@@ -150,15 +150,15 @@ void DisplayObjectModel::Draw()
 	//glDrawArrays(GL_TRIANGLES,0,_numberOfVertices);//glDrawArrays don't need the index
 	
 	
-// 	if(_useShader){
-// 		glEnableVertexAttribArray(0);
-// 		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(0));
-// 
-// 		glEnableVertexAttribArray(1);
-// 		glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(32));
-// 
-// 		glUseProgram(_shaderID);
-// 	}
+	if(_useShader){
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(0));
+
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(32));
+
+		glUseProgram(_shaderID);
+	}
 
 
 	// work for model from blender
@@ -169,11 +169,11 @@ void DisplayObjectModel::Draw()
 	glDrawElements(GL_TRIANGLE_STRIP, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 	
 
-// 	if(_useShader){
-// 		glUseProgram(NULL);
-// 		glDisableVertexAttribArray(0);
-// 		glDisableVertexAttribArray(1);
-// 	}
+	if(_useShader){
+		glUseProgram(NULL);
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+	}
 	if(_enableCullBack){
 		glDisable(GL_CULL_FACE);
 	}
@@ -343,11 +343,17 @@ void DisplayObjectModel::ShaderDraw(){
 	glEnableClientState(GL_COLOR_ARRAY);
 	glColorPointer(4, GL_FLOAT, sizeof(color),0);
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, _vnid);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glNormalPointer(GL_FLOAT, sizeof(vertex),0);
 
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,0,NULL);
+// 	glEnableVertexAttribArray(0);
+// 	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,NULL);
+// 
+// 	glEnableVertexAttribArray(1);
+// 	glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,0,NULL);
+
+
 
 // 	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 // 	glEnableVertexAttribArray(0);

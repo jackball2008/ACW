@@ -1049,10 +1049,10 @@ void ModelController::AssemblyModelFromFile2(DisplayObjectModel* model, const ch
 
 	}
 
-	delete [] _vertices;
+	/*delete [] _vertices;*/
 
-// 	model->setVertexes((_vertices),(_indices), numofvertex, numofvertex ,texarr,GL_TRIANGLES);
-// 	model->Initialize();
-	model->SetVBOData(vp,vn,vc,vt,(_indices),numofvertex,numofvertex);
-	model->Initialize2();
+	model->setVertexes((_vertices),(_indices), numofvertex, numofvertex ,texarr,GL_TRIANGLES);
+	model->Initialize();
+// 	model->SetVBOData(vp,vn,vc,vt,(_indices),numofvertex,numofvertex);
+// 	model->Initialize2();
 }

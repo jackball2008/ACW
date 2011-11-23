@@ -243,7 +243,7 @@ void ChristmasWindow::OnDisplay()
 		glPushMatrix();
 			glTranslatef(0.0,2.0,0.0);
 			if(_testObject->_useShader){
-				_testObject->ShaderDraw();
+				_testObject->Draw();//ShaderDraw();
 			}else{
 				_testObject->Draw();
 			}
