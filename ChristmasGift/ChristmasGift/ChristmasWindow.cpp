@@ -221,7 +221,7 @@ void ChristmasWindow::OnDisplay()
 		glRotatef(_cameraAngle, 1.0,0.0,0.0);
 		glRotatef(_cameraRotation, 0.0, 1.0, 0.0);
 
-		/*glPushMatrix();*/
+		
 		if(_drawSpotLights){
 			glDisable(GL_LIGHT0);
 			_spotlightRed.apply();
@@ -237,17 +237,11 @@ void ChristmasWindow::OnDisplay()
 			glDisable(GL_LIGHT3);
 			glDisable(GL_LIGHT4);
 		}
-		/*glPopMatrix();*/
+		
 
 		
 		glPushMatrix();
-			glTranslatef(0.0,2.0,0.0);
-			if(_testObject->_useShader){
-				_testObject->Draw();//ShaderDraw();
-			}else{
-				_testObject->Draw();
-			}
-			
+		TestMethod();
 		glPopMatrix();
 
 		glPushMatrix();
@@ -281,12 +275,7 @@ void ChristmasWindow::OnDisplay()
 			}
 		glPopMatrix();
 
-// 		glPushMatrix();
-// 		_green.apply();
-// 		glTranslatef(0.0f,3.0f,0.0f);
-// 		TestMethod();
-// 		glPopMatrix();
-// 		
+
 		glPushMatrix();
 			glTranslatef(0.0f,1.06f,0.0f);
 			if(_fire.working){
@@ -861,10 +850,20 @@ void ChristmasWindow::UpdateShadow(){
 	OnResize(Width(),Height());
 }
 
-/**
-const vec3f _startup(0,1,0);
+
+/*const vec3f _startup(0,1,0);*/
 void ChristmasWindow::TestMethod()
 {
+
+	glTranslatef(0.0,2.0,0.0);
+	if(_testObject->_useShader){
+		_testObject->Draw();//ShaderDraw();
+	}else{
+		_testObject->Draw();
+	}
+
+
+	/**
 	float matrix[16];
 
 	vec3f campos(0,0,_cameraPositionZ);
@@ -907,6 +906,8 @@ void ChristmasWindow::TestMethod()
 	glGetFloatv(GL_MODELVIEW_MATRIX,&matrix2[0]);
 
 	glPopMatrix();
+	*/
+
+
 
 }
-*/

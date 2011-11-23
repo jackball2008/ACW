@@ -103,7 +103,7 @@ private:
 	/* test materials  billboard practices                                                         */
 	/************************************************************************/
 // 	Materials _green;
-// 	void TestMethod();
+ 	void TestMethod();
 	/*GLuint testtexid;*/
 	/************************************************************************/
 	/* reflection stencil buffer control                                                                     */
