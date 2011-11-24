@@ -6,7 +6,7 @@
 #define DRAWREFLECTION
 #define ALLOWSEATCULLFACE1
 
-#define DRAWSEAT1
+#define DRAWSEAT
 
 
 
@@ -620,9 +620,11 @@ void ChristmasWindow::InitialiseShader(){
 	GLuint fid;
 	if(GenerateShaderProgram(_cubeShaderProgramID,vid,fid,"testvertexshader.vert","testfragshader.frag")){
 		printf("generate ok\n");
-// 		glBindAttribLocation(_cubeShaderProgramID,0, "VertexPosition");
-// 		glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
-
+ 		//glBindAttribLocation(_cubeShaderProgramID,0, "VertexPosition");
+ 		//glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
+		int k; 
+		k = glGetAttribLocation(_cubeShaderProgramID,"VertexPosition");
+		k = 0;
 	}
 
 }
@@ -857,9 +859,9 @@ void ChristmasWindow::TestMethod()
 
 	glTranslatef(0.0,2.0,0.0);
 	if(_testObject->_useShader){
-		_testObject->Draw();//ShaderDraw();
+		//_testObject->Draw();//ShaderDraw();
 	}else{
-		_testObject->Draw();
+		//_testObject->Draw();
 	}
 
 
