@@ -766,13 +766,17 @@ GLuint ChristmasWindow::GenerateShaderObject(std::string filename, GLenum shader
 	glGetShaderiv(id, GL_COMPILE_STATUS, &result);
 	if(GL_FALSE == result){
 		printf(" shader compilaion failed!\n ");
-// 		GLuint logLen;
-// 		glGetShaderiv(id,GL_INFO_LOG_LENGTH, &logLen);
-// 		if(logLen>0){
-// 
-// 			printf("rewrite shader log: \n");
-// 
-// 		}
+		GLint logLen;
+		glGetShaderiv(id,GL_INFO_LOG_LENGTH, &logLen);
+		if(logLen>0){
+
+			char* log = (char*)malloc(logLen);
+			GLsizei written;
+			glGetShaderInfoLog(id,logLen,&written,log);
+
+			printf("rewrite shader log: \n%s",log);
+			free(log);
+		}
 	}else{
 		printf("shader compilation right\n");
 	}
