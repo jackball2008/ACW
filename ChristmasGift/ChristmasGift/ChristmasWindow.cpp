@@ -6,7 +6,7 @@
 #define DRAWREFLECTION
 #define ALLOWSEATCULLFACE1
 
-#define DRAWSEAT
+#define DRAWSEAT1
 
 
 
@@ -618,13 +618,15 @@ void ChristmasWindow::InitialiseShader(){
 	//init cube shader
 	GLuint vid;
 	GLuint fid;
-	if(GenerateShaderProgram(_cubeShaderProgramID,vid,fid,"testvertexshader.vert","testfragshader.frag")){
+	if(GenerateShaderProgram(_cubeShaderProgramID,vid,fid,"testvertexshader.glsl","testfragshader.glsl")){
 		printf("generate ok\n");
- 		//glBindAttribLocation(_cubeShaderProgramID,0, "VertexPosition");
- 		//glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
+		glBindAttribLocation(_cubeShaderProgramID,0, "VertexPosition");
+		glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
 		int k; 
 		k = glGetAttribLocation(_cubeShaderProgramID,"VertexPosition");
 		k = 0;
+	}else{
+		printf("generate failed!\n");
 	}
 
 }
@@ -657,8 +659,8 @@ void ChristmasWindow::LoadShaders(){
 		vertexShaderID = GenerateShaderObject("testvertexshader.vert", GL_VERTEX_SHADER);
 		fragmentShaderID = GenerateShaderObject("testfragshader.frag", GL_FRAGMENT_SHADER);
 
-		glAttachShader(_cubeShaderProgramID, vertexShaderID);
-		glAttachShader(_cubeShaderProgramID, fragmentShaderID);
+// 		glAttachShader(_cubeShaderProgramID, vertexShaderID);
+// 		glAttachShader(_cubeShaderProgramID, fragmentShaderID);
 
 		glLinkProgram(_cubeShaderProgramID);
 
@@ -859,9 +861,9 @@ void ChristmasWindow::TestMethod()
 
 	glTranslatef(0.0,2.0,0.0);
 	if(_testObject->_useShader){
-		//_testObject->Draw();//ShaderDraw();
+		_testObject->Draw();//ShaderDraw();
 	}else{
-		//_testObject->Draw();
+		_testObject->Draw();
 	}
 
 
