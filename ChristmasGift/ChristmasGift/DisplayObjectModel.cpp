@@ -154,7 +154,7 @@ void DisplayObjectModel::Draw()
 // 		glEnableVertexAttribArray(1);
 // 		glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(32));
 
-		glUseProgram(_shaderID);
+/*		glUseProgram(_shaderID);*/
 	}
 
 
@@ -167,7 +167,7 @@ void DisplayObjectModel::Draw()
 	
 
 	if(_useShader){
-		glUseProgram(NULL);
+/*		glUseProgram(NULL);*/
 /* 		glDisableVertexAttribArray(0);*/
 // 		glDisableVertexAttribArray(1);
 	}

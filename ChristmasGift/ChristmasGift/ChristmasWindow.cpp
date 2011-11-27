@@ -541,7 +541,7 @@ void ChristmasWindow::InitialiseModels(){
 	/************************************************************************/
 	/* start to create model in this scene                                   */
 	/************************************************************************/
-	_house = new DisplayObjectModel();
+	_house = new House();
 	_house->setRenderTexture(true);
 	_house->setRenderMaterials(false);
 	modelController->AssemblyModelFromFile(_house,"House2.mxy",modelController->_textures[0]);
@@ -555,7 +555,7 @@ void ChristmasWindow::InitialiseModels(){
 	/************************************************************************/
 #ifdef DRAWSEAT
 
-	_seat = new DisplayObjectModel();
+	_seat = new Seat();
 	_seat->setRenderTexture(true);
 	_seat->setRenderMaterials(false);
 	modelController->AssemblyModelFromFile(_seat,"ground.mxy",modelController->_textures[2]);
@@ -571,7 +571,7 @@ void ChristmasWindow::InitialiseModels(){
 	/************************************************************************/
 	/* glass ball                                                                     */
 	/************************************************************************/
-	_ball = new DisplayObjectModel();
+	_ball = new Ball();
 	_ball->setEnableTransparency(true);
 	_ball->setRenderTexture(false);
 	_ball->setRenderMaterials(false);
@@ -582,7 +582,7 @@ void ChristmasWindow::InitialiseModels(){
 	/************************************************************************/
 	/* water pool                                                                     */
 	/************************************************************************/
-	_pool = new DisplayObjectModel();
+	_pool = new Pool();
 	_pool->setRenderTexture(false);
 	_pool->setRenderMaterials(false);
 	_pool->setEnableTransparency(true);
@@ -874,9 +874,9 @@ void ChristmasWindow::TestMethod()
 
 	glTranslatef(0.0,2.0,0.0);
 	if(_testObject->_useShader){
-		_testObject->Draw();//ShaderDraw();
+		//_testObject->Draw();
 	}else{
-		_testObject->Draw();
+		//_testObject->Draw();
 	}
 
 

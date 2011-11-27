@@ -22,6 +22,11 @@
 #include "SnowFlakeParticles.h"
 #include "FireParticles.h"
 
+#include "House.h"
+#include "Seat.h"
+#include "Ball.h"
+#include "Pool.h"
+
 // #include "glm/glm.hpp"
 // using glm::mat4;
 // using glm::vec3;
