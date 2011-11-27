@@ -2,7 +2,7 @@
 
 #define USEVBOEX1
 
-DisplayObjectModel::DisplayObjectModel(void):_useShader(false),_enableCullBack(false),_enableCullFront(false),_currentSeason(Spring)
+DisplayObjectModel::DisplayObjectModel(void):useShader(false),_enableCullBack(false),_enableCullFront(false),currentSeason(Spring)
 {
 	glex::Load();
 
@@ -147,7 +147,7 @@ void DisplayObjectModel::Draw()
 	/* shader start                                                           */
 	/************************************************************************/
 	
-	if(_useShader){
+	if(useShader){
 // 		glEnableVertexAttribArray(0);
 // 		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(0));
 // 
@@ -166,7 +166,7 @@ void DisplayObjectModel::Draw()
 	glDrawElements(GL_TRIANGLE_STRIP, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 	
 
-	if(_useShader){
+	if(useShader){
 /*		glUseProgram(NULL);*/
 /* 		glDisableVertexAttribArray(0);*/
 // 		glDisableVertexAttribArray(1);
@@ -248,10 +248,10 @@ void DisplayObjectModel::setEnableCullBack(bool v){
 }
 
 void DisplayObjectModel::setEnableShaderProgram(bool b){
-	_useShader = b;
+	useShader = b;
 }
 void DisplayObjectModel::setShaderProgramID(GLuint id){
-	if(_useShader){
+	if(useShader){
 		_shaderID = id;
 		glBindAttribLocation(_shaderID, 0, "VertexPosition");
 		glBindAttribLocation(_shaderID, 1,"VertexColor");

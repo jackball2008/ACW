@@ -6,39 +6,27 @@
 #include <sstream>
 
 #include "GXBase.h"
-#include "ModelController.h"
+
 #include "DisplayObjectModel.h"
 
-
+#include "ModelController.h"
 #include "Light.h"
 #include "Materials.h"
 
 #include "ChristmasTree.h"
 #include "Sphere.h"
-#include "Particles.h"
-#include "BasicParticles.h"
-#include "PointPaticles.h"
-#include "SmokeParticles.h"
-#include "SnowFlakeParticles.h"
-#include "FireParticles.h"
-
 #include "House.h"
 #include "Seat.h"
 #include "Ball.h"
 #include "Pool.h"
 
-// #include "glm/glm.hpp"
-// using glm::mat4;
-// using glm::vec3;
-// #include "glm/gtc/matrix_transform.hpp"
+#include "SmokeParticles.h"
+#include "SnowFlakeParticles.h"
+#include "FireParticles.h"
+
 
 using namespace gxbase;
 
-
-
-
-
-#define USESHADER
 
 class ChristmasWindow: public GLWindowEx
 {
@@ -129,10 +117,10 @@ private:
 	/************************************************************************/
 	/* shadow map         not work now                           */
 	/************************************************************************/
-	GLuint _shadow;
-	Vector4f _shadowPlanepos;
-	const Vector4f _PS, _PT, _PR, _PQ;
-	bool _switch;
+// 	GLuint _shadow;
+// 	Vector4f _shadowPlanepos;
+// 	const Vector4f _PS, _PT, _PR, _PQ;
+// 	bool _switch;
 	/************************************************************************/
 	/* display object                                                                     */
 	/************************************************************************/
@@ -163,8 +151,10 @@ private:
 	bool   _bMultitex;		// using multitexturing?
 
 	/************************************************************************/
-	/*                                                                      */
+	/*  tree roate                                             */
 	/************************************************************************/
-	
+	bool _treeCrash;
+	float _treeangle;
+	const float _treeangleInc;
 };
 

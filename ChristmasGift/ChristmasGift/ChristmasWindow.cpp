@@ -2,19 +2,17 @@
 
 #define SEASONLENGTH 3*30*24*60*60
 
-#define USECASTSHADOW1
+
 #define DRAWREFLECTION
 #define ALLOWSEATCULLFACE1
 
 #define DRAWSEAT1
 
 
-
-
-const Vector4f _PS = Vector4f(1.0f,0.0f,0.0f,0.0f);
-const Vector4f _PT = Vector4f(0.0f,1.0f,0.0f,0.0f);
-const Vector4f _PR = Vector4f(0.0f,0.0f,1.0f,0.0f);
-const Vector4f _PQ = Vector4f(0.0f,0.0f,0.0f,1.0f);
+// const Vector4f _PS = Vector4f(1.0f,0.0f,0.0f,0.0f);
+// const Vector4f _PT = Vector4f(0.0f,1.0f,0.0f,0.0f);
+// const Vector4f _PR = Vector4f(0.0f,0.0f,1.0f,0.0f);
+// const Vector4f _PQ = Vector4f(0.0f,0.0f,0.0f,1.0f);
 
 /*(0.64,1.0,0.51*/
 const float pool_pos_x = 0.55;
@@ -36,14 +34,15 @@ const float tree_scal_y = 0.2;
 const float tree_scal_z = 0.2;
 
 
-ChristmasWindow::ChristmasWindow(void) :_loadStencilBuffer(true),_drawSpotLights(false),_bMultitex(false) ,_bHaveMultitex(false) ,_angleInc(30),_currentSeason(Spring),_timerCounter(0),_timeDecFactor(1)/*,_seasonCounter(0)*/
+ChristmasWindow::ChristmasWindow(void) :_treeangleInc(10),_loadStencilBuffer(true),_drawSpotLights(false),_bMultitex(false) ,_bHaveMultitex(false) ,_angleInc(30),_currentSeason(Spring),_timerCounter(0),_timeDecFactor(1)/*,_seasonCounter(0)*/
 {
 	SetSize(512,512);
 	SetDepthBits(24);
 	SetTitle("Christmas Gift From Xiaoyu Ma");
-	
-	_switch = false;
 	_angle = 0.0f;
+
+	_treeCrash = false;
+	_treeangle = 0.0;
 }
 
 
@@ -98,14 +97,6 @@ void ChristmasWindow::OnCreate()
 
 	/*_green.create(Color::black(), Color::green());*/
 
-#ifdef USECASTSHADOW
-	glActiveTextureARB(GL_TEXTURE0_ARB);
-	/************************************************************************/
-	/* use mutil textue, purpose for shadow                                 */
-	/************************************************************************/	
-	_shadowPlanepos.Assign(0.0f,3.3f,0.0f,1.0f);
-	InitialiseShadow();
-#endif
 
 }
 
@@ -125,22 +116,24 @@ void ChristmasWindow::OnUpdate(){
 		_tree->Update(deltaTime);
 		_timerCounter = 0;
 	}
-	if(Spring == _tree->_currentSeason){
+	if(Spring == _tree->currentSeason){
 		_currentSeason = Spring;
 	}
-	if(Summer == _tree->_currentSeason){
+	if(Summer == _tree->currentSeason){
 		_currentSeason = Summer;
 	}
 
-	if(Autumn == _tree->_currentSeason){
+	if(Autumn == _tree->currentSeason){
 		_currentSeason = Autumn;
+		_treeCrash = true;
 	}
 
-	if(Winter == _tree->_currentSeason){
+	if(Winter == _tree->currentSeason){
 		_currentSeason = Winter;
+		_tree->currentSeason = Spring;
+		_tree->TreeState = GROWING;
+		_tree->reset();
 	}
-
-
 
 	/************************************************************************/
 	/* update particles                                                                     */
@@ -150,16 +143,25 @@ void ChristmasWindow::OnUpdate(){
 	_fire.Update(deltaTime);
 
 	/************************************************************************/
-	/* update light rotate angle                                                                     */
+	/* update light spirce rotate angle                                                                     */
 	/************************************************************************/
 	_angle += _angleInc * deltaTime;
 	if(_angle > 360.0f) 
 		_angle -=360.0f;
-
-
-#ifdef USECASTSHADOW
-	UpdateShadow();
-#endif
+	/************************************************************************/
+	/* tree angle                                                                     */
+	/************************************************************************/
+	if(_treeCrash){
+		_treeangle += _treeangleInc * deltaTime;
+		if(_treeangle > 90){
+			_treeangle = 0;
+			_treeCrash = false;
+			_tree->currentSeason = Winter;
+			
+		}
+	}
+	
+		
 }
 
 
@@ -301,28 +303,11 @@ void ChristmasWindow::OnDisplay()
 		glPushMatrix();
 			glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
 			glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
+			glRotatef(_treeangle,0,0,1);
 			_tree->Draw();
 		glPopMatrix();
 
-#ifdef	USECASTSHADOW 
 
-		glActiveTextureARB(GL_TEXTURE1_ARB);
-		glBindTexture(GL_TEXTURE_2D, _shadow);
-		glTexGenfv(GL_S, GL_EYE_PLANE, _PS.xyzw());
-		glTexGenfv(GL_T, GL_EYE_PLANE, _PT.xyzw());
-		glTexGenfv(GL_R, GL_EYE_PLANE, _PR.xyzw());
-		glTexGenfv(GL_Q, GL_EYE_PLANE, _PQ.xyzw());
-		glEnable(GL_TEXTURE_2D);
-
-		glMatrixMode(GL_TEXTURE);
-		glPopMatrix();
-		glPushMatrix();
-		gluLookAt(_sunLight[0], _sunLight[1], _sunLight[2], _shadowPlanepos[0], _shadowPlanepos[1], _shadowPlanepos[2], 0.0f, 1.0f, 0.0f); 
-		glMatrixMode(GL_MODELVIEW);
-		glActiveTextureARB(GL_TEXTURE0_ARB);
-		glEnable(GL_TEXTURE_2D);
-
-#endif
 
 		// 		glUseProgram(_shaderProgramID);
 		// 		glUseProgram(0);	
@@ -564,7 +549,7 @@ void ChristmasWindow::InitialiseModels(){
 	/* tree                                                                     */
 	/************************************************************************/
 	_tree = new ChristmasTree();
-	_tree->setTreeParameter();
+	/*_tree->setTreeParameter();*/
 	_tree->Initialize();
 
 
@@ -797,74 +782,14 @@ GLuint ChristmasWindow::GenerateShaderObject(std::string filename, GLenum shader
 /* initialize shadow                                                                     */
 /************************************************************************/
 void ChristmasWindow::InitialiseShadow(){
-	glGenTextures(1,&_shadow);
-	glActiveTextureARB(GL_TEXTURE1_ARB);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, _shadow);
-	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, 0, 0, 512, 512, 0);
-
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	// enter texture stack
-	glMatrixMode(GL_TEXTURE);
-	glLoadIdentity();
-	glTranslatef(0.5f, 0.5f, 0.0f);
-	glScalef(0.5f, 0.5f, 1.0f);
-	gluPerspective(60.0f, 1.0f, 0.01f, 10.0f);
-	glPushMatrix();
-	// leave texture stack
-	glMatrixMode(GL_MODELVIEW);
-	glEnable(GL_TEXTURE_GEN_S);
-	glEnable(GL_TEXTURE_GEN_T);
-	glEnable(GL_TEXTURE_GEN_R);
-	glEnable(GL_TEXTURE_GEN_Q);
-	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-	glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-	glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-	glTexGeni(GL_Q, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
-	glDisable(GL_TEXTURE_2D);
+	
 
 }
 /************************************************************************/
 /* update shadow                                                                     */
 /************************************************************************/
 void ChristmasWindow::UpdateShadow(){
-	glActiveTextureARB(GL_TEXTURE1_ARB);
-	glViewport(0,0,512,512);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(60.0f,1.0f, 0.01f, 10.0f);
-	glMatrixMode(GL_MODELVIEW);
-
-	glDisable(GL_LIGHTING);
-	glColor3f(0.5f,0.5f,0.5f);//gray
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glPushMatrix();
-	gluLookAt(_sunLight[0], _sunLight[1], _sunLight[2], _shadowPlanepos[0], _shadowPlanepos[1], _shadowPlanepos[2], 0.0f, 1.0f, 0.0f); 
-	glTranslatef(_shadowPlanepos[0],_shadowPlanepos[1],_shadowPlanepos[2]);
-
-	glDisable(GL_CULL_FACE);
-
-	_house->Draw();
-
-	glEnable(GL_CULL_FACE);
-
-	glPopMatrix();
-
-	glBindTexture(GL_TEXTURE_2D, _shadow);
-	glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, 512, 512);
-
-	// start lights again
-	glEnable(GL_LIGHTING);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-	OnResize(Width(),Height());
+	
 }
 
 
@@ -873,7 +798,7 @@ void ChristmasWindow::TestMethod()
 {
 
 	glTranslatef(0.0,2.0,0.0);
-	if(_testObject->_useShader){
+	if(_testObject->useShader){
 		//_testObject->Draw();
 	}else{
 		//_testObject->Draw();

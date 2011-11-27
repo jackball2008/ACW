@@ -96,8 +96,8 @@ private:
 	/************************************************************************/
 	int VBO_BUILD_OR_FLUSH_FLAG;
 	bool FLUSH_TRUNK_OR_LEAF_FLAG;
-	float FLUSHTRUNKVBOCOUNT;
-	float FLUSHLEAFVBOCOUNT;
+	int FLUSHTRUNKVBOCOUNT;
+	int FLUSHLEAFVBOCOUNT;
 
 public:
 	ChristmasTree(void);
@@ -105,7 +105,7 @@ public:
 	/************************************************************************/
 	/* status control                                                                     */
 	/************************************************************************/
-	treestatus _TreeState;
+	treestatus TreeState;
 	bool _canRandom;
 	float randfPosFrom0To1();
 	float randfFromF1To1();
@@ -161,6 +161,8 @@ public:
 	void setBranchIterationCount( int gen) { _standard_branchIterationCounts = _globalIterationCount = gen; }
 	void setBranchIterationDecay( float r) { _standard_IterationDecay = _branchIterationDecay = r; }
 	void setMinNoBranches( int n ){ _number_of_segment_no_branches = n; };
+
+	void reset();
 
 };
 

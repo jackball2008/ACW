@@ -36,7 +36,7 @@ public:
 	/************************************************************************/
 	/* logic                                                                     */
 	/************************************************************************/
-	seasons _currentSeason;
+	seasons currentSeason;
 	//////////////////////////////////////////////////////////////////////////
 	GLuint _vboID;
 
@@ -44,8 +44,6 @@ public:
 	GLuint _vaoID;
 
 	
-
-
 	bool _renderTextures;
 	bool _renderMaterials;
 	bool _enableTransparency;
@@ -100,12 +98,14 @@ public:
 	virtual void setEnableShaderProgram(bool b);
 	virtual void setShaderProgramID(GLuint id);
 
+	/************************************************************************/
+	/* For Test                                                                     */
+	/************************************************************************/
 	void ShaderDraw();
 	void Initialize2();
-
 	void SetVBOData(vertex* vp, vertex* vn,color* vc, uvcoord* vt, GLuint* idx, int numofv, int numofidx );
-
-	bool	_useShader;
+	//////////////////////////////////////////////////////////////////////////
+	bool	useShader;
 private:
 	float _colorapalha;
 	bool _enableCullFront;
