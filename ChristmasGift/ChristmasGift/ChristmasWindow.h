@@ -19,6 +19,7 @@
 #include "Seat.h"
 #include "Ball.h"
 #include "Pool.h"
+#include "TestCube.h"
 
 #include "SmokeParticles.h"
 #include "SnowFlakeParticles.h"
@@ -59,7 +60,7 @@ public:
 	void LoadShaders();
 	GLuint GenerateShaderObject(std::string filename, GLenum shaderType);
 	void CheckShaderEnvironment();
-	bool GenerateShaderProgram(GLuint &programID, GLuint &vID, GLuint &fID, char* vPath, char* fPath);
+	bool GenerateShaderProgram(GLuint &programID, char* vPath, char* fPath);
 
 	/************************************************************************/
 	/* reflection                                                                     */
@@ -77,15 +78,26 @@ public:
 
 	void InitialiseShader();
 
+	bool keepStatyIn(int a);
+	int stayCounter;
 
 	
 private:
 	ModelController* modelController;
 
 	/************************************************************************/
-	/* shader                                                                     */
+	/* shader ID                                                                  */
 	/************************************************************************/
 	GLuint _cubeShaderProgramID;
+
+	GLuint _HouseBodyProgramID;
+	GLuint _HouseRoofProgramID;
+	GLuint _TreeProgramID;
+	GLuint _PoolProgramID;
+	GLuint _ballProgramID;
+	GLuint _FireParticleProgramID;
+	GLuint _SmokeParticleProgramID;
+	GLuint _SnowflakeParticleProgramID;
 	/************************************************************************/
 	/* particles                                                                     */
 	/************************************************************************/

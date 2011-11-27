@@ -36,7 +36,7 @@ public:
 	/************************************************************************/
 	/* logic                                                                     */
 	/************************************************************************/
-	seasons currentSeason;
+	/*seasons currentSeason;*/
 	//////////////////////////////////////////////////////////////////////////
 	GLuint _vboID;
 
@@ -47,7 +47,9 @@ public:
 	bool _renderTextures;
 	bool _renderMaterials;
 	bool _enableTransparency;
-	
+	float _colorapalha;
+	bool _enableCullFront;
+	bool _enableCullBack;
 
 
 	int _numberOfVertices;
@@ -107,9 +109,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	bool	useShader;
 private:
-	float _colorapalha;
-	bool _enableCullFront;
-	bool _enableCullBack;
+	
 
 	/************************************************************************/
 	/* important shader atribute                                                                     */

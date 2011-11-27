@@ -43,6 +43,7 @@ ChristmasWindow::ChristmasWindow(void) :_treeangleInc(10),_loadStencilBuffer(tru
 
 	_treeCrash = false;
 	_treeangle = 0.0;
+	stayCounter = 0;
 }
 
 
@@ -108,32 +109,21 @@ void ChristmasWindow::OnCreate()
 /************************************************************************/
 /* update function                                                                     */
 /************************************************************************/
+bool ChristmasWindow::keepStatyIn(int a){
+	stayCounter++;
+	if(stayCounter >= a){
+		stayCounter = 0;
+		return true;
+	}
+	else{
+		return false;
+	}
+}
 void ChristmasWindow::OnUpdate(){
 	float deltaTime = (float)App::GetDeltaTime();
 	_timerCounter = _timerCounter + deltaTime;
-	/*_seasonCounter++;*/
-	if(_timerCounter>= SEASONLENGTH*_timeDecFactor){
-		_tree->Update(deltaTime);
-		_timerCounter = 0;
-	}
-	if(Spring == _tree->currentSeason){
-		_currentSeason = Spring;
-	}
-	if(Summer == _tree->currentSeason){
-		_currentSeason = Summer;
-	}
-
-	if(Autumn == _tree->currentSeason){
-		_currentSeason = Autumn;
-		_treeCrash = true;
-	}
-
-	if(Winter == _tree->currentSeason){
-		_currentSeason = Winter;
-		_tree->currentSeason = Spring;
-		_tree->TreeState = GROWING;
-		_tree->reset();
-	}
+	
+	
 
 	/************************************************************************/
 	/* update particles                                                                     */
@@ -156,12 +146,111 @@ void ChristmasWindow::OnUpdate(){
 		if(_treeangle > 90){
 			_treeangle = 0;
 			_treeCrash = false;
-			_tree->currentSeason = Winter;
-			
+			/*_tree->currentSeason = Winter;*/
+			_tree->TreeState = TREEDOWNEND;
 		}
 	}
-	
+	if(_timerCounter>= SEASONLENGTH*_timeDecFactor){
+		_tree->Update(deltaTime);
+		_timerCounter = 0;
+	}
+	if(Spring == _currentSeason ){
+		if(START == _tree->TreeState){
+			_tree->TreeState = GROWING;
+		}
 		
+		if( _tree->TreeState == SYNCLIVE  ){
+			_currentSeason = Summer;
+			
+		}
+
+	}
+	
+	if(Summer ==  _currentSeason){
+		if(SYNCLIVE == _tree->TreeState){
+			_tree->TreeState = LEAFGROWING;
+		}
+		
+		if(LEAFGROWING == _tree->TreeState ){
+			//cout<<"lging"<<endl;
+		}
+		if( LEAFGROWEND == _tree->TreeState ){
+ 			_currentSeason = Autumn;
+
+		}
+
+	}
+	
+	if( Autumn == _currentSeason){
+		if(LEAFGROWEND == _tree->TreeState){
+			_tree->TreeState = LEAFDOWN;
+		}
+		
+		if( LEAFDOWN ==  _tree->TreeState){
+			
+			/*std::cout<<"ww"<<std::endl;*/
+		}
+		if( LEAFDOWNEND == _tree->TreeState){
+			//cout<<"lging"<<endl;
+			_currentSeason = Winter;
+		}
+
+		
+	}
+	
+	if(Winter == _currentSeason ){
+		if(LEAFDOWNEND == _tree->TreeState){
+			_tree->TreeState = FIREING;
+		}
+
+		if(FIREING == _tree->TreeState){
+
+		}
+
+		if(FIREEND == _tree->TreeState){
+
+			_tree->TreeState = TREEDOWNING;
+		}
+		
+		if(TREEDOWNING == _tree->TreeState){
+			_treeCrash = true;
+		}
+		if( TREEDOWNEND == _tree->TreeState){
+			/*_currentSeason = Winter;*/
+			
+			_tree->reset();
+			_tree->TreeState = START;
+			_currentSeason = Spring;
+
+		}
+
+		
+	}
+	
+
+	/**
+	if(Spring == _tree->currentSeason){
+		_currentSeason = Spring;
+	}
+	if(Summer == _tree->currentSeason){
+		_currentSeason = Summer;
+	}
+
+	if(Autumn == _tree->currentSeason){
+		_currentSeason = Autumn;
+		_treeCrash = true;
+		//flash lighting
+		//fire on the tree
+		//down leaf
+	}
+
+	if(Winter == _tree->currentSeason){
+		_currentSeason = Winter;
+		_tree->currentSeason = Spring;
+		_tree->TreeState = GROWING;
+		_tree->reset();
+	}
+	*/
 }
 
 
@@ -196,7 +285,7 @@ void ChristmasWindow::DrawReflection()
 	glScalef(1.0, -1.0, 1.0);	
 	glTranslatef(tree_pos_x,-tree_pos_y,tree_pos_z);
  	glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
-
+	glRotatef(_treeangle,0,0,1);
 	// and front faces become back faces and visa-versa
 	glCullFace(GL_FRONT);
 
@@ -458,11 +547,6 @@ void ChristmasWindow::OnMouseButton(MouseButton button, bool down) {
 
 
 
-
-
-
-
-
 void ChristmasWindow::DrawSporLights(){
 	_spotlightRed.setPosition(Vector4f(0,8,0,1.0f));
 	_spotlightRed.setDirection(Vector4f(1.0f,-4.0f,0.0f,0.0f));
@@ -523,6 +607,14 @@ void ChristmasWindow::InitialiseModels(){
 	/* load texture together                                                */
 	/************************************************************************/
 	modelController->LoadTexture();
+
+	/************************************************************************/
+	/* test                                                                     */
+	/************************************************************************/
+	_testObject = new TestCube();
+	_testObject->setEnableShaderProgram(true);
+	_testObject->setShaderProgramID(_cubeShaderProgramID);
+	modelController->AssemblyModelFromFile2(_testObject,"cube.mxy",modelController->_textures[0]);
 	/************************************************************************/
 	/* start to create model in this scene                                   */
 	/************************************************************************/
@@ -531,10 +623,7 @@ void ChristmasWindow::InitialiseModels(){
 	_house->setRenderMaterials(false);
 	modelController->AssemblyModelFromFile(_house,"House2.mxy",modelController->_textures[0]);
 
-	_testObject = new DisplayObjectModel();
-	_testObject->setEnableShaderProgram(true);
-	_testObject->setShaderProgramID(_cubeShaderProgramID);
-	modelController->AssemblyModelFromFile2(_testObject,"cube.mxy",modelController->_textures[0]);
+	
 	/************************************************************************/
 	/* seat                                                                     */
 	/************************************************************************/
@@ -601,11 +690,9 @@ void ChristmasWindow::InitialiseShader(){
 
 	CheckShaderEnvironment();
 	//init cube shader
-	GLuint vid;
-	GLuint fid;
-	if(GenerateShaderProgram(_cubeShaderProgramID,vid,fid,"studyvertexshader1.glsl"/*"testvertexshader.glsl"*/,"studyfragshader1.glsl"/*"testfragshader.glsl"*/)){
+	if(GenerateShaderProgram(_cubeShaderProgramID,"studyvertexshader1.glsl","studyfragshader1.glsl")){
 		printf("generate ok\n");
-		glBindAttribLocation(_cubeShaderProgramID,0, "MCVertex");
+/*		glBindAttribLocation(_cubeShaderProgramID,0, "MCVertex");*/
 // 		glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
 // 		glBindAttribLocation(_cubeShaderProgramID,2, "Testfloat0");
 // 		glBindAttribLocation(_cubeShaderProgramID,3, "Testfloat1");
@@ -619,6 +706,9 @@ void ChristmasWindow::InitialiseShader(){
 	}else{
 		printf("generate failed!\n");
 	}
+
+
+
 
 }
 /************************************************************************/
@@ -662,9 +752,10 @@ void ChristmasWindow::LoadShaders(){
 	}
 }
 
-bool ChristmasWindow::GenerateShaderProgram(GLuint &programID, GLuint &vID, GLuint &fID, char* vPath, char* fPath){
+bool ChristmasWindow::GenerateShaderProgram(GLuint &programID, char* vPath, char* fPath){
 	programID = glCreateProgram();
-
+	GLuint vID;
+	GLuint fID;
 	try
 	{
 		vID = GenerateShaderObject(vPath, GL_VERTEX_SHADER);

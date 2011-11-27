@@ -2,7 +2,7 @@
 
 #define USEVBOEX1
 
-DisplayObjectModel::DisplayObjectModel(void):useShader(false),_enableCullBack(false),_enableCullFront(false),currentSeason(Spring)
+DisplayObjectModel::DisplayObjectModel(void):useShader(false),_enableCullBack(false),_enableCullFront(false)/*,currentSeason(Spring)*/
 {
 	glex::Load();
 
@@ -147,7 +147,7 @@ void DisplayObjectModel::Draw()
 	/* shader start                                                           */
 	/************************************************************************/
 	
-	if(useShader){
+/*	if(useShader){*/
 // 		glEnableVertexAttribArray(0);
 // 		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(0));
 // 
@@ -155,7 +155,7 @@ void DisplayObjectModel::Draw()
 // 		glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(32));
 
 /*		glUseProgram(_shaderID);*/
-	}
+/*	}*/
 
 
 	// work for model from blender
@@ -166,11 +166,11 @@ void DisplayObjectModel::Draw()
 	glDrawElements(GL_TRIANGLE_STRIP, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 	
 
-	if(useShader){
+/*	if(useShader){*/
 /*		glUseProgram(NULL);*/
 /* 		glDisableVertexAttribArray(0);*/
 // 		glDisableVertexAttribArray(1);
-	}
+/*	}*/
 	/************************************************************************/
 	/* shader end                                                                     */
 	/************************************************************************/
@@ -201,9 +201,7 @@ void DisplayObjectModel::Draw()
 }
 
 
-// void DisplayObjectModel::setTreeParameter(){
-// 
-// }
+
 
 
 void DisplayObjectModel::setRenderTexture(bool v){
@@ -253,8 +251,6 @@ void DisplayObjectModel::setEnableShaderProgram(bool b){
 void DisplayObjectModel::setShaderProgramID(GLuint id){
 	if(useShader){
 		_shaderID = id;
-		glBindAttribLocation(_shaderID, 0, "VertexPosition");
-		glBindAttribLocation(_shaderID, 1,"VertexColor");
 	}
 }
 

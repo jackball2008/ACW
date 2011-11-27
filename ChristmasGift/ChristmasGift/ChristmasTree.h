@@ -12,7 +12,7 @@ typedef mxy::vec3<float> vec3f;
 
 using std::vector;
 
-enum treestatus {GROWING,STOPGROWING,SYNCLIVE};
+enum treestatus {START,GROWING,STOPGROWING,SYNCLIVE,LEAFGROWING,LEAFGROWEND,LEAFDOWN,LEAFDOWNEND,FIREING,FIREEND,TREEDOWNING,TREEDOWNEND};
 
 #define VERTEXSIZEPERINTRUNK 6
 #define VERTEXSIZEPERINLEAF	8
@@ -39,7 +39,6 @@ private:
 	/************************************************************************/
 	vector<float> _leafVertices;
 	vector<GLuint> _leafIndices;
-	/*vector<Vertex> _leafVertex;*/
 	GLuint _leafVBO;
 
 	//
@@ -163,6 +162,6 @@ public:
 	void setMinNoBranches( int n ){ _number_of_segment_no_branches = n; };
 
 	void reset();
-
+	void downUpdateTreeGrowing();
 };
 
