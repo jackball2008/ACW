@@ -4,6 +4,10 @@
 
 in vec3 VertexPosition;
 in vec4 VertexColor;
+in vec4 Testfloat0;
+in vec4 Testfloat1;
+in vec4 Testfloat2;
+
 out vec4 Color;
 
 void main()

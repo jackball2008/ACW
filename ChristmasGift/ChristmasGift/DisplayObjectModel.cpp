@@ -144,15 +144,15 @@ void DisplayObjectModel::Draw()
 
 	
 	/************************************************************************/
-	/* shader                                                                     */
+	/* shader start                                                           */
 	/************************************************************************/
 	
 	if(_useShader){
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(0));
-
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(32));
+// 		glEnableVertexAttribArray(0);
+// 		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(0));
+// 
+// 		glEnableVertexAttribArray(1);
+// 		glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,sizeof(Vertex), BUFFER_OFFSET(32));
 
 		glUseProgram(_shaderID);
 	}
@@ -168,9 +168,12 @@ void DisplayObjectModel::Draw()
 
 	if(_useShader){
 		glUseProgram(NULL);
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
+/* 		glDisableVertexAttribArray(0);*/
+// 		glDisableVertexAttribArray(1);
 	}
+	/************************************************************************/
+	/* shader end                                                                     */
+	/************************************************************************/
 	if(_enableCullBack){
 		glDisable(GL_CULL_FACE);
 	}

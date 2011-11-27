@@ -618,13 +618,19 @@ void ChristmasWindow::InitialiseShader(){
 	//init cube shader
 	GLuint vid;
 	GLuint fid;
-	if(GenerateShaderProgram(_cubeShaderProgramID,vid,fid,"testvertexshader.glsl","testfragshader.glsl")){
+	if(GenerateShaderProgram(_cubeShaderProgramID,vid,fid,"studyvertexshader1.glsl"/*"testvertexshader.glsl"*/,"studyfragshader1.glsl"/*"testfragshader.glsl"*/)){
 		printf("generate ok\n");
-		glBindAttribLocation(_cubeShaderProgramID,0, "VertexPosition");
-		glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
-		int k; 
-		k = glGetAttribLocation(_cubeShaderProgramID,"VertexPosition");
-		k = 0;
+		glBindAttribLocation(_cubeShaderProgramID,0, "MCVertex");
+// 		glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
+// 		glBindAttribLocation(_cubeShaderProgramID,2, "Testfloat0");
+// 		glBindAttribLocation(_cubeShaderProgramID,3, "Testfloat1");
+// 		glBindAttribLocation(_cubeShaderProgramID,4, "Testfloat2");
+		
+		
+// 		int k = glGetAttribLocation(_cubeShaderProgramID,"Testfloat2");
+// 		k = 0;
+		
+		
 	}else{
 		printf("generate failed!\n");
 	}
@@ -682,6 +688,11 @@ bool ChristmasWindow::GenerateShaderProgram(GLuint &programID, GLuint &vID, GLui
 		glAttachShader(programID, vID);
 		glAttachShader(programID, fID);
 
+// 		glBindAttribLocation(_cubeShaderProgramID,0, "VertexPosition");
+// 		glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
+// 		glBindAttribLocation(_cubeShaderProgramID,2, "Testfloat0");
+// 		glBindAttribLocation(_cubeShaderProgramID,3, "Testfloat1");
+// 		glBindAttribLocation(_cubeShaderProgramID,4, "Testfloat2");
 		/*glBindFragDataLocation(programID,0,"FragColor");*/
 
 		glLinkProgram(programID);
@@ -704,8 +715,6 @@ bool ChristmasWindow::GenerateShaderProgram(GLuint &programID, GLuint &vID, GLui
 			location = glGetAttribLocation(programID, name);
 		}
 		free(name);
-
-
 	}
 	catch(exception& e)
 	{
