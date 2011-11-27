@@ -95,7 +95,7 @@ void ChristmasTree::Initialize(){
 void ChristmasTree::Draw(){
 	drawTrunks();
 	/*if(currentSeason != Spring)*/
-	//if(LEAFGROWING == TreeState || LEAFGROWEND== TreeState|| LEAFDOWN== TreeState|| LEAFDOWNEND == TreeState)
+	if(LEAFGROWING == TreeState || LEAFGROWEND== TreeState|| LEAFDOWN== TreeState|| LEAFDOWNEND == TreeState)
 	drawLeaf();
 }
 

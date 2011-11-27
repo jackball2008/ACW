@@ -173,6 +173,7 @@ void ChristmasWindow::OnUpdate(){
 		
 		if(LEAFGROWING == _tree->TreeState ){
 			//cout<<"lging"<<endl;
+			
 		}
 		if( LEAFGROWEND == _tree->TreeState ){
  			_currentSeason = Autumn;
@@ -227,30 +228,6 @@ void ChristmasWindow::OnUpdate(){
 		
 	}
 	
-
-	/**
-	if(Spring == _tree->currentSeason){
-		_currentSeason = Spring;
-	}
-	if(Summer == _tree->currentSeason){
-		_currentSeason = Summer;
-	}
-
-	if(Autumn == _tree->currentSeason){
-		_currentSeason = Autumn;
-		_treeCrash = true;
-		//flash lighting
-		//fire on the tree
-		//down leaf
-	}
-
-	if(Winter == _tree->currentSeason){
-		_currentSeason = Winter;
-		_tree->currentSeason = Spring;
-		_tree->TreeState = GROWING;
-		_tree->reset();
-	}
-	*/
 }
 
 
@@ -433,12 +410,14 @@ void ChristmasWindow::OnDisplay()
 		glEnable(GL_BLEND);
 #endif
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
 		glPushMatrix();
 			glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
 			glRotatef(-90,1,0,0);
 			glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
 			_pool->Draw();
 		glPopMatrix();
+		
 #ifdef DRAWREFLECTION
 		glDisable(GL_BLEND);
 #endif
@@ -446,13 +425,14 @@ void ChristmasWindow::OnDisplay()
 		/************************************************************************/
 		/* last draw the ball                                                                     */
 		/************************************************************************/
-		
+		glUseProgram(_ballProgramID);
 		glPushMatrix();
 			glTranslatef(0.0f, 2.3f, 0.0f);
 			glScalef(3,3,3);
 			_ball->Draw();
 		glPopMatrix();
-
+		glUseProgram(0);
+		//////////////////////////////////////////////////////////////////////////
 	glPopMatrix();
 
 	glDisable(GL_LIGHTING);
@@ -650,7 +630,6 @@ void ChristmasWindow::InitialiseModels(){
 	_ball->setRenderTexture(false);
 	_ball->setRenderMaterials(false);
 	_ball->setColorApalha(0.1);
-	
 	modelController->AssemblyTransparencyPartSphere(_ball,1.0,40,40,modelController->_textures[0]);
 
 	/************************************************************************/
@@ -706,8 +685,12 @@ void ChristmasWindow::InitialiseShader(){
 	}else{
 		printf("generate failed!\n");
 	}
-
-
+	//BallVertexShader.glsl BallFragShader.glsl
+	if(GenerateShaderProgram(_ballProgramID,"BallVertexShader.glsl","BallFragShader.glsl")){
+		printf("Ball shader ok\n");
+	}else{
+		printf("Ball Shader fail\n");
+	}
 
 
 }
