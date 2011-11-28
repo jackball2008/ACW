@@ -1,7 +1,12 @@
 #include <stdio.h>
 #include <Windows.h>
 
+#include "SayHello.h"
+
 const char TITLE[] = "Window Creation";
+
+
+#pragma comment(lib,"GameEngine.lib")
 
 //********************Direct 3D Initialization********************************
 #include <d3d9.h>
@@ -357,7 +362,8 @@ int WINAPI WinMain( HINSTANCE hinstance,
 	InitializeDX(hwnd, 600, 400);
 #endif
 	//
-	
+	SayHello hello222;
+	hello222.DisplayHelloMessage();
 
 	// enter main event loop
 	bool quit = false;
