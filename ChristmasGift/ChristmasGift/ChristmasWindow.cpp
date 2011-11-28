@@ -366,13 +366,14 @@ void ChristmasWindow::OnDisplay()
 			_house->Draw();
 		glPopMatrix();
 
+		//glUseProgram(_TreeProgramID);
 		glPushMatrix();
 			glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
 			glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
 			glRotatef(_treeangle,0,0,1);
 			_tree->Draw();
 		glPopMatrix();
-
+		//glUseProgram(0);
 
 
 		// 		glUseProgram(_shaderProgramID);
@@ -618,6 +619,8 @@ void ChristmasWindow::InitialiseModels(){
 	/* tree                                                                     */
 	/************************************************************************/
 	_tree = new ChristmasTree();
+	_tree->leaf_texture_id = modelController->_textures[5];
+	_tree->leaf_nor_texture_id = modelController->_textures[6];
 	/*_tree->setTreeParameter();*/
 	_tree->Initialize();
 
@@ -690,6 +693,16 @@ void ChristmasWindow::InitialiseShader(){
 		printf("Ball shader ok\n");
 	}else{
 		printf("Ball Shader fail\n");
+	}
+
+	if(GenerateShaderProgram(_TreeProgramID,"LeafVertexShader.glsl","LeafFragShader.glsl")){
+		printf("leaf shader ok\n");
+		glUseProgram( _TreeProgramID);
+		glUniform1i( glGetUniformLocation( _TreeProgramID, "normalTex"), 0);
+		glUniform1i( glGetUniformLocation( _TreeProgramID, "baseTex"), 1);
+		glUseProgram( 0);
+	}else{
+		printf("leaf Shader fail\n");
 	}
 
 

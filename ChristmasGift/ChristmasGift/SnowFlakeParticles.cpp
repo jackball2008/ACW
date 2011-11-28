@@ -84,7 +84,7 @@ void SnowFlakeParticles::Draw(){
 
 		glPushMatrix();
 
-		glGetFloatv(GL_MODELVIEW_MATRIX , matrix);
+		/*glGetFloatv(GL_MODELVIEW_MATRIX , matrix);*/
 
 // 		matrix[0] = matrix[10] = 1.0f;
 // 
@@ -96,7 +96,7 @@ void SnowFlakeParticles::Draw(){
 
 		matrix[8] = look.x;		matrix[9] =look.y;		matrix[10] = look.z;		matrix[11] = 0;
 
-		glLoadMatrixf(matrix);
+		/*glLoadMatrixf(matrix);*/
 
 		glEnable(GL_BLEND);                        // Enable Blending
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE);                   // Type Of Blending To Perform

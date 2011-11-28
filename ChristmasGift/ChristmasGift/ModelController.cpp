@@ -369,14 +369,16 @@ void ModelController::LoadTexture(){
 	_images[2].Load("seattexture_grass.jpg");
 	_images[3].Load("seattexture2.jpg");
 	_images[4].Load("SnowFlake2.tga");
+	_images[5].Load("leaf_texture.tga");
+	_images[6].Load("leaf_nor_texture.tga");
 
-	glGenTextures(5, &_textures[0]);
+	glGenTextures(7, &_textures[0]);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 	// build 2D mip-maps from image
-	for (int i = 0; i<5; i++) {
+	for (int i = 0; i<7; i++) {
 		glBindTexture(GL_TEXTURE_2D, _textures[i]);
 		_images[i].gluBuild2DMipmaps();
 		_images[i].Free();

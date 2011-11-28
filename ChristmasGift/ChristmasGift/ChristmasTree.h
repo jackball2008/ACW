@@ -98,9 +98,21 @@ private:
 	int FLUSHTRUNKVBOCOUNT;
 	int FLUSHLEAFVBOCOUNT;
 
+	
+
+
 public:
 	ChristmasTree(void);
 	~ChristmasTree(void);
+	/************************************************************************/
+	/* texture                                                                     */
+	/************************************************************************/
+	GLuint trunk_texture_id;
+	GLuint leaf_texture_id;
+	GLuint leaf_nor_texture_id;
+	
+
+	
 	/************************************************************************/
 	/* status control                                                                     */
 	/************************************************************************/
@@ -163,5 +175,7 @@ public:
 
 	void reset();
 	void downUpdateTreeGrowing();
+
+	
 };
 

@@ -95,7 +95,14 @@ void ChristmasTree::Initialize(){
 void ChristmasTree::Draw(){
 	drawTrunks();
 	/*if(currentSeason != Spring)*/
-	if(LEAFGROWING == TreeState || LEAFGROWEND== TreeState|| LEAFDOWN== TreeState|| LEAFDOWNEND == TreeState)
+	//if(LEAFGROWING == TreeState || LEAFGROWEND== TreeState|| LEAFDOWN== TreeState|| LEAFDOWNEND == TreeState)
+	//normal map
+// 	glActiveTexture( GL_TEXTURE0);
+// 	glBindTexture( GL_TEXTURE_2D, leaf_nor_texture_id);
+	//diffuse map
+// 	glActiveTexture( GL_TEXTURE1);
+// 	glBindTexture( GL_TEXTURE_2D, leaf_texture_id);
+
 	drawLeaf();
 }
 
@@ -627,9 +634,9 @@ void ChristmasTree::drawLeaf(){
 	float green[] = { 0.0f, 0.7f, 0.0f, 1.0f};
 
 	glEnable(GL_LIGHTING);
-	glColor3f( 0.0f, 0.7f, 0.0f);
-	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, green);
-	glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 32.0f);
+// 	glColor3f( 0.0f, 0.7f, 0.0f);
+// 	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, green);
+// 	glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 32.0f);
 
  	glBindBuffer( GL_ARRAY_BUFFER, _leafVBO);
 // 	 
@@ -637,13 +644,26 @@ void ChristmasTree::drawLeaf(){
 	glVertexPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, 0);
 	glNormalPointer( GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 3);
 	glTexCoordPointer( 2, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 6);//pos nor uv*/
-// 
-	glClientActiveTexture( GL_TEXTURE0);
-	glEnableClientState(GL_TEXTURE0);
-// 
-	glEnableClientState( GL_TEXTURE_COORD_ARRAY);
+
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	
+	glBindTexture(GL_TEXTURE_2D, leaf_texture_id); 
+	glEnable(GL_TEXTURE_2D); 
+
+// 	glClientActiveTexture( GL_TEXTURE1);
+// 	glTexCoordPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 8);
+// 	glEnableClientState( GL_TEXTURE_COORD_ARRAY);
+// 	glClientActiveTexture( GL_TEXTURE2);
+// 	glTexCoordPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 11);
+// 	glEnableClientState( GL_TEXTURE_COORD_ARRAY);
+
 	glEnableClientState( GL_VERTEX_ARRAY);
 	glEnableClientState( GL_NORMAL_ARRAY);
+
+
+// 	glClientActiveTexture( GL_TEXTURE0);
+// 	glEnableClientState(GL_TEXTURE0);
+
 
 	glDrawElements( GL_TRIANGLES, (GLsizei)_leafIndices.size(), GL_UNSIGNED_INT, &_leafIndices[0]);
 
@@ -651,8 +671,16 @@ void ChristmasTree::drawLeaf(){
 
 	glDisableClientState( GL_VERTEX_ARRAY);
 	glDisableClientState( GL_NORMAL_ARRAY);
-	glClientActiveTexture( GL_TEXTURE0);
-	glDisableClientState( GL_TEXTURE_COORD_ARRAY);
+
+// 	glClientActiveTexture( GL_TEXTURE1);
+// 	glDisableClientState( GL_TEXTURE_COORD_ARRAY);
+// 	glClientActiveTexture( GL_TEXTURE2);
+// 	glDisableClientState( GL_TEXTURE_COORD_ARRAY);
 // 
+// 	glClientActiveTexture( GL_TEXTURE0);
+// 	glDisableClientState( GL_TEXTURE_COORD_ARRAY);
+
+	glDisable(GL_TEXTURE_2D);
+
  	glBindBuffer( GL_ARRAY_BUFFER, 0);
 }

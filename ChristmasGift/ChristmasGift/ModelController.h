@@ -23,8 +23,8 @@ public:
 	ModelController(void);
 	~ModelController(void);
 
-	Image _images[5];
-	GLuint _textures[5];
+	Image _images[7];
+	GLuint _textures[7];
 	
 	static ModelController* GetInstance();
 
