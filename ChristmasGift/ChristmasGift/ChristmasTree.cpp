@@ -582,18 +582,19 @@ void ChristmasTree::buildAndFlushVBO(){
 
 	}else{	
 		//leaf
-		if(FLUSH_TRUNK_OR_LEAF_FLAG){
-			glBufferData( GL_ARRAY_BUFFER, _leafVertices.size() * sizeof(float), NULL, GL_DYNAMIC_DRAW);
+		//if(FLUSH_TRUNK_OR_LEAF_FLAG){
 			glBindBuffer( GL_ARRAY_BUFFER, _leafVBO);
+			glBufferData( GL_ARRAY_BUFFER, _leafVertices.size() * sizeof(float), NULL, GL_DYNAMIC_DRAW);
+			
 			glBufferData( GL_ARRAY_BUFFER, _leafVertices.size() * sizeof(float), &_leafVertices[0], GL_DYNAMIC_DRAW);
 
-		}else{
+	//	}else{
 			//trunk
-			glBufferData( GL_ARRAY_BUFFER, _trunkVertices.size() * sizeof(float), NULL, GL_DYNAMIC_DRAW);
 			glBindBuffer( GL_ARRAY_BUFFER, _trunkVBO);
+			glBufferData( GL_ARRAY_BUFFER, _trunkVertices.size() * sizeof(float), NULL, GL_DYNAMIC_DRAW);
 			glBufferData( GL_ARRAY_BUFFER, _trunkVertices.size() * sizeof(float), &_trunkVertices[0], GL_DYNAMIC_DRAW);
 
-		}
+	//	}
 		FLUSH_TRUNK_OR_LEAF_FLAG = !FLUSH_TRUNK_OR_LEAF_FLAG;
 
 
