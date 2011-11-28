@@ -5,8 +5,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine", "GameEngine\Ga
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameDemo", "GameDemo\GameDemo.vcxproj", "{E5D53AB3-9508-40E0-A2AF-9EE867AE6771}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LetterGame", "LetterGame\LetterGame.vcxproj", "{19E910AB-131E-45A7-9E4B-3A63218E0041}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowCreation", "WindowCreation\WindowCreation.vcxproj", "{CC55B7F0-C25F-4C96-8346-3E32686375E8}"
 EndProject
 Global
@@ -23,10 +21,6 @@ Global
 		{E5D53AB3-9508-40E0-A2AF-9EE867AE6771}.Debug|Win32.Build.0 = Debug|Win32
 		{E5D53AB3-9508-40E0-A2AF-9EE867AE6771}.Release|Win32.ActiveCfg = Release|Win32
 		{E5D53AB3-9508-40E0-A2AF-9EE867AE6771}.Release|Win32.Build.0 = Release|Win32
-		{19E910AB-131E-45A7-9E4B-3A63218E0041}.Debug|Win32.ActiveCfg = Debug|Win32
-		{19E910AB-131E-45A7-9E4B-3A63218E0041}.Debug|Win32.Build.0 = Debug|Win32
-		{19E910AB-131E-45A7-9E4B-3A63218E0041}.Release|Win32.ActiveCfg = Release|Win32
-		{19E910AB-131E-45A7-9E4B-3A63218E0041}.Release|Win32.Build.0 = Release|Win32
 		{CC55B7F0-C25F-4C96-8346-3E32686375E8}.Debug|Win32.ActiveCfg = Debug|Win32
 		{CC55B7F0-C25F-4C96-8346-3E32686375E8}.Debug|Win32.Build.0 = Debug|Win32
 		{CC55B7F0-C25F-4C96-8346-3E32686375E8}.Release|Win32.ActiveCfg = Release|Win32

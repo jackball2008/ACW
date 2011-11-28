@@ -362,8 +362,8 @@ int WINAPI WinMain( HINSTANCE hinstance,
 	InitializeDX(hwnd, 600, 400);
 #endif
 	//
-	SayHello hello222;
-	hello222.DisplayHelloMessage();
+// 	SayHello hello222;
+// 	hello222.DisplayHelloMessage();
 
 	// enter main event loop
 	bool quit = false;
@@ -380,6 +380,11 @@ int WINAPI WinMain( HINSTANCE hinstance,
 			DispatchMessage(&msg);
 		} // end if
 		else {
+			/************************************************************************/
+			/* do some main logic control                                                                     */
+			/************************************************************************/
+
+
 #ifdef USEOPENGL
 			RenderOpenGL();
 #else
