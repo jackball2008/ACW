@@ -16,6 +16,20 @@ public:
 
 	void __declspec(DLL_OUTPUT) Initialize();
 
-	
+	virtual void __declspec(DLL_OUTPUT) SetAssetManager(IAssetManager*);
+
+	virtual void __declspec(DLL_OUTPUT) SetInputManager(IInputManager*);
+
+	virtual void __declspec(DLL_OUTPUT) SetRenderManager(IRenderManager*);
+
+	virtual void __declspec(DLL_OUTPUT) MainLoop();
+private:
+	IAssetManager* _assetManager;
+	IInputManager* _inputManager;
+	IRenderManager* _renderManager;
+
+	bool _hasAssetManager;
+	bool _hasInputManager;
+	bool _hasRenderManager;
 };
 

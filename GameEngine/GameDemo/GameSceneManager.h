@@ -7,9 +7,10 @@ public:
 	GameSceneManager(void);
 	~GameSceneManager(void);
 
-	void Initialize();
+/*	void Initialize();*/
 	//setter imanager
 
-	void MainLoop();
+/*	void MainLoop();*/
+
 };
 

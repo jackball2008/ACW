@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-
+#include "ErrorManager.h"
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
