@@ -11,10 +11,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BasicAssetManager.cpp" />
+    <ClCompile Include="BasicInputManager.cpp" />
+    <ClCompile Include="BasicRenderManager.cpp" />
+    <ClCompile Include="BasicSceneManager.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="ErrorException.cpp" />
+    <ClCompile Include="ErrorManager.cpp" />
+    <ClCompile Include="ErrorObject.cpp" />
     <ClCompile Include="SayHello.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasicAssetManager.h" />
+    <ClInclude Include="BasicInputManager.h" />
+    <ClInclude Include="BasicRenderManager.h" />
+    <ClInclude Include="BasicSceneManager.h" />
+    <ClInclude Include="EngineObject.h" />
+    <ClInclude Include="ErrorException.h" />
+    <ClInclude Include="ErrorManager.h" />
+    <ClInclude Include="IAssetManager.h" />
+    <ClInclude Include="IInputManager.h" />
+    <ClInclude Include="IManager.h" />
+    <ClInclude Include="IRenderManager.h" />
+    <ClInclude Include="ISceneManager.h" />
     <ClInclude Include="SayHello.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

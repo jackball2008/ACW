@@ -2,6 +2,7 @@
 #include <Windows.h>
 
 #include "SayHello.h"
+#include "ErrorManager.h"
 
 const char TITLE[] = "Window Creation";
 
@@ -16,7 +17,7 @@ LPDIRECT3DDEVICE9       g_pd3dDevice = NULL;
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE) 
 
-#define USEOPENGL1
+#define USEOPENGL
 
 // Buffer to hold vertices
 LPDIRECT3DVERTEXBUFFER9	vbo        = NULL; 
@@ -361,6 +362,7 @@ int WINAPI WinMain( HINSTANCE hinstance,
 #else
 	InitializeDX(hwnd, 600, 400);
 #endif
+	
 	//
 // 	SayHello hello222;
 // 	hello222.DisplayHelloMessage();
@@ -383,14 +385,27 @@ int WINAPI WinMain( HINSTANCE hinstance,
 			/************************************************************************/
 			/* do some main logic control                                                                     */
 			/************************************************************************/
-
-
+/**
+try
+{
+	//throw ErrorException(1,"this is my error",__FILE__, __LINE__);
+}
+catch (ErrorException& e)
+{
+	ErrorManager* log = ErrorManager::GetInstance();
+	log->Create("testlog.txt");
+	log->Output("**Error**");
+	log->LogException(e);
+	log->Output("*********");
+	log->Close();
+}
+*/
 #ifdef USEOPENGL
 			RenderOpenGL();
 #else
 			RenderDX();
 #endif
-			//
+
 			
 		}
 

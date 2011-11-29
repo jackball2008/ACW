@@ -13,18 +13,111 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\ErrorManager">
+      <UniqueIdentifier>{4fc80a3e-032a-4f40-a444-c5011c321a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ErrorManager">
+      <UniqueIdentifier>{1fea4f2f-ab8e-4bb0-945b-8d1e8c03d35d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Test">
+      <UniqueIdentifier>{c4cf3b8f-5a77-4840-8214-750186aeb609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Test">
+      <UniqueIdentifier>{ecd504a5-8a5e-4a69-b9ee-f80db38b1fa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SceneManager">
+      <UniqueIdentifier>{c773471b-1141-4ff9-9ace-80fee6fbf49d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SceneManager">
+      <UniqueIdentifier>{33ec1834-62d7-4334-94c9-5d95934e9deb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\RenderManager">
+      <UniqueIdentifier>{9cb8f21c-5217-4fce-8d54-edbe4e3ecc17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RenderManager">
+      <UniqueIdentifier>{f0c4eefc-7f72-46e9-bb5b-5cd60ed6a365}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\InputManager">
+      <UniqueIdentifier>{77f321ce-0f5d-46cb-af8e-1ab03450b3bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\InputManager">
+      <UniqueIdentifier>{ed5ca674-30a3-485c-af05-7de3d786a6ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AssetManager">
+      <UniqueIdentifier>{5171e76d-3dec-40f1-8b6c-d6f0fab0864c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AssetManager">
+      <UniqueIdentifier>{9a74cf63-695d-4fc0-a127-8df681259b20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ErrorException.cpp">
+      <Filter>Source Files\ErrorManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorManager.cpp">
+      <Filter>Source Files\ErrorManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorObject.cpp">
+      <Filter>Source Files\ErrorManager</Filter>
+    </ClCompile>
     <ClCompile Include="SayHello.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicSceneManager.cpp">
+      <Filter>Source Files\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicAssetManager.cpp">
+      <Filter>Source Files\AssetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicInputManager.cpp">
+      <Filter>Source Files\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicRenderManager.cpp">
+      <Filter>Source Files\RenderManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ErrorManager.h">
+      <Filter>Header Files\ErrorManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineObject.h">
+      <Filter>Header Files\ErrorManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorException.h">
+      <Filter>Header Files\ErrorManager</Filter>
+    </ClInclude>
     <ClInclude Include="SayHello.h">
+      <Filter>Header Files\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="IManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ISceneManager.h">
+      <Filter>Header Files\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicSceneManager.h">
+      <Filter>Header Files\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="IAssetManager.h">
+      <Filter>Header Files\AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicAssetManager.h">
+      <Filter>Header Files\AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderManager.h">
+      <Filter>Header Files\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="IInputManager.h">
+      <Filter>Header Files\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicInputManager.h">
+      <Filter>Header Files\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicRenderManager.h">
+      <Filter>Header Files\RenderManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
