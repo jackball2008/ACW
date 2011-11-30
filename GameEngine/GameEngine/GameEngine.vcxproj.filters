@@ -49,6 +49,18 @@
     <Filter Include="Source Files\AssetManager">
       <UniqueIdentifier>{9a74cf63-695d-4fc0-a127-8df681259b20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameClass">
+      <UniqueIdentifier>{4fd29ff0-ce36-4cac-8692-af92d771faa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameClass">
+      <UniqueIdentifier>{240ee9b7-eb16-420b-900d-f3b14b0e1a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ScriptManager">
+      <UniqueIdentifier>{b5f7a66e-66a7-4d41-a5fb-75db83be1289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ScriptManager">
+      <UniqueIdentifier>{b3f2b5cb-0a33-4e43-9360-e1f05f4d1284}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -77,6 +89,12 @@
     </ClCompile>
     <ClCompile Include="BasicRenderManager.cpp">
       <Filter>Source Files\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClass.cpp">
+      <Filter>Source Files\GameClass</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicScriptManager.cpp">
+      <Filter>Source Files\ScriptManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +136,18 @@
     </ClInclude>
     <ClInclude Include="BasicRenderManager.h">
       <Filter>Header Files\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClass.h">
+      <Filter>Header Files\GameClass</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameClass.h">
+      <Filter>Header Files\GameClass</Filter>
+    </ClInclude>
+    <ClInclude Include="IScriptManager.h">
+      <Filter>Header Files\ScriptManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicScriptManager.h">
+      <Filter>Header Files\ScriptManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

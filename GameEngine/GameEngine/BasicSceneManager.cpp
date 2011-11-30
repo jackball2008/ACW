@@ -12,6 +12,7 @@ BasicSceneManager::~BasicSceneManager(void)
 
 void BasicSceneManager::Initialize(){
 	//MessageBoxA(0,"Scene Manager Initialize ok ","", MB_OK);
+	/**
 	try{
 		if(!_hasAssetManager)
 			throw ErrorException(1, "No AssetManager", __FILE__, __LINE__);
@@ -37,7 +38,7 @@ void BasicSceneManager::Initialize(){
 		Log->Output("***************");
 		Log->Close();
 	}
-
+	*/
 }
 
 void BasicSceneManager::SetAssetManager(IAssetManager* am){

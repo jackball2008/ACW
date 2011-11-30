@@ -1,13 +1,19 @@
 #include <windows.h>
 #include "SayHello.h"
 #include "IManager.h"
+#include "IGameClass.h"
 #include "ISceneManager.h"
 #include "BasicSceneManager.h"
 #include "IAssetManager.h"
 #include "BasicAssetManager.h"
 #include "IInputManager.h"
 #include "BasicInputManager.h"
+
+#include "IScriptManager.h"
+#include "BasicScriptManager.h"
+
 #include "ErrorManager.h"
+#include "GameClass.h"
 
 
 BOOL APIENTRY DllMain( HMODULE hModule,
