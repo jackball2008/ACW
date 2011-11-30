@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <Windows.h>
 
-#include "SayHello.h"
-#include "ErrorManager.h"
+// #include "SayHello.h"
+// #include "ErrorManager.h"
 
 const char TITLE[] = "Window Creation";
 
