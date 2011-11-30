@@ -12,9 +12,31 @@
 #define DLL_OUTPUT dllimport
 #endif
 
+namespace mxygameengine{
 
-
+/************************************************************************/
+/* declare class                                                                     */
+/************************************************************************/
+class GameClass;
+/************************************************************************/
+/* Game State                                                                     */
+/************************************************************************/
 enum GameRunningState{CHOOSEMENU,PLAYING,UPDATELEAVEL,END,SHOWSCORE};
+/************************************************************************/
+/* Game Start Menu                                                                     */
+/************************************************************************/
+enum GAME_MAIN_MENU{START,LOAD,SCORE,EXIT};
+/************************************************************************/
+/* Define MAIN MENU Callback Function Pointer                                                                     */
+/************************************************************************/
+typedef void(GameClass::*InterMenuCallbackP)();
+typedef void(*OuterMenuCallbackP)();
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
+
+
+
 
 class GameClass : public IGameClass
 {
@@ -29,16 +51,43 @@ public:
 	IInputManager* inputManager;
 	IRenderManager* renderManager;
 	IScriptManager* scriptManager;
-
+	/************************************************************************/
+	/* STATUS FLAG                                                                     */
+	/************************************************************************/
+	bool _gameStateLoopRunning;
+	bool _gamePlayingLoopRunning;
+	/************************************************************************/
+	/* MAIN Menu                                                                     */
+	/************************************************************************/
+ 	InterMenuCallbackP interMainMenuP[4];
+	/*OuterMenuCallbackP outerMainMenuP[4];*/
 
 	void __declspec(DLL_OUTPUT) GameStateMainLoop();
 
+	void __declspec(DLL_OUTPUT) Initialize();
+
+	void __declspec(DLL_OUTPUT) InitializeMainMenu();
+
+	void __declspec(DLL_OUTPUT) ChooseMainMenuStartItemCallback();
+
+	void __declspec(DLL_OUTPUT) ChooseMainMenuLoadItemCallback();
+
+	void __declspec(DLL_OUTPUT) ChooseMainMenuScoreItemCallback();
+
+	void __declspec(DLL_OUTPUT) ChooseMainMenuExitItemCallback();
+
+	
+
 	void __declspec(DLL_OUTPUT) GamePlayingMainLoop();
 
-	bool __declspec(DLL_OUTPUT) ChooseStartMenu();
-
 private:
-	bool _gameStateLoopRunning;
-	bool _gamePlayingLoopRunning;
+	/************************************************************************/
+	/* don't use private varible here to void inherenet problem                                                                     */
+	/************************************************************************/
 };
+
+/************************************************************************/
+/* end of namespace                                                                     */
+/************************************************************************/
+}
 

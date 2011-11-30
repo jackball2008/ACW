@@ -5,21 +5,8 @@
 
 void main( int argc, const char* argv[])
 {
-/*	GameSceneManager gm;*/
-	//gm.Initialize();
 
 	
-	//testP = &GameSceneManager::TestMethod;
-// 	TestP tp = &GameSceneManager::TestMethod;
-// 	
-// 	InitP init = &GameSceneManager::Initialize;
-// 
-// 	(gm.*init)();
-// 	(gm.*tp)(256);
-// 
-// 
-// 	
-// 
 	InitializeGameClass();
 	int k;
 	cin>>k;
@@ -33,6 +20,8 @@ void InitializeGameClass(){
 	myGame.sceneManager = new BasicSceneManager();
 	myGame.scriptManager = new BasicScriptManager();
 
-	myGame.scriptManager->Initialize();
+	myGame.Initialize();
+	myGame.InitializeMainMenu();
+
 }
 

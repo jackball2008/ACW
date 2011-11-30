@@ -1,11 +1,16 @@
 #include "GameClass.h"
 
+namespace mxygameengine{
+
+
+
 
 GameClass::GameClass(void)
 {
 	std::cout<<"my game instance initialize "<<std::endl;
 	_gameStateLoopRunning = false;
 	_gamePlayingLoopRunning = false;
+
 }
 
 
@@ -14,12 +19,27 @@ GameClass::~GameClass(void)
 }
 
 /************************************************************************/
+/* Initialize                                                                     */
+/************************************************************************/
+void GameClass::Initialize(){
+
+}
+/************************************************************************/
+/* ini main menu                                                                     */
+/************************************************************************/
+void GameClass::InitializeMainMenu(){
+	interMainMenuP[START] = &GameClass::ChooseMainMenuStartItemCallback;
+	interMainMenuP[LOAD] = &GameClass::ChooseMainMenuLoadItemCallback;
+	interMainMenuP[SCORE] = &GameClass::ChooseMainMenuScoreItemCallback;
+	interMainMenuP[EXIT] = &GameClass::ChooseMainMenuExitItemCallback;
+}
+/************************************************************************/
 /* main loop logic                                                                     */
 /************************************************************************/
 void GameClass::GameStateMainLoop(){
 	_gameStateLoopRunning = true;
 	while(_gameStateLoopRunning){
-		//choose menu
+		
 
 
 
@@ -34,13 +54,26 @@ void GameClass::GameStateMainLoop(){
 /* state loop function
     ChooseStartMenu   */
 /************************************************************************/
-bool GameClass::ChooseStartMenu(){
+void GameClass::ChooseMainMenuStartItemCallback(){
 	/************************************************************************/
 	/* logic                                                                      */
 	/************************************************************************/
-	if(true){
-		return true;
-	}else{
-		return false;
-	}
+	
+}
+void GameClass::ChooseMainMenuLoadItemCallback(){
+
+}
+
+void GameClass::ChooseMainMenuScoreItemCallback(){
+
+}
+
+void GameClass::ChooseMainMenuExitItemCallback(){
+
+}
+
+
+/************************************************************************/
+/* end of namespace                                                                     */
+/************************************************************************/
 }

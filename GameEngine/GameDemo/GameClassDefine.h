@@ -3,9 +3,9 @@
 
 #pragma comment(lib,"GameEngine.lib")
 
+using namespace mxygameengine;
+
 GameClass myGame;
-//void (GameSceneManager::*testP)(int k);
-// typedef void(GameSceneManager::*TestP)(int k);
-// typedef void(BasicSceneManager::*InitP)();
+
 
 
