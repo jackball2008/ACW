@@ -1,7 +1,13 @@
 #include <windows.h>
 #include "SayHello.h"
+
 #include "IManager.h"
 #include "IGameClass.h"
+#include "IGameSceneClass.h"
+
+#include "GameSceneClass.h"
+
+
 #include "ISceneManager.h"
 #include "BasicSceneManager.h"
 #include "IAssetManager.h"

@@ -11,16 +11,21 @@ GameSceneManager::~GameSceneManager(void)
 }
 
 
+void GameSceneManager::OperateCurrentGameScene(bool *con){
+	std::cout<<"GameSceneManager::OperateCurrentGameScene"<<endl;
 
-
-/**
-void GameSceneManager::Initialize(){
-	MessageBoxA(0,"My Scene Manager Initialize ok ","", MB_OK);
+	BasicScriptManager:OperateCurrentGameScene(con);
+	*con = false;
 }
-*/
+//begin
+void GameSceneManager::CreateCurrentSceneEnvironment(){
 
-/**
-void GameSceneManager::TestMethod(int a){
-	std::cout<<"num = "<<a<<std::endl;
 }
-*/
+//play
+void GameSceneManager::RunningGameInCurrentSceneEnvironment(){
+
+}
+//end operation
+void GameSceneManager::EndCurrentSceneEnvironment(){
+
+}

@@ -7,7 +7,7 @@
 #define DLL_OUTPUT dllimport
 #endif
 
-MXYGameEngineInterface IGameClass {
+MXYGameEngineInterface IGameSceneClass {
 public:
 
 

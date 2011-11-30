@@ -1,7 +1,7 @@
 #include "BasicSceneManager.h"
 
 
-BasicSceneManager::BasicSceneManager(void):_hasAssetManager(false),_hasInputManager(false),_hasRenderManager(false)
+BasicSceneManager::BasicSceneManager(void):_hasAssetManager(false),_hasInputManager(false),_hasRenderManager(false),_hasScriptManager(false)
 {
 }
 
@@ -56,6 +56,39 @@ void BasicSceneManager::SetRenderManager(IRenderManager* rm){
 	_hasRenderManager = true;
 }
 
-void BasicSceneManager::MainLoop(){
+void BasicSceneManager::SetScriptManager(IScriptManager* sm){
+	_scriptManager = sm;
+	_hasScriptManager = true;
+}
+
+/************************************************************************/
+/* main loop function                                                                     */
+/************************************************************************/
+void BasicSceneManager::OperateCurrentGameScene(bool *con){
+
+	//1, creat scene : make or load or initialize game scene unit
+	CreateCurrentSceneEnvironment();
+
+	//2, play
+	RunningGameInCurrentSceneEnvironment();
+
+
+	//3, end process
+	EndCurrentSceneEnvironment();
+	//when game run to the end
+	// this is the last Scene
+	std::cout<<"BasicSceneManager::OperateCurrentGameScene"<<endl;
+	*con = false;
+}
+//update level
+void BasicSceneManager::CreateCurrentSceneEnvironment(){
+
+}
+//update game elements
+void BasicSceneManager::RunningGameInCurrentSceneEnvironment(){
+
+}
+
+void BasicSceneManager::EndCurrentSceneEnvironment(){
 
 }

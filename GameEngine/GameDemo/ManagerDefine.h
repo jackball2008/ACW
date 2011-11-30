@@ -3,3 +3,4 @@
 #include "BasicRenderManager.h"
 #include "BasicSceneManager.h"
 #include "BasicScriptManager.h"
+#include "GameSceneManager.h"

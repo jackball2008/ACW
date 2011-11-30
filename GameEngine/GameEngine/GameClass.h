@@ -60,7 +60,8 @@ public:
 	/* MAIN Menu                                                                     */
 	/************************************************************************/
  	InterMenuCallbackP interMainMenuP[4];
-	/*OuterMenuCallbackP outerMainMenuP[4];*/
+	/*OuterMenuCallbackP outerMainMenuP;*/
+	void (*pf)();
 
 	void __declspec(DLL_OUTPUT) GameStateMainLoop();
 
@@ -76,7 +77,7 @@ public:
 
 	void __declspec(DLL_OUTPUT) ChooseMainMenuExitItemCallback();
 
-	
+	int __declspec(DLL_OUTPUT) ChooseMainMenuItem();
 
 	void __declspec(DLL_OUTPUT) GamePlayingMainLoop();
 

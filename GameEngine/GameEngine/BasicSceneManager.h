@@ -22,14 +22,35 @@ public:
 
 	virtual void __declspec(DLL_OUTPUT) SetRenderManager(IRenderManager*);
 
-	virtual void __declspec(DLL_OUTPUT) MainLoop();
-private:
+	virtual void __declspec(DLL_OUTPUT) SetScriptManager(IScriptManager*);
+
 	IAssetManager* _assetManager;
 	IInputManager* _inputManager;
 	IRenderManager* _renderManager;
+	IScriptManager* _scriptManager;
 
 	bool _hasAssetManager;
 	bool _hasInputManager;
 	bool _hasRenderManager;
+	bool _hasScriptManager;
+
+	/************************************************************************/
+	/* main loop function                                                                     */
+	/************************************************************************/
+	//this is the entrance for be called in playing main loop
+	virtual void __declspec(DLL_OUTPUT) OperateCurrentGameScene(bool *con);
+	//begin
+	virtual void __declspec(DLL_OUTPUT) CreateCurrentSceneEnvironment();
+	//play
+	virtual void __declspec(DLL_OUTPUT) RunningGameInCurrentSceneEnvironment();
+	//end operation
+	virtual void __declspec(DLL_OUTPUT) EndCurrentSceneEnvironment();
+	
+
+	/************************************************************************/
+	/* Game End Flag                                                                     */
+	/************************************************************************/
+
+
 };
 

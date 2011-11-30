@@ -21,6 +21,7 @@
     <ClCompile Include="ErrorManager.cpp" />
     <ClCompile Include="ErrorObject.cpp" />
     <ClCompile Include="GameClass.cpp" />
+    <ClCompile Include="GameSceneClass.cpp" />
     <ClCompile Include="SayHello.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -33,8 +34,10 @@
     <ClInclude Include="ErrorException.h" />
     <ClInclude Include="ErrorManager.h" />
     <ClInclude Include="GameClass.h" />
+    <ClInclude Include="GameSceneClass.h" />
     <ClInclude Include="IAssetManager.h" />
     <ClInclude Include="IGameClass.h" />
+    <ClInclude Include="IGameSceneClass.h" />
     <ClInclude Include="IInputManager.h" />
     <ClInclude Include="IManager.h" />
     <ClInclude Include="IRenderManager.h" />

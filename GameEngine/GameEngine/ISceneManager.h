@@ -3,6 +3,7 @@
 #include "IAssetManager.h"
 #include "IInputManager.h"
 #include "IRenderManager.h"
+#include "IScriptManager.h"
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
@@ -22,11 +23,19 @@ public:
 
 	virtual void __declspec(DLL_OUTPUT) SetRenderManager(IRenderManager*);
 
-	/************************************************************************/
-	/* main loop function                                                                     */
-	/************************************************************************/
+	virtual void __declspec(DLL_OUTPUT) SetScriptManager(IScriptManager*);
 
-	virtual void __declspec(DLL_OUTPUT) MainLoop();
+	/************************************************************************/
+	/* play main loop function                                                                     */
+	/************************************************************************/
+	virtual void __declspec(DLL_OUTPUT) OperateCurrentGameScene(bool *con);
+	//update level
+	virtual void __declspec(DLL_OUTPUT) CreateCurrentSceneEnvironment();
+	//play game
+	virtual void __declspec(DLL_OUTPUT) RunningGameInCurrentSceneEnvironment();
+	//end game scene
+	virtual void __declspec(DLL_OUTPUT) EndCurrentSceneEnvironment();
+	
 
 
 	

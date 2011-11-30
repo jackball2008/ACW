@@ -9,7 +9,13 @@ public:
 
 
 
-/*	void TestMethod(int a);*/
 
+	void OperateCurrentGameScene(bool *con);
+	//begin
+	void CreateCurrentSceneEnvironment();
+	//play
+	void RunningGameInCurrentSceneEnvironment();
+	//end operation
+	void EndCurrentSceneEnvironment();
 };
 

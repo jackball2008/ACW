@@ -61,6 +61,12 @@
     <Filter Include="Source Files\ScriptManager">
       <UniqueIdentifier>{b3f2b5cb-0a33-4e43-9360-e1f05f4d1284}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameSceneClass">
+      <UniqueIdentifier>{76a2ae36-1ff6-4b73-a0dc-9880f01b2529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameSceneClass">
+      <UniqueIdentifier>{a1dc9b78-f83e-4369-a25a-3dd58ecc9947}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -95,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="BasicScriptManager.cpp">
       <Filter>Source Files\ScriptManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSceneClass.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="BasicScriptManager.h">
       <Filter>Header Files\ScriptManager</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameSceneClass.h">
+      <Filter>Header Files\GameSceneClass</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSceneClass.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
