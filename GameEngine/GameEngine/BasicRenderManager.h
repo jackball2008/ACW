@@ -17,24 +17,16 @@ public:
 	__declspec(DLL_OUTPUT) ~BasicRenderManager(void);
 
 	void __declspec(DLL_OUTPUT) Initialize();
-
-	void __declspec(DLL_OUTPUT) SetRenderType(int type);
-
+	/************************************************************************/
+	/*                                                                      */
+	/************************************************************************/
 	int renderType;
-
-	
-
-	void __declspec(DLL_OUTPUT) SetWindowSize(int width, int height);
+	void __declspec(DLL_OUTPUT) SetRenderType(int type);
+	/************************************************************************/
+	/*                                                                      */
+	/************************************************************************/
 	int width,height;
-
-	int __declspec(DLL_OUTPUT) WINAPI InitWindow(HINSTANCE hinstance,
-		HINSTANCE hprevinstance,
-		LPSTR lpcmdline,
-		int ncmdshow);
-	LRESULT __declspec(DLL_OUTPUT) CALLBACK WindowProc(HWND hwnd, 
-		UINT msg, 
-		WPARAM wparam, 
-		LPARAM lparam);
+	void __declspec(DLL_OUTPUT) SetWindowSize(int width, int height);
 	
 };
 

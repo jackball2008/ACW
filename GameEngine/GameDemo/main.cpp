@@ -34,6 +34,7 @@ void InitializeGameClass(){
 #else
 	myGame.renderManager->SetRenderType(DIECTX);
 #endif
+	myGame.renderManager->SetWindowSize(800,600);
 	myGame.renderManager->Initialize();
 
 	

@@ -31,7 +31,7 @@ enum GAME_MAIN_MENU{START,LOAD,SCORE,EXIT};
 /* Define MAIN MENU Callback Function Pointer                                                                     */
 /************************************************************************/
 typedef void(GameClass::*InterMenuCallbackP)();
-//typedef void(*OuterMenuCallbackP)();
+typedef void(*OuterMenuCallbackP)();
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/

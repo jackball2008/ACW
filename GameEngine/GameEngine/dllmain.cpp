@@ -7,7 +7,7 @@
 
 #include "GameSceneClass.h"
 
-//#include "GameMenuClass.h"
+
 
 #include "ISceneManager.h"
 #include "BasicSceneManager.h"
@@ -15,6 +15,8 @@
 #include "BasicAssetManager.h"
 #include "IInputManager.h"
 #include "BasicInputManager.h"
+#include "IRenderManager.h"
+#include "BasicRenderManager.h"
 
 #include "IScriptManager.h"
 #include "BasicScriptManager.h"

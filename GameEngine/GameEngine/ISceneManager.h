@@ -17,7 +17,7 @@ public:
 	/************************************************************************/
 	/* set main manager                                                                     */
 	/************************************************************************/
-	virtual void __declspec(DLL_OUTPUT) SetAssetManager(IAssetManager*);
+	virtual void __declspec(DLL_OUTPUT) SetAssetManager(IAssetManager*);// = 0;
 
 	virtual void __declspec(DLL_OUTPUT) SetInputManager(IInputManager*);
 
