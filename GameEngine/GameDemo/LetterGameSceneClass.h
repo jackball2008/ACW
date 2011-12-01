@@ -7,7 +7,9 @@ public:
 	LetterGameSceneClass(void);
 	~LetterGameSceneClass(void);
 
-
+	/************************************************************************/
+	/* store all materials in here                                                                     */
+	/************************************************************************/
 
 
 
