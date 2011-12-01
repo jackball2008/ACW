@@ -1,6 +1,6 @@
 #include <windows.h>
 #include "SayHello.h"
-
+#include "MXYGameEngineInterfaceDefine.h"
 #include "IManager.h"
 #include "IGameClass.h"
 #include "IGameSceneClass.h"
