@@ -1,5 +1,5 @@
 #pragma once
-#include "IManager.h"
+#include "MXYGameEngineInterfaceDefine.h"
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport

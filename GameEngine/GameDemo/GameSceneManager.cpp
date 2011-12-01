@@ -24,6 +24,9 @@ void GameSceneManager::CreateCurrentSceneEnvironment(){
 //play
 void GameSceneManager::RunningGameInCurrentSceneEnvironment(){
 
+
+
+
 }
 //end operation
 void GameSceneManager::EndCurrentSceneEnvironment(){

@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include "MXYGameEngineInterfaceDefine.h"
 #include "ErrorManager.h"
 
 #ifdef _WINDLL
@@ -8,7 +9,7 @@
 #define DLL_OUTPUT dllimport
 #endif
 
-#define MXYGameEngineInterface class __declspec(novtable)
+//#define MXYGameEngineInterface class __declspec(novtable)
 
 MXYGameEngineInterface IManager {
 	public:
