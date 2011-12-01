@@ -113,7 +113,7 @@ void GameClass::ChooseMainMenuExitItemCallback(){
 void GameClass::GamePlayingMainLoop(){
 	_gamePlayingLoopRunning = true;
 	while(_gamePlayingLoopRunning){
-		_gamePlayingLoopRunning = false;
+		//_gamePlayingLoopRunning = false;
 		std::cout<<"Game Level Update"<<endl;
 		std::cout<<"Game Level Play"<<endl;
 		//do update and play
