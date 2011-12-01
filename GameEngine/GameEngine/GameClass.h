@@ -30,8 +30,8 @@ enum GAME_MAIN_MENU{START,LOAD,SCORE,EXIT};
 /************************************************************************/
 /* Define MAIN MENU Callback Function Pointer                                                                     */
 /************************************************************************/
-typedef void(GameClass::*InterMenuCallbackP)();
-typedef void(*OuterMenuCallbackP)();
+// typedef void(GameClass::*InterMenuCallbackP)();
+// typedef void(*OuterMenuCallbackP)();
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/
@@ -60,12 +60,12 @@ public:
 	/************************************************************************/
 	/* MAIN Menu                                                                     */
 	/************************************************************************/
- 	InterMenuCallbackP interMainMenuP[4];
+ 	/*InterMenuCallbackP interMainMenuP[4];*/
 	/*OuterMenuCallbackP outerMainMenuP;*/
 	/*MenuCallbackP outerMainMenuP[4];*/
 	//GameMenuClass* mainMenu;
 	//////////////////////////////////////////////////////////////////////////
-	void (*pf)();
+	/*void (*pf)();*/
 
 	void __declspec(DLL_OUTPUT) GameStateMainLoop();
 
@@ -85,10 +85,6 @@ public:
 
 	void __declspec(DLL_OUTPUT) GamePlayingMainLoop();
 
-private:
-	/************************************************************************/
-	/* don't use private varible here to void inherenet problem                                                                     */
-	/************************************************************************/
 };
 
 /************************************************************************/

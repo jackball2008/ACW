@@ -4,9 +4,7 @@
 
 typedef void(*tp)();
 
-struct TestS{
-	tp p;
-};
+
 
 
 class GameSceneManager :
@@ -31,11 +29,7 @@ public:
 	/* Letter Game Elements                                                                     */
 	/************************************************************************/
 	LetterGameSceneClass* currentScene;
-// 	TestS *tc;
-// 	void (*p)();
-// 	
-// 
-// 	void test();
+
 
 };
 

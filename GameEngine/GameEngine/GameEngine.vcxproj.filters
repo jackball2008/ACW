@@ -105,6 +105,9 @@
     <ClCompile Include="GameSceneClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameMenuClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ErrorManager.h">
@@ -162,6 +165,12 @@
       <Filter>Header Files\GameSceneClass</Filter>
     </ClInclude>
     <ClInclude Include="GameSceneClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMenuClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MXYGameEngineInterfaceDefine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
