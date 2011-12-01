@@ -5,6 +5,7 @@
 #include "IInputManager.h"
 #include "IRenderManager.h"
 #include "IScriptManager.h"
+//#include "GameMenuClass.h"
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
@@ -30,7 +31,7 @@ enum GAME_MAIN_MENU{START,LOAD,SCORE,EXIT};
 /* Define MAIN MENU Callback Function Pointer                                                                     */
 /************************************************************************/
 typedef void(GameClass::*InterMenuCallbackP)();
-typedef void(*OuterMenuCallbackP)();
+//typedef void(*OuterMenuCallbackP)();
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/
@@ -61,6 +62,9 @@ public:
 	/************************************************************************/
  	InterMenuCallbackP interMainMenuP[4];
 	/*OuterMenuCallbackP outerMainMenuP;*/
+	/*MenuCallbackP outerMainMenuP[4];*/
+	//GameMenuClass* mainMenu;
+	//////////////////////////////////////////////////////////////////////////
 	void (*pf)();
 
 	void __declspec(DLL_OUTPUT) GameStateMainLoop();

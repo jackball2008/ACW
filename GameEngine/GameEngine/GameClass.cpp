@@ -32,7 +32,12 @@ void GameClass::InitializeMainMenu(){
 	interMainMenuP[LOAD] = &GameClass::ChooseMainMenuLoadItemCallback;
 	interMainMenuP[SCORE] = &GameClass::ChooseMainMenuScoreItemCallback;
 	interMainMenuP[EXIT] = &GameClass::ChooseMainMenuExitItemCallback;
-
+	//mainMenu
+	//mainMenu = new GameMenuClass();
+	//outerMainMenuP[START] = &GameClass::ChooseMainMenuStartItemCallback;
+	//outerMainMenuP[LOAD] = &GameClass::ChooseMainMenuLoadItemCallback;
+	//outerMainMenuP[SCORE] = &GameClass::ChooseMainMenuScoreItemCallback;
+	//outerMainMenuP[EXIT] = &GameClass::ChooseMainMenuExitItemCallback;
 	
 }
 /************************************************************************/
@@ -46,15 +51,19 @@ void GameClass::GameStateMainLoop(){
 		case START:
 			//*interMainMenuP[START]();
 			(this->*interMainMenuP[START])();
+			//(mainMenu->*interMainMenuP[START])();
 			break;;
 		case LOAD:
 			(this->*interMainMenuP[LOAD])();
+			//(mainMenu->*interMainMenuP[LOAD])();
 			break;
 		case SCORE:
 			(this->*interMainMenuP[SCORE])();
+			//(mainMenu->*interMainMenuP[SCORE])();
 			break;
 		case EXIT:
 			(this->*interMainMenuP[EXIT])();
+			//(mainMenu->*interMainMenuP[EXIT])();
 			break;
 
 		default:
