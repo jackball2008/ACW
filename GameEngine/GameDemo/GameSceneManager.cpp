@@ -14,9 +14,9 @@ GameSceneManager::~GameSceneManager(void)
 void GameSceneManager::OperateCurrentGameScene(bool *con){
 	std::cout<<"GameSceneManager::OperateCurrentGameScene"<<endl;
 
-	BasicScriptManager:OperateCurrentGameScene(con);
 	*con = false;
 }
+
 //begin
 void GameSceneManager::CreateCurrentSceneEnvironment(){
 
