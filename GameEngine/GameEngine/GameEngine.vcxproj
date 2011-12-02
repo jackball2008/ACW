@@ -24,6 +24,7 @@
     <ClCompile Include="GameMenuClass.cpp" />
     <ClCompile Include="GameSceneClass.cpp" />
     <ClCompile Include="SayHello.cpp" />
+    <ClCompile Include="VideoGameClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicAssetManager.h" />
@@ -45,8 +46,10 @@
     <ClInclude Include="IRenderManager.h" />
     <ClInclude Include="ISceneManager.h" />
     <ClInclude Include="IScriptManager.h" />
+    <ClInclude Include="IVideoGameClass.h" />
     <ClInclude Include="MXYGameEngineInterfaceDefine.h" />
     <ClInclude Include="SayHello.h" />
+    <ClInclude Include="VideoGameClass.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{085B4850-9DE1-43FB-865A-C20ABE57A6F8}</ProjectGuid>

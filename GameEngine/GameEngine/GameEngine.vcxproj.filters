@@ -73,6 +73,12 @@
     <Filter Include="Source Files\GameMenuClass">
       <UniqueIdentifier>{7cff92a2-5e48-46ec-b607-34bda3a7ba65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\VideoGameClass">
+      <UniqueIdentifier>{2c1ca49b-3360-4110-8f8a-0b721f5b1505}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VideoGameClass">
+      <UniqueIdentifier>{a3f119cb-b2b0-4ab0-a025-ce577676b621}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -113,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="GameSceneClass.cpp">
       <Filter>Source Files\GameSceneClass</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoGameClass.cpp">
+      <Filter>Source Files\VideoGameClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="GameSceneClass.h">
       <Filter>Header Files\GameSceneClass</Filter>
+    </ClInclude>
+    <ClInclude Include="IVideoGameClass.h">
+      <Filter>Header Files\VideoGameClass</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoGameClass.h">
+      <Filter>Header Files\VideoGameClass</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

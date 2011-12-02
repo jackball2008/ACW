@@ -24,6 +24,9 @@
 #include "ErrorManager.h"
 #include "GameClass.h"
 
+#include "IVideoGameClass.h"
+#include "VideoGameClass.h"
+
 
 BOOL APIENTRY DllMain( HMODULE hModule,
 	DWORD ul_reason_for_call,
