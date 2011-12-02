@@ -14,5 +14,8 @@ public:
 	virtual void __declspec(DLL_OUTPUT) SetRenderType(int type);
 
 	virtual void __declspec(DLL_OUTPUT) SetWindowSize(int width, int height);
+
+
+
 	
 };

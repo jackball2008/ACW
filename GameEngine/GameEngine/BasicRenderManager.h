@@ -16,7 +16,7 @@ public:
 	__declspec(DLL_OUTPUT) BasicRenderManager(void);
 	__declspec(DLL_OUTPUT) ~BasicRenderManager(void);
 
-	void __declspec(DLL_OUTPUT) Initialize();
+	virtual void __declspec(DLL_OUTPUT) Initialize();
 	/************************************************************************/
 	/*                                                                      */
 	/************************************************************************/
@@ -28,5 +28,7 @@ public:
 	int width,height;
 	void __declspec(DLL_OUTPUT) SetWindowSize(int width, int height);
 	
+
+
 };
 
