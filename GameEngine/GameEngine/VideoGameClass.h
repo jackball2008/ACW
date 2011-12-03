@@ -27,5 +27,9 @@ class VideoGameClass : public IVideoGameClass
 public:
 	__declspec(DLL_OUTPUT) VideoGameClass(void);
 	__declspec(DLL_OUTPUT) ~VideoGameClass(void);
+
+
+
+
 };
 

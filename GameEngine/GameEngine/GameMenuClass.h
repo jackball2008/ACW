@@ -11,7 +11,7 @@
 #endif
 
 enum GAME_MAIN_MENU{START,LOAD,SCORE,EXIT};
-typedef void(*MenuCallbackP)();
+
 
 class GameMenuClass :
 	public GameSceneClass

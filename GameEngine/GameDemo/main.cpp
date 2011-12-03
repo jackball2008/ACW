@@ -128,7 +128,7 @@ int WINAPI WinMain( HINSTANCE hinstance,
 	while(!quit)
 	{
 		if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))
-		{ 
+		{
 			// test if this is a quit
 			if (msg.message == WM_QUIT) quit = true;
 
@@ -143,14 +143,7 @@ int WINAPI WinMain( HINSTANCE hinstance,
 			/************************************************************************/
 
 
-
-
-
-
-
-
 		}
-
 	} // end while
 
 	return(msg.wParam);
