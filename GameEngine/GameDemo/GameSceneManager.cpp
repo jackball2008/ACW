@@ -37,6 +37,3 @@ void GameSceneManager::EndCurrentSceneEnvironment(){
 	std::cout<<"GameSceneManager::EndCurrentSceneEnvironment"<<endl;
 }
 
-// void GameSceneManager::test(){
-// 	std::cout<<"tttt"<<endl;
-// }

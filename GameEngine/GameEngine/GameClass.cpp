@@ -48,28 +48,29 @@ void GameClass::GameStateMainLoop(){
 	while(_gameStateLoopRunning){
 		int choosedMainMenuItem = ChooseMainMenuItem();
 		switch(choosedMainMenuItem){
-		case START:
+			/**
+		case MENU_START:
 			//*interMainMenuP[START]();
 			//(this->*interMainMenuP[START])();
 			ChooseMainMenuStartItemCallback();
 			//(mainMenu->*interMainMenuP[START])();
 			break;;
-		case LOAD:
+		case MENU_LOAD:
 			//(this->*interMainMenuP[LOAD])();
 			ChooseMainMenuLoadItemCallback();
 			//(mainMenu->*interMainMenuP[LOAD])();
 			break;
-		case SCORE:
+		case MENU_SCORE:
 			//(this->*interMainMenuP[SCORE])();
 			ChooseMainMenuScoreItemCallback();
 			//(mainMenu->*interMainMenuP[SCORE])();
 			break;
-		case EXIT:
+		case MENU_EXIT:
 			//(this->*interMainMenuP[EXIT])();
 			ChooseMainMenuExitItemCallback();
 			//(mainMenu->*interMainMenuP[EXIT])();
 			break;
-
+			*/
 		default:
 			break;
 

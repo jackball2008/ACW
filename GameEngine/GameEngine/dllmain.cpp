@@ -7,8 +7,6 @@
 
 #include "GameSceneClass.h"
 
-
-
 #include "ISceneManager.h"
 #include "BasicSceneManager.h"
 #include "IAssetManager.h"

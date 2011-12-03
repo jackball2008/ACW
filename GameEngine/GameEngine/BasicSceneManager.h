@@ -1,6 +1,7 @@
 #pragma once
 #include "ISceneManager.h"
 
+
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
 #else
@@ -45,11 +46,17 @@ public:
 	virtual void __declspec(DLL_OUTPUT) RunningGameInCurrentSceneEnvironment();
 	//end operation
 	virtual void __declspec(DLL_OUTPUT) EndCurrentSceneEnvironment();
-	
-
 	/************************************************************************/
 	/* Game End Flag                                                                     */
 	/************************************************************************/
+	
+	/************************************************************************/
+	/* Main Menu                                                                     */
+	/************************************************************************/
+
+
+
+
 
 
 };

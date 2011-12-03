@@ -10,5 +10,10 @@
 MXYGameEngineInterface IGameSceneClass {
 public:
 
+	virtual void __declspec(DLL_OUTPUT) Begin();
+	virtual void __declspec(DLL_OUTPUT) Running();
+	virtual void __declspec(DLL_OUTPUT) End();
+	virtual void __declspec(DLL_OUTPUT) SetNextScene(IGameSceneClass* );
+	virtual __declspec(DLL_OUTPUT) IGameSceneClass* GetNextScene();
 
 };

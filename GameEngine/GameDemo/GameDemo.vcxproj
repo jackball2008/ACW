@@ -87,8 +87,6 @@
     <ClInclude Include="GameSceneManager.h" />
     <ClInclude Include="LetterGameSceneClass.h" />
     <ClInclude Include="MainFunctionDefine.h" />
-    <ClInclude Include="ManagerDefine.h" />
-    <ClInclude Include="GameClassDefine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

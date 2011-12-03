@@ -1,9 +1,23 @@
-#include "GameClassDefine.h"
+#include "GameClass.h"
+
+#include "BasicAssetManager.h"
+#include "BasicInputManager.h"
+#include "BasicRenderManager.h"
+#include "BasicSceneManager.h"
+#include "BasicScriptManager.h"
+#include "GameSceneManager.h"
+
+#include "VideoGameClass.h"
+
 #include "MainFunctionDefine.h"
-#include "ManagerDefine.h"
+
+
+#pragma comment(lib,"GameEngine.lib")
+
+VideoGameClass myGame;
 
 #define USEOPENGL
-#define USEWINDOW
+
 
 const char TITLE[] = "Window CreationA";
 const int width = 800;
@@ -118,7 +132,7 @@ int WINAPI WinMain( HINSTANCE hinstance,
 	/************************************************************************/
 	/* initialize vary member variable                                                                     */
 	/************************************************************************/
-	//InitializeGameClass();
+	InitializeGameClass();
 	
 	/************************************************************************/
 	/* initialize end                                                                     */
@@ -141,7 +155,7 @@ int WINAPI WinMain( HINSTANCE hinstance,
 			/************************************************************************/
 			/* do some main logic control                                                                     */
 			/************************************************************************/
-
+			myGame.RunGameLogic();
 
 		}
 	} // end while
@@ -151,21 +165,13 @@ int WINAPI WinMain( HINSTANCE hinstance,
 } 
 
 
-/**
-void main( int argc, const char* argv[])
-{
-	InitializeGameClass();
-	int k;
-	cin>>k;
-}
-*/
 void InitializeGameClass(){
 	myGame.assetManager = new BasicAssetManager();
 	myGame.inputManager = new BasicInputManager();
 	myGame.renderManager = new BasicRenderManager();
 	myGame.scriptManager = new BasicScriptManager();
-	//myGame.sceneManager = new BasicSceneManager();
-	myGame.sceneManager = new GameSceneManager();
+	myGame.sceneManager = new BasicSceneManager();
+	//myGame.sceneManager = new GameSceneManager();
 	//very important
 	BindSceneManagerAndOtherManagers();
 	/************************************************************************/
@@ -186,8 +192,7 @@ void InitializeGameClass(){
 	/* game ini and go                                                                     */
 	/************************************************************************/
 	myGame.Initialize();
-	myGame.InitializeMainMenu();
-	myGame.GameStateMainLoop();
+	
 	
 }
 

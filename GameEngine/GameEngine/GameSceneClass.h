@@ -16,10 +16,14 @@ public:
 	//member veriable
 	int sceneID;
 	bool isLastScene;
-	GameSceneClass* nextGameScene;
+	IGameSceneClass* nextGameScene;
 
 
-
+	virtual void __declspec(DLL_OUTPUT) Begin();
+	virtual void __declspec(DLL_OUTPUT) Running();
+	virtual void __declspec(DLL_OUTPUT) End();
+	virtual void __declspec(DLL_OUTPUT) SetNextScene(IGameSceneClass* );
+	virtual __declspec(DLL_OUTPUT) IGameSceneClass*  GetNextScene();
 
 
 };

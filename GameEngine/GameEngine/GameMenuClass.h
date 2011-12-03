@@ -10,7 +10,7 @@
 #define DLL_OUTPUT dllimport
 #endif
 
-enum GAME_MAIN_MENU{START,LOAD,SCORE,EXIT};
+enum GAME_MAIN_MENU{MENU_START,MENU_LOAD,MENU_SCORE,MENU_EXIT};
 
 
 class GameMenuClass :
@@ -20,9 +20,30 @@ public:
 	__declspec(DLL_OUTPUT) GameMenuClass(void);
 	__declspec(DLL_OUTPUT) ~GameMenuClass(void);
 
-	//MenuCallbackP mainMenuP[4];
+	/************************************************************************/
+	/* set menu link                                                                     */
+	/************************************************************************/
+	IGameSceneClass* startScene;
+	IGameSceneClass* loadScene;
+	IGameSceneClass* scoreScene;
+	IGameSceneClass* exitScene;
 
+	bool hasStartScene;
+	bool hasLoadScene;
+	bool hasScoreScene;
+	bool hasExitScene;
 
-
+	virtual void __declspec(DLL_OUTPUT) SetStartScene(IGameSceneClass* );
+	virtual void __declspec(DLL_OUTPUT) SetLoadScene(IGameSceneClass* );
+	virtual void __declspec(DLL_OUTPUT) SetScoreScene(IGameSceneClass* );
+	virtual void __declspec(DLL_OUTPUT) SetExitScene(IGameSceneClass* );
+	//////////////////////////////////////////////////////////////////////////
+	/************************************************************************/
+	/* choose                                                                     */
+	/************************************************************************/
+	virtual void __declspec(DLL_OUTPUT) ChooseStartItem();
+	virtual void __declspec(DLL_OUTPUT) ChooseLoadItem();
+	virtual void __declspec(DLL_OUTPUT) ChooseScoreItem();
+	virtual void __declspec(DLL_OUTPUT) ChooseExitItem();
 };
 

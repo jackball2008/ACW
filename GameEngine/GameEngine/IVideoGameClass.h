@@ -9,6 +9,7 @@
 
 MXYGameEngineInterface IVideoGameClass {
 public:
-
+	virtual void __declspec(DLL_OUTPUT) Initialize();
+	virtual void __declspec(DLL_OUTPUT) RunGameLogic();
 
 };

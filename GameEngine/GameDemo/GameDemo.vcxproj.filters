@@ -29,13 +29,7 @@
     <ClInclude Include="GameSceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ManagerDefine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MainFunctionDefine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameClassDefine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LetterGameSceneClass.h">
