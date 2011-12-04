@@ -20,8 +20,10 @@
     <ClCompile Include="ErrorException.cpp" />
     <ClCompile Include="ErrorManager.cpp" />
     <ClCompile Include="ErrorObject.cpp" />
+    <ClCompile Include="FontGameSprite.cpp" />
     <ClCompile Include="GameMenuClass.cpp" />
     <ClCompile Include="GameSceneClass.cpp" />
+    <ClCompile Include="GameSprite.cpp" />
     <ClCompile Include="VideoGameClass.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -33,8 +35,10 @@
     <ClInclude Include="EngineObject.h" />
     <ClInclude Include="ErrorException.h" />
     <ClInclude Include="ErrorManager.h" />
+    <ClInclude Include="FontGameSprite.h" />
     <ClInclude Include="GameMenuClass.h" />
     <ClInclude Include="GameSceneClass.h" />
+    <ClInclude Include="GameSprite.h" />
     <ClInclude Include="IAssetManager.h" />
     <ClInclude Include="IGameSceneClass.h" />
     <ClInclude Include="IInputManager.h" />
@@ -44,6 +48,7 @@
     <ClInclude Include="IScriptManager.h" />
     <ClInclude Include="IVideoGameClass.h" />
     <ClInclude Include="MXYGameEngineInterfaceDefine.h" />
+    <ClInclude Include="mxyVector.h" />
     <ClInclude Include="VideoGameClass.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -55,7 +60,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>

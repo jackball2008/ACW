@@ -172,8 +172,7 @@ int WINAPI WinMain( HINSTANCE hinstance,
 			/* do some main logic control                                                                     */
 			/************************************************************************/
 			myGame.RunGameLogic();
-			myGame.renderManager->RenderOpenGL();
-			//RenderOpenGL();
+			
 		}
 	} // end while
 
@@ -202,8 +201,8 @@ void InitializeGameClass(){
 #else
 	myGame.renderManager->SetRenderType(DIECTX);
 #endif
-	myGame.renderManager->SetWindowSize(width,height);
-	myGame.renderManager->Initialize();
+	//myGame.renderManager->SetWindowSize(width,height);
+	//myGame.renderManager->Initialize();
 
 	/************************************************************************/
 	/* game ini and go                                                                     */

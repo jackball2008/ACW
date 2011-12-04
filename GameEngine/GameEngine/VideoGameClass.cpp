@@ -23,7 +23,7 @@ void VideoGameClass::Initialize(){
 /* game logic                                                                     */
 /************************************************************************/
 void VideoGameClass::RunGameLogic(){
-	
+	renderManager->RenderOpenGL();
 	//std::cout<<"playing"<<std::endl;
 	switch(currentState){
 	case CHOOSEMENU:

@@ -4,7 +4,9 @@
 
 #include <gl\gl.h>                                // Header File For The OpenGL32 Library
 #include <gl\glu.h>                               // Header File For The GLu32 Library
-
+#include "GameSprite.h"
+#include "FontGameSprite.h"
+#include <stdarg.h>
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
@@ -35,5 +37,16 @@ public:
 	HDC			hDC;//=NULL;		// Private GDI Device Context
 	virtual void __declspec(DLL_OUTPUT) InitializeOpenGL(HWND hwnd,int width,int height);
 	virtual void __declspec(DLL_OUTPUT) RenderOpenGL();	
+
+	
+	/************************************************************************/
+	/* display font text                                                                     */
+	/************************************************************************/
+// 	GLuint	base;
+// 	GLfloat	cnt1;
+// 	GLfloat	cnt2;
+// 	GLvoid BuildFont(GLvoid);
+// 	GLvoid glPrint(const char *fmt, ...);
+	FontGameSprite fs;
 };
 
