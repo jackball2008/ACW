@@ -4,6 +4,7 @@
 #include "IInputManager.h"
 #include "IRenderManager.h"
 #include "IScriptManager.h"
+#include "GameMenuClass.h"
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
@@ -36,7 +37,23 @@ public:
 	//end game scene
 	virtual void __declspec(DLL_OUTPUT) EndCurrentSceneEnvironment();
 	
+	/************************************************************************/
+	/* Main Menu                                                                     */
+	/************************************************************************/
+	virtual void __declspec(DLL_OUTPUT) SetMainMenu(GameMenuClass*);
+	/************************************************************************/
+	/* Game state running callback                                                                    */
+	/************************************************************************/
+	//CHOOSEMENU
+	virtual void __declspec(DLL_OUTPUT) RunChooseMenu(int* gs);
+	//GAMEPLAYING
+	virtual void __declspec(DLL_OUTPUT) RunGamePlaying(int* gs);
+	//SHOWSCORE
+	virtual void __declspec(DLL_OUTPUT) RunShowScore(int* gs);
+	//GAMEEXIT
+	virtual void __declspec(DLL_OUTPUT) RunGameExit(int* gs);
 
-
+	//
+	virtual void __declspec(DLL_OUTPUT) DrawScene();
 	
 };

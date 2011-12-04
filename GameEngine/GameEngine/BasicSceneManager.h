@@ -1,6 +1,6 @@
 #pragma once
 #include "ISceneManager.h"
-
+#include "GameMenuClass.h"
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
@@ -53,8 +53,23 @@ public:
 	/************************************************************************/
 	/* Main Menu                                                                     */
 	/************************************************************************/
+	GameMenuClass* mainMenu;
+	virtual void __declspec(DLL_OUTPUT) SetMainMenu(GameMenuClass*);
+	/************************************************************************/
+	/* Game state running callback                                                                    */
+	/************************************************************************/
+	//CHOOSEMENU
+	virtual void __declspec(DLL_OUTPUT) RunChooseMenu(int* gs);
+	//GAMEPLAYING
+	virtual void __declspec(DLL_OUTPUT) RunGamePlaying(int* gs);
+	//SHOWSCORE
+	virtual void __declspec(DLL_OUTPUT) RunShowScore(int* gs);
+	//GAMEEXIT
+	virtual void __declspec(DLL_OUTPUT) RunGameExit(int* gs);
 
 
+	//Draw
+	virtual void __declspec(DLL_OUTPUT) DrawScene();
 
 
 

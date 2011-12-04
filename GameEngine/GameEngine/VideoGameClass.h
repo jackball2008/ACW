@@ -5,8 +5,9 @@
 #include "IInputManager.h"
 #include "IRenderManager.h"
 #include "IScriptManager.h"
-
+//#include "GameStateDefine.h"
 #include "GameMenuClass.h"
+
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
@@ -17,7 +18,7 @@
 /************************************************************************/
 /* Game State     List                                                         */
 /************************************************************************/
-enum GameRunningState{CHOOSEMENU,GAMEPLAYING,SHOWSCORE,GMAEEXIT};
+enum GameRunningState{CHOOSEMENU,GAMEPLAYING,SHOWSCORE,GAMEEXIT};
 
 
 class VideoGameClass : public IVideoGameClass

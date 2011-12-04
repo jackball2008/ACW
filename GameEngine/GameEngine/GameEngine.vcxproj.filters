@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Test">
-      <UniqueIdentifier>{c4cf3b8f-5a77-4840-8214-750186aeb609}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Test">
-      <UniqueIdentifier>{ecd504a5-8a5e-4a69-b9ee-f80db38b1fa0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Manager">
       <UniqueIdentifier>{e932a68f-2bc5-45f6-a65d-e401927b6510}</UniqueIdentifier>
     </Filter>
@@ -73,9 +67,6 @@
     <Filter Include="Header Files\Component\GameMenuClass">
       <UniqueIdentifier>{5f620e76-ab43-470f-9825-e7ce96e7c5db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Component\GameClass">
-      <UniqueIdentifier>{4fd29ff0-ce36-4cac-8692-af92d771faa2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Component\VideoGameClass">
       <UniqueIdentifier>{2c1ca49b-3360-4110-8f8a-0b721f5b1505}</UniqueIdentifier>
     </Filter>
@@ -87,9 +78,6 @@
     </Filter>
     <Filter Include="Source Files\Component\GameMenuClass">
       <UniqueIdentifier>{7cff92a2-5e48-46ec-b607-34bda3a7ba65}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Component\GameClass">
-      <UniqueIdentifier>{240ee9b7-eb16-420b-900d-f3b14b0e1a88}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,9 +93,6 @@
     <ClCompile Include="ErrorObject.cpp">
       <Filter>Source Files\Manager\ErrorManager</Filter>
     </ClCompile>
-    <ClCompile Include="SayHello.cpp">
-      <Filter>Source Files\Test</Filter>
-    </ClCompile>
     <ClCompile Include="BasicSceneManager.cpp">
       <Filter>Source Files\Manager\SceneManager</Filter>
     </ClCompile>
@@ -119,9 +104,6 @@
     </ClCompile>
     <ClCompile Include="BasicRenderManager.cpp">
       <Filter>Source Files\Manager\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="GameClass.cpp">
-      <Filter>Source Files\Component\GameClass</Filter>
     </ClCompile>
     <ClCompile Include="BasicScriptManager.cpp">
       <Filter>Source Files\Manager\ScriptManager</Filter>
@@ -146,9 +128,6 @@
     <ClInclude Include="ErrorException.h">
       <Filter>Header Files\Manager\ErrorManager</Filter>
     </ClInclude>
-    <ClInclude Include="SayHello.h">
-      <Filter>Header Files\Test</Filter>
-    </ClInclude>
     <ClInclude Include="ISceneManager.h">
       <Filter>Header Files\Manager\SceneManager</Filter>
     </ClInclude>
@@ -172,12 +151,6 @@
     </ClInclude>
     <ClInclude Include="BasicRenderManager.h">
       <Filter>Header Files\Manager\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="GameClass.h">
-      <Filter>Header Files\Component\GameClass</Filter>
-    </ClInclude>
-    <ClInclude Include="IGameClass.h">
-      <Filter>Header Files\Component\GameClass</Filter>
     </ClInclude>
     <ClInclude Include="IScriptManager.h">
       <Filter>Header Files\Manager\ScriptManager</Filter>

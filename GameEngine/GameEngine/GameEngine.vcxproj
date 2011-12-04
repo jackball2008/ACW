@@ -20,10 +20,8 @@
     <ClCompile Include="ErrorException.cpp" />
     <ClCompile Include="ErrorManager.cpp" />
     <ClCompile Include="ErrorObject.cpp" />
-    <ClCompile Include="GameClass.cpp" />
     <ClCompile Include="GameMenuClass.cpp" />
     <ClCompile Include="GameSceneClass.cpp" />
-    <ClCompile Include="SayHello.cpp" />
     <ClCompile Include="VideoGameClass.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -35,11 +33,9 @@
     <ClInclude Include="EngineObject.h" />
     <ClInclude Include="ErrorException.h" />
     <ClInclude Include="ErrorManager.h" />
-    <ClInclude Include="GameClass.h" />
     <ClInclude Include="GameMenuClass.h" />
     <ClInclude Include="GameSceneClass.h" />
     <ClInclude Include="IAssetManager.h" />
-    <ClInclude Include="IGameClass.h" />
     <ClInclude Include="IGameSceneClass.h" />
     <ClInclude Include="IInputManager.h" />
     <ClInclude Include="IManager.h" />
@@ -48,7 +44,6 @@
     <ClInclude Include="IScriptManager.h" />
     <ClInclude Include="IVideoGameClass.h" />
     <ClInclude Include="MXYGameEngineInterfaceDefine.h" />
-    <ClInclude Include="SayHello.h" />
     <ClInclude Include="VideoGameClass.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -1,6 +1,10 @@
 #pragma once
 #include "IRenderManager.h"
-#include "BasicSceneManager.h"
+/*#include "BasicSceneManager.h"*/
+
+#include <gl\gl.h>                                // Header File For The OpenGL32 Library
+#include <gl\glu.h>                               // Header File For The GLu32 Library
+
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
@@ -28,7 +32,8 @@ public:
 	int width,height;
 	void __declspec(DLL_OUTPUT) SetWindowSize(int width, int height);
 	
-
-
+	HDC			hDC;//=NULL;		// Private GDI Device Context
+	virtual void __declspec(DLL_OUTPUT) InitializeOpenGL(HWND hwnd,int width,int height);
+	virtual void __declspec(DLL_OUTPUT) RenderOpenGL();	
 };
 

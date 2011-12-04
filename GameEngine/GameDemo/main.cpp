@@ -37,6 +37,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 	// what is the message 
 	switch(msg)
 	{	
+
 	case WM_CREATE: 
 		{
 			// do initialization stuff here
@@ -53,7 +54,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 
 	case WM_KEYDOWN:
 		{
+
+
+			myGame.inputManager->KeyboardInput(msg);
 			// Handle any non-accelerated key commands
+			/**
 			switch (wparam)
 			{
 			case VK_ESCAPE:
@@ -63,11 +68,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 			default:
 				char message[15];
 				sprintf_s(message, "Key Pressed: %c", (char)wparam);
-				//MessageBoxA(NULL, message, "Key Pressed", MB_OK);
+				MessageBoxA(NULL, message, "Key Pressed", MB_OK);
 			}
 			break;
+			*/
 		}
-
+	case WM_MOUSEMOVE:
+		myGame.inputManager->MouseInput(lparam);
+		break;
 	case WM_DESTROY: 
 		{
 			// kill the application			
@@ -94,6 +102,19 @@ int WINAPI WinMain( HINSTANCE hinstance,
 	LPSTR lpcmdline,
 	int ncmdshow)
 {
+
+
+
+	/************************************************************************/
+	/* initialize vary member variable                                                                     */
+	/************************************************************************/
+	InitializeGameClass();
+
+	/************************************************************************/
+	/* initialize end                                                                     */
+	/************************************************************************/
+
+
 	WNDCLASS	winclass;	// this will hold the class we create
 	HWND		hwnd;		// generic window handle
 	MSG			msg;		// generic message
@@ -129,14 +150,9 @@ int WINAPI WinMain( HINSTANCE hinstance,
 		NULL)))	// creation parms
 		return(0);
 
-	/************************************************************************/
-	/* initialize vary member variable                                                                     */
-	/************************************************************************/
-	InitializeGameClass();
-	
-	/************************************************************************/
-	/* initialize end                                                                     */
-	/************************************************************************/
+	//InitializeOpenGL(hwnd, width, height);
+	myGame.renderManager->InitializeOpenGL(hwnd, width, height);
+
 	// enter main event loop
 	bool quit = false;
 	while(!quit)
@@ -156,7 +172,8 @@ int WINAPI WinMain( HINSTANCE hinstance,
 			/* do some main logic control                                                                     */
 			/************************************************************************/
 			myGame.RunGameLogic();
-
+			myGame.renderManager->RenderOpenGL();
+			//RenderOpenGL();
 		}
 	} // end while
 

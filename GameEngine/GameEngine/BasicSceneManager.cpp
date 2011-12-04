@@ -92,3 +92,42 @@ void BasicSceneManager::RunningGameInCurrentSceneEnvironment(){
 void BasicSceneManager::EndCurrentSceneEnvironment(){
 
 }
+
+/************************************************************************/
+/* Main Menu                                                                     */
+/************************************************************************/
+void BasicSceneManager::SetMainMenu(GameMenuClass* m){
+	mainMenu = m;
+}
+/************************************************************************/
+/* Game state running callback                                                                    */
+/************************************************************************/
+//CHOOSEMENU
+void BasicSceneManager::RunChooseMenu(int* gs){
+
+
+
+
+
+
+}
+//GAMEPLAYING
+void BasicSceneManager::RunGamePlaying(int* gs){
+
+}
+//SHOWSCORE
+void BasicSceneManager::RunShowScore(int* gs){
+
+}
+//GAMEEXIT
+void BasicSceneManager::RunGameExit(int* gs){
+
+}
+
+//Draw
+void BasicSceneManager::DrawScene(){
+
+
+
+
+}

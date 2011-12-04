@@ -7,6 +7,7 @@
 #include "IScriptManager.h"
 //#include "GameMenuClass.h"
 
+
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
 #else
@@ -22,7 +23,7 @@ class GameClass;
 /************************************************************************/
 /* Game State                                                                     */
 /************************************************************************/
-enum GameRunningState{CHOOSEMENU,PLAYING,UPDATELEAVEL,END,SHOWSCORE};
+/*enum GameRunningState{CHOOSEMENU,PLAYING,UPDATELEAVEL,END,SHOWSCORE};*/
 /************************************************************************/
 /* Game Start Menu                                                                     */
 /************************************************************************/

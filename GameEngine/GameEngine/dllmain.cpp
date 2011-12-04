@@ -1,10 +1,8 @@
 #include <windows.h>
-#include "SayHello.h"
 #include "MXYGameEngineInterfaceDefine.h"
 #include "IManager.h"
-#include "IGameClass.h"
+/*#include "IGameClass.h"*/
 #include "IGameSceneClass.h"
-
 #include "GameSceneClass.h"
 
 #include "ISceneManager.h"
@@ -20,7 +18,7 @@
 #include "BasicScriptManager.h"
 
 #include "ErrorManager.h"
-#include "GameClass.h"
+/*#include "GameClass.h"*/
 
 #include "IVideoGameClass.h"
 #include "VideoGameClass.h"

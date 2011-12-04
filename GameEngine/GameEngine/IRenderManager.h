@@ -1,6 +1,7 @@
 #pragma once
 #include "IManager.h"
 
+
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
 #else
@@ -16,6 +17,6 @@ public:
 	virtual void __declspec(DLL_OUTPUT) SetWindowSize(int width, int height);
 
 
-
-	
+	virtual void __declspec(DLL_OUTPUT) InitializeOpenGL(HWND hwnd,int width,int height);
+	virtual void __declspec(DLL_OUTPUT) RenderOpenGL();	
 };

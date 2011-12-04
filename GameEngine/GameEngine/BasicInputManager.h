@@ -15,5 +15,9 @@ public:
 	__declspec(DLL_OUTPUT) ~BasicInputManager(void);
 
 	void __declspec(DLL_OUTPUT) Initialize();
+
+	virtual void __declspec(DLL_OUTPUT) KeyboardInput(const UINT& msg);
+	//LPARAM 
+	virtual void __declspec(DLL_OUTPUT) MouseInput(const LPARAM& lp);
 };
 
