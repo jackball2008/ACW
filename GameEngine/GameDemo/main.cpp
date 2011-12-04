@@ -5,21 +5,22 @@
 #include "BasicRenderManager.h"
 #include "BasicSceneManager.h"
 #include "BasicScriptManager.h"
-#include "GameSceneManager.h"
+
 
 #include "VideoGameClass.h"
+#include "LetterGame.h"
 
 #include "MainFunctionDefine.h"
 
 
 #pragma comment(lib,"GameEngine.lib")
 
-VideoGameClass myGame;
+LetterGame myGame;
 
 #define USEOPENGL
 
 
-const char TITLE[] = "Window CreationA";
+const char TITLE[] = "Letter Game";
 const int width = 800;
 const int height = 600;
 
@@ -54,25 +55,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 
 	case WM_KEYDOWN:
 		{
-
-
-			myGame.inputManager->KeyboardInput(msg);
-			// Handle any non-accelerated key commands
-			/**
-			switch (wparam)
-			{
-			case VK_ESCAPE:
-			case VK_F12:
-				PostMessage(hwnd, WM_CLOSE, 0, 0);
-				return (0);
-			default:
-				char message[15];
-				sprintf_s(message, "Key Pressed: %c", (char)wparam);
-				MessageBoxA(NULL, message, "Key Pressed", MB_OK);
-			}
-			break;
-			*/
+			myGame.inputManager->KeyboardInput(wparam);
 		}
+		
 	case WM_MOUSEMOVE:
 		myGame.inputManager->MouseInput(lparam);
 		break;
@@ -80,7 +65,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 		{
 			// kill the application			
 			PostQuitMessage(0);
-
 			return(0);
 		}
 
@@ -102,17 +86,6 @@ int WINAPI WinMain( HINSTANCE hinstance,
 	LPSTR lpcmdline,
 	int ncmdshow)
 {
-
-
-
-	/************************************************************************/
-	/* initialize vary member variable                                                                     */
-	/************************************************************************/
-	InitializeGameClass();
-
-	/************************************************************************/
-	/* initialize end                                                                     */
-	/************************************************************************/
 
 
 	WNDCLASS	winclass;	// this will hold the class we create
@@ -150,7 +123,15 @@ int WINAPI WinMain( HINSTANCE hinstance,
 		NULL)))	// creation parms
 		return(0);
 
-	//InitializeOpenGL(hwnd, width, height);
+	
+	/************************************************************************/
+	/* initialize vary member variable                                                                     */
+	/************************************************************************/
+	InitializeGameClass();
+
+	/************************************************************************/
+	/* initialize end                                                                     */
+	/************************************************************************/
 	myGame.renderManager->InitializeOpenGL(hwnd, width, height);
 
 	// enter main event loop
@@ -182,32 +163,30 @@ int WINAPI WinMain( HINSTANCE hinstance,
 
 
 void InitializeGameClass(){
-	myGame.assetManager = new BasicAssetManager();
-	myGame.inputManager = new BasicInputManager();
-	myGame.renderManager = new BasicRenderManager();
-	myGame.scriptManager = new BasicScriptManager();
-	myGame.sceneManager = new BasicSceneManager();
-	//myGame.sceneManager = new GameSceneManager();
+// 	myGame.assetManager = new BasicAssetManager();
+// 	myGame.inputManager = new BasicInputManager();
+// 	myGame.renderManager = new BasicRenderManager();
+// 	myGame.scriptManager = new BasicScriptManager();
+// 	myGame.sceneManager = new BasicSceneManager();
+	
 	//very important
-	BindSceneManagerAndOtherManagers();
+	//BindSceneManagerAndOtherManagers();
 	/************************************************************************/
 	/* initialize every manager                                                                     */
 	/************************************************************************/
 	/************************************************************************/
 	/* rendermanager initialize                                                                     */
 	/************************************************************************/
+	/************************************************************************/
+	/* game ini and go                                                                     */
+	/************************************************************************/
+	myGame.Initialize();
+
 #ifdef USEOPENGL
 	myGame.renderManager->SetRenderType(OPENGL);
 #else
 	myGame.renderManager->SetRenderType(DIECTX);
 #endif
-	//myGame.renderManager->SetWindowSize(width,height);
-	//myGame.renderManager->Initialize();
-
-	/************************************************************************/
-	/* game ini and go                                                                     */
-	/************************************************************************/
-	myGame.Initialize();
 	
 	
 }

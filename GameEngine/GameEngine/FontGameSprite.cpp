@@ -14,7 +14,7 @@ GLvoid FontGameSprite::BuildFont(GLvoid){
 	HFONT	font;
 	HFONT	oldfont;
 	base = glGenLists(96);
-	font = CreateFont( -50,
+	font = CreateFont( -24,
 		0,
 		0,
 		0,
@@ -46,8 +46,12 @@ GLvoid FontGameSprite::glPrint(const char *fmt, ...){
 	vsprintf(text, fmt, ap);
 	va_end(ap);
 	glPushAttrib(GL_LIST_BIT);
-	glListBase(base - 32);
+	glListBase(base - 31);
 	glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);
 	glPopAttrib();
 
+}
+
+void FontGameSprite::Draw(){
+	glPrint(letter);
 }

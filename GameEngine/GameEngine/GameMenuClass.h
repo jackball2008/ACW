@@ -1,6 +1,6 @@
 #pragma once
 #include "gamesceneclass.h"
-
+#include "FontGameSprite.h"
 
 
 
@@ -45,5 +45,18 @@ public:
 	virtual void __declspec(DLL_OUTPUT) ChooseLoadItem();
 	virtual void __declspec(DLL_OUTPUT) ChooseScoreItem();
 	virtual void __declspec(DLL_OUTPUT) ChooseExitItem();
+
+	/************************************************************************/
+	/* override                                                                     */
+	/************************************************************************/
+	virtual void __declspec(DLL_OUTPUT) Begin();
+	virtual void __declspec(DLL_OUTPUT) Running();
+	virtual void __declspec(DLL_OUTPUT) End();
+	//////////////////////////////////////////////////////////////////////////
+	//menu item list
+	int itemNum;
+	FontGameSprite *itemList[4];
+	//draw
+	virtual void __declspec(DLL_OUTPUT) Draw();
 };
 

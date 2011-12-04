@@ -79,12 +79,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameSceneManager.cpp" />
+    <ClCompile Include="LetterGame.cpp" />
     <ClCompile Include="LetterGameSceneClass.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameSceneManager.h" />
+    <ClInclude Include="LetterGame.h" />
     <ClInclude Include="LetterGameSceneClass.h" />
     <ClInclude Include="MainFunctionDefine.h" />
   </ItemGroup>

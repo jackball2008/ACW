@@ -1,6 +1,6 @@
 #pragma once
 #include "IManager.h"
-
+#include "IGameSceneClass.h"
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
@@ -18,5 +18,5 @@ public:
 
 
 	virtual void __declspec(DLL_OUTPUT) InitializeOpenGL(HWND hwnd,int width,int height);
-	virtual void __declspec(DLL_OUTPUT) RenderOpenGL();	
+	virtual void __declspec(DLL_OUTPUT) RenderOpenGL(IGameSceneClass*);	
 };

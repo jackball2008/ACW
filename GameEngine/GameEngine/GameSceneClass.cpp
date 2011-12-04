@@ -26,3 +26,7 @@ void GameSceneClass::SetNextScene(IGameSceneClass* g){
 IGameSceneClass* GameSceneClass::GetNextScene(){
 	return nextGameScene;
 }
+
+void GameSceneClass::Draw(){
+
+}

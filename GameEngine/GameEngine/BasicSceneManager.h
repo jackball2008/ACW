@@ -59,6 +59,7 @@ public:
 	/* Game state running callback                                                                    */
 	/************************************************************************/
 	//CHOOSEMENU
+	char key;
 	virtual void __declspec(DLL_OUTPUT) RunChooseMenu(int* gs);
 	//GAMEPLAYING
 	virtual void __declspec(DLL_OUTPUT) RunGamePlaying(int* gs);
@@ -71,7 +72,8 @@ public:
 	//Draw
 	virtual void __declspec(DLL_OUTPUT) DrawScene();
 
-
+	GameSceneClass* playScene;
+	virtual void __declspec(DLL_OUTPUT) SetPlayScene(GameMenuClass*);
 
 
 };

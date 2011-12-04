@@ -11,34 +11,7 @@ BasicSceneManager::~BasicSceneManager(void)
 }
 
 void BasicSceneManager::Initialize(){
-	//MessageBoxA(0,"Scene Manager Initialize ok ","", MB_OK);
-	/**
-	try{
-		if(!_hasAssetManager)
-			throw ErrorException(1, "No AssetManager", __FILE__, __LINE__);
-		else
-			_assetManager->Initialize();
-
-		if(!_hasInputManager)
-			throw ErrorException(1, "No InputManager", __FILE__, __LINE__);
-		else
-			_inputManager->Initialize();
-
-		if(!_hasRenderManager)
-			throw ErrorException(1, "No RenderManager", __FILE__, __LINE__);
-		else
-			_renderManager->Initialize();
-	}
-	catch(ErrorException& e)
-	{
-		ErrorManager* Log = ErrorManager::GetInstance();
-		Log->Create("SceneManagerLog.txt");
-		Log->Output("*****ERROR*****");
-		Log->LogException(e);
-		Log->Output("***************");
-		Log->Close();
-	}
-	*/
+	
 }
 
 void BasicSceneManager::SetAssetManager(IAssetManager* am){
@@ -98,6 +71,7 @@ void BasicSceneManager::EndCurrentSceneEnvironment(){
 /************************************************************************/
 void BasicSceneManager::SetMainMenu(GameMenuClass* m){
 	mainMenu = m;
+	mainMenu->Begin();
 }
 /************************************************************************/
 /* Game state running callback                                                                    */
@@ -105,15 +79,52 @@ void BasicSceneManager::SetMainMenu(GameMenuClass* m){
 //CHOOSEMENU
 void BasicSceneManager::RunChooseMenu(int* gs){
 
+	/*mainMenu->Draw();*/
+	_renderManager->RenderOpenGL(mainMenu);
+	//check keyboard input
 
 
+	//key = (char)(_inputManager->GetKeyValue());
+// 	switch(_inputManager->GetKeyValue()){
+// 	case 0x30:
+// 		std::cout<<"playing"<<std::endl;
+// 		break;
+// 	}
+	key = _inputManager->GetvKeyValue();
 
-
+	switch(key){
+	case '1':
+		_inputManager->RecovervKey();
+		//play
+		*gs = GAMEPLAYING;
+		/*std::cout<<"playing"<<std::endl;*/
+		mainMenu->End();
+		break;
+	case '2':
+		//load
+		*gs = LOADSAVE;
+		_inputManager->RecovervKey();
+		/*std::cout<<"playing"<<std::endl;*/
+		break;
+	case '3':
+		//score
+		*gs = SHOWSCORE;
+		_inputManager->RecovervKey();
+		/*std::cout<<"playing"<<std::endl;*/
+		break;
+	case '4':
+		//exit
+		*gs = GAMEEXIT;
+		_inputManager->RecovervKey();
+		/*std::cout<<"playing"<<std::endl;*/
+		break;
+	}
 
 }
 //GAMEPLAYING
 void BasicSceneManager::RunGamePlaying(int* gs){
-
+	//_renderManager->RenderOpenGL(playScene);
+	std::cout<<"playing"<<std::endl;
 }
 //SHOWSCORE
 void BasicSceneManager::RunShowScore(int* gs){
@@ -130,4 +141,8 @@ void BasicSceneManager::DrawScene(){
 
 
 
+}
+
+void BasicSceneManager::SetPlayScene(GameMenuClass* scene){
+	playScene = scene;
 }

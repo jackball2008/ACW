@@ -16,4 +16,6 @@ public:
 	virtual void __declspec(DLL_OUTPUT) SetNextScene(IGameSceneClass* );
 	virtual __declspec(DLL_OUTPUT) IGameSceneClass* GetNextScene();
 
+	virtual void __declspec(DLL_OUTPUT) Draw();
+
 };

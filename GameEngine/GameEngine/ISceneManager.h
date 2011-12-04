@@ -12,6 +12,8 @@
 #define DLL_OUTPUT dllimport
 #endif
 
+enum GameRunningState{CHOOSEMENU,GAMEPLAYING,LOADSAVE,SHOWSCORE,GAMEEXIT};
+
 MXYGameEngineInterface ISceneManager : public IManager {
 public:
 	virtual void __declspec(DLL_OUTPUT) Initialize();
@@ -55,5 +57,9 @@ public:
 
 	//
 	virtual void __declspec(DLL_OUTPUT) DrawScene();
+	/************************************************************************/
+	/* Play Scene                                                                     */
+	/************************************************************************/
+	virtual void __declspec(DLL_OUTPUT) SetPlayScene(GameMenuClass*);
 	
 };

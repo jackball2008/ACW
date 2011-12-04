@@ -11,7 +11,11 @@ MXYGameEngineInterface IInputManager : public IManager {
 public:
 	virtual void __declspec(DLL_OUTPUT) Initialize();
 
-	virtual void __declspec(DLL_OUTPUT) KeyboardInput(const UINT& msg);
+	virtual void __declspec(DLL_OUTPUT) KeyboardInput(WPARAM& wParam);
 	//LPARAM 
 	virtual void __declspec(DLL_OUTPUT) MouseInput(const LPARAM& lp);
+
+	/*virtual WPARAM __declspec(DLL_OUTPUT) GetKeyValue();*/
+	virtual __declspec(DLL_OUTPUT) char&  GetvKeyValue();
+	virtual void __declspec(DLL_OUTPUT) RecovervKey();
 };

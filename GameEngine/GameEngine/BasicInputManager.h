@@ -15,9 +15,20 @@ public:
 	__declspec(DLL_OUTPUT) ~BasicInputManager(void);
 
 	void __declspec(DLL_OUTPUT) Initialize();
-
-	virtual void __declspec(DLL_OUTPUT) KeyboardInput(const UINT& msg);
+	/************************************************************************/
+	/* keyboard                                                                     */
+	/************************************************************************/
+	WPARAM key;
+	char vkey;
+	virtual void __declspec(DLL_OUTPUT) KeyboardInput(WPARAM& wParam);
 	//LPARAM 
+	/************************************************************************/
+	/* mouse                                                                     */
+	/************************************************************************/
 	virtual void __declspec(DLL_OUTPUT) MouseInput(const LPARAM& lp);
+	//get key
+	/*virtual WPARAM __declspec(DLL_OUTPUT) GetKeyValue();*/
+	virtual __declspec(DLL_OUTPUT) char&  GetvKeyValue();
+	virtual void __declspec(DLL_OUTPUT) RecovervKey();
 };
 

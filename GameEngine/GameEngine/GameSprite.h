@@ -12,9 +12,7 @@ typedef mxy::vec4<float> vec4f;
 #define DLL_OUTPUT dllimport
 #endif
 
-#define MAX_CHAR        128
 
-enum SPRITE_TYPE{WORDSPRITE,GRAPHICSPRITE};
 
 class GameSprite
 {
@@ -32,8 +30,10 @@ public:
 	HDC			hDC;
 
 	
-	virtual void __declspec(DLL_OUTPUT) DrawString(const char * str);
-	virtual void __declspec(DLL_OUTPUT) DrawGraphic();
+// 	virtual void __declspec(DLL_OUTPUT) DrawString(const char * str);
+// 	virtual void __declspec(DLL_OUTPUT) DrawGraphic();
+
+	virtual void __declspec(DLL_OUTPUT) Draw();
 
 
 	/**

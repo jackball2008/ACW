@@ -79,6 +79,12 @@
     <Filter Include="Source Files\Component\GameMenuClass">
       <UniqueIdentifier>{7cff92a2-5e48-46ec-b607-34bda3a7ba65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Component\GameSprite">
+      <UniqueIdentifier>{4fb0b00b-4562-4f15-9649-e5fa2a192436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Component\GameSprite">
+      <UniqueIdentifier>{fb9a4b95-a4e8-4b89-8911-50817bd9233f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -117,11 +123,11 @@
     <ClCompile Include="VideoGameClass.cpp">
       <Filter>Source Files\Component\VideoGameClass</Filter>
     </ClCompile>
-    <ClCompile Include="GameSprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FontGameSprite.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Component\GameSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSprite.cpp">
+      <Filter>Source Files\Component\GameSprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,14 +191,14 @@
     <ClInclude Include="IManager.h">
       <Filter>Header Files\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="GameSprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="mxyVector.h">
       <Filter>Header Files\Component</Filter>
     </ClInclude>
+    <ClInclude Include="GameSprite.h">
+      <Filter>Header Files\Component\GameSprite</Filter>
+    </ClInclude>
     <ClInclude Include="FontGameSprite.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Component\GameSprite</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

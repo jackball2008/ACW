@@ -36,7 +36,7 @@ public:
 	
 	HDC			hDC;//=NULL;		// Private GDI Device Context
 	virtual void __declspec(DLL_OUTPUT) InitializeOpenGL(HWND hwnd,int width,int height);
-	virtual void __declspec(DLL_OUTPUT) RenderOpenGL();	
+	virtual void __declspec(DLL_OUTPUT) RenderOpenGL(IGameSceneClass*);	
 
 	
 	/************************************************************************/

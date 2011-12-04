@@ -18,7 +18,7 @@
 /************************************************************************/
 /* Game State     List                                                         */
 /************************************************************************/
-enum GameRunningState{CHOOSEMENU,GAMEPLAYING,SHOWSCORE,GAMEEXIT};
+/*enum GameRunningState{CHOOSEMENU,GAMEPLAYING,SHOWSCORE,GAMEEXIT};*/
 
 
 class VideoGameClass : public IVideoGameClass
@@ -54,6 +54,9 @@ public:
 	/* game logic                                                                     */
 	/************************************************************************/
 	virtual void __declspec(DLL_OUTPUT) RunGameLogic();
+	//
+	GameSceneClass* playScene;
+	GameSceneClass* scoreScene;
 
 };
 

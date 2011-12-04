@@ -117,26 +117,25 @@ void BasicRenderManager::InitializeOpenGL(HWND hwnd,int w,int hei)
 }
 
 //**************************Render and display the scene in OpenGL***********************
-void BasicRenderManager::RenderOpenGL()									// Here's Where We Do All The Drawing
+void BasicRenderManager::RenderOpenGL(IGameSceneClass* scene)									// Here's Where We Do All The Drawing
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
 	glLoadIdentity();									// Reset The Current Modelview Matrix
 
-
+	glTranslatef(0.0f,0.0f,-1.0f);
 	
-
+	scene->Draw();
 	
 	// Rendering of scene objects can happen here
-	glTranslatef(0.0f,0.0f,-1.0f);
-	//glColor3f(1.0f*float(cos(cnt1)),1.0f*float(sin(cnt2)),1.0f-0.5f*float(cos(cnt1+cnt2)));
-	//glRasterPos2f(-0.45f+0.05f*float(cos(cnt1)), 0.35f*float(sin(cnt2)));
-	glColor3f(1,1,1);
-	glRasterPos2f(0.1f,0.0f);
-	fs.glPrint("Active OpenGL Text With NeHe - %7.2f", 99.0);
-	//glPrint("Active OpenGL Text With NeHe - %7.2f", cnt1);
-	glColor3f(1,0,0);
-	glRasterPos2f(0,0.1);
-	fs.glPrint("A");
+	
+	
+// 	glColor3f(1,1,1);
+// 	glRasterPos2f(0.1f,0.0f);
+// 	fs.glPrint("Active OpenGL Text With NeHe - %7.2f", 99.0);
+// 	
+// 	glColor3f(1,0,0);
+// 	glRasterPos2f(0,0.1);
+// 	fs.glPrint("A");
 	/**
 	glBegin(GL_TRIANGLES);
 		glColor3d(1, 0, 0);
