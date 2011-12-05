@@ -40,7 +40,7 @@ void LetterGameSceneClass::Begin(){
 	itemList[1]->BuildFont();
 
 	itemList[2]->letter = "Time : %d";
-	itemList[2]->displayNum = 5;
+	itemList[2]->displayNum = GAMELENGTH;
 	itemList[2]->color3f.x = 1.0;
 	itemList[2]->color3f.y = 1.0;
 	itemList[2]->color3f.z = 1.0;
@@ -78,6 +78,11 @@ void LetterGameSceneClass::Running(){
 		timerDelta = 0;
 		startTime = stopTime;
 	}
+
+
+
+
+
 	
 	if(timer->displayNum == 0){
 		End();
@@ -90,7 +95,7 @@ void LetterGameSceneClass::End(){
 	startTime = 0;
 	stopTime = 0;
 	timerDelta = 0;
-	timer->displayNum =  5;
+	timer->displayNum =  GAMELENGTH;
 	*stopflag = 0;
 }
 void LetterGameSceneClass::Draw(){

@@ -3,7 +3,7 @@
 #include "FontGameSprite.h"
 /*#include <iostream>*/
 
-
+#define GAMELENGTH 60
 class LetterGameSceneClass : public GameSceneClass
 {
 public:
