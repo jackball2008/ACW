@@ -17,9 +17,7 @@ void BasicInputManager::Initialize(){
 void BasicInputManager::KeyboardInput(WPARAM& wParam){
 	/*key = wParam;*/
 	vkey = (char)wParam;
-// 	char message[15];
-// 	sprintf_s(message, "Key Pressed: %c", (char)wParam);
-// 	MessageBoxA(NULL, message, "Key Pressed", MB_OK);
+	keyvalue = wParam;
 }
 // WPARAM BasicInputManager::GetKeyValue(){
 // 	return key;
@@ -33,4 +31,7 @@ void BasicInputManager::RecovervKey(){
 //LPARAM 
 void BasicInputManager::MouseInput(const LPARAM& lp){
 
+}
+UINT  BasicInputManager::GetKeyValue(){
+	return keyvalue;
 }

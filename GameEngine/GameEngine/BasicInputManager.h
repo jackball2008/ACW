@@ -30,5 +30,7 @@ public:
 	/*virtual WPARAM __declspec(DLL_OUTPUT) GetKeyValue();*/
 	virtual __declspec(DLL_OUTPUT) char&  GetvKeyValue();
 	virtual void __declspec(DLL_OUTPUT) RecovervKey();
+	virtual __declspec(DLL_OUTPUT) UINT  GetKeyValue();
+	UINT keyvalue;
 };
 
