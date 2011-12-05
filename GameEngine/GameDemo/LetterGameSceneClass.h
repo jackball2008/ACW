@@ -1,5 +1,8 @@
 #pragma once
 #include "GameSceneClass.h"
+#include "FontGameSprite.h"
+/*#include <iostream>*/
+
 
 class LetterGameSceneClass : public GameSceneClass
 {
@@ -15,6 +18,8 @@ public:
 	void End();
 	void Draw();
 
-
+	int itemNum;
+	FontGameSprite *itemList[4];
+	
 };
 

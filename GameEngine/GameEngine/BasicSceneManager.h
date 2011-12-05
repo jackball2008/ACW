@@ -1,6 +1,7 @@
 #pragma once
 #include "ISceneManager.h"
 #include "GameMenuClass.h"
+#include "GameSceneClass.h"
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
@@ -39,22 +40,18 @@ public:
 	/* main loop function                                                                     */
 	/************************************************************************/
 	//this is the entrance for be called in playing main loop
-	virtual void __declspec(DLL_OUTPUT) OperateCurrentGameScene(bool *con);
-	//begin
-	virtual void __declspec(DLL_OUTPUT) CreateCurrentSceneEnvironment();
-	//play
-	virtual void __declspec(DLL_OUTPUT) RunningGameInCurrentSceneEnvironment();
-	//end operation
-	virtual void __declspec(DLL_OUTPUT) EndCurrentSceneEnvironment();
+// 	virtual void __declspec(DLL_OUTPUT) OperateCurrentGameScene(bool *con);
+// 	//begin
+// 	virtual void __declspec(DLL_OUTPUT) CreateCurrentSceneEnvironment();
+// 	//play
+// 	virtual void __declspec(DLL_OUTPUT) RunningGameInCurrentSceneEnvironment();
+// 	//end operation
+// 	virtual void __declspec(DLL_OUTPUT) EndCurrentSceneEnvironment();
 	/************************************************************************/
 	/* Game End Flag                                                                     */
 	/************************************************************************/
 	
-	/************************************************************************/
-	/* Main Menu                                                                     */
-	/************************************************************************/
-	GameMenuClass* mainMenu;
-	virtual void __declspec(DLL_OUTPUT) SetMainMenu(GameMenuClass*);
+	
 	/************************************************************************/
 	/* Game state running callback                                                                    */
 	/************************************************************************/
@@ -69,11 +66,13 @@ public:
 	virtual void __declspec(DLL_OUTPUT) RunGameExit(int* gs);
 
 
-	//Draw
-	virtual void __declspec(DLL_OUTPUT) DrawScene();
-
-	GameSceneClass* playScene;
-	virtual void __declspec(DLL_OUTPUT) SetPlayScene(GameMenuClass*);
+	/************************************************************************/
+	/* Main Menu                                                                     */
+	/************************************************************************/
+	GameMenuClass* mainMenu;
+	virtual void __declspec(DLL_OUTPUT) SetMainMenu(GameMenuClass*);
+	IGameSceneClass* playScene;
+	virtual void __declspec(DLL_OUTPUT) SetPlayScene(IGameSceneClass*);
 
 
 };

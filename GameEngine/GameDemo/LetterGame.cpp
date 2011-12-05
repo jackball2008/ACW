@@ -24,6 +24,10 @@ void LetterGame::Initialize(){
 	//menu
 	gameMainMenu = new GameMenuClass();
 	sceneManager->SetMainMenu(gameMainMenu);
+	//play
+	LetterGameSceneClass* playScene = new LetterGameSceneClass();
+	playScene->SetInputManager(inputManager);
+	sceneManager->SetPlayScene(playScene);
 
 
 }

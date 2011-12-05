@@ -5,7 +5,7 @@
 #include "BasicRenderManager.h"
 #include "BasicSceneManager.h"
 #include "BasicScriptManager.h"
-
+#include "LetterGameSceneClass.h"
 
 class LetterGame :
 	public VideoGameClass
@@ -15,6 +15,6 @@ public:
 	~LetterGame(void);
 
  	void Initialize();
-// 	void RunGameLogic();
+ 	void RunGameLogic();
 };
 

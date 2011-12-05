@@ -163,25 +163,7 @@ int WINAPI WinMain( HINSTANCE hinstance,
 
 
 void InitializeGameClass(){
-// 	myGame.assetManager = new BasicAssetManager();
-// 	myGame.inputManager = new BasicInputManager();
-// 	myGame.renderManager = new BasicRenderManager();
-// 	myGame.scriptManager = new BasicScriptManager();
-// 	myGame.sceneManager = new BasicSceneManager();
-	
-	//very important
-	//BindSceneManagerAndOtherManagers();
-	/************************************************************************/
-	/* initialize every manager                                                                     */
-	/************************************************************************/
-	/************************************************************************/
-	/* rendermanager initialize                                                                     */
-	/************************************************************************/
-	/************************************************************************/
-	/* game ini and go                                                                     */
-	/************************************************************************/
 	myGame.Initialize();
-
 #ifdef USEOPENGL
 	myGame.renderManager->SetRenderType(OPENGL);
 #else

@@ -30,3 +30,7 @@ IGameSceneClass* GameSceneClass::GetNextScene(){
 void GameSceneClass::Draw(){
 
 }
+
+void GameSceneClass::SetInputManager(IInputManager* m){
+	inputManager = m;
+}

@@ -26,5 +26,7 @@ public:
 	virtual __declspec(DLL_OUTPUT) IGameSceneClass*  GetNextScene();
 	virtual void __declspec(DLL_OUTPUT) Draw();
 
+	IInputManager* inputManager;
+	virtual void __declspec(DLL_OUTPUT) SetInputManager(IInputManager*);
 };
 

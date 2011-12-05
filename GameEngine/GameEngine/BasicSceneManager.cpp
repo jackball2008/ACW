@@ -37,59 +37,43 @@ void BasicSceneManager::SetScriptManager(IScriptManager* sm){
 /************************************************************************/
 /* main loop function                                                                     */
 /************************************************************************/
-void BasicSceneManager::OperateCurrentGameScene(bool *con){
+// void BasicSceneManager::OperateCurrentGameScene(bool *con){
+// 
+// 	//1, creat scene : make or load or initialize game scene unit
+// 	CreateCurrentSceneEnvironment();
+// 
+// 	//2, play
+// 	RunningGameInCurrentSceneEnvironment();
+// 
+// 
+// 	//3, end process
+// 	EndCurrentSceneEnvironment();
+// 	//when game run to the end
+// 	// this is the last Scene
+// 	std::cout<<"BasicSceneManager::OperateCurrentGameScene"<<endl;
+// 	*con = false;
+// }
+// //update level
+// void BasicSceneManager::CreateCurrentSceneEnvironment(){
+// 
+// }
+// //update game elements
+// void BasicSceneManager::RunningGameInCurrentSceneEnvironment(){
+// 
+// }
+// 
+// void BasicSceneManager::EndCurrentSceneEnvironment(){
+// 
+// }
 
-	//1, creat scene : make or load or initialize game scene unit
-	CreateCurrentSceneEnvironment();
 
-	//2, play
-	RunningGameInCurrentSceneEnvironment();
-
-
-	//3, end process
-	EndCurrentSceneEnvironment();
-	//when game run to the end
-	// this is the last Scene
-	std::cout<<"BasicSceneManager::OperateCurrentGameScene"<<endl;
-	*con = false;
-}
-//update level
-void BasicSceneManager::CreateCurrentSceneEnvironment(){
-
-}
-//update game elements
-void BasicSceneManager::RunningGameInCurrentSceneEnvironment(){
-
-}
-
-void BasicSceneManager::EndCurrentSceneEnvironment(){
-
-}
-
-/************************************************************************/
-/* Main Menu                                                                     */
-/************************************************************************/
-void BasicSceneManager::SetMainMenu(GameMenuClass* m){
-	mainMenu = m;
-	mainMenu->Begin();
-}
 /************************************************************************/
 /* Game state running callback                                                                    */
 /************************************************************************/
 //CHOOSEMENU
 void BasicSceneManager::RunChooseMenu(int* gs){
 
-	/*mainMenu->Draw();*/
 	_renderManager->RenderOpenGL(mainMenu);
-	//check keyboard input
-
-
-	//key = (char)(_inputManager->GetKeyValue());
-// 	switch(_inputManager->GetKeyValue()){
-// 	case 0x30:
-// 		std::cout<<"playing"<<std::endl;
-// 		break;
-// 	}
 	key = _inputManager->GetvKeyValue();
 
 	switch(key){
@@ -97,34 +81,35 @@ void BasicSceneManager::RunChooseMenu(int* gs){
 		_inputManager->RecovervKey();
 		//play
 		*gs = GAMEPLAYING;
-		/*std::cout<<"playing"<<std::endl;*/
 		mainMenu->End();
 		break;
 	case '2':
 		//load
 		*gs = LOADSAVE;
 		_inputManager->RecovervKey();
-		/*std::cout<<"playing"<<std::endl;*/
 		break;
 	case '3':
 		//score
 		*gs = SHOWSCORE;
 		_inputManager->RecovervKey();
-		/*std::cout<<"playing"<<std::endl;*/
 		break;
 	case '4':
 		//exit
 		*gs = GAMEEXIT;
 		_inputManager->RecovervKey();
-		/*std::cout<<"playing"<<std::endl;*/
 		break;
 	}
 
 }
 //GAMEPLAYING
 void BasicSceneManager::RunGamePlaying(int* gs){
-	//_renderManager->RenderOpenGL(playScene);
-	std::cout<<"playing"<<std::endl;
+	_renderManager->RenderOpenGL(playScene);
+
+
+
+
+
+	/*std::cout<<"playing"<<std::endl;*/
 }
 //SHOWSCORE
 void BasicSceneManager::RunShowScore(int* gs){
@@ -135,14 +120,15 @@ void BasicSceneManager::RunGameExit(int* gs){
 
 }
 
-//Draw
-void BasicSceneManager::DrawScene(){
 
-
-
-
+/************************************************************************/
+/* Main Menu                                                                     */
+/************************************************************************/
+void BasicSceneManager::SetMainMenu(GameMenuClass* m){
+	mainMenu = m;
+	mainMenu->Begin();
 }
-
-void BasicSceneManager::SetPlayScene(GameMenuClass* scene){
+void BasicSceneManager::SetPlayScene(IGameSceneClass* scene){
 	playScene = scene;
+	playScene->Begin();
 }

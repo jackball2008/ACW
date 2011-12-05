@@ -1,5 +1,6 @@
 #pragma once
 #include "MXYGameEngineInterfaceDefine.h"
+#include "IInputManager.h"
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
@@ -17,5 +18,7 @@ public:
 	virtual __declspec(DLL_OUTPUT) IGameSceneClass* GetNextScene();
 
 	virtual void __declspec(DLL_OUTPUT) Draw();
+
+	virtual void __declspec(DLL_OUTPUT) SetInputManager(IInputManager*);
 
 };
