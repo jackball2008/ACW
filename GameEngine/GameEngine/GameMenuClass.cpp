@@ -92,9 +92,14 @@ void GameMenuClass::End(){
 }
 
 void GameMenuClass::Draw(){
+
+	glPushMatrix();
+	glTranslatef(0.0f,0.0f,-1.0f);
+
 	for(int i=0;i<itemNum;i++){
 		glColor3f(itemList[i]->color3f.x,itemList[i]->color3f.y,itemList[i]->color3f.z);
 		glRasterPos2f(itemList[i]->pos3f.x,itemList[i]->pos3f.y);
 		itemList[i]->Draw();
 	}
+	glPopMatrix();
 }

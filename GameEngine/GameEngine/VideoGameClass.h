@@ -6,7 +6,7 @@
 #include "IRenderManager.h"
 #include "IScriptManager.h"
 //#include "GameStateDefine.h"
-#include "GameMenuClass.h"
+/*#include "GameMenuClass.h"*/
 
 
 #ifdef _WINDLL
@@ -41,7 +41,7 @@ public:
 	bool _gameStateLoopRunning;
 	bool _gamePlayingLoopRunning;
 	//////////////////////////////////////////////////////////////////////////
-	virtual void __declspec(DLL_OUTPUT) Initialize();
+	virtual void __declspec(DLL_OUTPUT) Initialize(HWND hwnd,int w,int hei,int type);
 	/************************************************************************/
 	/* state control                                                                     */
 	/************************************************************************/
@@ -49,14 +49,14 @@ public:
 	/************************************************************************/
 	/* initialize main menu                                                                     */
 	/************************************************************************/
-	GameMenuClass* gameMainMenu;
+	/*GameMenuClass* gameMainMenu;*/
 	/************************************************************************/
 	/* game logic                                                                     */
 	/************************************************************************/
 	virtual void __declspec(DLL_OUTPUT) RunGameLogic();
 	//
-	GameSceneClass* playScene;
-	GameSceneClass* scoreScene;
+// 	GameSceneClass* playScene;
+// 	GameSceneClass* scoreScene;
 
 };
 

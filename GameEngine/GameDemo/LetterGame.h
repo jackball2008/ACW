@@ -6,6 +6,7 @@
 #include "BasicSceneManager.h"
 #include "BasicScriptManager.h"
 #include "LetterGameSceneClass.h"
+#include "GameMenuClass.h"
 
 class LetterGame :
 	public VideoGameClass
@@ -14,7 +15,15 @@ public:
 	LetterGame(void);
 	~LetterGame(void);
 
- 	void Initialize();
+	/************************************************************************/
+	/* initialize main menu                                                                     */
+	/************************************************************************/
+	GameMenuClass* gameMainMenu;
+	//
+	LetterGameSceneClass* playScene;
+	GameSceneClass* scoreScene;
+
+ 	void Initialize(HWND hwnd,int w,int hei,int type);
  	void RunGameLogic();
 };
 

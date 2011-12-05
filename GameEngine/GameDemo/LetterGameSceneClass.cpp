@@ -66,7 +66,8 @@ void LetterGameSceneClass::End(){
 void LetterGameSceneClass::Draw(){
 
 
-
+	glPushMatrix();
+	glTranslatef(0.0f,0.0f,-1.0f);
 
 
 	for(int i=0;i<itemNum;i++){
@@ -74,4 +75,6 @@ void LetterGameSceneClass::Draw(){
 		glRasterPos2f(itemList[i]->pos3f.x,itemList[i]->pos3f.y);
 		itemList[i]->Draw();
 	}
+
+	glPopMatrix();
 }

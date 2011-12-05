@@ -26,9 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainFunctionDefine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LetterGameSceneClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>

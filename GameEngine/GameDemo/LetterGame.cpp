@@ -10,10 +10,11 @@ LetterGame::~LetterGame(void)
 {
 }
 
-void LetterGame::Initialize(){
+void LetterGame::Initialize(HWND hwnd,int w,int hei,int type){
+	renderManager = new BasicRenderManager();
+	renderManager->InitializeOpenGL(hwnd, w, hei);
 	assetManager = new BasicAssetManager();
 	inputManager = new BasicInputManager();
-	renderManager = new BasicRenderManager();
 	scriptManager = new BasicScriptManager();
 	sceneManager = new BasicSceneManager();
 	//bind
@@ -24,10 +25,11 @@ void LetterGame::Initialize(){
 	//menu
 	gameMainMenu = new GameMenuClass();
 	sceneManager->SetMainMenu(gameMainMenu);
+	gameMainMenu->SetInputManager(inputManager);
 	//play
 	LetterGameSceneClass* playScene = new LetterGameSceneClass();
-	playScene->SetInputManager(inputManager);
 	sceneManager->SetPlayScene(playScene);
+	playScene->SetInputManager(inputManager);
 
 
 }

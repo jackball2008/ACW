@@ -32,7 +32,7 @@ GLvoid FontGameSprite::BuildFont(GLvoid){
 	hDC = wglGetCurrentDC();
 	oldfont = (HFONT)SelectObject(hDC, font);
 	//wglUseFontBitmaps(hDC, 32, 96, base);
-	wglUseFontBitmaps(hDC, 32, 96, base);
+	wglUseFontBitmaps(hDC, 31, 96, base);
 
 	SelectObject(hDC, oldfont);
 	DeleteObject(font);

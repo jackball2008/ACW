@@ -13,10 +13,10 @@ VideoGameClass::~VideoGameClass(void)
 /************************************************************************/
 /* Initialize                                                                     */
 /************************************************************************/
-void VideoGameClass::Initialize(){
+void VideoGameClass::Initialize(HWND hwnd,int w,int hei,int type){
 	//initialize menu, creat a menu scene
-	gameMainMenu = new GameMenuClass();
-	sceneManager->SetMainMenu(gameMainMenu);
+// 	gameMainMenu = new GameMenuClass();
+// 	sceneManager->SetMainMenu(gameMainMenu);
 
 }
 /************************************************************************/

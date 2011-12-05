@@ -108,11 +108,8 @@ void BasicRenderManager::InitializeOpenGL(HWND hwnd,int w,int hei)
 	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
 
-
-
-
 	//BuildFont();
-	fs.BuildFont();
+	/*fs.BuildFont();*/
 
 }
 
@@ -122,7 +119,7 @@ void BasicRenderManager::RenderOpenGL(IGameSceneClass* scene)									// Here's 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
 	glLoadIdentity();									// Reset The Current Modelview Matrix
 
-	glTranslatef(0.0f,0.0f,-1.0f);
+	/*glTranslatef(0.0f,0.0f,-1.0f);*/
 	
 	scene->Draw();
 	

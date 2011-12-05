@@ -1,26 +1,24 @@
-#include "GameClass.h"
-
-#include "BasicAssetManager.h"
-#include "BasicInputManager.h"
-#include "BasicRenderManager.h"
-#include "BasicSceneManager.h"
-#include "BasicScriptManager.h"
-
-
-#include "VideoGameClass.h"
 #include "LetterGame.h"
-
-#include "MainFunctionDefine.h"
-
 
 #pragma comment(lib,"GameEngine.lib")
 
+/************************************************************************/
+/* define game                                                                     */
+/************************************************************************/
 LetterGame myGame;
 
 #define USEOPENGL
 
+/************************************************************************/
+/* define main function                                                                     */
+/************************************************************************/
+void InitializeGameClass(HWND hwnd,int w,int hei);
 
-const char TITLE[] = "Letter Game";
+/*void BindSceneManagerAndOtherManagers();*/
+/************************************************************************/
+/* end                                                                     */
+/************************************************************************/
+const char TITLE[] = "LetterGame";
 const int width = 800;
 const int height = 600;
 
@@ -34,17 +32,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 	// this is the main message handler of the system
 	PAINTSTRUCT		ps;	// used in WM_PAINT
 	HDC				hdc;	// handle to a device context
-
 	// what is the message 
 	switch(msg)
 	{	
-
 	case WM_CREATE: 
 		{
 			// do initialization stuff here
 			return(0);
 		} 
-
 	case WM_PAINT: 
 		{
 			// validate the window
@@ -52,12 +47,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 			EndPaint(hwnd,&ps);
 			return(0);
 		} 
-
 	case WM_KEYDOWN:
 		{
 			myGame.inputManager->KeyboardInput(wparam);
 		}
-		
 	case WM_MOUSEMOVE:
 		myGame.inputManager->MouseInput(lparam);
 		break;
@@ -67,31 +60,21 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 			PostQuitMessage(0);
 			return(0);
 		}
-
 	default:
 		break;
-
 	} // end switch
-
 	// process any messages that we didn't take care of 
 	return (DefWindowProc(hwnd, msg, wparam, lparam));
-
 } // end WinProc
-
-
-
 
 int WINAPI WinMain( HINSTANCE hinstance,
 	HINSTANCE hprevinstance,
 	LPSTR lpcmdline,
 	int ncmdshow)
 {
-
-
 	WNDCLASS	winclass;	// this will hold the class we create
 	HWND		hwnd;		// generic window handle
 	MSG			msg;		// generic message
-
 	// first fill in the window class stucture
 	winclass.style			= CS_HREDRAW | CS_VREDRAW;                  
 	winclass.lpfnWndProc	= WindowProc;
@@ -107,7 +90,6 @@ int WINAPI WinMain( HINSTANCE hinstance,
 	// register the window class
 	if (!RegisterClass(&winclass))
 		return(0);
-
 	// create the window
 	if (!(hwnd = CreateWindow( "WindowCreation", // class
 		TITLE,	     // title
@@ -122,17 +104,15 @@ int WINAPI WinMain( HINSTANCE hinstance,
 		hinstance,	// instance
 		NULL)))	// creation parms
 		return(0);
-
-	
 	/************************************************************************/
 	/* initialize vary member variable                                                                     */
 	/************************************************************************/
-	InitializeGameClass();
+	InitializeGameClass(hwnd, width, height);
 
 	/************************************************************************/
 	/* initialize end                                                                     */
 	/************************************************************************/
-	myGame.renderManager->InitializeOpenGL(hwnd, width, height);
+	//myGame.renderManager->InitializeOpenGL(hwnd, width, height);
 
 	// enter main event loop
 	bool quit = false;
@@ -162,26 +142,26 @@ int WINAPI WinMain( HINSTANCE hinstance,
 } 
 
 
-void InitializeGameClass(){
-	myGame.Initialize();
-#ifdef USEOPENGL
-	myGame.renderManager->SetRenderType(OPENGL);
-#else
-	myGame.renderManager->SetRenderType(DIECTX);
-#endif
+void InitializeGameClass(HWND hwnd,int w,int hei){
+	myGame.Initialize(hwnd, w, hei,0);
+// #ifdef USEOPENGL
+// 	myGame.renderManager->SetRenderType(OPENGL);
+// #else
+// 	myGame.renderManager->SetRenderType(DIECTX);
+// #endif
 	
 	
 }
 
 
 
-void BindSceneManagerAndOtherManagers(){
-	myGame.sceneManager->SetAssetManager(myGame.assetManager);
-	myGame.sceneManager->SetInputManager(myGame.inputManager);
-	myGame.sceneManager->SetRenderManager(myGame.renderManager);
-	myGame.sceneManager->SetScriptManager(myGame.scriptManager);
-
-}
+// void BindSceneManagerAndOtherManagers(){
+// 	myGame.sceneManager->SetAssetManager(myGame.assetManager);
+// 	myGame.sceneManager->SetInputManager(myGame.inputManager);
+// 	myGame.sceneManager->SetRenderManager(myGame.renderManager);
+// 	myGame.sceneManager->SetScriptManager(myGame.scriptManager);
+// 
+// }
 
 
 

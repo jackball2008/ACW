@@ -1,5 +1,6 @@
 #pragma once
 #include "MXYGameEngineInterfaceDefine.h"
+#include <windows.h>
 
 
 
@@ -13,7 +14,7 @@
 
 MXYGameEngineInterface IVideoGameClass {
 public:
-	virtual void __declspec(DLL_OUTPUT) Initialize();
+	virtual void __declspec(DLL_OUTPUT) Initialize(HWND hwnd,int w,int hei,int type);
 	virtual void __declspec(DLL_OUTPUT) RunGameLogic();
 
 };
