@@ -34,3 +34,7 @@ void GameSceneClass::Draw(){
 void GameSceneClass::SetInputManager(IInputManager* m){
 	inputManager = m;
 }
+
+void GameSceneClass::SetStopSceneFlag(int* f){
+	stopflag = f;
+}

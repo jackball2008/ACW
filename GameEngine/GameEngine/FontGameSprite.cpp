@@ -53,5 +53,5 @@ GLvoid FontGameSprite::glPrint(const char *fmt, ...){
 }
 
 void FontGameSprite::Draw(){
-	glPrint(letter);
+	glPrint(letter,displayNum);
 }

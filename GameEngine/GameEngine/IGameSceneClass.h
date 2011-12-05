@@ -21,4 +21,6 @@ public:
 
 	virtual void __declspec(DLL_OUTPUT) SetInputManager(IInputManager*);
 
+	virtual void __declspec(DLL_OUTPUT) SetStopSceneFlag(int*);
+
 };

@@ -44,7 +44,7 @@ void BasicSceneManager::RunChooseMenu(int* gs){
 
 	_renderManager->RenderOpenGL(mainMenu);
 	key = _inputManager->GetvKeyValue();
-
+	mainMenu->SetStopSceneFlag(gs);
 	switch(key){
 	case '1':
 		_inputManager->RecovervKey();
@@ -72,13 +72,10 @@ void BasicSceneManager::RunChooseMenu(int* gs){
 }
 //GAMEPLAYING
 void BasicSceneManager::RunGamePlaying(int* gs){
+	playScene->SetStopSceneFlag(gs);
+	playScene->Running();
 	_renderManager->RenderOpenGL(playScene);
 
-
-
-
-
-	/*std::cout<<"playing"<<std::endl;*/
 }
 //SHOWSCORE
 void BasicSceneManager::RunShowScore(int* gs){

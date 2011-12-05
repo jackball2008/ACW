@@ -28,5 +28,8 @@ public:
 
 	IInputManager* inputManager;
 	virtual void __declspec(DLL_OUTPUT) SetInputManager(IInputManager*);
+
+	int* stopflag;
+	virtual void __declspec(DLL_OUTPUT) SetStopSceneFlag(int*);
 };
 

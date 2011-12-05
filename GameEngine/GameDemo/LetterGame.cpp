@@ -12,6 +12,7 @@ LetterGame::~LetterGame(void)
 
 void LetterGame::Initialize(HWND hwnd,int w,int hei,int type){
 	renderManager = new BasicRenderManager();
+	//must initialize first
 	renderManager->InitializeOpenGL(hwnd, w, hei);
 	assetManager = new BasicAssetManager();
 	inputManager = new BasicInputManager();

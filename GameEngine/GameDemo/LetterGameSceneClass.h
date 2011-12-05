@@ -20,6 +20,16 @@ public:
 
 	int itemNum;
 	FontGameSprite *itemList[4];
-	
+	FontGameSprite* question;
+	FontGameSprite* answer;
+	FontGameSprite* timer;
+	FontGameSprite* score;
+
+	long startTime;
+	long stopTime;
+	bool isStart;
+	long timerDelta;
+
+	bool isGameOver;
 };
 
