@@ -47,6 +47,6 @@ public:
 // 	GLfloat	cnt2;
 // 	GLvoid BuildFont(GLvoid);
 // 	GLvoid glPrint(const char *fmt, ...);
-	FontGameSprite fs;
+	/*FontGameSprite fs;*/
 };
 
