@@ -42,4 +42,4 @@ void BasicInputManager::ReleaseHardware(){
 
 
 //kinect not use here
-// void BasicInputManager::SetSkeletonDataOuptTarget(SkeletonPoint* target[NUI_SKELETON_POSITION_COUNT]){}
+void BasicInputManager::SetSkeletonDataOuptTarget(SkeletonGameSprite *t){}

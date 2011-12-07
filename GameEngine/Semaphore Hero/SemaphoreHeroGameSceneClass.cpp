@@ -22,6 +22,10 @@ void SemaphoreHeroGameSceneClass::End(){
 
 
 void SemaphoreHeroGameSceneClass::Draw(){
-
+	glPushMatrix();
+	glScalef(0.25,0.25,1);
+	skeletonPlayer.Draw();
+	glPopMatrix();
+	
 }
 

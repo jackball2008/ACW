@@ -8,6 +8,7 @@ SemaphoreHeroGame::SemaphoreHeroGame(void)
 
 SemaphoreHeroGame::~SemaphoreHeroGame(void)
 {
+	
 }
 
 void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei,int type){
@@ -32,10 +33,10 @@ void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei,int type){
 	sceneManager->SetPlayScene(playScene);
 	playScene->SetInputManager(inputManager);
 	SkeletonGameSprite *sp = &(playScene->skeletonPlayer);
-	//inputManager->SetSkeletonDataOuptTarget(sp);
+	inputManager->SetSkeletonDataOuptTarget(sp);
 	
 	//initkinect
-
+	inputManager->Initialize();
 }
 
 void SemaphoreHeroGame::RunGameLogic(){
@@ -56,5 +57,5 @@ void SemaphoreHeroGame::RunGameLogic(){
 }
 
 void SemaphoreHeroGame::WM_DestoryHandler(){
-	delete inputManager;
+	delete (KinectInputManager*)inputManager;
 }

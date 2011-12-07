@@ -34,6 +34,8 @@ public:
 
 	virtual void __declspec(DLL_OUTPUT) ReleaseHardware();
 
-	void __declspec(DLL_OUTPUT) SetSkeletonDataOuptTarget(SkeletonGameSprite *);
+	virtual void __declspec(DLL_OUTPUT) SetSkeletonDataOuptTarget(SkeletonGameSprite *);
+
+	
 };
 

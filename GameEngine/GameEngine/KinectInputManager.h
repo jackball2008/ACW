@@ -37,7 +37,7 @@ public:
 	//
 	SkeletonGameSprite *skeletonSprite;
 	//SkeletonPoint* SkeletonPoints[NUI_SKELETON_POSITION_COUNT];
-	void __declspec(DLL_OUTPUT) SetSkeletonDataOuptTarget(SkeletonGameSprite *);
+	virtual void __declspec(DLL_OUTPUT) SetSkeletonDataOuptTarget(SkeletonGameSprite *);
 
 };
 
