@@ -85,6 +85,18 @@
     <Filter Include="Source Files\Component\GameSprite">
       <UniqueIdentifier>{fb9a4b95-a4e8-4b89-8911-50817bd9233f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Manager\InputManager\KinecInputManager">
+      <UniqueIdentifier>{d4b6ca4f-11c4-4fd0-b518-8a29fcc1de1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\InputManager\KinectInputManager">
+      <UniqueIdentifier>{63cb6520-6852-4034-ad5f-767a67acacb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Component\KineckSkeleton">
+      <UniqueIdentifier>{698fe48a-cfda-4f50-9475-90e0f1c2878c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Component\KineckSkeleton">
+      <UniqueIdentifier>{26d76c71-e939-4a1e-a1df-cc32af32e2dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -127,6 +139,12 @@
       <Filter>Source Files\Component\GameSprite</Filter>
     </ClCompile>
     <ClCompile Include="GameSprite.cpp">
+      <Filter>Source Files\Component\GameSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="KinectInputManager.cpp">
+      <Filter>Source Files\Manager\InputManager\KinectInputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletonGameSprite.cpp">
       <Filter>Source Files\Component\GameSprite</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,6 +216,15 @@
       <Filter>Header Files\Component\GameSprite</Filter>
     </ClInclude>
     <ClInclude Include="FontGameSprite.h">
+      <Filter>Header Files\Component\GameSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="KinectInputManager.h">
+      <Filter>Header Files\Manager\InputManager\KinecInputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletonPoint.h">
+      <Filter>Header Files\Component\KineckSkeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletonGameSprite.h">
       <Filter>Header Files\Component\GameSprite</Filter>
     </ClInclude>
   </ItemGroup>

@@ -17,4 +17,6 @@ public:
 	virtual void __declspec(DLL_OUTPUT) Initialize(HWND hwnd,int w,int hei,int type);
 	virtual void __declspec(DLL_OUTPUT) RunGameLogic();
 
+	virtual void __declspec(DLL_OUTPUT) WM_DestoryHandler();
+
 };

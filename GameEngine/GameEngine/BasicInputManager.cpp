@@ -11,7 +11,7 @@ BasicInputManager::~BasicInputManager(void)
 }
 
 void BasicInputManager::Initialize(){
-	MessageBoxA(0,"Input Manager Initialize ok ","", MB_OK);
+	/*MessageBoxA(0,"Input Manager Initialize ok ","", MB_OK);*/
 }
 
 void BasicInputManager::KeyboardInput(WPARAM& wParam){
@@ -35,3 +35,11 @@ void BasicInputManager::MouseInput(const LPARAM& lp){
 UINT  BasicInputManager::GetKeyValue(){
 	return keyvalue;
 }
+
+void BasicInputManager::ReleaseHardware(){
+
+}
+
+
+//kinect not use here
+// void BasicInputManager::SetSkeletonDataOuptTarget(SkeletonPoint* target[NUI_SKELETON_POSITION_COUNT]){}

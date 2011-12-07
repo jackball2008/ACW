@@ -25,5 +25,7 @@ public:
 
  	void Initialize(HWND hwnd,int w,int hei,int type);
  	void RunGameLogic();
+
+	
 };
 

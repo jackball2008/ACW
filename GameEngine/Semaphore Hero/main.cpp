@@ -1,28 +1,18 @@
-#include "LetterGame.h"
+#include "SemaphoreHeroGame.h"
 
 #pragma comment(lib,"GameEngine.lib")
 
-/************************************************************************/
-/* define game                                                                     */
-/************************************************************************/
-LetterGame myGame;
-
-#define USEOPENGL
-
-/************************************************************************/
-/* define main function                                                                     */
-/************************************************************************/
-void InitializeGameClass(HWND hwnd,int w,int hei);
-
-/*void BindSceneManagerAndOtherManagers();*/
-/************************************************************************/
-/* end                                                                     */
-/************************************************************************/
 const char TITLE[] = "LetterGame";
 const int width = 800;
 const int height = 600;
 
-//************************ MESSAGE HANDLER **************************
+SemaphoreHeroGame myGame;
+
+
+void InitializeGameClass(HWND hwnd,int w,int hei){
+	myGame.Initialize(hwnd, w, hei,0);	
+}
+
 
 LRESULT CALLBACK WindowProc(HWND hwnd, 
 	UINT msg, 
@@ -52,11 +42,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 			myGame.inputManager->KeyboardInput(wparam);
 		}
 	case WM_MOUSEMOVE:
-		myGame.inputManager->MouseInput(lparam);
+		//myGame.inputManager->MouseInput(lparam);
 		break;
 	case WM_DESTROY: 
 		{
-			// kill the application	
+			// kill the application			
 			myGame.WM_DestoryHandler();
 			PostQuitMessage(0);
 			return(0);
@@ -112,7 +102,6 @@ int WINAPI WinMain( HINSTANCE hinstance,
 	/************************************************************************/
 	/* initialize end                                                                     */
 	/************************************************************************/
-	//myGame.renderManager->InitializeOpenGL(hwnd, width, height);
 
 	// enter main event loop
 	bool quit = false;
@@ -133,28 +122,10 @@ int WINAPI WinMain( HINSTANCE hinstance,
 			/* do some main logic control                                                                     */
 			/************************************************************************/
 			myGame.RunGameLogic();
-			
+
 		}
 	} // end while
 
 	return(msg.wParam);
 
 } 
-
-
-void InitializeGameClass(HWND hwnd,int w,int hei){
-	myGame.Initialize(hwnd, w, hei,0);	
-}
-
-
-
-// void BindSceneManagerAndOtherManagers(){
-// 	myGame.sceneManager->SetAssetManager(myGame.assetManager);
-// 	myGame.sceneManager->SetInputManager(myGame.inputManager);
-// 	myGame.sceneManager->SetRenderManager(myGame.renderManager);
-// 	myGame.sceneManager->SetScriptManager(myGame.scriptManager);
-// 
-// }
-
-
-

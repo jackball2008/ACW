@@ -1,10 +1,20 @@
 #include <windows.h>
 #include "MXYGameEngineInterfaceDefine.h"
-#include "IManager.h"
-/*#include "IGameClass.h"*/
+
+//scene
 #include "IGameSceneClass.h"
 #include "GameSceneClass.h"
+#include "GameMenuClass.h"
 
+//sprite
+#include "mxyVector.h"
+#include "GameSprite.h"
+#include "SkeletonPoint.h"
+#include "SkeletonGameSprite.h"
+
+//manager
+#include "IManager.h"
+#include "ErrorManager.h"
 #include "ISceneManager.h"
 #include "BasicSceneManager.h"
 #include "IAssetManager.h"
@@ -13,19 +23,15 @@
 #include "BasicInputManager.h"
 #include "IRenderManager.h"
 #include "BasicRenderManager.h"
-
 #include "IScriptManager.h"
 #include "BasicScriptManager.h"
 
-#include "ErrorManager.h"
-/*#include "GameClass.h"*/
-
+#include "KinectInputManager.h"
+//game
 #include "IVideoGameClass.h"
 #include "VideoGameClass.h"
 
-#include "mxyVector.h"
-/*#include "GameClass.h"*/
-#include "GameSprite.h"
+
 
 
 BOOL APIENTRY DllMain( HMODULE hModule,

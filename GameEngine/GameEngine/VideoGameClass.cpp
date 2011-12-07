@@ -40,3 +40,7 @@ void VideoGameClass::RunGameLogic(){
 		break;
 	}
 }
+
+void VideoGameClass::WM_DestoryHandler(){
+
+}

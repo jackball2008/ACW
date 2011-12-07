@@ -1,5 +1,4 @@
 #pragma once
-
 #include "IInputManager.h"
 
 #ifdef _WINDLL
@@ -14,7 +13,7 @@ public:
 	__declspec(DLL_OUTPUT) BasicInputManager(void);
 	__declspec(DLL_OUTPUT) ~BasicInputManager(void);
 
-	void __declspec(DLL_OUTPUT) Initialize();
+	virtual void __declspec(DLL_OUTPUT) Initialize();
 	/************************************************************************/
 	/* keyboard                                                                     */
 	/************************************************************************/
@@ -32,5 +31,9 @@ public:
 	virtual void __declspec(DLL_OUTPUT) RecovervKey();
 	virtual __declspec(DLL_OUTPUT) UINT  GetKeyValue();
 	UINT keyvalue;
+
+	virtual void __declspec(DLL_OUTPUT) ReleaseHardware();
+
+	void __declspec(DLL_OUTPUT) SetSkeletonDataOuptTarget(SkeletonGameSprite *);
 };
 

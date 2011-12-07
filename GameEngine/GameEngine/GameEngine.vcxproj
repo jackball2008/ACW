@@ -24,6 +24,8 @@
     <ClCompile Include="GameMenuClass.cpp" />
     <ClCompile Include="GameSceneClass.cpp" />
     <ClCompile Include="GameSprite.cpp" />
+    <ClCompile Include="KinectInputManager.cpp" />
+    <ClCompile Include="SkeletonGameSprite.cpp" />
     <ClCompile Include="VideoGameClass.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -47,8 +49,11 @@
     <ClInclude Include="ISceneManager.h" />
     <ClInclude Include="IScriptManager.h" />
     <ClInclude Include="IVideoGameClass.h" />
+    <ClInclude Include="KinectInputManager.h" />
     <ClInclude Include="MXYGameEngineInterfaceDefine.h" />
     <ClInclude Include="mxyVector.h" />
+    <ClInclude Include="SkeletonGameSprite.h" />
+    <ClInclude Include="SkeletonPoint.h" />
     <ClInclude Include="VideoGameClass.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

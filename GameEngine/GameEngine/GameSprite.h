@@ -30,18 +30,10 @@ public:
 	HDC			hDC;
 
 	
-// 	virtual void __declspec(DLL_OUTPUT) DrawString(const char * str);
-// 	virtual void __declspec(DLL_OUTPUT) DrawGraphic();
+
 
 	virtual void __declspec(DLL_OUTPUT) Draw();
 
 
-	/**
-	void __declspec(DLL_OUTPUT) drawCNString(const char* str);
-
-	//////////////////////////////////////////////////////////////////////////
-	DWORD NormalFontBase;
-	void __declspec(DLL_OUTPUT) BuildGLFont(int fontHeight);
-	*/
 };
 

@@ -41,7 +41,6 @@ void BasicSceneManager::SetScriptManager(IScriptManager* sm){
 /************************************************************************/
 //CHOOSEMENU
 void BasicSceneManager::RunChooseMenu(int* gs){
-
 	_renderManager->RenderOpenGL(mainMenu);
 	key = _inputManager->GetvKeyValue();
 	mainMenu->SetStopSceneFlag(gs);

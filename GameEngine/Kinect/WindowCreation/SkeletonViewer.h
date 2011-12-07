@@ -1,11 +1,11 @@
 #pragma once
 #include <windows.h>
-#include <gl\gl.h>                                // Header File For The OpenGL32 Library
+#include <gl\gl.h>                                
 #include <gl\glu.h>  
-/*#include <Ole2.h>*/
+
 #include <MSR_NuiApi.h>
 
-/*#include "MSR_NuiApi.h"*/
+
 #include "Skeleton.h"
 
 

@@ -54,9 +54,8 @@ public:
 	/* game logic                                                                     */
 	/************************************************************************/
 	virtual void __declspec(DLL_OUTPUT) RunGameLogic();
-	//
-// 	GameSceneClass* playScene;
-// 	GameSceneClass* scoreScene;
+
+	virtual void __declspec(DLL_OUTPUT) WM_DestoryHandler();
 
 };
 

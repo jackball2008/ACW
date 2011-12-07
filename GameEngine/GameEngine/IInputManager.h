@@ -1,5 +1,7 @@
 #pragma once
 #include "IManager.h"
+#include "SkeletonGameSprite.h"
+
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
@@ -19,4 +21,10 @@ public:
 	virtual __declspec(DLL_OUTPUT) char&  GetvKeyValue();
 	virtual void __declspec(DLL_OUTPUT) RecovervKey();
 	virtual __declspec(DLL_OUTPUT) UINT  GetKeyValue();
+
+
+	virtual void __declspec(DLL_OUTPUT) ReleaseHardware();
+
+	void __declspec(DLL_OUTPUT) SetSkeletonDataOuptTarget(SkeletonGameSprite *);
+
 };
