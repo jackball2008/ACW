@@ -19,5 +19,7 @@ public:
 
 	SkeletonGameSprite skeletonPlayer;
 
+	void SetInputManager(IInputManager*);
+
 };
 

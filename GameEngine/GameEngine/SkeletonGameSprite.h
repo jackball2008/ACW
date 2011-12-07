@@ -20,5 +20,8 @@ public:
 
 	virtual void __declspec(DLL_OUTPUT) Draw();
 
+
+
+
 };
 

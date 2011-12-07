@@ -22,7 +22,8 @@ void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei,int type){
 	//bind
 	sceneManager->SetInputManager(inputManager);
 	sceneManager->SetRenderManager(renderManager);
-	
+
+	//scene setting
 	//menu
 	gameMainMenu = new GameMenuClass();
 	sceneManager->SetMainMenu(gameMainMenu);
@@ -30,11 +31,10 @@ void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei,int type){
 	/***/
 	//play
 	playScene = new SemaphoreHeroGameSceneClass();
-	sceneManager->SetPlayScene(playScene);
 	playScene->SetInputManager(inputManager);
-	SkeletonGameSprite *sp = &(playScene->skeletonPlayer);
-	inputManager->SetSkeletonDataOuptTarget(sp);
-	
+// 	SkeletonGameSprite *sp = &(playScene->skeletonPlayer);
+// 	inputManager->SetSkeletonDataOuptTarget(sp);
+	sceneManager->SetPlayScene(playScene);
 	//initkinect
 	inputManager->Initialize();
 }

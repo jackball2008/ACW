@@ -28,4 +28,7 @@ void SemaphoreHeroGameSceneClass::Draw(){
 	glPopMatrix();
 	
 }
-
+void SemaphoreHeroGameSceneClass::SetInputManager(IInputManager* in){
+	inputManager = in;
+	inputManager->SetSkeletonDataOuptTarget(&skeletonPlayer);
+}
