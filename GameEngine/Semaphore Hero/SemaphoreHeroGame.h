@@ -9,6 +9,9 @@
 #include "SemaphoreHeroGameSceneManager.h"
 #include "GameMenuClass.h"
 #include "SemaphoreHeroGameSceneClass.h"
+#include "SemaphoreHeroMainMenu.h"
+#include "LetterGameSceneClass.h"
+
 
 class SemaphoreHeroGame : public VideoGameClass
 {
@@ -27,10 +30,12 @@ public:
 	/************************************************************************/
 	/* initialize main menu                                                                     */
 	/************************************************************************/
-	GameMenuClass* gameMainMenu;
+	/*GameMenuClass* gameMainMenu;*/
+
+	SemaphoreHeroMainMenu* gameMainMenu;
 
 	//play
 	SemaphoreHeroGameSceneClass* playScene;
-
+	LetterGameSceneClass* firstScene;
 };
 
