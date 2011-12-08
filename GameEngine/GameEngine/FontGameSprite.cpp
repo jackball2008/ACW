@@ -3,6 +3,8 @@
 
 FontGameSprite::FontGameSprite(void)
 {
+	fontHeight = -24;
+	drawType = FONT_DRAW_NUM;
 }
 
 
@@ -14,7 +16,8 @@ GLvoid FontGameSprite::BuildFont(GLvoid){
 	HFONT	font;
 	HFONT	oldfont;
 	base = glGenLists(96);
-	font = CreateFont( -24,
+	
+	font = CreateFont( fontHeight,
 		0,
 		0,
 		0,
@@ -53,5 +56,11 @@ GLvoid FontGameSprite::glPrint(const char *fmt, ...){
 }
 
 void FontGameSprite::Draw(){
-	glPrint(letter,displayNum);
+	if(drawType == FONT_DRAW_NUM)
+		glPrint(letter,displayNum);
+	if(drawType == FONT_DRAW_STR)
+		glPrint(letter,displayStr);
 }
+//void FontGameSprite::DrawString(){
+//	glPrint(letter,nextStr);
+//}
