@@ -55,3 +55,22 @@ void FlagSprite::Draw(){
 	*/
 	glPopMatrix();
 }
+
+bool FlagSprite::CheckInRange2D(const float& x,const float& y){
+// 	pos3f.x+radius  pos3f.y+radius
+// 		pos3f.x-radius pos3f.y+radius
+// 		pos3f.x-radius pos3f.y-radius
+// 		pos3f.x+radius pos3f.y-radius
+
+		if( 
+			(x < (pos3f.x+radius) && x > (pos3f.x-radius)) 
+			&&
+			((y<pos3f.y+radius)&&(y>pos3f.y-radius))
+			)
+		{
+			return true;
+		}else{
+			return false;
+		}
+
+}

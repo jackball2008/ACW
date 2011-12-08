@@ -10,5 +10,7 @@ public:
 	const float radius;
 
 	void Draw();
+
+	bool CheckInRange2D(const float& x,const float& y);
 };
 

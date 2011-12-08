@@ -40,12 +40,17 @@ void SemaphoreHeroGameSceneClass::Running(){
 	float x = skeletonPlayer.SkeletonPoints[NUI_SKELETON_POSITION_HAND_LEFT].x * skeletonmanScale;
 	float y = skeletonPlayer.SkeletonPoints[NUI_SKELETON_POSITION_HAND_LEFT].y * skeletonmanScale;
 
-	if(x <= (leftFlag->pos3f.x - leftFlag->radius)){
+// 	if(x <= (leftFlag->pos3f.x - leftFlag->radius)){
+// 		leftFlag->color3f.y = 1;
+// 	}else{
+// 		leftFlag->color3f.y = 0;
+// 	}
+
+	if(leftFlag->CheckInRange2D(x,y)){
 		leftFlag->color3f.y = 1;
 	}else{
 		leftFlag->color3f.y = 0;
 	}
-
 
 
 
