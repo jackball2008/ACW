@@ -72,7 +72,7 @@ void KinectInputManager::ReleaseHardware(){
 		CloseHandle(StopKinectEvent);
 	}
 
-	NuiShutdown();
+	//NuiShutdown();
 
 	if(NextSkeletonEvent && ( NextSkeletonEvent != INVALID_HANDLE_VALUE)){
 		CloseHandle(NextSkeletonEvent);
