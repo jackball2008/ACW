@@ -57,8 +57,10 @@ public:
 	/************************************************************************/
 	virtual void __declspec(DLL_OUTPUT) SetMainMenu(GameMenuClass*);
 	/************************************************************************/
-	/* Play Scene                                                                     */
+	/* Play Scene                                                                      */
 	/************************************************************************/
 	virtual void __declspec(DLL_OUTPUT) SetPlayScene(IGameSceneClass*);
+	//play
+	virtual void __declspec(DLL_OUTPUT) PlayScene(IGameSceneClass*,int* gs);
 	
 };
