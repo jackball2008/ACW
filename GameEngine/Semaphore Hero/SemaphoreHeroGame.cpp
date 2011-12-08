@@ -25,34 +25,41 @@ void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei,int type){
 
 	//scene setting
 	//menu
-	gameMainMenu = new GameMenuClass();
+	/*gameMainMenu = new GameMenuClass();*/
+	gameMainMenu = new SemaphoreHeroMainMenu();
 	sceneManager->SetMainMenu(gameMainMenu);
 	gameMainMenu->SetInputManager(inputManager);
+	//gameMainMenu->Begin();
 	/***/
 	//play
 	playScene = new SemaphoreHeroGameSceneClass();
 	playScene->SetInputManager(inputManager);
+	playScene->Begin();
 // 	SkeletonGameSprite *sp = &(playScene->skeletonPlayer);
 // 	inputManager->SetSkeletonDataOuptTarget(sp);
-	sceneManager->SetPlayScene(playScene);
+	//sceneManager->SetPlayScene(playScene);
+	firstScene = new LetterGameSceneClass();
+	firstScene->SetInputManager(inputManager);
+	firstScene->Begin();
 	//initkinect
 	inputManager->Initialize();
 }
 
 void SemaphoreHeroGame::RunGameLogic(){
 	switch(currentState){
-	case CHOOSEMENU:
-		sceneManager->RunChooseMenu(&currentState);
+	case 0:
+		//sceneManager->RunChooseMenu(&currentState);
+		sceneManager->PlayScene(gameMainMenu,&currentState);
 		break;
-	case GAMEPLAYING:
-		sceneManager->RunGamePlaying(&currentState);
+	case 1:
+		//sceneManager->RunGamePlaying(&currentState);
+		sceneManager->PlayScene(firstScene,&currentState);
 		break;
-	case SHOWSCORE:
-		sceneManager->RunShowScore(&currentState);
+	case 2:
+		//sceneManager->RunShowScore(&currentState);
+		sceneManager->PlayScene(playScene,&currentState);
 		break;
-	case GAMEEXIT:
-		sceneManager->RunGameExit(&currentState);
-		break;
+	
 	}
 }
 
