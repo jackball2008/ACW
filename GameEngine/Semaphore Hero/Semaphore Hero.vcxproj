@@ -75,16 +75,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FlagSprite.cpp" />
+    <ClCompile Include="LetterGameSceneClass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SemaphoreHeroGame.cpp" />
     <ClCompile Include="SemaphoreHeroGameSceneClass.cpp" />
     <ClCompile Include="SemaphoreHeroGameSceneManager.cpp" />
+    <ClCompile Include="SemaphoreHeroMainMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FlagSprite.h" />
+    <ClInclude Include="LetterGameSceneClass.h" />
     <ClInclude Include="SemaphoreHeroGame.h" />
     <ClInclude Include="SemaphoreHeroGameSceneClass.h" />
     <ClInclude Include="SemaphoreHeroGameSceneManager.h" />
+    <ClInclude Include="SemaphoreHeroMainMenu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
