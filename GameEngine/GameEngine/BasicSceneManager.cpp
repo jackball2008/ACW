@@ -97,3 +97,9 @@ void BasicSceneManager::SetPlayScene(IGameSceneClass* scene){
 	playScene = scene;
 	playScene->Begin();
 }
+
+void BasicSceneManager::PlayScene(IGameSceneClass* scene,int* gs){
+	scene->SetStopSceneFlag(gs);
+	scene->Running();
+	_renderManager->RenderOpenGL(scene);
+}
