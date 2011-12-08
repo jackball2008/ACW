@@ -4,6 +4,16 @@
 #include "FontGameSprite.h"
 #include "FlagSprite.h"
 
+
+struct FlagPos{
+	char* name;
+	float lx;
+	float ly;
+	float rx;
+	float ry;
+};
+#define SIGNAL_NUM 27
+
 class SemaphoreHeroGameSceneClass :
 	public GameSceneClass
 {
@@ -19,11 +29,15 @@ public:
 	void End();
 	void Draw();
 
-	SkeletonGameSprite skeletonPlayer;
+	
 	//override
 	void SetInputManager(IInputManager*);
 
-	//for display word
+
+	//skeleton man sprite
+	SkeletonGameSprite skeletonPlayer;
+
+	//word sprite
 	int itemNum;
 	FontGameSprite *itemList[4];
 	FontGameSprite* questionLabel;
@@ -31,14 +45,33 @@ public:
 	FontGameSprite* timerLabel;
 	FontGameSprite* scoreLabel;
 
-	//for flag
+	//flag sprite
 	FlagSprite* leftFlag;
 	FlagSprite* rightFlag;
 
 
 	//for position calculation
+	float x_left;
+	float y_left;
+	float x_right;
+	float y_right;
 
-
+	//question index
+	FlagPos FlagSignals[SIGNAL_NUM];
+	void SetSignal();
+	int questionIndex;
+	bool answerRightForCurrentQuestion;
+	bool allPass;
+	//timer
+	int timerNum;
+	long startTime;
+	long endTime;
+	long deltaTime;
+	bool isStart;
+	//score calculation
+	long newSignalTime;
+	long finishSignalTime;
+	long scoreTime;
 
 };
 
