@@ -8,9 +8,9 @@ public:
 	SemaphoreHeroGameSceneManager(void);
 	~SemaphoreHeroGameSceneManager(void);
 
-
+	void RunChooseMenu(int* gs);
  	void RunGamePlaying(int* gs);
- 	void RunShowScore(int* gs);
- 	void RunGameExit(int* gs);
+ 	/*void RunShowScore(int* gs);
+ 	void RunGameExit(int* gs);*/
 };
 
