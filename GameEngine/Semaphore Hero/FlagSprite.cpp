@@ -1,7 +1,7 @@
 #include "FlagSprite.h"
 
 //const float FlagSprite::radius = 0.05;
-FlagSprite::FlagSprite(void):radius(0.05)
+FlagSprite::FlagSprite(void):radius(0.03)
 {
 	
 }
