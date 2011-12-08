@@ -74,6 +74,7 @@ public:
 	IGameSceneClass* playScene;
 	virtual void __declspec(DLL_OUTPUT) SetPlayScene(IGameSceneClass*);
 
+	virtual void __declspec(DLL_OUTPUT) PlayScene(IGameSceneClass*,int* gs);
 
 };
 
