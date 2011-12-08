@@ -74,12 +74,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FlagSprite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SemaphoreHeroGame.cpp" />
     <ClCompile Include="SemaphoreHeroGameSceneClass.cpp" />
     <ClCompile Include="SemaphoreHeroGameSceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FlagSprite.h" />
     <ClInclude Include="SemaphoreHeroGame.h" />
     <ClInclude Include="SemaphoreHeroGameSceneClass.h" />
     <ClInclude Include="SemaphoreHeroGameSceneManager.h" />

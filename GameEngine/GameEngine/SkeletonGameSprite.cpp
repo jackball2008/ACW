@@ -16,6 +16,7 @@ void SkeletonGameSprite::Draw(){
 	//glScalef(0.35,0.35,1);
 	//left hand
 	glBegin(GL_LINE_STRIP);
+	glColor3f(color3f.x,color3f.y,color3f.z);
 	glVertex3f(SkeletonPoints[NUI_SKELETON_POSITION_SHOULDER_CENTER].x, 
 		SkeletonPoints[NUI_SKELETON_POSITION_SHOULDER_CENTER].y, -1);
 	glVertex3f(SkeletonPoints[NUI_SKELETON_POSITION_SHOULDER_LEFT].x, 

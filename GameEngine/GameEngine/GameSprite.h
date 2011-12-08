@@ -1,6 +1,8 @@
 #pragma once
 #include <windows.h>
-#include <gl\gl.h> 
+
+#include <gl\gl.h>                                // Header File For The OpenGL32 Library
+#include <gl\glu.h>
 #include <stdio.h>
 #include "mxyVector.h"
 typedef mxy::vec3<float> vec3f;
@@ -34,6 +36,7 @@ public:
 
 	virtual void __declspec(DLL_OUTPUT) Draw();
 
+	virtual void __declspec(DLL_OUTPUT) CalculateScreenPosition(GLdouble x,GLdouble y,GLdouble z,GLdouble *rx,GLdouble* ry,GLdouble* rz);
 
 };
 
