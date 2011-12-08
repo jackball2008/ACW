@@ -23,7 +23,6 @@
     <ClCompile Include="FontGameSprite.cpp" />
     <ClCompile Include="GameMenuClass.cpp" />
     <ClCompile Include="GameSceneClass.cpp" />
-    <ClCompile Include="GameSprite.cpp" />
     <ClCompile Include="KinectInputManager.cpp" />
     <ClCompile Include="SkeletonGameSprite.cpp" />
     <ClCompile Include="VideoGameClass.cpp" />
@@ -48,6 +47,7 @@
     <ClInclude Include="IRenderManager.h" />
     <ClInclude Include="ISceneManager.h" />
     <ClInclude Include="IScriptManager.h" />
+    <ClInclude Include="ISprite.h" />
     <ClInclude Include="IVideoGameClass.h" />
     <ClInclude Include="KinectInputManager.h" />
     <ClInclude Include="MXYGameEngineInterfaceDefine.h" />

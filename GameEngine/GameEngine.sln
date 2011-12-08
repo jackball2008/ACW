@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine", "GameEngine\GameEngine.vcxproj", "{085B4850-9DE1-43FB-865A-C20ABE57A6F8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameDemo", "GameDemo\GameDemo.vcxproj", "{E5D53AB3-9508-40E0-A2AF-9EE867AE6771}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowCreation", "WindowCreation\WindowCreation.vcxproj", "{CC55B7F0-C25F-4C96-8346-3E32686375E8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Semaphore Hero", "Semaphore Hero\Semaphore Hero.vcxproj", "{B727F0DF-E008-4351-B400-633552869DE1}"
@@ -19,10 +17,6 @@ Global
 		{085B4850-9DE1-43FB-865A-C20ABE57A6F8}.Debug|Win32.Build.0 = Debug|Win32
 		{085B4850-9DE1-43FB-865A-C20ABE57A6F8}.Release|Win32.ActiveCfg = Release|Win32
 		{085B4850-9DE1-43FB-865A-C20ABE57A6F8}.Release|Win32.Build.0 = Release|Win32
-		{E5D53AB3-9508-40E0-A2AF-9EE867AE6771}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E5D53AB3-9508-40E0-A2AF-9EE867AE6771}.Debug|Win32.Build.0 = Debug|Win32
-		{E5D53AB3-9508-40E0-A2AF-9EE867AE6771}.Release|Win32.ActiveCfg = Release|Win32
-		{E5D53AB3-9508-40E0-A2AF-9EE867AE6771}.Release|Win32.Build.0 = Release|Win32
 		{CC55B7F0-C25F-4C96-8346-3E32686375E8}.Debug|Win32.ActiveCfg = Debug|Win32
 		{CC55B7F0-C25F-4C96-8346-3E32686375E8}.Debug|Win32.Build.0 = Debug|Win32
 		{CC55B7F0-C25F-4C96-8346-3E32686375E8}.Release|Win32.ActiveCfg = Release|Win32

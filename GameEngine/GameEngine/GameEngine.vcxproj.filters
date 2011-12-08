@@ -138,9 +138,6 @@
     <ClCompile Include="FontGameSprite.cpp">
       <Filter>Source Files\Component\GameSprite</Filter>
     </ClCompile>
-    <ClCompile Include="GameSprite.cpp">
-      <Filter>Source Files\Component\GameSprite</Filter>
-    </ClCompile>
     <ClCompile Include="KinectInputManager.cpp">
       <Filter>Source Files\Manager\InputManager\KinectInputManager</Filter>
     </ClCompile>
@@ -225,6 +222,9 @@
       <Filter>Header Files\Component\KineckSkeleton</Filter>
     </ClInclude>
     <ClInclude Include="SkeletonGameSprite.h">
+      <Filter>Header Files\Component\GameSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="ISprite.h">
       <Filter>Header Files\Component\GameSprite</Filter>
     </ClInclude>
   </ItemGroup>

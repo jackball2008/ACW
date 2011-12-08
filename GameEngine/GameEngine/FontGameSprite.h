@@ -27,9 +27,9 @@ public:
 
 	int drawType;
 
-	virtual  GLvoid __declspec(DLL_OUTPUT) BuildFont(GLvoid);
-	virtual  GLvoid __declspec(DLL_OUTPUT) glPrint(const char *fmt, ...);
-	virtual void __declspec(DLL_OUTPUT) Draw();
-	/*virtual void __declspec(DLL_OUTPUT) DrawString();*/
+	GLvoid __declspec(DLL_OUTPUT) BuildFont(GLvoid);
+	GLvoid __declspec(DLL_OUTPUT) glPrint(const char *fmt, ...);
+	void __declspec(DLL_OUTPUT) Draw();
+	
 };
 

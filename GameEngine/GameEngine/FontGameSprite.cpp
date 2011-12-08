@@ -46,7 +46,8 @@ GLvoid FontGameSprite::glPrint(const char *fmt, ...){
 	if (fmt == NULL)
 		return;
 	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
+	vsprintf_s(text, fmt, ap);
+	//vsprintf(text, fmt, ap);
 	va_end(ap);
 	glPushAttrib(GL_LIST_BIT);
 	glListBase(base - 31);
@@ -61,6 +62,3 @@ void FontGameSprite::Draw(){
 	if(drawType == FONT_DRAW_STR)
 		glPrint(letter,displayStr);
 }
-//void FontGameSprite::DrawString(){
-//	glPrint(letter,nextStr);
-//}

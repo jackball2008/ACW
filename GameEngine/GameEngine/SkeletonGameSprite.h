@@ -18,10 +18,7 @@ public:
 
 	SkeletonPoint SkeletonPoints[NUI_SKELETON_POSITION_COUNT];
 
-	virtual void __declspec(DLL_OUTPUT) Draw();
-
-
-
+	void __declspec(DLL_OUTPUT) Draw();
 
 };
 

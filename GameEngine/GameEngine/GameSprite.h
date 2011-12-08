@@ -1,10 +1,11 @@
 #pragma once
 #include <windows.h>
-
-#include <gl\gl.h>                                // Header File For The OpenGL32 Library
+#include "ISprite.h"
+#include <gl\gl.h>                           
 #include <gl\glu.h>
 #include <stdio.h>
 #include "mxyVector.h"
+
 typedef mxy::vec3<float> vec3f;
 typedef mxy::vec4<float> vec4f;
 
@@ -14,29 +15,21 @@ typedef mxy::vec4<float> vec4f;
 #define DLL_OUTPUT dllimport
 #endif
 
-
-
-class GameSprite
+class GameSprite : public ISprite
 {
 public:
-	__declspec(DLL_OUTPUT) GameSprite(void);
-	__declspec(DLL_OUTPUT) ~GameSprite(void);
-	//set display type
-	int displayType;
+	__declspec(DLL_OUTPUT) GameSprite(void):hDC(NULL){};
+	virtual __declspec(DLL_OUTPUT) ~GameSprite(void){};
+	
 	vec3f pos3f;
 	vec3f scale3f;
 	vec3f color3f;
 	vec4f color4f;
 	vec3f rotate3f;
-
+	//used for font display
 	HDC			hDC;
 
-	
-
-
-	virtual void __declspec(DLL_OUTPUT) Draw();
-
-	virtual void __declspec(DLL_OUTPUT) CalculateScreenPosition(GLdouble x,GLdouble y,GLdouble z,GLdouble *rx,GLdouble* ry,GLdouble* rz);
+	virtual void __declspec(DLL_OUTPUT) Draw() = 0;
 
 };
 

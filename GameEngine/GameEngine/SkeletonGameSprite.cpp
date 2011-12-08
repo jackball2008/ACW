@@ -13,7 +13,7 @@ SkeletonGameSprite::~SkeletonGameSprite(void)
 
 void SkeletonGameSprite::Draw(){
 	glPushMatrix();
-	//glScalef(0.35,0.35,1);
+	
 	//left hand
 	glBegin(GL_LINE_STRIP);
 	glColor3f(color3f.x,color3f.y,color3f.z);
