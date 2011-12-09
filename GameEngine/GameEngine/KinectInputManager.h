@@ -15,7 +15,7 @@ class KinectInputManager :
 {
 public:
 	 __declspec(DLL_OUTPUT) KinectInputManager(void);
-	 __declspec(DLL_OUTPUT) ~KinectInputManager(void);
+	 virtual __declspec(DLL_OUTPUT) ~KinectInputManager(void);
 
 	void __declspec(DLL_OUTPUT) Initialize();
 
@@ -36,7 +36,7 @@ public:
 	void BuildSkeleton(NUI_SKELETON_DATA*,int&);
 	//
 	SkeletonGameSprite *skeletonSprite;
-	//SkeletonPoint* SkeletonPoints[NUI_SKELETON_POSITION_COUNT];
+	
 	virtual void __declspec(DLL_OUTPUT) SetSkeletonDataOuptTarget(SkeletonGameSprite *);
 
 };

@@ -10,18 +10,13 @@ BasicInputManager::~BasicInputManager(void)
 {
 }
 
-void BasicInputManager::Initialize(){
-	/*MessageBoxA(0,"Input Manager Initialize ok ","", MB_OK);*/
-}
+
 
 void BasicInputManager::KeyboardInput(WPARAM& wParam){
-	/*key = wParam;*/
 	vkey = (char)wParam;
 	keyvalue = wParam;
 }
-// WPARAM BasicInputManager::GetKeyValue(){
-// 	return key;
-// }
+
 char& BasicInputManager::GetvKeyValue(){
 	return vkey;
 }
@@ -36,10 +31,3 @@ UINT  BasicInputManager::GetKeyValue(){
 	return keyvalue;
 }
 
-void BasicInputManager::ReleaseHardware(){
-
-}
-
-
-//kinect not use here
-void BasicInputManager::SetSkeletonDataOuptTarget(SkeletonGameSprite *t){}

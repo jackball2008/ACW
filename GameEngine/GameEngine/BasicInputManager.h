@@ -11,9 +11,9 @@ class BasicInputManager : public IInputManager
 {
 public:
 	__declspec(DLL_OUTPUT) BasicInputManager(void);
-	__declspec(DLL_OUTPUT) ~BasicInputManager(void);
+	virtual __declspec(DLL_OUTPUT) ~BasicInputManager(void);
 
-	virtual void __declspec(DLL_OUTPUT) Initialize();
+
 	/************************************************************************/
 	/* keyboard                                                                     */
 	/************************************************************************/
@@ -26,16 +26,11 @@ public:
 	/************************************************************************/
 	virtual void __declspec(DLL_OUTPUT) MouseInput(const LPARAM& lp);
 	//get key
-	/*virtual WPARAM __declspec(DLL_OUTPUT) GetKeyValue();*/
 	virtual __declspec(DLL_OUTPUT) char&  GetvKeyValue();
 	virtual void __declspec(DLL_OUTPUT) RecovervKey();
-	virtual __declspec(DLL_OUTPUT) UINT  GetKeyValue();
 	UINT keyvalue;
-
-	virtual void __declspec(DLL_OUTPUT) ReleaseHardware();
-
-	virtual void __declspec(DLL_OUTPUT) SetSkeletonDataOuptTarget(SkeletonGameSprite *);
-
+	virtual __declspec(DLL_OUTPUT) UINT  GetKeyValue();
 	
+
 };
 
