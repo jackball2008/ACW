@@ -20,33 +20,14 @@ class BasicRenderManager : public IRenderManager
 {
 public:
 	__declspec(DLL_OUTPUT) BasicRenderManager(void);
-	__declspec(DLL_OUTPUT) ~BasicRenderManager(void);
+	virtual __declspec(DLL_OUTPUT) ~BasicRenderManager(void);
 
-	virtual void __declspec(DLL_OUTPUT) Initialize();
-	/************************************************************************/
-	/*                                                                      */
-	/************************************************************************/
-	int renderType;
-	void __declspec(DLL_OUTPUT) SetRenderType(int type);
-	/************************************************************************/
-	/*                                                                      */
-	/************************************************************************/
-	int width,height;
-	void __declspec(DLL_OUTPUT) SetWindowSize(int width, int height);
 	
-	HDC			hDC;//=NULL;		// Private GDI Device Context
+	int width,height;
+	
+	HDC			hDC;// Private GDI Device Context
 	virtual void __declspec(DLL_OUTPUT) InitializeOpenGL(HWND hwnd,int width,int height);
 	virtual void __declspec(DLL_OUTPUT) RenderOpenGL(IGameSceneClass*);	
 
-	
-	/************************************************************************/
-	/* display font text                                                                     */
-	/************************************************************************/
-// 	GLuint	base;
-// 	GLfloat	cnt1;
-// 	GLfloat	cnt2;
-// 	GLvoid BuildFont(GLvoid);
-// 	GLvoid glPrint(const char *fmt, ...);
-	/*FontGameSprite fs;*/
 };
 

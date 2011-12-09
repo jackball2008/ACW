@@ -3,7 +3,6 @@
 
 BasicRenderManager::BasicRenderManager(void)
 {
-	renderType = OPENGL;
 	width = height = 0;
 	hDC=NULL;
 }
@@ -11,17 +10,6 @@ BasicRenderManager::BasicRenderManager(void)
 
 BasicRenderManager::~BasicRenderManager(void)
 {
-}
-
-void BasicRenderManager::Initialize(){
-// 	MessageBoxA(0,"Render Manager Initialize ok ","", MB_OK);
-}
-void BasicRenderManager::SetRenderType(int type){
-	renderType = type;
-}
-void BasicRenderManager::SetWindowSize(int w, int h){
-	width = w;
-	height = h;
 }
 
 //**************************Setup OpenGL***********************
@@ -108,8 +96,7 @@ void BasicRenderManager::InitializeOpenGL(HWND hwnd,int w,int hei)
 	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
 
-	//BuildFont();
-	/*fs.BuildFont();*/
+	
 
 }
 
@@ -119,70 +106,7 @@ void BasicRenderManager::RenderOpenGL(IGameSceneClass* scene)									// Here's 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
 	glLoadIdentity();									// Reset The Current Modelview Matrix
 
-	/*glTranslatef(0.0f,0.0f,-1.0f);*/
-	
 	scene->Draw();
 	
-	// Rendering of scene objects can happen here
-	
-	
-// 	glColor3f(1,1,1);
-// 	glRasterPos2f(0.1f,0.0f);
-// 	fs.glPrint("Active OpenGL Text With NeHe - %7.2f", 99.0);
-// 	
-// 	glColor3f(1,0,0);
-// 	glRasterPos2f(0,0.1);
-// 	fs.glPrint("A");
-	/**
-	glBegin(GL_TRIANGLES);
-		glColor3d(1, 0, 0);
-		glVertex3d( 0,  1, -4);
-		glVertex3d(-1, -1, -4);
-		glVertex3d( 1, -1, -4);
-	glEnd();
-	*/
 	SwapBuffers(hDC);				// Swap Buffers (Double Buffering)
 }
-
-/**
-GLvoid BasicRenderManager::BuildFont(GLvoid){
-	HFONT	font;
-	HFONT	oldfont;
-	base = glGenLists(96);
-	font = CreateFont( -50,
-		0,
-		0,
-		0,
-		FW_BOLD,
-		FALSE,
-		FALSE,
-		FALSE,
-		ANSI_CHARSET,
-		OUT_TT_PRECIS,
-		CLIP_DEFAULT_PRECIS,
-		ANTIALIASED_QUALITY,
-		FF_DONTCARE|DEFAULT_PITCH,
-		"Courier New"
-		);
-	oldfont = (HFONT)SelectObject(wglGetCurrentDC(), font);
-	//wglUseFontBitmaps(hDC, 32, 96, base);
-	wglUseFontBitmaps(wglGetCurrentDC(), 32, 96, base);
-	
-	SelectObject(wglGetCurrentDC(), oldfont);
-	DeleteObject(font);
-}
-GLvoid BasicRenderManager::glPrint(const char *fmt, ...){
-	char		text[256];
-	va_list		ap;
-	if (fmt == NULL)
-		return;
-	va_start(ap, fmt);
-	vsprintf(text, fmt, ap);
-	va_end(ap);
-	glPushAttrib(GL_LIST_BIT);
-	glListBase(base - 32);
-	glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);
-	glPopAttrib();
-
-}
-*/

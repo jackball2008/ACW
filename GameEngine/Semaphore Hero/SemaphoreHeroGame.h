@@ -2,7 +2,6 @@
 #include "VideoGameClass.h"
 #include "BasicRenderManager.h"
 #include "KinectInputManager.h"
-/*#include "SemaphoreHeroGameSceneManager.h"*/
 #include "SemaphoreHeroGameSceneClass.h"
 #include "SemaphoreHeroMainMenu.h"
 #include "LetterGameSceneClass.h"
