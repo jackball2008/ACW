@@ -44,7 +44,7 @@ void SemaphoreHeroGameSceneClass::Begin(){
 	itemList[0]->color3f.y = 1.0;
 	itemList[0]->color3f.z = 1.0;
 	itemList[0]->pos3f.x = -0.5;
-	itemList[0]->pos3f.y = 0.3;
+	itemList[0]->pos3f.y = 0.3f;
 	itemList[0]->num = 1;
 	itemList[0]->BuildFont();
 
@@ -54,7 +54,7 @@ void SemaphoreHeroGameSceneClass::Begin(){
 	itemList[1]->color3f.y = 1.0;
 	itemList[1]->color3f.z = 1.0;
 	itemList[1]->pos3f.x = -0.5;
-	itemList[1]->pos3f.y = 0.2;
+	itemList[1]->pos3f.y = 0.2f;
 	itemList[1]->num = 2;
 	itemList[1]->BuildFont();
 
@@ -65,7 +65,7 @@ void SemaphoreHeroGameSceneClass::Begin(){
 	itemList[2]->color3f.y = 1.0;
 	itemList[2]->color3f.z = 1.0;
 	itemList[2]->pos3f.x = -0.5;
-	itemList[2]->pos3f.y = 0.1;
+	itemList[2]->pos3f.y = 0.1f;
 	itemList[2]->num = 3;
 	itemList[2]->BuildFont();
 
@@ -75,7 +75,7 @@ void SemaphoreHeroGameSceneClass::Begin(){
 	itemList[3]->color3f.y = 1.0;
 	itemList[3]->color3f.z = 1.0;
 	itemList[3]->pos3f.x = -0.5;
-	itemList[3]->pos3f.y = -0.2;
+	itemList[3]->pos3f.y = -0.2f;
 	itemList[3]->num = 4;
 	itemList[3]->BuildFont();
 
@@ -87,7 +87,7 @@ void SemaphoreHeroGameSceneClass::Begin(){
 	//left flag
 	leftFlag = new FlagSprite();
 
-	leftFlag->pos3f.x = -0.2;
+	leftFlag->pos3f.x = -0.2f;
 	leftFlag->pos3f.y = 0;
 	leftFlag->pos3f.z = 0;
 
@@ -98,7 +98,7 @@ void SemaphoreHeroGameSceneClass::Begin(){
 	rightFlag = new FlagSprite();
 
 	rightFlag->pos3f.x = 0;
-	rightFlag->pos3f.y = 0.2;
+	rightFlag->pos3f.y = 0.2f;
 	rightFlag->pos3f.z = 0;
 
 	rightFlag->color3f.x = 0;
@@ -278,19 +278,19 @@ void SemaphoreHeroGameSceneClass::SetInputManager(IInputManager* in){
 }
 
 
-#define TOP_POS(x,y) x=0;y=0.15; 
-#define TOPRIGHT_POS(x,y) x=y=0.13;
-#define RIGHT_POS(x,y) x=0.15;y=0;
-#define BOTTOMRIGHT_POS(x,y) x=0.13;y=-0.13;
+#define TOP_POS(x,y) x=0.0f;y=0.15f; 
+#define TOPRIGHT_POS(x,y) x=y=0.13f;
+#define RIGHT_POS(x,y) x=0.15f;y=0.0f;
+#define BOTTOMRIGHT_POS(x,y) x=0.13f;y=-0.13f;
 //
-#define BOTTOM_POS(x,y) x=0;y=-0.15;
-#define BOTTOMLEFT_POS(x,y) x=-0.13;y=-0.13;
+#define BOTTOM_POS(x,y) x=0.0f;y=-0.15f;
+#define BOTTOMLEFT_POS(x,y) x=-0.13f;y=-0.13f;
 //
-#define LEFT_POS(x,y) x=-0.15;y=0;
-#define TOPLEFT_POS(x,y) x=-0.13;y=0.13;
+#define LEFT_POS(x,y) x=-0.15f;y=0.0f;
+#define TOPLEFT_POS(x,y) x=-0.13f;y=0.13f;
 
-#define RESTL_POS(x,y) x=-0.05;y=-0.13;
-#define RESTR_POS(x,y) x=0.05;y=-0.13;
+#define RESTL_POS(x,y) x=-0.05f;y=-0.13f;
+#define RESTR_POS(x,y) x=0.05f;y=-0.13f;
 
 void SemaphoreHeroGameSceneClass::SetSignal(){
 	int i=0;

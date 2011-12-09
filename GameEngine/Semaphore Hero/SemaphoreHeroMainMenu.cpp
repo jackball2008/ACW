@@ -20,15 +20,15 @@ void SemaphoreHeroMainMenu::Begin(){
 	//menuList[0] start
 	itemList[0]->letter = "1 START WORD GAME";
 	itemList[0]->color3f.x = 1.0;
-	itemList[0]->pos3f.x = -0.1;
-	itemList[0]->pos3f.y = 0.2;
+	itemList[0]->pos3f.x = -0.1f;
+	itemList[0]->pos3f.y = 0.2f;
 	itemList[0]->num = 1;
 	itemList[0]->BuildFont();
 
 	itemList[1]->letter = "2 START KINECT GAME";
 	itemList[1]->color3f.y = 1.0;
-	itemList[1]->pos3f.x = -0.1;
-	itemList[1]->pos3f.y = 0.1;
+	itemList[1]->pos3f.x = -0.1f;
+	itemList[1]->pos3f.y = 0.1f;
 	itemList[1]->num = 2;
 	itemList[1]->BuildFont();
 
