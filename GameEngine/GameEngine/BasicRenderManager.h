@@ -1,6 +1,7 @@
 #pragma once
 #include "IRenderManager.h"
 
+#include <WinError.h>
 #include <d3d9.h>
 #include <d3dx9.h>
 
@@ -17,6 +18,18 @@
 #endif
 
 enum RENDER_TYPE{OPENGL,DIECTX};
+struct CUSTOMVERTEX
+{
+	float x, y, z;	// The transformed position for the vertex
+	DWORD color;    // The vertex color
+};
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE) 
+CUSTOMVERTEX objectVertices[] =
+{
+	{  0.0f,  1.0f, -2.0f, 0xffff0000, },
+	{ -1.0f, -1.0f, -2.0f, 0xffff0000, },
+	{  1.0f, -1.0f, -2.0f, 0xffff0000, },
+};
 
 class BasicRenderManager : public IRenderManager
 {
@@ -31,14 +44,18 @@ public:
 	virtual void __declspec(DLL_OUTPUT) InitializeOpenGL(HWND hwnd,int width,int height);
 	virtual void __declspec(DLL_OUTPUT) RenderOpenGL(IGameSceneClass*);	
 
+	//////////////////////////////////////////////////////////////////////////
+	
+	LPDIRECT3DVERTEXBUFFER9	vbo; 
 
 	LPDIRECT3D9             g_pD3D;       
 	LPDIRECT3DDEVICE9       g_pd3dDevice;
 	D3DXMATRIX g_matProj;  
 	D3DXMATRIX g_matView;
 	D3DXMATRIX g_matWorld;
+
 	virtual void __declspec(DLL_OUTPUT) InitializeDX(HWND hwnd,int width,int height);
 
-
+	virtual void __declspec(DLL_OUTPUT) RenderDX();
 };
 

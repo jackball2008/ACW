@@ -5,8 +5,10 @@ BasicRenderManager::BasicRenderManager(void)
 {
 	width = height = 0;
 	hDC=NULL;
+	//drectx
 	g_pD3D       = NULL; 
 	g_pd3dDevice = NULL; 
+	vbo        = NULL;
 }
 
 
@@ -152,10 +154,10 @@ void BasicRenderManager::InitializeDX(HWND hwnd, int width, int height){
 		MessageBox(hwnd,"Vertex Buffer problem",NULL,NULL);;
 
 	VOID* pVertices;
-	if( FAILED( vbo->Lock( 0, sizeof(vertices), (void**)&pVertices, 0 ) ) )
+	if( FAILED( vbo->Lock( 0, sizeof(objectVertices), (void**)&pVertices, 0 ) ) )
 		MessageBox(hwnd,"Vertex Lock Problem",NULL,NULL);
 
-	memcpy( pVertices, vertices, sizeof(vertices) );
+	memcpy( pVertices, objectVertices, sizeof(objectVertices) );
 
 	vbo->Unlock();
 
@@ -188,4 +190,22 @@ void BasicRenderManager::InitializeDX(HWND hwnd, int width, int height){
 	//D3DXMatrixPerspectiveLH(&g_matProj, 2.0f, 2.0f/1.5f, 1.0f, 10000.0f);
 	D3DXMatrixPerspectiveFovLH(&g_matProj,45.0f,(float)width/(float)height,0.1f,100.0f);
 	g_pd3dDevice->SetTransform( D3DTS_PROJECTION, &g_matProj );
+}
+
+void BasicRenderManager::RenderDX(){
+	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0,0,0), 1.0f, 0 );
+
+	// Begin the scene
+	if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
+	{
+		// Rendering of scene objects can happen here
+		g_pd3dDevice->SetStreamSource( 0, vbo, 0, sizeof(CUSTOMVERTEX) );
+		g_pd3dDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
+		g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 1 );
+
+		// End the scene
+		g_pd3dDevice->EndScene();
+	}
+
+	g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
 }
