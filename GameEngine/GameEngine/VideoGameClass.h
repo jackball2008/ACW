@@ -1,12 +1,12 @@
 #pragma once
+#include <windows.h>
 #include "IVideoGameClass.h"
 #include "ISceneManager.h"
 #include "IAssetManager.h"
 #include "IInputManager.h"
 #include "IRenderManager.h"
 #include "IScriptManager.h"
-//#include "GameStateDefine.h"
-/*#include "GameMenuClass.h"*/
+
 
 
 #ifdef _WINDLL
@@ -15,17 +15,12 @@
 #define DLL_OUTPUT dllimport
 #endif
 
-/************************************************************************/
-/* Game State     List                                                         */
-/************************************************************************/
-/*enum GameRunningState{CHOOSEMENU,GAMEPLAYING,SHOWSCORE,GAMEEXIT};*/
-
 
 class VideoGameClass : public IVideoGameClass
 {
 public:
-	__declspec(DLL_OUTPUT) VideoGameClass(void);
-	__declspec(DLL_OUTPUT) ~VideoGameClass(void);
+	__declspec(DLL_OUTPUT) VideoGameClass(void):currentSceneID(0){}
+	virtual __declspec(DLL_OUTPUT) ~VideoGameClass(void){}
 
 	/************************************************************************/
 	/* member variable                                                                     */
@@ -35,27 +30,13 @@ public:
 	IInputManager* inputManager;
 	IRenderManager* renderManager;
 	IScriptManager* scriptManager;
-	/************************************************************************/
-	/* STATUS FLAG                                                                     */
-	/************************************************************************/
-	bool _gameStateLoopRunning;
-	bool _gamePlayingLoopRunning;
-	//////////////////////////////////////////////////////////////////////////
-	virtual void __declspec(DLL_OUTPUT) Initialize(HWND hwnd,int w,int hei,int type);
+
+	
 	/************************************************************************/
 	/* state control                                                                     */
 	/************************************************************************/
-	int currentState;
-	/************************************************************************/
-	/* initialize main menu                                                                     */
-	/************************************************************************/
-	/*GameMenuClass* gameMainMenu;*/
-	/************************************************************************/
-	/* game logic                                                                     */
-	/************************************************************************/
-	virtual void __declspec(DLL_OUTPUT) RunGameLogic();
-
-	virtual void __declspec(DLL_OUTPUT) WM_DestoryHandler();
+	int currentSceneID;
+	
 
 };
 

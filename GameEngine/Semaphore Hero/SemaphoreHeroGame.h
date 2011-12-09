@@ -1,13 +1,8 @@
 #pragma once
 #include "VideoGameClass.h"
-/*#include "BasicAssetManager.h"*/
-/*#include "BasicInputManager.h"*/
 #include "BasicRenderManager.h"
-
-/*#include "BasicScriptManager.h"*/
 #include "KinectInputManager.h"
 #include "SemaphoreHeroGameSceneManager.h"
-/*#include "GameMenuClass.h"*/
 #include "SemaphoreHeroGameSceneClass.h"
 #include "SemaphoreHeroMainMenu.h"
 #include "LetterGameSceneClass.h"
@@ -26,16 +21,10 @@ public:
 	//release kinect device resource
 	void WM_DestoryHandler();
 
-	
-	/************************************************************************/
-	/* initialize main menu                                                                     */
-	/************************************************************************/
-	/*GameMenuClass* gameMainMenu;*/
-
 	IGameSceneClass* gameMainMenu;
 
 	//play
-	SemaphoreHeroGameSceneClass* playScene;
-	LetterGameSceneClass* firstScene;
+	IGameSceneClass* semaphoreHeroGameScene;
+	IGameSceneClass* letterGameScene;
 };
 

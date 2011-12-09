@@ -35,18 +35,18 @@ void LetterGame::Initialize(HWND hwnd,int w,int hei,int type){
 
 }
 void LetterGame::RunGameLogic(){
-	switch(currentState){
+	switch(currentSceneID){
 	case CHOOSEMENU:
-		sceneManager->RunChooseMenu(&currentState);
+		sceneManager->RunChooseMenu(&currentSceneID);
 		break;
 	case GAMEPLAYING:
-		sceneManager->RunGamePlaying(&currentState);
+		sceneManager->RunGamePlaying(&currentSceneID);
 		break;
 	case SHOWSCORE:
-		sceneManager->RunShowScore(&currentState);
+		sceneManager->RunShowScore(&currentSceneID);
 		break;
 	case GAMEEXIT:
-		sceneManager->RunGameExit(&currentState);
+		sceneManager->RunGameExit(&currentSceneID);
 		break;
 	}
 }

@@ -32,32 +32,32 @@ void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei,int type){
 	gameMainMenu->Begin();
 	/***/
 	//play
-	playScene = new SemaphoreHeroGameSceneClass();
-	playScene->SetInputManager(inputManager);
-	playScene->Begin();
+	semaphoreHeroGameScene = new SemaphoreHeroGameSceneClass();
+	semaphoreHeroGameScene->SetInputManager(inputManager);
+	semaphoreHeroGameScene->Begin();
 // 	SkeletonGameSprite *sp = &(playScene->skeletonPlayer);
 // 	inputManager->SetSkeletonDataOuptTarget(sp);
 	//sceneManager->SetPlayScene(playScene);
-	firstScene = new LetterGameSceneClass();
-	firstScene->SetInputManager(inputManager);
-	firstScene->Begin();
+	letterGameScene = new LetterGameSceneClass();
+	letterGameScene->SetInputManager(inputManager);
+	letterGameScene->Begin();
 	//initkinect
 	inputManager->Initialize();
 }
 
 void SemaphoreHeroGame::RunGameLogic(){
-	switch(currentState){
+	switch(currentSceneID){
 	case 0:
 		//sceneManager->RunChooseMenu(&currentState);
-		sceneManager->PlayScene(gameMainMenu,&currentState);
+		sceneManager->PlayScene(gameMainMenu,&currentSceneID);
 		break;
 	case 1:
 		//sceneManager->RunGamePlaying(&currentState);
-		sceneManager->PlayScene(firstScene,&currentState);
+		sceneManager->PlayScene(letterGameScene,&currentSceneID);
 		break;
 	case 2:
 		//sceneManager->RunShowScore(&currentState);
-		sceneManager->PlayScene(playScene,&currentState);
+		sceneManager->PlayScene(semaphoreHeroGameScene,&currentSceneID);
 		break;
 	
 	}

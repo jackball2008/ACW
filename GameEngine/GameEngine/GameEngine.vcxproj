@@ -23,7 +23,6 @@
     <ClCompile Include="FontGameSprite.cpp" />
     <ClCompile Include="KinectInputManager.cpp" />
     <ClCompile Include="SkeletonGameSprite.cpp" />
-    <ClCompile Include="VideoGameClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicAssetManager.h" />

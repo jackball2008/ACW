@@ -64,17 +64,8 @@
     <Filter Include="Header Files\Component\GameSceneClass">
       <UniqueIdentifier>{76a2ae36-1ff6-4b73-a0dc-9880f01b2529}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Component\GameMenuClass">
-      <UniqueIdentifier>{5f620e76-ab43-470f-9825-e7ce96e7c5db}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Component\VideoGameClass">
       <UniqueIdentifier>{2c1ca49b-3360-4110-8f8a-0b721f5b1505}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Component\VideoGameClass">
-      <UniqueIdentifier>{a3f119cb-b2b0-4ab0-a025-ce577676b621}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Component\GameMenuClass">
-      <UniqueIdentifier>{7cff92a2-5e48-46ec-b607-34bda3a7ba65}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Component\GameSprite">
       <UniqueIdentifier>{4fb0b00b-4562-4f15-9649-e5fa2a192436}</UniqueIdentifier>
@@ -116,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="BasicScriptManager.cpp">
       <Filter>Source Files\Manager\ScriptManager</Filter>
-    </ClCompile>
-    <ClCompile Include="VideoGameClass.cpp">
-      <Filter>Source Files\Component\VideoGameClass</Filter>
     </ClCompile>
     <ClCompile Include="FontGameSprite.cpp">
       <Filter>Source Files\Component\GameSprite</Filter>
