@@ -1,7 +1,6 @@
 #pragma once
 #include "GameSceneClass.h"
 #include "FontGameSprite.h"
-#include <iostream>
 #include <ctime>
 
 #define GAMELENGTH 60

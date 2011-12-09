@@ -41,37 +41,37 @@ void BasicSceneManager::SetScriptManager(IScriptManager* sm){
 /************************************************************************/
 //CHOOSEMENU
 void BasicSceneManager::RunChooseMenu(int* gs){
-	_renderManager->RenderOpenGL(mainMenu);
-	key = _inputManager->GetvKeyValue();
-	mainMenu->SetStopSceneFlag(gs);
-	switch(key){
-	case '1':
-		_inputManager->RecovervKey();
-		//play
-		*gs = GAMEPLAYING;
-		mainMenu->End();
-		break;
-	case '2':
-		//load
-		*gs = LOADSAVE;
-		_inputManager->RecovervKey();
-		break;
-	case '3':
-		//score
-		*gs = SHOWSCORE;
-		_inputManager->RecovervKey();
-		break;
-	case '4':
-		//exit
-		*gs = GAMEEXIT;
-		_inputManager->RecovervKey();
-		break;
-	}
+// 	_renderManager->RenderOpenGL(mainMenu);
+// 	key = _inputManager->GetvKeyValue();
+// 	mainMenu->SetJumpNextSceneFlag(gs);
+// 	switch(key){
+// 	case '1':
+// 		_inputManager->RecovervKey();
+// 		//play
+// 		*gs = GAMEPLAYING;
+// 		mainMenu->End();
+// 		break;
+// 	case '2':
+// 		//load
+// 		*gs = LOADSAVE;
+// 		_inputManager->RecovervKey();
+// 		break;
+// 	case '3':
+// 		//score
+// 		*gs = SHOWSCORE;
+// 		_inputManager->RecovervKey();
+// 		break;
+// 	case '4':
+// 		//exit
+// 		*gs = GAMEEXIT;
+// 		_inputManager->RecovervKey();
+// 		break;
+// 	}
 
 }
 //GAMEPLAYING
 void BasicSceneManager::RunGamePlaying(int* gs){
-	playScene->SetStopSceneFlag(gs);
+	playScene->SetJumpNextSceneFlag(gs);
 	playScene->Running();
 	_renderManager->RenderOpenGL(playScene);
 
@@ -89,17 +89,17 @@ void BasicSceneManager::RunGameExit(int* gs){
 /************************************************************************/
 /* Main Menu                                                                     */
 /************************************************************************/
-void BasicSceneManager::SetMainMenu(GameMenuClass* m){
-	mainMenu = m;
-	mainMenu->Begin();
-}
+// void BasicSceneManager::SetMainMenu(GameMenuClass* m){
+// 	mainMenu = m;
+// 	mainMenu->Begin();
+// }
 void BasicSceneManager::SetPlayScene(IGameSceneClass* scene){
 	playScene = scene;
 	playScene->Begin();
 }
 
 void BasicSceneManager::PlayScene(IGameSceneClass* scene,int* gs){
-	scene->SetStopSceneFlag(gs);
+	scene->SetJumpNextSceneFlag(gs);
 	scene->Running();
 	_renderManager->RenderOpenGL(scene);
 }

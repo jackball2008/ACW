@@ -10,26 +10,15 @@
 class GameSceneClass : public IGameSceneClass
 {
 public:
-	__declspec(DLL_OUTPUT) GameSceneClass(void);
-	__declspec(DLL_OUTPUT) ~GameSceneClass(void);
+	__declspec(DLL_OUTPUT) GameSceneClass(void){}
+	virtual __declspec(DLL_OUTPUT) ~GameSceneClass(void){}
 
-	//member veriable
-	int sceneID;
-	bool isLastScene;
-	IGameSceneClass* nextGameScene;
-
-
-	virtual void __declspec(DLL_OUTPUT) Begin();
-	virtual void __declspec(DLL_OUTPUT) Running();
-	virtual void __declspec(DLL_OUTPUT) End();
-	virtual void __declspec(DLL_OUTPUT) SetNextScene(IGameSceneClass* );
-	virtual __declspec(DLL_OUTPUT) IGameSceneClass*  GetNextScene();
-	virtual void __declspec(DLL_OUTPUT) Draw();
+	
 
 	IInputManager* inputManager;
-	virtual void __declspec(DLL_OUTPUT) SetInputManager(IInputManager*);
+	void __declspec(DLL_OUTPUT) SetInputManager(IInputManager* g){ inputManager = g; }
 
-	int* stopflag;
-	virtual void __declspec(DLL_OUTPUT) SetStopSceneFlag(int*);
+	int* nextSceneFlag;
+	void __declspec(DLL_OUTPUT) SetJumpNextSceneFlag(int* f){ nextSceneFlag = f; }
 };
 

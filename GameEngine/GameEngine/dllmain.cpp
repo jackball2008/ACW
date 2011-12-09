@@ -4,7 +4,7 @@
 //scene
 #include "IGameSceneClass.h"
 #include "GameSceneClass.h"
-#include "GameMenuClass.h"
+/*#include "GameMenuClass.h"*/
 
 //sprite
 #include "mxyVector.h"

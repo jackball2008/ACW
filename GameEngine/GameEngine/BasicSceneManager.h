@@ -1,6 +1,6 @@
 #pragma once
 #include "ISceneManager.h"
-#include "GameMenuClass.h"
+/*#include "GameMenuClass.h"*/
 #include "GameSceneClass.h"
 
 #ifdef _WINDLL
@@ -69,8 +69,8 @@ public:
 	/************************************************************************/
 	/* Main Menu                                                                     */
 	/************************************************************************/
-	GameMenuClass* mainMenu;
-	virtual void __declspec(DLL_OUTPUT) SetMainMenu(GameMenuClass*);
+// 	GameMenuClass* mainMenu;
+// 	virtual void __declspec(DLL_OUTPUT) SetMainMenu(GameMenuClass*);
 	IGameSceneClass* playScene;
 	virtual void __declspec(DLL_OUTPUT) SetPlayScene(IGameSceneClass*);
 

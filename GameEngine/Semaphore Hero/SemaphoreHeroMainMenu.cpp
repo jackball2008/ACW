@@ -41,18 +41,19 @@ void SemaphoreHeroMainMenu::Running(){
 		case '1':
 		inputManager->RecovervKey();
 		End();
-		*stopflag = 1;
+		*nextSceneFlag = 1;
 		break;
 	case '2':
 		inputManager->RecovervKey();
 		End();
-		*stopflag = 2;
+		*nextSceneFlag = 2;
 		break;
 
 	}
 
 }
 
+void SemaphoreHeroMainMenu::End(){}
 
 
 void SemaphoreHeroMainMenu::Draw(){

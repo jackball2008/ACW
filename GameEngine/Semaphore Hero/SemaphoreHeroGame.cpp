@@ -27,9 +27,9 @@ void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei,int type){
 	//menu
 	/*gameMainMenu = new GameMenuClass();*/
 	gameMainMenu = new SemaphoreHeroMainMenu();
-	sceneManager->SetMainMenu(gameMainMenu);
+	//sceneManager->SetMainMenu(gameMainMenu);
 	gameMainMenu->SetInputManager(inputManager);
-	//gameMainMenu->Begin();
+	gameMainMenu->Begin();
 	/***/
 	//play
 	playScene = new SemaphoreHeroGameSceneClass();

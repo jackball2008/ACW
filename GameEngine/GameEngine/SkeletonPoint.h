@@ -11,5 +11,5 @@ struct SkeletonPoint {
 	
 	float x;
 	float y;
-	/*float z;*/
+	
 };

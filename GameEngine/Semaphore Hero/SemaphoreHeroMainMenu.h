@@ -1,18 +1,23 @@
 #pragma once
-#include "gamemenuclass.h"
+#include "FontGameSprite.h"
+#include "GameSceneClass.h"
 class SemaphoreHeroMainMenu :
-	public GameMenuClass
+	public GameSceneClass
 {
 public:
 	SemaphoreHeroMainMenu(void);
 	~SemaphoreHeroMainMenu(void);
 
+	//menu list
+	int itemNum;
 	FontGameSprite *itemList[2];
 
 	void Begin();
 
-	void Draw();
-
 	void Running();
+
+	void End();
+
+	void Draw();
 };
 

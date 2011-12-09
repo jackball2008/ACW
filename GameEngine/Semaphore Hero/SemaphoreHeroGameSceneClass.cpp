@@ -239,7 +239,7 @@ void SemaphoreHeroGameSceneClass::End(){
 	finishSignalTime = 0;
 	scoreTime = 0;
 	//
-	*stopflag = 0;
+	*nextSceneFlag = 0;
 }
 
 

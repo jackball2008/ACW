@@ -21,8 +21,6 @@
     <ClCompile Include="ErrorManager.cpp" />
     <ClCompile Include="ErrorObject.cpp" />
     <ClCompile Include="FontGameSprite.cpp" />
-    <ClCompile Include="GameMenuClass.cpp" />
-    <ClCompile Include="GameSceneClass.cpp" />
     <ClCompile Include="KinectInputManager.cpp" />
     <ClCompile Include="SkeletonGameSprite.cpp" />
     <ClCompile Include="VideoGameClass.cpp" />
@@ -37,7 +35,6 @@
     <ClInclude Include="ErrorException.h" />
     <ClInclude Include="ErrorManager.h" />
     <ClInclude Include="FontGameSprite.h" />
-    <ClInclude Include="GameMenuClass.h" />
     <ClInclude Include="GameSceneClass.h" />
     <ClInclude Include="GameSprite.h" />
     <ClInclude Include="IAssetManager.h" />

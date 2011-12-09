@@ -11,16 +11,15 @@
 MXYGameEngineInterface IGameSceneClass {
 public:
 
-	virtual void __declspec(DLL_OUTPUT) Begin();
-	virtual void __declspec(DLL_OUTPUT) Running();
-	virtual void __declspec(DLL_OUTPUT) End();
-	virtual void __declspec(DLL_OUTPUT) SetNextScene(IGameSceneClass* );
-	virtual __declspec(DLL_OUTPUT) IGameSceneClass* GetNextScene();
+	virtual void __declspec(DLL_OUTPUT) Begin() = 0;
+	virtual void __declspec(DLL_OUTPUT) Running() = 0;
+	virtual void __declspec(DLL_OUTPUT) End() = 0;
 
-	virtual void __declspec(DLL_OUTPUT) Draw();
 
-	virtual void __declspec(DLL_OUTPUT) SetInputManager(IInputManager*);
+	virtual void __declspec(DLL_OUTPUT) Draw() = 0;
 
-	virtual void __declspec(DLL_OUTPUT) SetStopSceneFlag(int*);
+	virtual void __declspec(DLL_OUTPUT) SetInputManager(IInputManager*) = 0;
+
+	virtual void __declspec(DLL_OUTPUT) SetJumpNextSceneFlag(int*) = 0;
 
 };

@@ -360,7 +360,7 @@ void LetterGameSceneClass::End(){
 	timerDelta = 0;
 	timer->displayNum =  GAMELENGTH;
 	
-	*stopflag = 0;
+	*nextSceneFlag = 0;
 }
 void LetterGameSceneClass::Draw(){
 

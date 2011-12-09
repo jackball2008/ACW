@@ -73,9 +73,6 @@
     <Filter Include="Source Files\Component\VideoGameClass">
       <UniqueIdentifier>{a3f119cb-b2b0-4ab0-a025-ce577676b621}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Component\GameSceneClass">
-      <UniqueIdentifier>{a1dc9b78-f83e-4369-a25a-3dd58ecc9947}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Component\GameMenuClass">
       <UniqueIdentifier>{7cff92a2-5e48-46ec-b607-34bda3a7ba65}</UniqueIdentifier>
     </Filter>
@@ -90,12 +87,6 @@
     </Filter>
     <Filter Include="Source Files\Manager\InputManager\KinectInputManager">
       <UniqueIdentifier>{63cb6520-6852-4034-ad5f-767a67acacb1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Component\KineckSkeleton">
-      <UniqueIdentifier>{698fe48a-cfda-4f50-9475-90e0f1c2878c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Component\KineckSkeleton">
-      <UniqueIdentifier>{26d76c71-e939-4a1e-a1df-cc32af32e2dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -125,12 +116,6 @@
     </ClCompile>
     <ClCompile Include="BasicScriptManager.cpp">
       <Filter>Source Files\Manager\ScriptManager</Filter>
-    </ClCompile>
-    <ClCompile Include="GameMenuClass.cpp">
-      <Filter>Source Files\Component\GameMenuClass</Filter>
-    </ClCompile>
-    <ClCompile Include="GameSceneClass.cpp">
-      <Filter>Source Files\Component\GameSceneClass</Filter>
     </ClCompile>
     <ClCompile Include="VideoGameClass.cpp">
       <Filter>Source Files\Component\VideoGameClass</Filter>
@@ -191,9 +176,6 @@
     <ClInclude Include="MXYGameEngineInterfaceDefine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameMenuClass.h">
-      <Filter>Header Files\Component\GameMenuClass</Filter>
-    </ClInclude>
     <ClInclude Include="GameSceneClass.h">
       <Filter>Header Files\Component\GameSceneClass</Filter>
     </ClInclude>
@@ -218,13 +200,13 @@
     <ClInclude Include="KinectInputManager.h">
       <Filter>Header Files\Manager\InputManager\KinecInputManager</Filter>
     </ClInclude>
-    <ClInclude Include="SkeletonPoint.h">
-      <Filter>Header Files\Component\KineckSkeleton</Filter>
-    </ClInclude>
     <ClInclude Include="SkeletonGameSprite.h">
       <Filter>Header Files\Component\GameSprite</Filter>
     </ClInclude>
     <ClInclude Include="ISprite.h">
+      <Filter>Header Files\Component\GameSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletonPoint.h">
       <Filter>Header Files\Component\GameSprite</Filter>
     </ClInclude>
   </ItemGroup>

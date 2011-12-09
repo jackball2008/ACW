@@ -5,7 +5,7 @@
 #include "IRenderManager.h"
 #include "IScriptManager.h"
 #include "IGameSceneClass.h"
-#include "GameMenuClass.h"
+/*#include "GameMenuClass.h"*/
 
 #ifdef _WINDLL
 #define DLL_OUTPUT dllexport
@@ -55,7 +55,7 @@ public:
 	/************************************************************************/
 	/* Main Menu                                                                     */
 	/************************************************************************/
-	virtual void __declspec(DLL_OUTPUT) SetMainMenu(GameMenuClass*);
+	//virtual void __declspec(DLL_OUTPUT) SetMainMenu(GameMenuClass*);
 	/************************************************************************/
 	/* Play Scene                                                                      */
 	/************************************************************************/
