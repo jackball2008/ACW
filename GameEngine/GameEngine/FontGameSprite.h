@@ -15,7 +15,7 @@ class FontGameSprite :
 {
 public:
 	__declspec(DLL_OUTPUT)  FontGameSprite(void);
-	__declspec(DLL_OUTPUT)  ~FontGameSprite(void);
+	virtual __declspec(DLL_OUTPUT)  ~FontGameSprite(void);
 
 	GLuint	base;
 	char* letter;
@@ -29,7 +29,7 @@ public:
 
 	GLvoid __declspec(DLL_OUTPUT) BuildFont(GLvoid);
 	GLvoid __declspec(DLL_OUTPUT) glPrint(const char *fmt, ...);
-	void __declspec(DLL_OUTPUT) Draw();
+	virtual void __declspec(DLL_OUTPUT) Draw();
 	
 };
 
