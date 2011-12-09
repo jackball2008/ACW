@@ -24,9 +24,6 @@
     <ClCompile Include="SemaphoreHeroGameSceneClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SemaphoreHeroGameSceneManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FlagSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,9 +39,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SemaphoreHeroGameSceneClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SemaphoreHeroGameSceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FlagSprite.h">

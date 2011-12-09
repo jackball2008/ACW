@@ -9,10 +9,7 @@
 #define DLL_OUTPUT dllimport
 #endif
 
-//#define MXYGameEngineInterface class __declspec(novtable)
-
 MXYGameEngineInterface IManager {
-	public:
-		virtual void __declspec(DLL_OUTPUT) Initialize();
+	
 
 };
