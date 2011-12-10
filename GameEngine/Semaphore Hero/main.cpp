@@ -10,7 +10,7 @@ SemaphoreHeroGame myGame;
 
 
 void InitializeGameClass(HWND hwnd,int w,int hei){
-	myGame.Initialize(hwnd, w, hei,0);	
+	myGame.Initialize(hwnd, w, hei,DIECTX);	
 }
 
 

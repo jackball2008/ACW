@@ -3,17 +3,40 @@
 
 BasicRenderManager::BasicRenderManager(void)
 {
+	//render
+	renderType = OPENGL;
+
+	//opengl
 	width = height = 0;
 	hDC=NULL;
 	//drectx
 	g_pD3D       = NULL; 
-	g_pd3dDevice = NULL; 
+	g_pd3dDevice = NULL;
+	//test
 	vbo        = NULL;
+
+
+// 	objectVertices[0].x = 0.0f;
+// 	objectVertices[0].y = 1.0f;
+// 	objectVertices[0].z = -2.0f;
+// 	objectVertices[0].color = 0xffff0000;
+	
+	
+	
 }
 
 
 BasicRenderManager::~BasicRenderManager(void)
 {
+}
+
+
+void BasicRenderManager::InitializeRenderSys(HWND hwnd,int width,int height,const int& type){
+	renderType = type;
+	if(OPENGL == type)
+		InitializeOpenGL(hwnd,width,height);
+	else
+		InitializeDX(hwnd,width,height);
 }
 
 //**************************Setup OpenGL***********************
@@ -192,7 +215,7 @@ void BasicRenderManager::InitializeDX(HWND hwnd, int width, int height){
 	g_pd3dDevice->SetTransform( D3DTS_PROJECTION, &g_matProj );
 }
 
-void BasicRenderManager::RenderDX(){
+void BasicRenderManager::RenderDX(IGameSceneClass* ig){
 	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0,0,0), 1.0f, 0 );
 
 	// Begin the scene
@@ -208,4 +231,11 @@ void BasicRenderManager::RenderDX(){
 	}
 
 	g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
+}
+
+void BasicRenderManager::Render(IGameSceneClass* ig){
+	if(OPENGL == renderType)
+		RenderOpenGL(ig);
+	else
+		RenderDX(ig);
 }

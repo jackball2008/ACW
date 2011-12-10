@@ -10,11 +10,15 @@
 
 MXYGameEngineInterface IRenderManager : public IManager {
 public:
+	virtual void __declspec(DLL_OUTPUT) InitializeRenderSys(HWND hwnd,int width,int height,const int& type) = 0;
+
 	virtual void __declspec(DLL_OUTPUT) InitializeOpenGL(HWND hwnd,int width,int height) = 0;
 	
 	virtual void __declspec(DLL_OUTPUT) RenderOpenGL(IGameSceneClass*) = 0;	
 
 	virtual void __declspec(DLL_OUTPUT) InitializeDX(HWND hwnd,int width,int height) = 0;
 
-	virtual void __declspec(DLL_OUTPUT) RenderDX() = 0;
+	virtual void __declspec(DLL_OUTPUT) RenderDX(IGameSceneClass*) = 0;
+
+	virtual void __declspec(DLL_OUTPUT) Render(IGameSceneClass*) = 0;
 };

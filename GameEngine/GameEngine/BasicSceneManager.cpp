@@ -34,5 +34,5 @@ void BasicSceneManager::SetScriptManager(IScriptManager* sm){
 void BasicSceneManager::PlayScene(IGameSceneClass* scene,int* gs){
 	scene->SetJumpNextSceneFlag(gs);
 	scene->Running();
-	_renderManager->RenderOpenGL(scene);
+	_renderManager->Render(scene);
 }
