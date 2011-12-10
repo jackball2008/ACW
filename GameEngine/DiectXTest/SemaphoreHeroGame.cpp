@@ -26,7 +26,7 @@ void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei,int type){
 	sceneManager->SetInputManager(inputManager);
 	sceneManager->SetRenderManager(renderManager);
 
-	testScene = new TestScene(type);
+	testScene = new TestScene();
 	//testScene->SetRenderType(type);
 	testScene->SetInputManager(inputManager);
 	testScene->Begin();

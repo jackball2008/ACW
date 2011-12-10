@@ -14,6 +14,7 @@ class SkeletonGameSprite :
 {
 public:
 	__declspec(DLL_OUTPUT) SkeletonGameSprite(void);
+	/*__declspec(DLL_OUTPUT) SkeletonGameSprite(const int& rt);*/
 	virtual __declspec(DLL_OUTPUT) ~SkeletonGameSprite(void);
 
 	SkeletonPoint SkeletonPoints[NUI_SKELETON_POSITION_COUNT];

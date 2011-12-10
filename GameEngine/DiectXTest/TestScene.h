@@ -6,7 +6,7 @@ class TestScene :
 {
 public:
 	TestScene(void);
-	TestScene(const int& rt);
+	/*TestScene(const int& rt);*/
 	~TestScene(void);
 
 

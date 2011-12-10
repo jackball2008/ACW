@@ -5,7 +5,7 @@ class FlagSprite :
 {
 public:
 	FlagSprite(void);
-	FlagSprite(const int&);
+	/*FlagSprite(const int&);*/
 	~FlagSprite(void);
 
 	const float radius;

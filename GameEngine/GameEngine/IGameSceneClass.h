@@ -8,7 +8,7 @@
 #define DLL_OUTPUT dllimport
 #endif
 
-enum RENDER_TYPE{OPENGL,DIECTX};
+//enum RENDER_TYPE{OPENGL,DIECTX};
 
 MXYGameEngineInterface IGameSceneClass {
 public:
@@ -24,6 +24,6 @@ public:
 
 	virtual void __declspec(DLL_OUTPUT) SetJumpNextSceneFlag(int*) = 0;
 
-	virtual void __declspec(DLL_OUTPUT) SetRenderType(const int&) = 0;
+	//virtual void __declspec(DLL_OUTPUT) SetRenderType(const int&) = 0;
 
 };

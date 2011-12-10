@@ -25,8 +25,8 @@ void LetterGameSceneClass::Begin(){
 	itemList[0]->color3f.x = 1.0;
 	itemList[0]->color3f.y = 1.0;
 	itemList[0]->color3f.z = 1.0;
-	itemList[0]->pos3f.x = -0.1;
-	itemList[0]->pos3f.y = 0.2;
+	itemList[0]->pos3f.x = -0.1f;
+	itemList[0]->pos3f.y = 0.2f;
 	itemList[0]->num = 1;
 	itemList[0]->BuildFont();
 
@@ -34,8 +34,8 @@ void LetterGameSceneClass::Begin(){
 	itemList[1]->color3f.x = 1.0;
 	itemList[1]->color3f.y = 1.0;
 	itemList[1]->color3f.z = 1.0;
-	itemList[1]->pos3f.x = -0.1;
-	itemList[1]->pos3f.y = 0.1;
+	itemList[1]->pos3f.x = -0.1f;
+	itemList[1]->pos3f.y = 0.1f;
 	itemList[1]->num = 2;
 	itemList[1]->BuildFont();
 
@@ -44,8 +44,8 @@ void LetterGameSceneClass::Begin(){
 	itemList[2]->color3f.x = 1.0;
 	itemList[2]->color3f.y = 1.0;
 	itemList[2]->color3f.z = 1.0;
-	itemList[2]->pos3f.x = -0.1;
-	itemList[2]->pos3f.y = -0.1;
+	itemList[2]->pos3f.x = -0.1f;
+	itemList[2]->pos3f.y = -0.1f;
 	itemList[2]->num = 3;
 	itemList[2]->BuildFont();
 
@@ -53,8 +53,8 @@ void LetterGameSceneClass::Begin(){
 	itemList[3]->color3f.x = 1.0;
 	itemList[3]->color3f.y = 1.0;
 	itemList[3]->color3f.z = 1.0;
-	itemList[3]->pos3f.x = -0.1;
-	itemList[3]->pos3f.y = -0.2;
+	itemList[3]->pos3f.x = -0.1f;
+	itemList[3]->pos3f.y = -0.2f;
 	itemList[3]->num = 4;
 	itemList[3]->BuildFont();
 

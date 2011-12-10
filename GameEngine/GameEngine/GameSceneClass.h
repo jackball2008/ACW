@@ -14,8 +14,8 @@ class GameSceneClass : public IGameSceneClass
 public:
 	
 	
-	__declspec(DLL_OUTPUT) GameSceneClass():renderType(OPENGL){ /*renderType = OPENGL;*/  }
-	//__declspec(DLL_OUTPUT) GameSceneClass(const int& rt=OPENGL);//{ renderType = rt;  }
+	__declspec(DLL_OUTPUT) GameSceneClass()/*:renderType(OPENGL)*/{   }
+	/*__declspec(DLL_OUTPUT) GameSceneClass(const int& rt){ / *renderType = rt;* /  }*/
 	virtual __declspec(DLL_OUTPUT) ~GameSceneClass(void){}
 
 	
@@ -26,7 +26,7 @@ public:
 	int* nextSceneFlag;
 	void __declspec(DLL_OUTPUT) SetJumpNextSceneFlag(int* f){ nextSceneFlag = f; }
 
-	int renderType;
-	virtual void __declspec(DLL_OUTPUT) SetRenderType(const int& type){ renderType = type; }
+	/*int renderType;*/
+	//virtual void __declspec(DLL_OUTPUT) SetRenderType(const int& type){ renderType = type; }
 };
 

@@ -5,9 +5,9 @@ FlagSprite::FlagSprite(void):radius(0.03f)
 {
 	
 }
-FlagSprite::FlagSprite(const int& rt):radius(0.03f),GameSprite(rt){
-	
-}
+// FlagSprite::FlagSprite(const int& rt):radius(0.03f),GameSprite(rt){
+// 	
+// }
 
 
 FlagSprite::~FlagSprite(void)

@@ -4,9 +4,9 @@
 TestScene::TestScene(void)
 {
 }
-TestScene::TestScene(const int& rt):GameSceneClass(rt){
-
-}
+// TestScene::TestScene(const int& rt):GameSceneClass(rt){
+// 
+// }
 
 TestScene::~TestScene(void)
 {
@@ -15,14 +15,14 @@ TestScene::~TestScene(void)
 
 void TestScene::Begin(){
 	//only data
-	skeletonPlayer = new SkeletonGameSprite(renderType);
+	skeletonPlayer = new SkeletonGameSprite();
 	skeletonPlayer->color3f.x=1;
 	skeletonPlayer->color3f.y =1;
 	skeletonPlayer->color3f.z = 1;
 
 
 	//left flag
-	leftFlag = new FlagSprite(renderType);
+	leftFlag = new FlagSprite();
 
 	leftFlag->pos3f.x = -0.2f;
 	leftFlag->pos3f.y = 0;
@@ -32,7 +32,7 @@ void TestScene::Begin(){
 	leftFlag->color3f.y = 0;
 	leftFlag->color3f.z = 0;
 	//right flag
-	rightFlag = new FlagSprite(renderType);
+	rightFlag = new FlagSprite();
 
 	rightFlag->pos3f.x = 0;
 	rightFlag->pos3f.y = 0.2f;

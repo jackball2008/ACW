@@ -5,6 +5,9 @@ SkeletonGameSprite::SkeletonGameSprite(void)
 {
 }
 
+// SkeletonGameSprite::SkeletonGameSprite(const int& rt):GameSprite(rt)
+// {
+// }
 
 SkeletonGameSprite::~SkeletonGameSprite(void)
 {

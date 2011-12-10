@@ -230,6 +230,8 @@ void BasicRenderManager::RenderDX(IGameSceneClass* ig){
 		g_pd3dDevice->EndScene();
 	}
 
+
+
 	g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
 }
 
