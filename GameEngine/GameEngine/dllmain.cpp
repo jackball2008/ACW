@@ -31,7 +31,7 @@
 //render manager
 #include "IRenderManager.h"
 #include "BasicRenderManager.h"
-
+#include "DirectXBasicRenderManager.h"
 //game
 #include "IVideoGameClass.h"
 #include "VideoGameClass.h"

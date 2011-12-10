@@ -16,6 +16,7 @@
     <ClCompile Include="BasicRenderManager.cpp" />
     <ClCompile Include="BasicSceneManager.cpp" />
     <ClCompile Include="BasicScriptManager.cpp" />
+    <ClCompile Include="DirectXBasicRenderManager.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ErrorException.cpp" />
     <ClCompile Include="ErrorManager.cpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="BasicRenderManager.h" />
     <ClInclude Include="BasicSceneManager.h" />
     <ClInclude Include="BasicScriptManager.h" />
+    <ClInclude Include="DirectXBasicRenderManager.h" />
     <ClInclude Include="EngineObject.h" />
     <ClInclude Include="ErrorException.h" />
     <ClInclude Include="ErrorManager.h" />

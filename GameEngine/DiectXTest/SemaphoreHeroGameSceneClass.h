@@ -15,7 +15,7 @@ struct FlagPos{
 #define SIGNAL_NUM 27
 
 class SemaphoreHeroGameSceneClass :
-	public GameSceneClass
+	public DirectXGameSceneClass
 {
 public:
 	SemaphoreHeroGameSceneClass(void);
@@ -37,13 +37,7 @@ public:
 	//skeleton man sprite
 	SkeletonGameSprite skeletonPlayer;
 
-	//word sprite
-	int itemNum;
-	FontGameSprite *itemList[4];
-	FontGameSprite* questionLabel;
-	FontGameSprite* answerLabel;
-	FontGameSprite* timerLabel;
-	FontGameSprite* scoreLabel;
+
 
 	//flag sprite
 	FlagSprite* leftFlag;

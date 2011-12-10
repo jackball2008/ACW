@@ -11,10 +11,10 @@ SemaphoreHeroGame::~SemaphoreHeroGame(void)
 	
 }
 
-void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei,int type){
-	
+void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei){
+	//use opengl rendermanager
 	renderManager = new BasicRenderManager();
-	renderManager->InitializeOpenGL(hwnd, w, hei);
+	renderManager->InitializeISceneRender(hwnd, w, hei);
 	
 	inputManager = new KinectInputManager();
 	sceneManager = new BasicSceneManager();

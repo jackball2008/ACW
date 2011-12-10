@@ -18,8 +18,7 @@ typedef mxy::vec4<float> vec4f;
 class GameSprite : public ISprite
 {
 public:
-	__declspec(DLL_OUTPUT) GameSprite(void):hDC(NULL){ /*renderType = OPENGL;*/ };
-	/*__declspec(DLL_OUTPUT) GameSprite(const int& rt):hDC(NULL){ renderType = rt; };*/
+	__declspec(DLL_OUTPUT) GameSprite(void):hDC(NULL){ };
 	virtual __declspec(DLL_OUTPUT) ~GameSprite(void){};
 	
 	vec3f pos3f;
@@ -30,9 +29,16 @@ public:
 	//used for font display
 	HDC			hDC;
 
-	/*int renderType;*/
+};
 
-	//virtual void __declspec(DLL_OUTPUT) Draw() = 0;
+
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE) 
+
+class DirectXGameSprite : public GameSprite
+{
+public:
+	__declspec(DLL_OUTPUT) DirectXGameSprite(void){ };
+	virtual __declspec(DLL_OUTPUT) ~DirectXGameSprite(void){};
 
 };
 

@@ -11,11 +11,11 @@ SemaphoreHeroGame::~SemaphoreHeroGame(void)
 	
 }
 
-void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei,int type){
+void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei){
 	
-	renderManager = new BasicRenderManager();
-	//renderManager->InitializeOpenGL(hwnd, w, hei);
-	renderManager->InitializeRenderSys(hwnd, w, hei,type);
+	renderManager = new DirectXBasicRenderManager();
+	
+	renderManager->InitializeISceneRender(hwnd, w, hei);
 	
 	
 
@@ -27,7 +27,7 @@ void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei,int type){
 	sceneManager->SetRenderManager(renderManager);
 
 	testScene = new TestScene();
-	//testScene->SetRenderType(type);
+	
 	testScene->SetInputManager(inputManager);
 	testScene->Begin();
 
@@ -37,12 +37,9 @@ void SemaphoreHeroGame::Initialize(HWND hwnd,int w,int hei,int type){
 }
 
 void SemaphoreHeroGame::RunGameLogic(){
-	//renderManager->RenderDX();
-// 	switch(currentSceneID){
-// 	case 0:
- 		sceneManager->PlayScene(testScene,&currentSceneID);
-// 		break;
-// 	}
+
+ 	sceneManager->PlayScene(testScene,&currentSceneID);
+
 }
 
 void SemaphoreHeroGame::WM_DestoryHandler(){

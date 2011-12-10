@@ -5,6 +5,7 @@
 #include "SemaphoreHeroGameSceneClass.h"
 #include "TestScene.h"
 #include "BasicSceneManager.h"
+#include "DirectXBasicRenderManager.h"
 
 class SemaphoreHeroGame : public VideoGameClass
 {
@@ -13,7 +14,7 @@ public:
 	~SemaphoreHeroGame(void);
 
 
-	void Initialize(HWND hwnd,int w,int hei,int type);
+	void Initialize(HWND hwnd,int w,int hei);
 	void RunGameLogic();
 
 	//release kinect device resource

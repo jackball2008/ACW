@@ -21,68 +21,11 @@ void SemaphoreHeroGameSceneClass::Begin(){
 	x_right = 0;
 	y_right = 0;
 	//skeleton man color
-	skeletonPlayer.color3f.x=1;
-	skeletonPlayer.color3f.y =1;
-	skeletonPlayer.color3f.z = 1;
+// 	skeletonPlayer.color3f.x=1;
+// 	skeletonPlayer.color3f.y =1;
+// 	skeletonPlayer.color3f.z = 1;
 
-	itemNum = 4;
-	
 
-	//initialize infor label
-	itemList[0] = new FontGameSprite();
-	itemList[1] = new FontGameSprite();
-	itemList[2] = new FontGameSprite();
-	itemList[3] = new FontGameSprite();
-
-	itemList[0]->letter = "Signal : %s";
-	//specila setting
-	itemList[0]->drawType = FONT_DRAW_STR;
-	itemList[0]->displayStr = "No Signal";
-	itemList[0]->fontHeight = FONT_HEIGHT;
-	//end
-	itemList[0]->color3f.x = 1.0;
-	itemList[0]->color3f.y = 1.0;
-	itemList[0]->color3f.z = 1.0;
-	itemList[0]->pos3f.x = -0.5;
-	itemList[0]->pos3f.y = 0.3f;
-	itemList[0]->num = 1;
-	itemList[0]->BuildFont();
-
-	itemList[1]->letter = "Answer";
-	itemList[1]->fontHeight = FONT_HEIGHT;
-	itemList[1]->color3f.x = 1.0;
-	itemList[1]->color3f.y = 1.0;
-	itemList[1]->color3f.z = 1.0;
-	itemList[1]->pos3f.x = -0.5;
-	itemList[1]->pos3f.y = 0.2f;
-	itemList[1]->num = 2;
-	itemList[1]->BuildFont();
-
-	itemList[2]->letter = "Time : %d";
-	itemList[2]->fontHeight = FONT_HEIGHT;
-	itemList[2]->displayNum = 60;
-	itemList[2]->color3f.x = 1.0;
-	itemList[2]->color3f.y = 1.0;
-	itemList[2]->color3f.z = 1.0;
-	itemList[2]->pos3f.x = -0.5;
-	itemList[2]->pos3f.y = 0.1f;
-	itemList[2]->num = 3;
-	itemList[2]->BuildFont();
-
-	itemList[3]->letter = "Score";
-	itemList[3]->fontHeight = FONT_HEIGHT;
-	itemList[3]->color3f.x = 1.0;
-	itemList[3]->color3f.y = 1.0;
-	itemList[3]->color3f.z = 1.0;
-	itemList[3]->pos3f.x = -0.5;
-	itemList[3]->pos3f.y = -0.2f;
-	itemList[3]->num = 4;
-	itemList[3]->BuildFont();
-
-	questionLabel = itemList[0];
-	answerLabel = itemList[1];
-	timerLabel = itemList[2];
-	scoreLabel = itemList[3];
 
 	//left flag
 	leftFlag = new FlagSprite();
@@ -122,110 +65,110 @@ void SemaphoreHeroGameSceneClass::Begin(){
 }
 void SemaphoreHeroGameSceneClass::Running(){
 	//timer count for display timer
-	if(isStart == false){
-		isStart = false;
-		startTime = GetTickCount();
-	}
-	endTime = GetTickCount();
-	deltaTime = endTime - startTime;
-	if(deltaTime>=1000){
-		timerNum++;
-		timerLabel->displayNum = timerNum;
-		startTime = endTime;
-		deltaTime = 0;
-	}
-
-	//set current signal
-	if(questionIndex<SIGNAL_NUM){
-		leftFlag->pos3f.x = FlagSignals[questionIndex].lx;
-		leftFlag->pos3f.y = FlagSignals[questionIndex].ly;
-		rightFlag->pos3f.x = FlagSignals[questionIndex].rx;
-		rightFlag->pos3f.y = FlagSignals[questionIndex].ry;
-		questionLabel->displayStr = FlagSignals[questionIndex].name;
-
-		//get new signal start time
-		newSignalTime = GetTickCount();
-	}
-	
-	/////
-
-	//logic 1,get hand position
-	x_left = skeletonPlayer.SkeletonPoints[NUI_SKELETON_POSITION_HAND_LEFT].x * skeletonmanScale;
-	y_left = skeletonPlayer.SkeletonPoints[NUI_SKELETON_POSITION_HAND_LEFT].y * skeletonmanScale;
-
-	x_right = skeletonPlayer.SkeletonPoints[NUI_SKELETON_POSITION_HAND_RIGHT].x * skeletonmanScale;
-	y_right = skeletonPlayer.SkeletonPoints[NUI_SKELETON_POSITION_HAND_RIGHT].y * skeletonmanScale;
-
-	bool answerL = false;
-	bool answerR = false;
-
-	//judge left
-	if(leftFlag->CheckInRange2D(x_left,y_left)){
-		leftFlag->color3f.z = 1;
-		answerL = true;
-	}else{
-		leftFlag->color3f.z = 0;
-		answerL = false;
-	}
-	//judge right
-	if(rightFlag->CheckInRange2D(x_right,y_right)){
-		rightFlag->color3f.z = 1;
-		answerR = true;
-	}else{
-		rightFlag->color3f.z = 0;
-		answerR = false;
-	}
-
-	if(answerL&&answerR){
-		//answer right
-		answerLabel->letter = "Signal Right";
-
-		finishSignalTime = GetTickCount();
-		//calculate score
-		scoreTime = finishSignalTime - newSignalTime;
-		int k = scoreTime/1000;
-		if(k>5){
-			itemList[3]->letter = "You are so .... bad";
-		}else{
-			switch(k){
-			case 0:
-				scoreLabel->letter = "Right";
-				break;
-			case 1:
-				itemList[3]->letter = "Great";
-				//scoreLabel->letter
-				break;;
-			case 2:
-				itemList[3]->letter = "A litter good";
-				break;
-			case 3:
-				itemList[3]->letter = "Common";
-				break;
-			case 4:
-				itemList[3]->letter = "Bad";
-				break;
-			case 5:
-				itemList[3]->letter = "Too Bad";
-				break;
-			}
-		}
-
-		//end
-
-		questionIndex++;
-		if(questionIndex >= SIGNAL_NUM){
-			//current game end
-			allPass = true;
-			questionIndex = 0;
-		}
-	}
-	else{
-		answerLabel->letter = "Come On...";
-	}
-
-	if(allPass){
-		End();
-	}
+// 	if(isStart == false){
+// 		isStart = false;
+// 		startTime = GetTickCount();
+// 	}
+// 	endTime = GetTickCount();
+// 	deltaTime = endTime - startTime;
+// 	if(deltaTime>=1000){
+// 		timerNum++;
+// 		timerLabel->displayNum = timerNum;
+// 		startTime = endTime;
+// 		deltaTime = 0;
+// 	}
+// 
+// 	//set current signal
+// 	if(questionIndex<SIGNAL_NUM){
+// 		leftFlag->pos3f.x = FlagSignals[questionIndex].lx;
+// 		leftFlag->pos3f.y = FlagSignals[questionIndex].ly;
+// 		rightFlag->pos3f.x = FlagSignals[questionIndex].rx;
+// 		rightFlag->pos3f.y = FlagSignals[questionIndex].ry;
+// 		questionLabel->displayStr = FlagSignals[questionIndex].name;
+// 
+// 		//get new signal start time
+// 		newSignalTime = GetTickCount();
+// 	}
+// 	
+// 	/////
+// 
+// 	//logic 1,get hand position
+// 	x_left = skeletonPlayer.SkeletonPoints[NUI_SKELETON_POSITION_HAND_LEFT].x * skeletonmanScale;
+// 	y_left = skeletonPlayer.SkeletonPoints[NUI_SKELETON_POSITION_HAND_LEFT].y * skeletonmanScale;
+// 
+// 	x_right = skeletonPlayer.SkeletonPoints[NUI_SKELETON_POSITION_HAND_RIGHT].x * skeletonmanScale;
+// 	y_right = skeletonPlayer.SkeletonPoints[NUI_SKELETON_POSITION_HAND_RIGHT].y * skeletonmanScale;
+// 
+// 	bool answerL = false;
+// 	bool answerR = false;
+// 
+// 	//judge left
+// 	if(leftFlag->CheckInRange2D(x_left,y_left)){
+// 		leftFlag->color3f.z = 1;
+// 		answerL = true;
+// 	}else{
+// 		leftFlag->color3f.z = 0;
+// 		answerL = false;
+// 	}
+// 	//judge right
+// 	if(rightFlag->CheckInRange2D(x_right,y_right)){
+// 		rightFlag->color3f.z = 1;
+// 		answerR = true;
+// 	}else{
+// 		rightFlag->color3f.z = 0;
+// 		answerR = false;
+// 	}
+// 
+// 	if(answerL&&answerR){
+// 		//answer right
+// 		answerLabel->letter = "Signal Right";
+// 
+// 		finishSignalTime = GetTickCount();
+// 		//calculate score
+// 		scoreTime = finishSignalTime - newSignalTime;
+// 		int k = scoreTime/1000;
+// 		if(k>5){
+// 			itemList[3]->letter = "You are so .... bad";
+// 		}else{
+// 			switch(k){
+// 			case 0:
+// 				scoreLabel->letter = "Right";
+// 				break;
+// 			case 1:
+// 				itemList[3]->letter = "Great";
+// 				//scoreLabel->letter
+// 				break;;
+// 			case 2:
+// 				itemList[3]->letter = "A litter good";
+// 				break;
+// 			case 3:
+// 				itemList[3]->letter = "Common";
+// 				break;
+// 			case 4:
+// 				itemList[3]->letter = "Bad";
+// 				break;
+// 			case 5:
+// 				itemList[3]->letter = "Too Bad";
+// 				break;
+// 			}
+// 		}
+// 
+// 		//end
+// 
+// 		questionIndex++;
+// 		if(questionIndex >= SIGNAL_NUM){
+// 			//current game end
+// 			allPass = true;
+// 			questionIndex = 0;
+// 		}
+// 	}
+// 	else{
+// 		answerLabel->letter = "Come On...";
+// 	}
+// 
+// 	if(allPass){
+// 		End();
+// 	}
 
 }
 void SemaphoreHeroGameSceneClass::End(){
@@ -244,30 +187,9 @@ void SemaphoreHeroGameSceneClass::End(){
 
 
 void SemaphoreHeroGameSceneClass::Draw(){
-	//skeleton people
-	glPushMatrix();
-	glScalef(skeletonmanScale,skeletonmanScale,1);
-	skeletonPlayer.Draw();
-	glPopMatrix();
-	//left flag
-	glPushMatrix();
-	leftFlag->Draw();
-	glPopMatrix();
-	//right flag
-	glPushMatrix();
-	rightFlag->Draw();
-	glPopMatrix();
-	//draw info label
 	
-	glPushMatrix();
-	glTranslatef(0.0f,0.0f,-1.0f);
-	for(int i=0;i<itemNum;i++){
-		glColor3f(itemList[i]->color3f.x,itemList[i]->color3f.y,itemList[i]->color3f.z);
-		glRasterPos2f(itemList[i]->pos3f.x,itemList[i]->pos3f.y);
-		itemList[i]->Draw();
-	}
-	glPopMatrix();
-	
+// 	skeletonPlayer.Draw();
+
 
 
 

@@ -117,6 +117,9 @@
     <ClCompile Include="SkeletonGameSprite.cpp">
       <Filter>Source Files\Component\GameSprite</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXBasicRenderManager.cpp">
+      <Filter>Source Files\Manager\RenderManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ErrorManager.h">
@@ -196,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="SkeletonPoint.h">
       <Filter>Header Files\Component\GameSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXBasicRenderManager.h">
+      <Filter>Header Files\Manager\RenderManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

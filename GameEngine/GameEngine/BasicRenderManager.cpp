@@ -3,25 +3,10 @@
 
 BasicRenderManager::BasicRenderManager(void)
 {
-	//render
-	renderType = OPENGL;
-
+	
 	//opengl
 	width = height = 0;
-	hDC=NULL;
-	//drectx
-	g_pD3D       = NULL; 
-	g_pd3dDevice = NULL;
-	//test
-	vbo        = NULL;
-
-
-// 	objectVertices[0].x = 0.0f;
-// 	objectVertices[0].y = 1.0f;
-// 	objectVertices[0].z = -2.0f;
-// 	objectVertices[0].color = 0xffff0000;
-	
-	
+	hDC=NULL;	
 	
 }
 
@@ -31,16 +16,8 @@ BasicRenderManager::~BasicRenderManager(void)
 }
 
 
-void BasicRenderManager::InitializeRenderSys(HWND hwnd,int width,int height,const int& type){
-	renderType = type;
-	if(OPENGL == type)
-		InitializeOpenGL(hwnd,width,height);
-	else
-		InitializeDX(hwnd,width,height);
-}
-
 //**************************Setup OpenGL***********************
-void BasicRenderManager::InitializeOpenGL(HWND hwnd,int w,int hei)
+void BasicRenderManager::InitializeISceneRender(HWND hwnd,int w,int hei)
 { 
 	width = w;
 	height = hei;
@@ -128,7 +105,7 @@ void BasicRenderManager::InitializeOpenGL(HWND hwnd,int w,int hei)
 }
 
 //**************************Render and display the scene in OpenGL***********************
-void BasicRenderManager::RenderOpenGL(IGameSceneClass* scene)									// Here's Where We Do All The Drawing
+void BasicRenderManager::RenderIScene(IGameSceneClass* scene)									// Here's Where We Do All The Drawing
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
 	glLoadIdentity();									// Reset The Current Modelview Matrix
@@ -138,106 +115,3 @@ void BasicRenderManager::RenderOpenGL(IGameSceneClass* scene)									// Here's 
 	SwapBuffers(hDC);				// Swap Buffers (Double Buffering)
 }
 
-
-//
-void BasicRenderManager::InitializeDX(HWND hwnd, int width, int height){
-	if(!( g_pD3D = Direct3DCreate9( D3D_SDK_VERSION ) ) )
-		MessageBox(hwnd,"Direct3d Create problem", NULL, NULL);
-
-	//D3DPRESENT_PARAMETERS d3dpp; 
-	//ZeroMemory( &d3dpp, sizeof(d3dpp) );
-	//d3dpp.Windowed = TRUE;
-	//d3dpp.SwapEffect = D3DSWAPEFFECT_COPY;
-	//d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;  
-	//d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
-	//d3dpp.hDeviceWindow = hwnd;	
-	//d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
-	D3DPRESENT_PARAMETERS d3dpp; 
-	ZeroMemory( &d3dpp, sizeof(d3dpp) );
-	d3dpp.Windowed = TRUE;
-	d3dpp.SwapEffect = D3DSWAPEFFECT_COPY;
-	//d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;  
-	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
-	d3dpp.hDeviceWindow = hwnd;	
-	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
-	d3dpp.EnableAutoDepthStencil = TRUE;
-
-	HRESULT hr = S_OK;
-	hr = g_pD3D->CreateDevice(
-		D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd,
-		D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE,
-		&d3dpp, &g_pd3dDevice
-
-		);
-
-	//*************************** Create Vertex Buffer ****************************
-	if( FAILED( g_pd3dDevice->CreateVertexBuffer( 3*sizeof(CUSTOMVERTEX),
-												  0 /* Usage */, D3DFVF_CUSTOMVERTEX,
-												  D3DPOOL_MANAGED, &vbo, NULL ) ) )
-		MessageBox(hwnd,"Vertex Buffer problem",NULL,NULL);;
-
-	VOID* pVertices;
-	if( FAILED( vbo->Lock( 0, sizeof(objectVertices), (void**)&pVertices, 0 ) ) )
-		MessageBox(hwnd,"Vertex Lock Problem",NULL,NULL);
-
-	memcpy( pVertices, objectVertices, sizeof(objectVertices) );
-
-	vbo->Unlock();
-
-		// turn on the z-buffer
-	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-	// Turn off D3D lighting, since we are
-    // providing our own vertex colours
-    g_pd3dDevice->SetRenderState( D3DRS_LIGHTING, FALSE );
-    // Turn off culling, so we see the front and back of the triangle
-    g_pd3dDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
-
-
-	// Set up our view matrix. A view matrix can be defined given an 
-	// eye point, a point to look at, and a direction for which way
-	// is up. Here, we set the eye five units back along the z-axis
-	// , look at the origin, and define "up" to be
-	// in the y-direction.
-	D3DXMatrixLookAtLH( &g_matView, &D3DXVECTOR3( 0.0f, 0.0f, 1.0f ),
-				  &D3DXVECTOR3( 0.0f, 0.0f, 0.0f ),
-				  &D3DXVECTOR3( 0.0f, 1.0f, 0.0f ) );
-	g_pd3dDevice->SetTransform( D3DTS_VIEW, &g_matView );
-	  
-	// For the projection matrix, we set up a perspective transform 
-	// (which transforms geometry from 3D view space to 2D viewport 
-	// space, with a perspective divide making objects smaller in the 
-	// distance). To build a perpsective transform, we need the width of the world window,
-	// the width of the world window divided by the aspect ratio of the world window, 
-	// and the near and far clipping planes (which define at what 
-	// distances geometry should be no longer be rendered).
-	//D3DXMatrixPerspectiveLH(&g_matProj, 2.0f, 2.0f/1.5f, 1.0f, 10000.0f);
-	D3DXMatrixPerspectiveFovLH(&g_matProj,45.0f,(float)width/(float)height,0.1f,100.0f);
-	g_pd3dDevice->SetTransform( D3DTS_PROJECTION, &g_matProj );
-}
-
-void BasicRenderManager::RenderDX(IGameSceneClass* ig){
-	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0,0,0), 1.0f, 0 );
-
-	// Begin the scene
-	if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
-	{
-		// Rendering of scene objects can happen here
-		g_pd3dDevice->SetStreamSource( 0, vbo, 0, sizeof(CUSTOMVERTEX) );
-		g_pd3dDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
-		g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 1 );
-
-		// End the scene
-		g_pd3dDevice->EndScene();
-	}
-
-
-
-	g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
-}
-
-void BasicRenderManager::Render(IGameSceneClass* ig){
-	if(OPENGL == renderType)
-		RenderOpenGL(ig);
-	else
-		RenderDX(ig);
-}

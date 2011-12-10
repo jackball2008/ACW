@@ -14,7 +14,7 @@ public:
 	~SemaphoreHeroGame(void);
 
 
-	void Initialize(HWND hwnd,int w,int hei,int type);
+	void Initialize(HWND hwnd,int w,int h);
 	void RunGameLogic();
 
 	//release kinect device resource
