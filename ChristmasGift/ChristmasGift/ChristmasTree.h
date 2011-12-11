@@ -40,7 +40,14 @@ private:
 	vector<float> _leafVertices;
 	vector<GLuint> _leafIndices;
 	GLuint _leafVBO;
-
+	//leaf grow
+	vector<vec3f> _leafRootStore;
+	vector<vec3f> _leaf_pos_offsetStore;
+	vector<vec3f> _leafScaleStore;
+	vector<vec3f> _leafPosStore;
+	vector<float> _temp_leafVertices;
+	vector<vec3f> _dirStore;
+	vector<float> _sizeStore;
 	//
 	/************************************************************************/
 	/*                   generation parameters
@@ -183,7 +190,11 @@ public:
 	void flushTrunkVBO();
 	void flushLeafVBO();
 	bool showLeaf;
+	//leaf grow method
+	float leafScale;
 	void smallAllLeaf();
+
+	bool growLeaf;
 
 	void leafDownMethod();
 	bool leafDwonFinished;
