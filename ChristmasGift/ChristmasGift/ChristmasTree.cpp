@@ -62,15 +62,17 @@ void ChristmasTree::reset(){
 	_grow_increase_fator = 0.01;
 	VBO_BUILD_OR_FLUSH_FLAG = 0;
 
-	setTrunkCutCount(8);
-	setHeight(14);
-	setRadius(6.0);
-	setNumPerBranchSides(10); 
-	setBranchesPerSegment(6);
-	setBranchIterationCount(5);
-	setBranchIterationDecay(1.0/7.0);
-	setMinNoBranches(1);
-	TreeState = GROWING;
+	setTreeParameter();
+
+// 	setTrunkCutCount(8);
+// 	setHeight(14);
+// 	setRadius(6.0);
+// 	setNumPerBranchSides(10); 
+// 	setBranchesPerSegment(6);
+// 	setBranchIterationCount(5);
+// 	setBranchIterationDecay(1.0/7.0);
+// 	setMinNoBranches(1);
+// 	TreeState = GROWING;
 
 
 	showLeaf = false;
@@ -608,18 +610,23 @@ void ChristmasTree::drawTrunks(){
 	glNormalPointer( GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, (float*)(0) + 3);
 #ifdef SHOWTRUNKTEXTURE
 	glTexCoordPointer( 2, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, (float*)(0) + 6);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 #endif
 	
 	
 	glEnableClientState( GL_VERTEX_ARRAY);
 	glEnableClientState( GL_NORMAL_ARRAY);
+	
 
-	glDrawElements( GL_LINE_LOOP, (GLsizei)_trunkIndices.size(), GL_UNSIGNED_INT, &_trunkIndices[0]);
+	glDrawElements( GL_TRIANGLES, (GLsizei)_trunkIndices.size(), GL_UNSIGNED_INT, &_trunkIndices[0]);
 	//GL_LINE_LOOP
 	//GL_LINE_STRIP
 	//GL_TRIANGLES
 	glDisableClientState( GL_VERTEX_ARRAY);
 	glDisableClientState( GL_NORMAL_ARRAY);
+#ifdef SHOWTRUNKTEXTURE
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+#endif
 
 	glBindBuffer( GL_ARRAY_BUFFER, 0);
 
