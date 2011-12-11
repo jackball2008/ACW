@@ -94,7 +94,7 @@ private:
 	/* control render choice                                                                     */
 	/************************************************************************/
 	int VBO_BUILD_OR_FLUSH_FLAG;
-	bool FLUSH_TRUNK_OR_LEAF_FLAG;
+	
 	int FLUSHTRUNKVBOCOUNT;
 	int FLUSHLEAFVBOCOUNT;
 
@@ -136,7 +136,7 @@ public:
 	/************************************************************************/
 	/* generate growing data in each frame during the growing process                                                                 */
 	/************************************************************************/
-	void updateTreeGrowing();
+	void updateTreeGrowingData();
 	/************************************************************************/
 	/* growing method                                                                     */
 	/************************************************************************/
@@ -176,6 +176,16 @@ public:
 	void reset();
 	void downUpdateTreeGrowing();
 
-	
+
+	/************************************************************************/
+	/* flash trunk vbo                                                                     */
+	/************************************************************************/
+	void flushTrunkVBO();
+	void flushLeafVBO();
+	bool showLeaf;
+	void smallAllLeaf();
+
+	void leafDownMethod();
+	bool leafDwonFinished;
 };
 

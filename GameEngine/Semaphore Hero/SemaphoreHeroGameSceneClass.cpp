@@ -234,7 +234,7 @@ void SemaphoreHeroGameSceneClass::End(){
 	answerRightForCurrentQuestion = false;
 	allPass = false;
 	timerNum  = 0;
-	//score
+	//clear score
 	newSignalTime = 0;
 	finishSignalTime = 0;
 	scoreTime = 0;

@@ -33,6 +33,9 @@
     <ClCompile Include="SemaphoreHeroMainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreGameSceneClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SemaphoreHeroGame.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SemaphoreHeroMainMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreGameSceneClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

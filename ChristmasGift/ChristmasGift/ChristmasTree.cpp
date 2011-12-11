@@ -44,15 +44,18 @@ float ChristmasTree::rand2fFromF1To0To1() {
 		return 0;
 }
 
-ChristmasTree::ChristmasTree(void):FLUSHTRUNKVBOCOUNT(0),FLUSHLEAFVBOCOUNT(0),FLUSH_TRUNK_OR_LEAF_FLAG(false),_temp_timerrecord(0),_initialize_dec(0.1),_grow_increase_fator(0.01),VBO_BUILD_OR_FLUSH_FLAG(0)//,_clearvbodata(false) //:_numSegments(40),_height(16.0f),_radius(6.0),_branchSides(6),_branchesPerSegment(3),_branchGenerations(5),_branchGenerationDecayRate(1.0/7.0)
+ChristmasTree::ChristmasTree(void):FLUSHTRUNKVBOCOUNT(0),FLUSHLEAFVBOCOUNT(0),_temp_timerrecord(0),_initialize_dec(0.1),_grow_increase_fator(0.01),VBO_BUILD_OR_FLUSH_FLAG(0)//,_clearvbodata(false) //:_numSegments(40),_height(16.0f),_radius(6.0),_branchSides(6),_branchesPerSegment(3),_branchGenerations(5),_branchGenerationDecayRate(1.0/7.0)
 {
 	_canRandom = false;
+	showLeaf = false;
+
+	leafDwonFinished = false;
 }
 
 void ChristmasTree::reset(){
 	FLUSHTRUNKVBOCOUNT = 0;
 	FLUSHLEAFVBOCOUNT = 0;
-	FLUSH_TRUNK_OR_LEAF_FLAG = false;
+	
 	_temp_timerrecord = 0;
 	_initialize_dec = 0.1;
 	_grow_increase_fator = 0.01;
@@ -67,6 +70,10 @@ void ChristmasTree::reset(){
 	setBranchIterationDecay(1.0/7.0);
 	setMinNoBranches(1);
 	TreeState = GROWING;
+
+
+	showLeaf = false;
+	leafDwonFinished = false;
 
 	generateTreeSeed();
 	Update(0);
@@ -88,6 +95,8 @@ void ChristmasTree::Initialize(){
 	setBranchIterationDecay(1.0/7.0);
 	setMinNoBranches(1);
 	TreeState = GROWING;
+	showLeaf = false;
+	leafDwonFinished = false;
 
 	generateTreeSeed();
 	Update(0);
@@ -102,8 +111,8 @@ void ChristmasTree::Draw(){
 	//diffuse map
 // 	glActiveTexture( GL_TEXTURE1);
 // 	glBindTexture( GL_TEXTURE_2D, leaf_texture_id);
-
-	drawLeaf();
+	if(showLeaf)
+		drawLeaf();
 }
 
 //update data for all this tree
@@ -115,8 +124,11 @@ void ChristmasTree::Update(const float& t){
 	if(_temp_timerrecord >= TIMERCOUNT ){
 		_temp_timerrecord = 0;
 		if( GROWING ==  TreeState || STOPGROWING == TreeState)
-			updateTreeGrowing();
+			updateTreeGrowingData();
 	}
+
+
+
 	if( GROWING ==  TreeState){
 #ifdef NOGROWRADOM
 		_canRandom = false;
@@ -151,47 +163,15 @@ void ChristmasTree::Update(const float& t){
 		TreeState = SYNCLIVE;
 	}
 	if(SYNCLIVE == TreeState){
-#ifdef ENDSYNCBETWEENTRUNKANDLEAF
-
-#endif
-
-#ifdef UPDATELEAF
-		glBindBuffer( GL_ARRAY_BUFFER, _leafVBO);
-		GLfloat* data;  
-		data = (GLfloat*) glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE);  
-		if (data != (GLfloat*) NULL) {  
-			for( int i = 0; i < _leafVertices.size(); i++ )  {
-				//data[3*i+2] *= 2.0; /* Modify Z values */  
-				float p;
-				p = data[i] * 0.9;
-				data[i] = p;//0
-				i++;
-				p = data[i] * 0.9;
-				data[i] = p;//1
-				i++;
-				p = data[i] * 0.9;
-				data[i] = p;//2
-				i++;//3
-				i++;//4
-				i++;//5
-				i++;//6
-				i++;//7
-			}
-
-
-		} else {  
-			/* Handle not being able to update data */  
-		} 
-		glUnmapBuffer(GL_ARRAY_BUFFER);
-#endif
-		
-		/*currentSeason = Summer;	*/	
-		
+		//small all leaf
+		smallAllLeaf();
 	}
 	if(LEAFGROWING == TreeState){
 		//update leaf
 		TreeState = LEAFGROWEND;
 		//std::cout<<"ww"<<std::endl;
+		showLeaf = true;
+
 	}
 	if(LEAFGROWEND == TreeState){
 		//std::cout<<"ww"<<std::endl;
@@ -199,7 +179,14 @@ void ChristmasTree::Update(const float& t){
 
 	if( LEAFDOWN == TreeState){
 		
-		TreeState = LEAFDOWNEND; 
+		leafDownMethod();
+
+		if(leafDwonFinished)
+		{
+			TreeState = LEAFDOWNEND; 
+			showLeaf = false;
+		}
+			
 	}
 
 	if( LEAFDOWNEND == TreeState){
@@ -291,7 +278,7 @@ void ChristmasTree::generateTreeSeed(){
 /************************************************************************/
 /* grow                                                                     */
 /************************************************************************/
-void ChristmasTree::updateTreeGrowing(){
+void ChristmasTree::updateTreeGrowingData(){
 	_height = _height+1;
 	_num_of_Segments = _num_of_Segments + 1;
 	_number_of_segment_no_branches = _number_of_segment_no_branches + 1;
@@ -579,25 +566,11 @@ void ChristmasTree::buildAndFlushVBO(){
 		glBindBuffer( GL_ARRAY_BUFFER, _trunkVBO);
 		glBufferData( GL_ARRAY_BUFFER, _trunkVertices.size() * sizeof(float), &_trunkVertices[0], GL_DYNAMIC_DRAW);
 
-
 	}else{	
-		//leaf
-		//if(FLUSH_TRUNK_OR_LEAF_FLAG){
-			glBindBuffer( GL_ARRAY_BUFFER, _leafVBO);
-			glBufferData( GL_ARRAY_BUFFER, _leafVertices.size() * sizeof(float), NULL, GL_DYNAMIC_DRAW);
-			
-			glBufferData( GL_ARRAY_BUFFER, _leafVertices.size() * sizeof(float), &_leafVertices[0], GL_DYNAMIC_DRAW);
-
-	//	}else{
-			//trunk
-			glBindBuffer( GL_ARRAY_BUFFER, _trunkVBO);
-			glBufferData( GL_ARRAY_BUFFER, _trunkVertices.size() * sizeof(float), NULL, GL_DYNAMIC_DRAW);
-			glBufferData( GL_ARRAY_BUFFER, _trunkVertices.size() * sizeof(float), &_trunkVertices[0], GL_DYNAMIC_DRAW);
-
-	//	}
-		FLUSH_TRUNK_OR_LEAF_FLAG = !FLUSH_TRUNK_OR_LEAF_FLAG;
-
-
+		//leaf		
+		flushLeafVBO();
+		//trunk
+		flushTrunkVBO();
 	}
 }
 /************************************************************************/
@@ -634,14 +607,12 @@ void ChristmasTree::drawTrunks(){
 void ChristmasTree::drawLeaf(){
 	float green[] = { 0.0f, 0.7f, 0.0f, 1.0f};
 
+	
 	glEnable(GL_LIGHTING);
-// 	glColor3f( 0.0f, 0.7f, 0.0f);
-// 	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, green);
-// 	glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 32.0f);
+
 
  	glBindBuffer( GL_ARRAY_BUFFER, _leafVBO);
-// 	 
-// 	
+
 	glVertexPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, 0);
 	glNormalPointer( GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 3);
 	glTexCoordPointer( 2, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 6);//pos nor uv*/
@@ -651,19 +622,9 @@ void ChristmasTree::drawLeaf(){
 	glBindTexture(GL_TEXTURE_2D, leaf_texture_id); 
 	glEnable(GL_TEXTURE_2D); 
 
-// 	glClientActiveTexture( GL_TEXTURE1);
-// 	glTexCoordPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 8);
-// 	glEnableClientState( GL_TEXTURE_COORD_ARRAY);
-// 	glClientActiveTexture( GL_TEXTURE2);
-// 	glTexCoordPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 11);
-// 	glEnableClientState( GL_TEXTURE_COORD_ARRAY);
 
 	glEnableClientState( GL_VERTEX_ARRAY);
 	glEnableClientState( GL_NORMAL_ARRAY);
-
-
-// 	glClientActiveTexture( GL_TEXTURE0);
-// 	glEnableClientState(GL_TEXTURE0);
 
 
 	glDrawElements( GL_TRIANGLES, (GLsizei)_leafIndices.size(), GL_UNSIGNED_INT, &_leafIndices[0]);
@@ -673,15 +634,51 @@ void ChristmasTree::drawLeaf(){
 	glDisableClientState( GL_VERTEX_ARRAY);
 	glDisableClientState( GL_NORMAL_ARRAY);
 
-// 	glClientActiveTexture( GL_TEXTURE1);
-// 	glDisableClientState( GL_TEXTURE_COORD_ARRAY);
-// 	glClientActiveTexture( GL_TEXTURE2);
-// 	glDisableClientState( GL_TEXTURE_COORD_ARRAY);
-// 
-// 	glClientActiveTexture( GL_TEXTURE0);
-// 	glDisableClientState( GL_TEXTURE_COORD_ARRAY);
-
 	glDisable(GL_TEXTURE_2D);
 
  	glBindBuffer( GL_ARRAY_BUFFER, 0);
+	
+}
+
+void ChristmasTree::flushTrunkVBO(){
+	glBindBuffer( GL_ARRAY_BUFFER, _trunkVBO);
+	glBufferData( GL_ARRAY_BUFFER, _trunkVertices.size() * sizeof(float), NULL, GL_DYNAMIC_DRAW);
+	glBufferData( GL_ARRAY_BUFFER, _trunkVertices.size() * sizeof(float), &_trunkVertices[0], GL_DYNAMIC_DRAW);
+}
+void ChristmasTree::flushLeafVBO(){
+	glBindBuffer( GL_ARRAY_BUFFER, _leafVBO);
+	glBufferData( GL_ARRAY_BUFFER, _leafVertices.size() * sizeof(float), NULL, GL_DYNAMIC_DRAW);
+	glBufferData( GL_ARRAY_BUFFER, _leafVertices.size() * sizeof(float), &_leafVertices[0], GL_DYNAMIC_DRAW);
+}
+void ChristmasTree::smallAllLeaf(){
+
+}
+
+void ChristmasTree::leafDownMethod(){
+	for(int i=0;i<_leafVertices.size();i++){
+		//p1
+		i++;
+		float y = _leafVertices[i];
+		float k = randf1();
+		if(y>0){
+			if(k>0)
+			_leafVertices[i] = y-0.01;
+		}
+			
+		i=i+6;
+
+	}
+
+	flushLeafVBO();
+
+	leafDwonFinished =  true;
+
+	for(int i=0;i<_leafVertices.size();i++){
+		i++;
+		float y = _leafVertices[i];
+		if(y>0)
+			leafDwonFinished = false;
+		i=i+6;
+	}
+
 }

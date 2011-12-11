@@ -77,6 +77,7 @@
     <ClCompile Include="FlagSprite.cpp" />
     <ClCompile Include="LetterGameSceneClass.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ScoreGameSceneClass.cpp" />
     <ClCompile Include="SemaphoreHeroGame.cpp" />
     <ClCompile Include="SemaphoreHeroGameSceneClass.cpp" />
     <ClCompile Include="SemaphoreHeroMainMenu.cpp" />
@@ -84,6 +85,7 @@
   <ItemGroup>
     <ClInclude Include="FlagSprite.h" />
     <ClInclude Include="LetterGameSceneClass.h" />
+    <ClInclude Include="ScoreGameSceneClass.h" />
     <ClInclude Include="SemaphoreHeroGame.h" />
     <ClInclude Include="SemaphoreHeroGameSceneClass.h" />
     <ClInclude Include="SemaphoreHeroMainMenu.h" />

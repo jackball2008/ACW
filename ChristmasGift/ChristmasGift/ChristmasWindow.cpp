@@ -6,7 +6,7 @@
 #define DRAWREFLECTION
 #define ALLOWSEATCULLFACE1
 
-#define DRAWSEAT1
+#define DRAWSEAT
 
 
 // const Vector4f _PS = Vector4f(1.0f,0.0f,0.0f,0.0f);
@@ -123,40 +123,52 @@ void ChristmasWindow::OnUpdate(){
 	float deltaTime = (float)App::GetDeltaTime();
 	_timerCounter = _timerCounter + deltaTime;
 	
-	
+	float tempDelataTime = deltaTime * _timeDecFactor;
 
 	/************************************************************************/
 	/* update particles                                                                     */
 	/************************************************************************/
-	_smoke.Update(deltaTime);
-	_snowflake.Update(deltaTime);
-	_fire.Update(deltaTime);
+	_smoke.Update(tempDelataTime);
+	_snowflake.Update(tempDelataTime);
+	_fire.Update(tempDelataTime);
 
 	/************************************************************************/
 	/* update light spirce rotate angle                                                                     */
 	/************************************************************************/
-	_angle += _angleInc * deltaTime;
+	_angle += _angleInc * tempDelataTime;
 	if(_angle > 360.0f) 
 		_angle -=360.0f;
 	/************************************************************************/
-	/* tree angle                                                                     */
+	/* tree operation                                                                     */
 	/************************************************************************/
+	//crash
 	if(_treeCrash){
-		_treeangle += _treeangleInc * deltaTime;
+		_treeangle += _treeangleInc * tempDelataTime;
 		if(_treeangle > 90){
 			_treeangle = 0;
 			_treeCrash = false;
-			/*_tree->currentSeason = Winter;*/
 			_tree->TreeState = TREEDOWNEND;
 		}
 	}
-	if(_timerCounter>= SEASONLENGTH*_timeDecFactor){
-		_tree->Update(deltaTime);
-		_timerCounter = 0;
-	}
+	
+	_tree->Update(tempDelataTime);
+// 	if(_timerCounter>= SEASONLENGTH*_timeDecFactor){
+// 		_tree->Update(deltaTime);
+// 		_timerCounter = 0;
+// 	}
+	//////////////////////////////////////////////////////////////////////////
+	/************************************************************************/
+	/* season loop                                                                     */
+	/************************************************************************/
 	if(Spring == _currentSeason ){
 		if(START == _tree->TreeState){
 			_tree->TreeState = GROWING;
+			/************************************************************************/
+			/* do spring operation                                                                     */
+			/************************************************************************/
+
+
+
 		}
 		
 		if( _tree->TreeState == SYNCLIVE  ){
@@ -202,6 +214,7 @@ void ChristmasWindow::OnUpdate(){
 	if(Winter == _currentSeason ){
 		if(LEAFDOWNEND == _tree->TreeState){
 			_tree->TreeState = FIREING;
+
 		}
 
 		if(FIREING == _tree->TreeState){
@@ -464,11 +477,11 @@ void ChristmasWindow::OnKeyboard(int key, bool down)
 			_cameraHerical -= 5.0;
 			break;
 		case 'p':
-			_timeDecFactor = _timeDecFactor * 0.1;
+			_timeDecFactor = _timeDecFactor * 0.5;
 			cout<<"Increase Speed +"<<endl;
 			break;
 		case 'o':
-			_timeDecFactor = _timeDecFactor * 10.0;
+			_timeDecFactor = _timeDecFactor * 2.0;
 			cout<<"Decrease Speed -"<<endl;
 			break;
 		
