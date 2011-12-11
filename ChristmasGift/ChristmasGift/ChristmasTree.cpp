@@ -49,7 +49,7 @@ ChristmasTree::ChristmasTree(void)
 	_canRandom = false;
 	showLeaf = false;
 	growLeaf = false;
-	leafScale = 0.05;
+	leafSize = 0.05;
 
 	_temp_timerrecord = 0;
 	VBO_BUILD_OR_FLUSH_FLAG = 0;
@@ -76,7 +76,7 @@ void ChristmasTree::reset(){
 	showLeaf = false;
 	leafDwonFinished = false;
 	growLeaf = false;
-	leafScale = 0.05;
+	leafSize = 0.05;
 	/************************************************************************/
 	/* for leaf grow                                                                     */
 	/************************************************************************/
@@ -172,18 +172,15 @@ void ChristmasTree::Update(const float& t){
 	if(LEAFGROWING == TreeState){
 		//update leaf
 
-
-
-		
 		//std::cout<<"ww"<<std::endl;
 		showLeaf = true;
 		/************************************************************************/
 		/* do leaf growing operation                                                                     */
 		/************************************************************************/
-		leafScale = leafScale + 0.001;
+		leafSize = leafSize + 0.001;
 		smallAllLeaf();
 
-		if(leafScale>=1){
+		if(leafSize>=1){
 			TreeState = LEAFGROWEND;
 		}
 		
@@ -288,6 +285,8 @@ void ChristmasTree::generateVertexAndNormalizeForPerSegments(vec3f& top, vec3f& 
 	GLuint baseIndex = (GLuint)_trunkVertices.size() / VERTEXSIZEPERINTRUNK;
 	//generate each vertex position for every trunk segment
 	//default value = 6
+
+	int textureIndex = 0;
  
 	for ( int jj = 0; jj < _branchSides; jj++){
 		float x = sinf( float(jj)/float(_branchSides) * 2.0f * 3.1415927f);
@@ -308,6 +307,19 @@ void ChristmasTree::generateVertexAndNormalizeForPerSegments(vec3f& top, vec3f& 
 		_trunkVertices.push_back( currentSideDir.x);
 		_trunkVertices.push_back( currentSideDir.y);
 		_trunkVertices.push_back( currentSideDir.z);
+		//tex
+#ifdef SHOWTRUNKTEXTURE
+
+		if(textureIndex<2)
+		{
+			_trunkVertices.push_back(0.0);
+			_trunkVertices.push_back(0.0);
+		}else{
+			_trunkVertices.push_back(1.0);
+			_trunkVertices.push_back(1.0);
+		}
+		textureIndex++;
+#endif
 		//high pos
 		_trunkVertices.push_back( highvertex.x);
 		_trunkVertices.push_back( highvertex.y);
@@ -316,6 +328,20 @@ void ChristmasTree::generateVertexAndNormalizeForPerSegments(vec3f& top, vec3f& 
 		_trunkVertices.push_back( currentSideDir.x);
 		_trunkVertices.push_back( currentSideDir.y);
 		_trunkVertices.push_back( currentSideDir.z);
+#ifdef SHOWTRUNKTEXTURE
+		if(textureIndex<2)
+		{
+			_trunkVertices.push_back(1.0);
+			_trunkVertices.push_back(0.0);
+		}else{
+			_trunkVertices.push_back(0.0);
+			_trunkVertices.push_back(1.0);
+		}
+		textureIndex++;
+		if(textureIndex>3){
+			textureIndex = 0;
+		}
+#endif
 	}
 	//index
 	for (int jj = 0; jj < _branchSides; jj++) {
@@ -580,13 +606,18 @@ void ChristmasTree::drawTrunks(){
 	
 	glVertexPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, 0);
 	glNormalPointer( GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, (float*)(0) + 3);
+#ifdef SHOWTRUNKTEXTURE
+	glTexCoordPointer( 2, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, (float*)(0) + 6);
+#endif
+	
 	
 	glEnableClientState( GL_VERTEX_ARRAY);
 	glEnableClientState( GL_NORMAL_ARRAY);
 
-	glDrawElements( GL_TRIANGLES, (GLsizei)_trunkIndices.size(), GL_UNSIGNED_INT, &_trunkIndices[0]);
-
-
+	glDrawElements( GL_LINE_LOOP, (GLsizei)_trunkIndices.size(), GL_UNSIGNED_INT, &_trunkIndices[0]);
+	//GL_LINE_LOOP
+	//GL_LINE_STRIP
+	//GL_TRIANGLES
 	glDisableClientState( GL_VERTEX_ARRAY);
 	glDisableClientState( GL_NORMAL_ARRAY);
 
@@ -639,16 +670,30 @@ void ChristmasTree::flushLeafVBO(){
 }
 void ChristmasTree::smallAllLeaf(){
 
-	int s1 = _leafRootStore.size();
-	int s2 = _leafScaleStore.size();
-	int s3 = _leaf_pos_offsetStore.size();
-	int s4 = _leafPosStore.size();
-	int s5 = _dirStore.size();
-	int s6 = _sizeStore.size();
+// 	int s1 = _leafRootStore.size();
+// 	int s2 = _leafScaleStore.size();
+// 	int s3 = _leaf_pos_offsetStore.size();
+// 	int s4 = _leafPosStore.size();
+// 	int s5 = _dirStore.size();
+// 	int s6 = _sizeStore.size();
+
+// 	pos = root + dir * size; 
+// 	float scale =  size * 0.5f; // width scale is 1/2 length scale, because it is +/-
+
+	
+// 	vec3f pos_offset = normalize( out * randf1() + up * randf1() * 0.5f);
+// 	vec3f nor = normalize( cross( dir, pos_offset));
+// 	vec3f vtx;
+
 
 	for(int i=0;i<_leafRootStore.size();i++){
-		vec3f vtx,vtx0,vtx1,vtx2,vtx3;
-		vec3f scale = _leafScaleStore[i] * leafScale;
+
+		vec3f pos = _leafRootStore[i] + _dirStore[i] * _sizeStore[i] * leafSize;
+		float scale =  _sizeStore[i] * 0.5f * leafSize;
+
+
+		vec3f vtx;
+		//vec3f scale = _leafScaleStore[i] * leafSize;
 
 		vec3f nor = normalize( cross( _dirStore[i], _leaf_pos_offsetStore[i]));
 
@@ -665,13 +710,13 @@ void ChristmasTree::smallAllLeaf(){
 		_temp_leafVertices.push_back( 1.0f);
 		_temp_leafVertices.push_back( 0.0f);
 
-		vtx = _leafPosStore[i] + _leaf_pos_offsetStore[i] * scale;
+		vtx = pos /*_leafPosStore[i]*/ + _leaf_pos_offsetStore[i] * scale;
 		for (int ii = 0; ii < 3; ii++) _temp_leafVertices.push_back( vtx[ii]);
 		for (int ii = 0; ii < 3; ii++) _temp_leafVertices.push_back( nor[ii]);
 		_temp_leafVertices.push_back( 1.0f);
 		_temp_leafVertices.push_back( 1.0f);
 
-		vtx = _leafPosStore[i] - _leaf_pos_offsetStore[i] * scale;
+		vtx = pos /*_leafPosStore[i]*/ - _leaf_pos_offsetStore[i] * scale;
 		for (int ii = 0; ii < 3; ii++) _temp_leafVertices.push_back( vtx[ii]);
 		for (int ii = 0; ii < 3; ii++) _temp_leafVertices.push_back( nor[ii]);
 		_temp_leafVertices.push_back( 0.0f);

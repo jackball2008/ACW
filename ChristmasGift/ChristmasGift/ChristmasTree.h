@@ -14,7 +14,12 @@ using std::vector;
 
 enum treestatus {START,GROWING,STOPGROWING,SYNCLIVE,LEAFGROWING,LEAFGROWEND,LEAFDOWN,LEAFDOWNEND,FIREING,FIREEND,TREEDOWNING,TREEDOWNEND};
 
+#define SHOWTRUNKTEXTURE1
+#ifdef SHOWTRUNKTEXTURE
+#define VERTEXSIZEPERINTRUNK 8
+#else
 #define VERTEXSIZEPERINTRUNK 6
+#endif
 #define VERTEXSIZEPERINLEAF	8
 #define MAXHEIGHT 16
 #define MAXSEGMENTS 20
@@ -191,7 +196,7 @@ public:
 	void flushLeafVBO();
 	bool showLeaf;
 	//leaf grow method
-	float leafScale;
+	float leafSize;
 	void smallAllLeaf();
 
 	bool growLeaf;
