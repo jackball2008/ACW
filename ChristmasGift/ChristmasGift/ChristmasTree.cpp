@@ -103,14 +103,6 @@ void ChristmasTree::Initialize(){
 }
 void ChristmasTree::Draw(){
 	drawTrunks();
-	/*if(currentSeason != Spring)*/
-	//if(LEAFGROWING == TreeState || LEAFGROWEND== TreeState|| LEAFDOWN== TreeState|| LEAFDOWNEND == TreeState)
-	//normal map
-// 	glActiveTexture( GL_TEXTURE0);
-// 	glBindTexture( GL_TEXTURE_2D, leaf_nor_texture_id);
-	//diffuse map
-// 	glActiveTexture( GL_TEXTURE1);
-// 	glBindTexture( GL_TEXTURE_2D, leaf_texture_id);
 	if(showLeaf)
 		drawLeaf();
 }
@@ -196,6 +188,10 @@ void ChristmasTree::Update(const float& t){
 	}
 
 	if(FIREING == TreeState){
+
+
+
+
 		TreeState = FIREEND;
 	}
 
