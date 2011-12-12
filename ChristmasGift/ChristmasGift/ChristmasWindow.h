@@ -66,11 +66,24 @@ private:
 	float _treeangle;
 	const float _treeangleInc;
 	/************************************************************************/
+	/* tree shader program                                                                     */
+	/************************************************************************/
+	GLuint _tree_trunk_shader_programID;
+	GLuint _tree_leaf_shader_programID;
+	/************************************************************************/
 	/*                                                                      */
 	/************************************************************************/
-
-
 	ModelController* modelController;
+	// change name to texture loader
+	/************************************************************************/
+	/* shader load program                                                                     */
+	/************************************************************************/
+	
+	void	LoadShaders();
+	void CheckShaderEnvironment();											//check shader environment
+	GLuint LoadShaderFromFile(const char* vp,const char* fp);				//load shader
+	GLuint GenerateShaderObject(std::string filename, GLenum shaderType);	//individual shader function  
+
 
 	/************************************************************************/
 	/* shader ID                                                                  */
@@ -165,13 +178,10 @@ private:
 	void	InitialiseLights();
 	void	DrawSporLights();
 
-	/************************************************************************/
-	/* shader                                                                     */
-	/************************************************************************/
-	void	LoadShaders();
-	GLuint	GenerateShaderObject(std::string filename, GLenum shaderType);
-	void	CheckShaderEnvironment();
-	bool	GenerateShaderProgram(GLuint &programID, char* vPath, char* fPath);
+	
+// 	GLuint	GenerateShaderObject(std::string filename, GLenum shaderType);
+// 	void	CheckShaderEnvironment();
+// 	bool	GenerateShaderProgram(GLuint &programID, char* vPath, char* fPath);
 
 	/************************************************************************/
 	/* reflection                                                                     */
@@ -187,6 +197,6 @@ private:
 
 	void	InitialiseParicles();
 
-	void	InitialiseShader();
+	//void	InitialiseShader();
 };
 

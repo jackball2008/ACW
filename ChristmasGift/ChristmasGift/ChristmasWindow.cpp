@@ -69,7 +69,7 @@ void ChristmasWindow::OnCreate()
 	//////////////////////////////////////////////////////////////////////////
 	InitialiseLights();
 	//////////////////////////////////////////////////////////////////////////
-	InitialiseShader();
+	LoadShaders();
 	//////////////////////////////////////////////////////////////////////////
 	InitialiseModels();
 	//////////////////////////////////////////////////////////////////////////
@@ -615,6 +615,7 @@ void ChristmasWindow::InitialiseModels(){
 	_tree->trunk_texture_id = modelController->_textures[7];
 	_tree->leaf_texture_id = modelController->_textures[5];
 	_tree->leaf_nor_texture_id = modelController->_textures[6];
+	_tree->trunk_shader_programID = _tree_trunk_shader_programID;
 	_tree->Initialize();
 
 
@@ -666,14 +667,14 @@ void ChristmasWindow::InitialiseParicles(){
 // 	_fire.Initialize();
 }
 
-
+/**
 void ChristmasWindow::InitialiseShader(){
 
 	CheckShaderEnvironment();
 	//init cube shader
 	if(GenerateShaderProgram(_cubeShaderProgramID,"studyvertexshader1.glsl","studyfragshader1.glsl")){
 		printf("generate ok\n");
-/*		glBindAttribLocation(_cubeShaderProgramID,0, "MCVertex");*/
+//		glBindAttribLocation(_cubeShaderProgramID,0, "MCVertex");
 // 		glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
 // 		glBindAttribLocation(_cubeShaderProgramID,2, "Testfloat0");
 // 		glBindAttribLocation(_cubeShaderProgramID,3, "Testfloat1");
@@ -706,25 +707,16 @@ void ChristmasWindow::InitialiseShader(){
 
 
 }
-/************************************************************************/
-/* load shaders                                                                     */
-/************************************************************************/
-void ChristmasWindow::CheckShaderEnvironment(){
-	const GLubyte *render = glGetString(GL_RENDER);
-	const GLubyte *vender = glGetString(GL_VENDOR);
-	const GLubyte *version = glGetString(GL_VERSION);
-	const GLubyte *glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+*/
 
-	GLint major, minor;
-	glGetIntegerv(GL_MAJOR_VERSION, &major);
-	glGetIntegerv(GL_MINOR_VERSION, &minor);
-	printf("GL Vendor    : %s\n", vender);
-	printf("GL Renderer  : %s\n", render);
-	printf("GL Version (string)  : %s\n", version);
-	printf("GL Version (integer) : %d.%d\n", major, minor);
-	printf("GLSL Version : %s\n", glslVersion);  
-}
 void ChristmasWindow::LoadShaders(){
+	_tree_trunk_shader_programID = LoadShaderFromFile("phongvertexshader.glsl","phongfragmentshader.glsl");
+	//GLuint _tree_leaf_shader_programID;
+
+	//set shader program for each object 
+	/**
+	GLuint tree_trunk_shader_program_ID = 
+
 	_cubeShaderProgramID = glCreateProgram();
 
 	GLuint vertexShaderID;
@@ -745,8 +737,9 @@ void ChristmasWindow::LoadShaders(){
 	{
 		cerr << e.what() << endl;
 	}
+	*/
 }
-
+/**
 bool ChristmasWindow::GenerateShaderProgram(GLuint &programID, char* vPath, char* fPath){
 	programID = glCreateProgram();
 	GLuint vID;
@@ -763,14 +756,12 @@ bool ChristmasWindow::GenerateShaderProgram(GLuint &programID, char* vPath, char
 // 		glBindAttribLocation(_cubeShaderProgramID,1, "VertexColor");
 // 		glBindAttribLocation(_cubeShaderProgramID,2, "Testfloat0");
 // 		glBindAttribLocation(_cubeShaderProgramID,3, "Testfloat1");
-// 		glBindAttribLocation(_cubeShaderProgramID,4, "Testfloat2");
-		/*glBindFragDataLocation(programID,0,"FragColor");*/
+// 		glBindAttribLocation(_cubeShaderProgramID,4, "Testfloat2")
+//		glBindFragDataLocation(programID,0,"FragColor");
 
 		glLinkProgram(programID);
 		
-		/************************************************************************/
-		/* list shader active attributes                                                                     */
-		/************************************************************************/
+		
 		GLint maxLength, nAttribs;
 		glGetProgramiv(programID, GL_ACTIVE_ATTRIBUTES, &nAttribs);
 		glGetProgramiv(programID, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
@@ -796,6 +787,8 @@ bool ChristmasWindow::GenerateShaderProgram(GLuint &programID, char* vPath, char
 
 	return true;
 }
+*/
+/**
 GLuint ChristmasWindow::GenerateShaderObject(std::string filename, GLenum shaderType){
 	// Attempt to load filename
 	ifstream file;
@@ -861,7 +854,7 @@ GLuint ChristmasWindow::GenerateShaderObject(std::string filename, GLenum shader
 	return id;
 }
 
-
+*/
 
 
 /*const vec3f _startup(0,1,0);*/
@@ -951,6 +944,7 @@ void ChristmasWindow::LoadBasicOpenGLParame(){
 	glEnable(GL_CULL_FACE);
 }
 void ChristmasWindow::CheckMultitextureSupport(){
+	//1
 	// does this driver support multitexture?
 	_bHaveMultitex = glex::Supports( "GL_ARB_multitexture" );
 	if (!_bHaveMultitex) {
@@ -960,4 +954,126 @@ void ChristmasWindow::CheckMultitextureSupport(){
 
 	// if it supports multitexture, turn it on
 	_bMultitex = _bHaveMultitex;
+}
+
+void ChristmasWindow::CheckShaderEnvironment(){
+	const GLubyte *render = glGetString(GL_RENDER);
+	const GLubyte *vender = glGetString(GL_VENDOR);
+	const GLubyte *version = glGetString(GL_VERSION);
+	const GLubyte *glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+
+	GLint major, minor;
+	glGetIntegerv(GL_MAJOR_VERSION, &major);
+	glGetIntegerv(GL_MINOR_VERSION, &minor);
+	printf("GL Vendor    : %s\n", vender);
+	printf("GL Renderer  : %s\n", render);
+	printf("GL Version (string)  : %s\n", version);
+	printf("GL Version (integer) : %d.%d\n", major, minor);
+	printf("GLSL Version : %s\n", glslVersion);  
+}
+
+GLuint ChristmasWindow::LoadShaderFromFile(const char* vPath,const char* fPath){
+	GLuint programID;
+	programID = glCreateProgram();
+	GLuint vID;
+	GLuint fID;
+	try
+	{
+		vID = GenerateShaderObject(vPath, GL_VERTEX_SHADER);
+		fID = GenerateShaderObject(fPath, GL_FRAGMENT_SHADER);
+
+		glAttachShader(programID, vID);
+		glAttachShader(programID, fID);
+
+		glLinkProgram(programID);
+
+		/************************************************************************/
+		/* list shader active attributes                                                                     */
+		/************************************************************************/
+		GLint maxLength, nAttribs;
+		glGetProgramiv(programID, GL_ACTIVE_ATTRIBUTES, &nAttribs);
+		glGetProgramiv(programID, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
+
+		GLchar* name = (GLchar*)malloc(maxLength);
+
+		GLint written, size, location;
+		GLenum type;
+		printf(" Index | Name\n");
+		printf("----------------------------\n");
+		for(int i = 0; i<nAttribs; i++){
+			glGetActiveAttrib( programID, i, maxLength, &written, &size, &type, name);
+			location = glGetAttribLocation(programID, name);
+		}
+		free(name);
+	}
+	catch(exception& e)
+	{
+		cerr << e.what() << endl;
+	}
+
+	return programID;
+}
+GLuint ChristmasWindow::GenerateShaderObject(std::string filename, GLenum shaderType){
+	// Attempt to load filename
+	ifstream file;
+	file.open(filename, ios::in);
+	if (!file)
+	{
+		cerr << "Error loading " << filename << " - file not found" << endl;
+		throw exception("Error loading shader");
+	}
+
+	stringstream srcBuilder;
+	while (!file.eof())
+	{
+		unsigned char in = file.get();
+		srcBuilder << in;
+	}
+	file.close();
+	string shaderSrc = srcBuilder.str();
+	// Remove EOF char
+	shaderSrc = shaderSrc.substr(0, shaderSrc.size()-1);
+
+	file.close();
+
+
+	GLuint id = glCreateShader(shaderType);
+	if (id == 0)
+	{
+		cerr << "Could not create shader object" << endl;
+		throw exception("Could not create shader object");
+	}
+
+	// Assign source
+	GLint len[1];
+	len[0] = shaderSrc.size();
+	GLchar** src = new GLchar*[1];
+	src[0] = new GLchar[len[0]];
+	for (int i = 0; i < len[0]; i++) src[0][i] = shaderSrc[i];
+	glShaderSource(id, 1, (const GLchar**) src, len);
+
+	// Compile shader
+	glCompileShader(id);
+
+	//verify
+	GLint result;
+	glGetShaderiv(id, GL_COMPILE_STATUS, &result);
+	if(GL_FALSE == result){
+		printf(" shader compilaion failed!\n ");
+		GLint logLen;
+		glGetShaderiv(id,GL_INFO_LOG_LENGTH, &logLen);
+		if(logLen>0){
+
+			char* log = (char*)malloc(logLen);
+			GLsizei written;
+			glGetShaderInfoLog(id,logLen,&written,log);
+
+			printf("rewrite shader log: \n%s",log);
+			free(log);
+		}
+	}else{
+		printf("shader compilation right\n");
+	}
+
+	return id;
 }

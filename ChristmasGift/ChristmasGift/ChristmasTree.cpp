@@ -618,6 +618,7 @@ void ChristmasTree::buildAndFlushVBO(){
 /* draw trunk                                                                     */
 /************************************************************************/
 void ChristmasTree::drawTrunks(){
+	glUseProgram(trunk_shader_programID);
 	float brown[] = { 0.5f, 0.5f, 0.0f, 1.0f};
 	glColor3f( 0.5f, 0.5f, 0.0f);
 	glBindBuffer( GL_ARRAY_BUFFER, _trunkVBO);
@@ -654,6 +655,7 @@ void ChristmasTree::drawTrunks(){
 	glBindBuffer( GL_ARRAY_BUFFER, 0);
 
 	glDisable(GL_LIGHTING);
+	glUseProgram(NULL);
 }
 /************************************************************************/
 /* draw leaf                                                                     */
