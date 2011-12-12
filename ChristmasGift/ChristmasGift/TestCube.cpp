@@ -12,9 +12,9 @@ TestCube::~TestCube(void)
 
 void TestCube::Draw()
 {
-	
-	glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboID);
+	/**
+	glBindBuffer(GL_ARRAY_BUFFER, vboID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
 
 	// Set the state of what we are drawing (I don't think order matters here, but I like to do it in the same 
 	// order I set the pointers
@@ -22,9 +22,7 @@ void TestCube::Draw()
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 
-	/************************************************************************/
-	/* texture render control                                                                     */
-	/************************************************************************/
+	
 	if(_renderTextures){
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glEnable(GL_TEXTURE_2D);
@@ -67,9 +65,7 @@ void TestCube::Draw()
 		glDrawElements(GL_TRIANGLE_STRIP, _numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 
 
-	/************************************************************************/
-	/* shader end                                                                     */
-	/************************************************************************/
+	
 	if(_enableCullBack){
 		glDisable(GL_CULL_FACE);
 	}
@@ -93,4 +89,5 @@ void TestCube::Draw()
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	*/
 }

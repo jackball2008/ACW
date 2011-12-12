@@ -16,15 +16,15 @@
 
 using namespace std;
 /*using namespace gxbase;*/
-
+#define TEXTURENUM 8
 class ModelController:public IController
 {
 public:
 	ModelController(void);
 	~ModelController(void);
 
-	Image _images[7];
-	GLuint _textures[7];
+	Image _images[TEXTURENUM];
+	GLuint _textures[TEXTURENUM];
 	
 	static ModelController* GetInstance();
 

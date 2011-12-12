@@ -2,7 +2,7 @@
 #include "glex.h"
 #include "Vertex.h"
 #include "Materials.h"
-
+/*#include <stdlib.h>*/
 // Location/Normals
 #define X_POS 0
 #define Y_POS 1
@@ -21,18 +21,24 @@
 Interface IDisplayObject : public glex
 {
 public:
+	/************************************************************************/
+	/* main methods                                                         */
+	/************************************************************************/
+	virtual void Initialize() =0;
+	//initialize modile file
+	virtual void Initialize(const char* fpath) =0;
+	virtual void Update(const float& t)=0;
+	virtual void Draw()=0;
+	//virtual void CheckShaderEnvironment()=0;
+	//virtual GLuint LoadShaderFromFile(const char* vp,const char* fp)=0;
+	//virtual GLuint GenerateShaderObject(std::string filename, GLenum shaderType)=0;
 
-	virtual void Initialize();
-
-	
-	virtual void Update(const float& t);
-
-	virtual void Draw();
-
+	/************************************************************************/
+	/* end                                                                     */
+	/************************************************************************/
+	/**
 	virtual void setVertexes(Vertex (*_vertices), GLuint (*_indicesaddr),const int& numofvertex,const int& numofindex, const GLuint& texarr, const GLenum& drawtype);
 	
-	
-
 	virtual void setRenderTexture(bool v);
 
 	virtual void setRenderMaterials(bool v);

@@ -1,13 +1,18 @@
 #pragma once
 
 #include "IDisplayObject.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <stdlib.h>
 
-
+using namespace std;
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 
-enum seasons {Spring,Summer,Autumn,Winter};
+/*enum seasons {Spring,Summer,Autumn,Winter};*/
 
 struct vertex{
 	GLfloat x;
@@ -31,26 +36,26 @@ class DisplayObjectModel :
 {
 public:
 	DisplayObjectModel(void);
-	~DisplayObjectModel(void);
+	virtual ~DisplayObjectModel(void);
 
 	/************************************************************************/
-	/* logic                                                                     */
+	/* main method                                                                     */
 	/************************************************************************/
-	/*seasons currentSeason;*/
-	//////////////////////////////////////////////////////////////////////////
-	GLuint _vboID;
+	virtual void Initialize();
+	virtual void Initialize(const char* fpath);
+	//virtual void Update(const float& t);
+	//virtual void Draw();
+	virtual void CheckShaderEnvironment();
+	virtual GLuint LoadShaderFromFile(const char* vp,const char* fp);
+	virtual GLuint GenerateShaderObject(std::string filename, GLenum shaderType);
+	/************************************************************************/
+	/* main varible                                                                     */
+	/************************************************************************/
+	Vertex (*_vertices);
+	GLuint	*_indices;
 
-	GLuint _iboID;   
-	GLuint _vaoID;
-
-	
-	bool _renderTextures;
-	bool _renderMaterials;
-	bool _enableTransparency;
-	float _colorapalha;
-	bool _enableCullFront;
-	bool _enableCullBack;
-
+	GLuint vboID;
+	GLuint iboID; 
 
 	int _numberOfVertices;
 	int _numberOfIndices;
@@ -60,21 +65,38 @@ public:
 	Materials _materials;
 
 	GLenum _drawtype;
+	/************************************************************************/
+	/* logic                                                                     */
+	/************************************************************************/
+	/*seasons currentSeason;*/
 	//////////////////////////////////////////////////////////////////////////
-	Vertex (*_vertices);
-	GLuint	*_indices;
+	/**
+	bool _renderTextures;
+	bool _renderMaterials;
+	bool _enableTransparency;
+	float _colorapalha;
+	bool _enableCullFront;
+	bool _enableCullBack;
+
+
+	
+
+	
+	*/
+	//////////////////////////////////////////////////////////////////////////
+	
 	//////////////////////////////////////////////////////////////////////////
 
-	virtual void Initialize();
+	
 
 	//update and draw are the most important method
-	virtual void Update(const float& t);
+	
 	//draw, be called in every render
-	virtual void Draw();
-
+	
+	/**
 	virtual void setVertexes(Vertex (*_vertices), GLuint (*_indicesaddr),const int& numofvertex,const int& numofindex, const GLuint& texarr, const GLenum& drawtype);
 	
-	/*virtual void setTreeParameter();*/
+	
 	
 	virtual void setRenderTexture(bool v);
 
@@ -99,33 +121,33 @@ public:
 
 	virtual void setEnableShaderProgram(bool b);
 	virtual void setShaderProgramID(GLuint id);
-
+	*/
 	/************************************************************************/
 	/* For Test                                                                     */
 	/************************************************************************/
-	void ShaderDraw();
-	void Initialize2();
-	void SetVBOData(vertex* vp, vertex* vn,color* vc, uvcoord* vt, GLuint* idx, int numofv, int numofidx );
+// 	void ShaderDraw();
+// 	void Initialize2();
+// 	void SetVBOData(vertex* vp, vertex* vn,color* vc, uvcoord* vt, GLuint* idx, int numofv, int numofidx );
 	//////////////////////////////////////////////////////////////////////////
-	bool	useShader;
+	/*bool	useShader;*/
 private:
 	
 
 	/************************************************************************/
 	/* important shader atribute                                                                     */
 	/************************************************************************/
-	GLuint _shaderID;
-
-
-	vertex* _vp;
-	vertex* _vn;
-	color* _vc;
-	uvcoord* _vt;
-
-	GLuint _vpid;
-	GLuint _vnid;
-	GLuint _vcid;
-	GLuint _vtid;
+// 	GLuint _shaderID;
+// 
+// 
+// 	vertex* _vp;
+// 	vertex* _vn;
+// 	color* _vc;
+// 	uvcoord* _vt;
+// 
+// 	GLuint _vpid;
+// 	GLuint _vnid;
+// 	GLuint _vcid;
+// 	GLuint _vtid;
 	
 };
 

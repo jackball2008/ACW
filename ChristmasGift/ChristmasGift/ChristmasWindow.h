@@ -15,21 +15,23 @@
 
 #include "ChristmasTree.h"
 #include "Sphere.h"
-#include "House.h"
-#include "Seat.h"
-#include "Ball.h"
-#include "Pool.h"
-#include "TestCube.h"
+// #include "Sphere.h"
+// #include "House.h"
+// #include "Seat.h"
+// #include "Ball.h"
+// #include "Pool.h"
+// #include "TestCube.h"
 
-#include "SmokeParticles.h"
-#include "SnowFlakeParticles.h"
-#include "FireParticles.h"
+// #include "SmokeParticles.h"
+// #include "SnowFlakeParticles.h"
+// #include "FireParticles.h"
 
-#include "FlashLighting.h"
+/*#include "FlashLighting.h"*/
 
 
 using namespace gxbase;
 
+enum seasons {Spring,Summer,Autumn,Winter};
 
 class ChristmasWindow: public GLWindowEx
 {
@@ -38,53 +40,36 @@ public:
 	/************************************************************************/
 	/* main logic                                                                     */
 	/************************************************************************/
-	void OnCreate();
-	void OnDisplay();
-	void OnIdle();
-	void OnKeyboard(int key, bool down);
-	void OnMouseMove(int x, int y);
-	void OnMouseButton(MouseButton button, bool down);
-	void OnUpdate();
+	void	OnCreate();
+	void	OnDisplay();
+	void	OnIdle();
+	void	OnKeyboard(int key, bool down);
+	void	OnMouseMove(int x, int y);
+	void	OnMouseButton(MouseButton button, bool down);
+	void	OnUpdate();
 	
-	/************************************************************************/
-	/* lighting                                                                     */
-	/************************************************************************/
-	void InitialiseLights();
-	void DrawSporLights();
-	/************************************************************************/
-	/* shadow                                                                     */
-	/************************************************************************/
-	void InitialiseShadow();
-	void UpdateShadow();
-	/************************************************************************/
-	/* shader                                                                     */
-	/************************************************************************/
-	void LoadShaders();
-	GLuint GenerateShaderObject(std::string filename, GLenum shaderType);
-	void CheckShaderEnvironment();
-	bool GenerateShaderProgram(GLuint &programID, char* vPath, char* fPath);
+	
 
-	/************************************************************************/
-	/* reflection                                                                     */
-	/************************************************************************/
-	void LoadStencil();
-	void DrawReflection();
-	/************************************************************************/
-	/* Model Create                                                                     */
-	/************************************************************************/
-	void InitialiseModels();
-
-	void InitialiseCamera();
-
-	void InitialiseParicles();
-
-	void InitialiseShader();
-
-	bool keepStatyIn(int a);
-	int stayCounter;
+	
+	
 
 	
 private:
+	/************************************************************************/
+	/* object                                                                     */
+	/************************************************************************/
+	ChristmasTree* _tree;
+	/************************************************************************/
+	/*  tree roate                                             */
+	/************************************************************************/
+	bool _treeCrash;
+	float _treeangle;
+	const float _treeangleInc;
+	/************************************************************************/
+	/*                                                                      */
+	/************************************************************************/
+
+
 	ModelController* modelController;
 
 	/************************************************************************/
@@ -103,9 +88,9 @@ private:
 	/************************************************************************/
 	/* particles                                                                     */
 	/************************************************************************/
-	SmokeParticles _smoke;
-	SnowFlakeParticles _snowflake;
-	FireParticles _fire;
+// 	SmokeParticles _smoke;
+// 	SnowFlakeParticles _snowflake;
+// 	FireParticles _fire;
 	/************************************************************************/
 	/* test materials  billboard practices                                                         */
 	/************************************************************************/
@@ -128,36 +113,32 @@ private:
 	/************************************************************************/
 	Lights _spotlightRed,_spotlightGreen,_spotlightBlue,_spotlightWhite;
 	bool _drawSpotLights;
-	/************************************************************************/
-	/* shadow map         not work now                           */
-	/************************************************************************/
-// 	GLuint _shadow;
-// 	Vector4f _shadowPlanepos;
-// 	const Vector4f _PS, _PT, _PR, _PQ;
-// 	bool _switch;
+
 	/************************************************************************/
 	/* display object                                                                     */
 	/************************************************************************/
-	IDisplayObject* _house;
-	IDisplayObject* _seat;
-	IDisplayObject* _ball;
-	ChristmasTree* _tree;
-	IDisplayObject* _pool;
-	DisplayObjectModel* _testObject;
+	
 
-	FlashLighting *flashLight;
+// 	IDisplayObject* _house;
+// 	IDisplayObject* _seat;
+// 	IDisplayObject* _ball;
+// 	
+// 	IDisplayObject* _pool;
+// 	DisplayObjectModel* _testObject;
+// 
+// 	FlashLighting *flashLight;
 	/************************************************************************/
 	/* simulating season changing                                                                     */
 	/************************************************************************/
 	seasons _currentSeason;
 	/*long _seasonCounter;*/
 	float _timerCounter;
-	float _timeDecFactor;
+	float _timeSpeedFactor;
 	/************************************************************************/
 	/* Simulation data                                               */
 	/************************************************************************/
-	const float _angleInc;
-	float _angle;
+	const float _sunRunCycleAngleInc;
+	float _sunRunCycleAngle;
 	float _cameraAngle, _cameraPositionZ, _cameraRotation,_cameraHerical;
 	bool _leftDown, _rightDown;
 	/************************************************************************/
@@ -166,11 +147,46 @@ private:
 	bool   _bHaveMultitex;	// do we have mulitexture support?
 	bool   _bMultitex;		// using multitexturing?
 
+	void CheckMultitextureSupport();
+	void LoadCamera();
+	void LoadBasicOpenGLParame();
 	/************************************************************************/
-	/*  tree roate                                             */
+	/* pause timer                                                                     */
 	/************************************************************************/
-	bool _treeCrash;
-	float _treeangle;
-	const float _treeangleInc;
+	bool	Pause(int a);
+	int		pauseCounter;
+
+
+
+
+	/************************************************************************/
+	/* lighting                                                                     */
+	/************************************************************************/
+	void	InitialiseLights();
+	void	DrawSporLights();
+
+	/************************************************************************/
+	/* shader                                                                     */
+	/************************************************************************/
+	void	LoadShaders();
+	GLuint	GenerateShaderObject(std::string filename, GLenum shaderType);
+	void	CheckShaderEnvironment();
+	bool	GenerateShaderProgram(GLuint &programID, char* vPath, char* fPath);
+
+	/************************************************************************/
+	/* reflection                                                                     */
+	/************************************************************************/
+	void	LoadStencil();
+	void	DrawReflection();
+	/************************************************************************/
+	/* Model Create                                                                     */
+	/************************************************************************/
+	void	InitialiseModels();
+
+	void	InitialiseCamera();
+
+	void	InitialiseParicles();
+
+	void	InitialiseShader();
 };
 

@@ -164,20 +164,21 @@ void ModelController::AssemblyModelFromFile(IDisplayObject* model, const char* p
 
 	}
 
+	/**
 	if(model->getEnableTransparency()){
 		for(int i = 0; i<numofvertex;i++){
 			_vertices[i].colour[A_POS] =model->getColorApalha();;
 		}
 	}
-	
+	**/
 	_indices = new GLuint[numofvertex];
 	for(int i = 0; i<numofvertex;i++){
 		_indices[i] =  i;
 	}
-
+	/**
 	model->setVertexes((_vertices),(_indices), numofvertex, numofvertex ,texarr,GL_TRIANGLES);
 	model->Initialize();
-	
+	*/
 
 }
 
@@ -350,14 +351,14 @@ void ModelController::AssemblyModelFromHeightFieldFile(IDisplayObject* model, co
 		_vertices[i].colour[B_POS] = 0.5;
 		_vertices[i].colour[A_POS] = 1.0;
 
-		if(model->getEnableTransparency()){
-			_vertices[i].colour[A_POS] = model->getColorApalha();
-		}
+// 		if(model->getEnableTransparency()){
+// 			_vertices[i].colour[A_POS] = model->getColorApalha();
+// 		}
 
 	}
 	//_indexarray
-	//model->setVertexes((_vertices),(_indices), numofvertex,numofindex, texarr);
-	model->setVertexes((_vertices),(_indices), numofvertex,numofindex, texarr,GL_TRIANGLE_STRIP);
+	
+	//model->setVertexes((_vertices),(_indices), numofvertex,numofindex, texarr,GL_TRIANGLE_STRIP);
 	model->Initialize();
 	
 }
@@ -371,14 +372,15 @@ void ModelController::LoadTexture(){
 	_images[4].Load("SnowFlake2.tga");
 	_images[5].Load("leaf_texture.tga");
 	_images[6].Load("leaf_nor_texture.tga");
+	_images[7].Load("trunk_skin.tga");
 
-	glGenTextures(7, &_textures[0]);
+	glGenTextures(TEXTURENUM, &_textures[0]);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 	// build 2D mip-maps from image
-	for (int i = 0; i<7; i++) {
+	for (int i = 0; i<TEXTURENUM; i++) {
 		glBindTexture(GL_TEXTURE_2D, _textures[i]);
 		_images[i].gluBuild2DMipmaps();
 		_images[i].Free();
@@ -567,15 +569,15 @@ void ModelController::AssemblyModelFromHeightFieldFile2(IDisplayObject* model, c
 		_vertices[i].colour[B_POS] = 0.5;
 		_vertices[i].colour[A_POS] = 1.0;
 
-		if(model->getEnableTransparency()){
-			_vertices[i].colour[A_POS] = model->getColorApalha();
-		}
+// 		if(model->getEnableTransparency()){
+// 			_vertices[i].colour[A_POS] = model->getColorApalha();
+// 		}
 
 	}
 
 	//_indexarray
-	//model->setVertexes((_vertices),(_indices), numofvertex,numofindex, texarr);
-	model->setVertexes((_vertices),(_indices), numofvertex,numofindex, texarr,GL_TRIANGLE_STRIP);
+	
+	//model->setVertexes((_vertices),(_indices), numofvertex,numofindex, texarr,GL_TRIANGLE_STRIP);
 
 	model->Initialize();
 
@@ -726,9 +728,9 @@ void ModelController::AssemblyTransparencyPartSphere(IDisplayObject* model,GLflo
 		_vertices[i].colour[B_POS] = 0.5;
 		_vertices[i].colour[A_POS] = 1.0;
 
-		if(model->getEnableTransparency()){
-			_vertices[i].colour[A_POS] = model->getColorApalha();
-		}
+// 		if(model->getEnableTransparency()){
+// 			_vertices[i].colour[A_POS] = model->getColorApalha();
+// 		}
 
 	}
 
@@ -745,7 +747,7 @@ void ModelController::AssemblyTransparencyPartSphere(IDisplayObject* model,GLflo
 	delete [] _indexarray;
 	delete [] _texarray;
 	
-	model->setVertexes((_vertices),(_indices), numofvertex,numofindex, texarr,GL_TRIANGLE_STRIP);
+	//model->setVertexes((_vertices),(_indices), numofvertex,numofindex, texarr,GL_TRIANGLE_STRIP);
 	model->Initialize();
 
 }
@@ -1017,11 +1019,11 @@ void ModelController::AssemblyModelFromFile2(DisplayObjectModel* model, const ch
 
 	}
 
-	if(model->getEnableTransparency()){
-		for(int i = 0; i<numofvertex;i++){
-			_vertices[i].colour[A_POS] =model->getColorApalha();;
-		}
-	}
+// 	if(model->getEnableTransparency()){
+// 		for(int i = 0; i<numofvertex;i++){
+// 			_vertices[i].colour[A_POS] =model->getColorApalha();;
+// 		}
+// 	}
 
 	_indices = new GLuint[numofvertex];
 	for(int i = 0; i<numofvertex;i++){
@@ -1053,7 +1055,7 @@ void ModelController::AssemblyModelFromFile2(DisplayObjectModel* model, const ch
 
 	/*delete [] _vertices;*/
 
-	model->setVertexes((_vertices),(_indices), numofvertex, numofvertex ,texarr,GL_TRIANGLES);
+	//model->setVertexes((_vertices),(_indices), numofvertex, numofvertex ,texarr,GL_TRIANGLES);
 	model->Initialize();
 // 	model->SetVBOData(vp,vn,vc,vt,(_indices),numofvertex,numofvertex);
 // 	model->Initialize2();
