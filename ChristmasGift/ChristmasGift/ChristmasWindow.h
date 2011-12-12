@@ -25,6 +25,8 @@
 #include "SnowFlakeParticles.h"
 #include "FireParticles.h"
 
+#include "FlashLighting.h"
+
 
 using namespace gxbase;
 
@@ -142,6 +144,8 @@ private:
 	ChristmasTree* _tree;
 	IDisplayObject* _pool;
 	DisplayObjectModel* _testObject;
+
+	FlashLighting *flashLight;
 	/************************************************************************/
 	/* simulating season changing                                                                     */
 	/************************************************************************/

@@ -6,13 +6,13 @@
 #include "DisplayObjectModel.h"
 #include "mxyVector.h"
 typedef mxy::vec3<float> vec3f;
-
+typedef mxy::vec4<float> vec4f;
 
 /*#define  PI float(3.1415926535897932384626433832795)*/
 
 using std::vector;
 
-enum treestatus {START,GROWING,STOPGROWING,SYNCLIVE,LEAFGROWING,LEAFGROWEND,LEAFDOWN,LEAFDOWNEND,FIREING,FIREEND,TREEDOWNING,TREEDOWNEND};
+enum treestatus {START,GROWING,STOPGROWING,SYNCLIVE,LEAFGROWING,LEAFGROWEND,LEAFCOLORBROWN,LEAFCOLORBROWNEND,LEAFDOWN,LEAFDOWNEND,FIREING,FIREEND,TREEDOWNING,TREEDOWNEND};
 
 #define SHOWTRUNKTEXTURE1
 #ifdef SHOWTRUNKTEXTURE
@@ -205,5 +205,10 @@ public:
 
 	void leafDownMethod();
 	bool leafDwonFinished;
+
+	void leafColorBrown();
+	vec4f leafColor;
+	bool leafColorBrownFinished;
+	
 };
 

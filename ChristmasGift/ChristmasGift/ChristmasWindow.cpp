@@ -158,7 +158,7 @@ void ChristmasWindow::OnUpdate(){
 // 	}
 	//////////////////////////////////////////////////////////////////////////
 	/************************************************************************/
-	/* season loop                                                                     */
+	/* season loop    main loop                                                     */
 	/************************************************************************/
 	if(Spring == _currentSeason ){
 		if(START == _tree->TreeState){
@@ -166,8 +166,6 @@ void ChristmasWindow::OnUpdate(){
 			/************************************************************************/
 			/* do spring operation                                                                     */
 			/************************************************************************/
-
-
 
 		}
 		
@@ -196,7 +194,14 @@ void ChristmasWindow::OnUpdate(){
 	
 	if( Autumn == _currentSeason){
 		if(LEAFGROWEND == _tree->TreeState){
-			_tree->TreeState = LEAFDOWN;
+			_tree->TreeState = LEAFCOLORBROWN;
+		}
+
+		if(LEAFCOLORBROWN == _tree->TreeState){
+
+		}
+		if(LEAFCOLORBROWNEND == _tree->TreeState){
+
 		}
 		
 		if( LEAFDOWN ==  _tree->TreeState){
@@ -302,7 +307,8 @@ void ChristmasWindow::OnDisplay()
 		glRotatef(_cameraAngle, 1.0,0.0,0.0);
 		glRotatef(_cameraRotation, 0.0, 1.0, 0.0);
 
-		
+		flashLight->Draw();
+
 		if(_drawSpotLights){
 			glDisable(GL_LIGHT0);
 			_spotlightRed.apply();
@@ -660,6 +666,12 @@ void ChristmasWindow::InitialiseModels(){
 	_pool->setEnableTransparency(false);
 
 	//////////////////////////////////////////////////////////////////////////
+
+	/************************************************************************/
+	/* flash                                                                     */
+	/************************************************************************/
+	flashLight = new FlashLighting();
+
 }
 
 void ChristmasWindow::InitialiseCamera(){

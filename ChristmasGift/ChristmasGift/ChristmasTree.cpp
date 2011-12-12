@@ -91,6 +91,13 @@ void ChristmasTree::reset(){
 	/************************************************************************/
 	/* end                                                                  */
 	/************************************************************************/
+	/************************************************************************/
+	/* leaf color                                                                     */
+	/************************************************************************/
+	leafColor = vec4f( 0.0f, 0.7f, 0.0f, 1.0f);
+	leafColorBrownFinished = false;
+
+
 	generateTreeSeed();
 	Update(0);
 }
@@ -189,6 +196,16 @@ void ChristmasTree::Update(const float& t){
 	}
 	if(LEAFGROWEND == TreeState){
 		//std::cout<<"ww"<<std::endl;
+	}
+
+	if(LEAFCOLORBROWN == TreeState){
+		leafColorBrown();
+		if(leafColorBrownFinished)
+			TreeState = LEAFCOLORBROWNEND;
+	}
+	if(LEAFCOLORBROWNEND == TreeState){
+
+		TreeState = LEAFDOWN;
 	}
 
 	if( LEAFDOWN == TreeState){
@@ -636,8 +653,12 @@ void ChristmasTree::drawTrunks(){
 /* draw leaf                                                                     */
 /************************************************************************/
 void ChristmasTree::drawLeaf(){
-	float green[] = { 0.0f, 0.7f, 0.0f, 1.0f};
-	glEnable(GL_LIGHTING);
+	float green[] = { leafColor.x, leafColor.y, leafColor.z, leafColor.w};
+	//glEnable(GL_LIGHTING);
+	glColor3f(leafColor.x, leafColor.y, leafColor.z);
+	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, green);
+	glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 32.0f);
+
  	glBindBuffer( GL_ARRAY_BUFFER, _leafVBO);
 
 	glVertexPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, 0);
@@ -677,20 +698,7 @@ void ChristmasTree::flushLeafVBO(){
 }
 void ChristmasTree::smallAllLeaf(){
 
-// 	int s1 = _leafRootStore.size();
-// 	int s2 = _leafScaleStore.size();
-// 	int s3 = _leaf_pos_offsetStore.size();
-// 	int s4 = _leafPosStore.size();
-// 	int s5 = _dirStore.size();
-// 	int s6 = _sizeStore.size();
 
-// 	pos = root + dir * size; 
-// 	float scale =  size * 0.5f; // width scale is 1/2 length scale, because it is +/-
-
-	
-// 	vec3f pos_offset = normalize( out * randf1() + up * randf1() * 0.5f);
-// 	vec3f nor = normalize( cross( dir, pos_offset));
-// 	vec3f vtx;
 
 
 	for(int i=0;i<_leafRootStore.size();i++){
@@ -771,4 +779,14 @@ void ChristmasTree::leafDownMethod(){
 		i=i+6;
 	}
 
+}
+
+void ChristmasTree::leafColorBrown(){
+	if(leafColor.x <= 0.5)
+		leafColor.x = leafColor.x + 0.0001;
+	if(leafColor.y >= 0.5)
+		leafColor.y = leafColor.y - 0.00005;
+
+	if(leafColor.x >= 0.5 && leafColor.y<=0.5)
+		leafColorBrownFinished = true;
 }
