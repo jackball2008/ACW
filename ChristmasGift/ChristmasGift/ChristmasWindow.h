@@ -62,9 +62,9 @@ private:
 	/************************************************************************/
 	/*  tree roate                                             */
 	/************************************************************************/
-	bool _treeCrash;
-	float _treeangle;
-	const float _treeangleInc;
+	/*bool _treeCrash;*/
+	/*float _treeangle;*/
+	/*const float _treeangleInc;*/
 	/************************************************************************/
 	/* tree shader program                                                                     */
 	/************************************************************************/
@@ -108,7 +108,7 @@ private:
 	/* test materials  billboard practices                                                         */
 	/************************************************************************/
 // 	Materials _green;
- 	void TestMethod();
+ 	
 	/*GLuint testtexid;*/
 	/************************************************************************/
 	/* reflection stencil buffer control                                                                     */

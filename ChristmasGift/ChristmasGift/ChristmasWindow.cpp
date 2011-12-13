@@ -32,7 +32,7 @@ const float tree_scal_z = 0.2;
 
 
 ChristmasWindow::ChristmasWindow(void) :
-	_treeangleInc(10),//tree crash angle inc
+	//_treeangleInc(10),//tree crash angle inc
 	_sunRunCycleAngleInc(30)
 {
 	SetSize(512,512);
@@ -49,8 +49,8 @@ ChristmasWindow::ChristmasWindow(void) :
 	_timerCounter = 0;
 	_timeSpeedFactor = 1;
 
-	_treeCrash = false;
-	_treeangle = 0.0;
+// 	_treeCrash = false;
+// 	_treeangle = 0.0;
 	pauseCounter = 0;
 }
 
@@ -120,14 +120,14 @@ void ChristmasWindow::OnUpdate(){
 	/* tree operation                                                                     */
 	/************************************************************************/
 	//crash
-	if(_treeCrash){
-		_treeangle += _treeangleInc * tempDelataTime;
-		if(_treeangle > 90){
-			_treeangle = 0;
-			_treeCrash = false;
-			_tree->TreeState = TREEDOWNEND;
-		}
-	}
+// 	if(_treeCrash){
+// 		_treeangle += _treeangleInc * tempDelataTime;
+// 		if(_treeangle > 90){
+// 			_treeangle = 0;
+// 			_treeCrash = false;
+// 			_tree->TreeState = TREEDOWNEND;
+// 		}
+// 	}
 	
 	_tree->Update(tempDelataTime);
 	//////////////////////////////////////////////////////////////////////////
@@ -206,7 +206,7 @@ void ChristmasWindow::OnUpdate(){
 		}
 		
 		if(TREEDOWNING == _tree->TreeState){
-			_treeCrash = true;
+			//_treeCrash = true;
 		}
 		if( TREEDOWNEND == _tree->TreeState){
 			/*_currentSeason = Winter;*/
@@ -254,7 +254,7 @@ void ChristmasWindow::DrawReflection()
 	glScalef(1.0, -1.0, 1.0);	
 	glTranslatef(tree_pos_x,-tree_pos_y,tree_pos_z);
  	glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
-	glRotatef(_treeangle,0,0,1);
+	/*glRotatef(_treeangle,0,0,1);*/
 	// and front faces become back faces and visa-versa
 	glCullFace(GL_FRONT);
 
@@ -301,9 +301,6 @@ void ChristmasWindow::OnDisplay()
 		
 
 		
-		glPushMatrix();
-		TestMethod();
-		glPopMatrix();
 
 		glPushMatrix();
 			glRotatef(-4*_sunRunCycleAngle, 0.0, 0.0, 1.0);
@@ -363,7 +360,7 @@ void ChristmasWindow::OnDisplay()
 		glPushMatrix();
 			glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
 			glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
-			glRotatef(_treeangle,0,0,1);
+			/*glRotatef(_treeangle,0,0,1);*/
 			_tree->Draw();
 		glPopMatrix();
 		//glUseProgram(0);
@@ -711,33 +708,11 @@ void ChristmasWindow::InitialiseShader(){
 
 void ChristmasWindow::LoadShaders(){
 	_tree_trunk_shader_programID = LoadShaderFromFile("phongvertexshader.glsl","phongfragmentshader.glsl");
-	//GLuint _tree_leaf_shader_programID;
-
-	//set shader program for each object 
-	/**
-	GLuint tree_trunk_shader_program_ID = 
-
-	_cubeShaderProgramID = glCreateProgram();
-
-	GLuint vertexShaderID;
-	GLuint fragmentShaderID;
-
-	try
-	{
-		vertexShaderID = GenerateShaderObject("testvertexshader.vert", GL_VERTEX_SHADER);
-		fragmentShaderID = GenerateShaderObject("testfragshader.frag", GL_FRAGMENT_SHADER);
-
-// 		glAttachShader(_cubeShaderProgramID, vertexShaderID);
-// 		glAttachShader(_cubeShaderProgramID, fragmentShaderID);
-
-		glLinkProgram(_cubeShaderProgramID);
-
-	}
-	catch(exception& e)
-	{
-		cerr << e.what() << endl;
-	}
-	*/
+// 	_tree_trunk_shader_programID = LoadShaderFromFile("basic_vertex.glsl","basic_fragment.glsl");
+// 	glUseProgram( _tree_trunk_shader_programID);
+// 	glUniform1i( glGetUniformLocation( _tree_trunk_shader_programID, "normalTex"), 0);
+// 	glUniform1i( glGetUniformLocation( _tree_trunk_shader_programID, "baseTex"), 1);
+	
 }
 /**
 bool ChristmasWindow::GenerateShaderProgram(GLuint &programID, char* vPath, char* fPath){
@@ -857,66 +832,7 @@ GLuint ChristmasWindow::GenerateShaderObject(std::string filename, GLenum shader
 */
 
 
-/*const vec3f _startup(0,1,0);*/
-void ChristmasWindow::TestMethod()
-{
 
-	glTranslatef(0.0,2.0,0.0);
-// 	if(_testObject->useShader){
-// 		//_testObject->Draw();
-// 	}else{
-// 		//_testObject->Draw();
-// 	}
-
-
-	/**
-	float matrix[16];
-
-	vec3f campos(0,0,_cameraPositionZ);
-
-	vec3f vectoreye = -campos;
-	vec3f tempup(0,1,0);
-
-	vec3f look = mxy::normalize(vectoreye);
-	vec3f right = mxy::normalize(cross(look,tempup));
-	vec3f rightup = mxy::normalize(cross(right,look));
-
-	glPushMatrix();
-
-	glGetFloatv(GL_MODELVIEW_MATRIX , matrix);
-
-	matrix[0] = right.x;	matrix[1] =right.y;		matrix[2] = right.z;		matrix[3] = 0;
-
-	matrix[4] = rightup.x;	matrix[5] =rightup.y;	matrix[6] = rightup.z;		matrix[7] = 0;
-
-	matrix[8] = look.x;		matrix[9] =look.y;		matrix[10] = look.z;		matrix[11] = 0;
-
-	//matrix[12] = -vectoreye.x;			matrix[13] = -vectoreye.y+1;			matrix[14] = -vectoreye.z;				matrix[15] = 1;
-
-
-	glLoadMatrixf(matrix);
-	glDisable(GL_CULL_FACE);
-	glPointSize(10.0);
-	glBegin(GL_TRIANGLES);//GL_POINT,GL_TRIANGLES
-	glColor3f(0,1,0);
-	glNormal3f(0.0f,0.0f,1.0f);
-	glVertex3f(-1.0f,1.0f,0.0f);
-	glVertex3f(1.0f,1.0f,0.0f);
-	glVertex3f(0.0f,2.0f,0.0f);
-
-	glEnd();
-	glEnable(GL_CULL_FACE);
-
-
-	float matrix2[16];
-	glGetFloatv(GL_MODELVIEW_MATRIX,&matrix2[0]);
-
-	glPopMatrix();
-	*/
-
-
-
-}
 
 void ChristmasWindow::LoadCamera(){
 	// clear window first: it might take a moment before image loads

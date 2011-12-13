@@ -162,7 +162,7 @@ private:
 	float	randfFromF1To1();
 	float	rand2fFromF1To0To1();
 	
-	void	downUpdateTreeGrowing();
+	
 	/************************************************************************/
 	/* flash trunk vbo                                                                     */
 	/************************************************************************/
@@ -180,6 +180,10 @@ private:
 	void	leafColorBrown();
 	vec4f	leafColor;
 	bool	leafColorBrownFinished;
+
+	//die
+	bool	isTreeDead;
+	void	treeDie();
 public:
 	ChristmasTree(void);
 	~ChristmasTree(void);

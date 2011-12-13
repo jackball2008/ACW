@@ -84,7 +84,10 @@ void ChristmasTree::reset(){
 	/************************************************************************/
 	leafColor = vec4f( 0.0f, 0.7f, 0.0f, 1.0f);
 	leafColorBrownFinished = false;
-
+	/************************************************************************/
+	/* tree die                                                                     */
+	/************************************************************************/
+	isTreeDead = false;
 
 	generateTreeSeed();
 	Update(0);
@@ -101,6 +104,20 @@ void ChristmasTree::Initialize(){
 
 }
 void ChristmasTree::Draw(){
+// 	GLint id = glGetUniformLocation(trunk_shader_programID, "applyTexture");
+// 	glUniform1i(id,trunk_shader_programID);
+// 	id = glGetUniformLocation(trunk_shader_programID, "applyNormalMap");
+// 	glUniform1i(id,trunk_shader_programID);
+// 	id = glGetUniformLocation(trunk_shader_programID, "applyParallaxMap");
+// 	glUniform1i(id,trunk_shader_programID);
+// 	id = glGetUniformLocation(trunk_shader_programID, "my_color_texture");
+// 	glUniform1i(id,0);
+// 	id = glGetUniformLocation(trunk_shader_programID, "normalMap");
+// 	glUniform1i(id,1);
+// 	id = glGetUniformLocation(trunk_shader_programID, "heightMap");
+// 	glUniform1i(id,2);
+
+
 	drawTrunks();
 	if(showLeaf)
 		drawLeaf();
@@ -116,6 +133,8 @@ void ChristmasTree::Update(const float& t){
 		_temp_timerrecord = 0;
 		if( GROWING ==  TreeState || STOPGROWING == TreeState)
 			updateTreeGrowingData();
+		if(TREEDOWNING == TreeState)
+			treeDie();
 	}
 
 
@@ -189,7 +208,7 @@ void ChristmasTree::Update(const float& t){
 		if(leafDwonFinished)
 		{
 			TreeState = LEAFDOWNEND; 
-			showLeaf = false;
+			showLeaf = false;//great
 		}
 			
 	}
@@ -203,7 +222,7 @@ void ChristmasTree::Update(const float& t){
 	if(FIREING == TreeState){
 
 
-
+		//do fire change
 
 		TreeState = FIREEND;
 	}
@@ -214,6 +233,13 @@ void ChristmasTree::Update(const float& t){
 
 	if( TREEDOWNING == TreeState){
 		//std::cout<<"ww"<<std::endl;
+		_canRandom = false;
+		_trunkVertices.clear();
+		_trunkIndices.clear();
+		_leafVertices.clear();
+		_leafIndices.clear();
+		makeTreeGrowing();
+		
 	}
 
 	if( TREEDOWNEND == TreeState){
@@ -259,16 +285,21 @@ void ChristmasTree::updateTreeGrowingData(){
 		TreeState = STOPGROWING;
 	}
 }
-void ChristmasTree::downUpdateTreeGrowing(){
+void ChristmasTree::treeDie(){
+
+// 	_height = 2;
+// 	_num_of_Segments = 2;
+	//_number_of_segment_no_branches =1
 	_height = _height-1;
 	_num_of_Segments = _num_of_Segments - 1;
-	_number_of_segment_no_branches = _number_of_segment_no_branches + 1;
-	if(_number_of_segment_no_branches>= MAXNUMSEGMENTSNOBRANCHES) _number_of_segment_no_branches = MAXNUMSEGMENTSNOBRANCHES;
-	if(_height >= MAXHEIGHT) _height = MAXHEIGHT;
-	if(_num_of_Segments >= MAXSEGMENTS) _num_of_Segments = MAXSEGMENTS;
+	if(_num_of_Segments <= _number_of_segment_no_branches)
+		_number_of_segment_no_branches = _num_of_Segments - 1;
+	//if(_number_of_segment_no_branches<= 1) _number_of_segment_no_branches = 1;
+	if(_height <= 2) _height = 2;
+	if(_num_of_Segments <= 2) _num_of_Segments = 2;
 
-	if( _height == MAXHEIGHT && _num_of_Segments == MAXSEGMENTS && SYNCLIVE != TreeState){
-		TreeState = STOPGROWING;
+	if( _height == 2 && _num_of_Segments == 2 && _number_of_segment_no_branches == 1 && TREEDOWNEND != TreeState){
+		TreeState = TREEDOWNEND;
 	}
 }
 /************************************************************************/
@@ -618,12 +649,12 @@ void ChristmasTree::buildAndFlushVBO(){
 /* draw trunk                                                                     */
 /************************************************************************/
 void ChristmasTree::drawTrunks(){
-	glUseProgram(trunk_shader_programID);
+	glUseProgram(/*trunk_shader_programID*/0);
 	float brown[] = { 0.5f, 0.5f, 0.0f, 1.0f};
 	glColor3f( 0.5f, 0.5f, 0.0f);
 	glBindBuffer( GL_ARRAY_BUFFER, _trunkVBO);
 
-	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHTING);
 	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, brown);
 	glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 32.0f);
 	
@@ -655,7 +686,7 @@ void ChristmasTree::drawTrunks(){
 	glBindBuffer( GL_ARRAY_BUFFER, 0);
 
 	glDisable(GL_LIGHTING);
-	glUseProgram(NULL);
+	glUseProgram(0);
 }
 /************************************************************************/
 /* draw leaf                                                                     */
