@@ -1,25 +1,24 @@
-#version 120
-//#extension GL_EXT_gpu_shader4 : require
+#version 130
 
+//phone lighting
+out vec3 normal;
+out vec3 lightVector;
+out vec3 eyeVector;
+out vec3 position;
+out vec4 colour;
+//texture coord
+out vec2 Texcoord;
+void main( void )
+{
+   position = vec3(gl_ModelViewMatrix * gl_Vertex * 2);
+   normal = normalize(gl_NormalMatrix * gl_Normal);
 
-varying vec3 normal;
-varying vec3 tangentS;
-varying vec3 tangentT;
-varying vec3 position;
+   lightVector = normalize(gl_LightSource[0].position.xyz - position);
+   colour = gl_Color;     
 
-varying vec2 texCoord;
+   eyeVector = normalize(-position);
+   // Transforming The Vertex
+   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
-void main() {
-
-	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-	
-	position = (gl_ModelViewMatrix * gl_Vertex).xyz;
-	
-	//transform tangents and normal
-	normal = gl_NormalMatrix * gl_Normal;
-	tangentS = gl_NormalMatrix * gl_MultiTexCoord1.xyz;
-	tangentT = gl_NormalMatrix * gl_MultiTexCoord2.xyz;
-	
-	texCoord = gl_MultiTexCoord0.st;
-	
+   Texcoord    = gl_MultiTexCoord0.xy;   
 }

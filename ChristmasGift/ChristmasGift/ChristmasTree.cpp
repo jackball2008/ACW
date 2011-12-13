@@ -693,7 +693,13 @@ void ChristmasTree::drawTrunks(){
 /************************************************************************/
 void ChristmasTree::drawLeaf(){
 	float green[] = { leafColor.x, leafColor.y, leafColor.z, leafColor.w};
+
+	float modelview[16];
+	glGetFloatv(GL_MODELVIEW, modelview);
+	glGetFloatv(GL_NORMAL_ARRAY,modelview);
+
 	//glEnable(GL_LIGHTING);
+	glUseProgram(leaf_shader_programID);
 	glColor3f(leafColor.x, leafColor.y, leafColor.z);
 	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, green);
 	glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 32.0f);
@@ -747,7 +753,7 @@ void ChristmasTree::drawLeaf(){
 	glDisableClientState( GL_NORMAL_ARRAY);
 	//glDisable(GL_TEXTURE_2D);
  	glBindBuffer( GL_ARRAY_BUFFER, 0);
-	
+	glUseProgram(0);
 }
 
 void ChristmasTree::flushTrunkVBO(){

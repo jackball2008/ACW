@@ -577,7 +577,7 @@ void ChristmasWindow::InitialiseModels(){
 	/************************************************************************/
 	/* load texture together                                                */
 	/************************************************************************/
-	modelController->LoadTexture();
+	//modelController->LoadTexture();
 
 	/************************************************************************/
 	/* test                                                                     */
@@ -609,12 +609,25 @@ void ChristmasWindow::InitialiseModels(){
 	/* tree                                                                     */
 	/************************************************************************/
 	_tree = new ChristmasTree();
-	_tree->trunk_texture_id = modelController->_textures[5];
-	_tree->leaf_texture_id = modelController->_textures[6];
-	_tree->leaf_nor_texture_id = modelController->_textures[7];
+	LoadTexture("trunk_skin.tga",_tree->trunk_texture_id);
+	LoadTexture("leaf_texture.tga",_tree->leaf_texture_id);
+	LoadTexture("leaf_nor_texture.tga",_tree->leaf_nor_texture_id);
 	_tree->trunk_shader_programID = _tree_trunk_shader_programID;
-	_tree->Initialize();
+	_tree->leaf_shader_programID = _tree_leaf_shader_programID;
+	glUseProgram(_tree_leaf_shader_programID);
+	int loc = glGetUniformLocation(_tree_leaf_shader_programID,"Texture0");
+	if(loc!=-1)
+		glUniform1i(loc,0);
+	else
+		cout<<"uniform error"<<endl;
+	loc = glGetUniformLocation(_tree_leaf_shader_programID,"Texture1");
+	if(loc!=-1)
+		glUniform1i(loc,1);
+	else
+		cout<<"uniform error"<<endl;
 
+	_tree->Initialize();
+	glUseProgram(0);
 
 	/************************************************************************/
 	/* glass ball                                                                     */
@@ -707,7 +720,9 @@ void ChristmasWindow::InitialiseShader(){
 */
 
 void ChristmasWindow::LoadShaders(){
+	CheckShaderEnvironment();
 	_tree_trunk_shader_programID = LoadShaderFromFile("phongvertexshader.glsl","phongfragmentshader.glsl");
+	_tree_leaf_shader_programID = LoadShaderFromFile("LeafVertexShader.glsl","LeafFragShader.glsl");
 // 	_tree_trunk_shader_programID = LoadShaderFromFile("basic_vertex.glsl","basic_fragment.glsl");
 // 	glUseProgram( _tree_trunk_shader_programID);
 // 	glUniform1i( glGetUniformLocation( _tree_trunk_shader_programID, "normalTex"), 0);
@@ -909,7 +924,7 @@ GLuint ChristmasWindow::LoadShaderFromFile(const char* vPath,const char* fPath){
 		GLint maxLength, nAttribs;
 		glGetProgramiv(programID, GL_ACTIVE_ATTRIBUTES, &nAttribs);
 		glGetProgramiv(programID, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
-
+		
 		GLchar* name = (GLchar*)malloc(maxLength);
 
 		GLint written, size, location;
@@ -992,4 +1007,21 @@ GLuint ChristmasWindow::GenerateShaderObject(std::string filename, GLenum shader
 	}
 
 	return id;
+}
+
+/************************************************************************/
+/* load texture                                                                     */
+/************************************************************************/
+void ChristmasWindow::LoadTexture(std::string fileName, GLuint &textureID)
+{
+	Image image;
+	image.Load(fileName.c_str());
+	glGenTextures(1, &textureID);
+
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	image.gluBuild2DMipmaps();
+	image.Free();
 }

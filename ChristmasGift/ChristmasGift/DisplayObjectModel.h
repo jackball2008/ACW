@@ -45,9 +45,7 @@ public:
 	virtual void Initialize(const char* fpath);
 	//virtual void Update(const float& t);
 	//virtual void Draw();
-	virtual void CheckShaderEnvironment();
-	virtual GLuint LoadShaderFromFile(const char* vp,const char* fp);
-	virtual GLuint GenerateShaderObject(std::string filename, GLenum shaderType);
+	
 	/************************************************************************/
 	/* main varible                                                                     */
 	/************************************************************************/

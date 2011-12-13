@@ -379,7 +379,7 @@ void ModelController::LoadTexture(){
 	
 
 	// build 2D mip-maps from image
-	for (int i = 0; i<TEXTURENUM-1; i++) {
+	for (int i = 0; i<TEXTURENUM; i++) {
 		
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -388,10 +388,10 @@ void ModelController::LoadTexture(){
 		_images[i].Free();
 	};
 	//last texture
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
-	_images[TEXTURENUM-1].gluBuild2DMipmaps();
-	_images[TEXTURENUM-1].Free();
+// 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+// 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+// 	_images[TEXTURENUM-1].gluBuild2DMipmaps();
+// 	_images[TEXTURENUM-1].Free();
 
 }
 
