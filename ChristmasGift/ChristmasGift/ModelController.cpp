@@ -370,23 +370,28 @@ void ModelController::LoadTexture(){
 	_images[2].Load("seattexture_grass.jpg");
 	_images[3].Load("seattexture2.jpg");
 	_images[4].Load("SnowFlake2.tga");
-	_images[5].Load("leaf_texture.tga");
-	_images[6].Load("leaf_nor_texture.tga");
-	_images[7].Load("trunk_skin.tga");
+	_images[5].Load("trunk_skin.tga");
+	_images[6].Load("leaf_texture.tga");
+	_images[7].Load("leaf_nor_texture.tga");
 
 	glGenTextures(TEXTURENUM, &_textures[0]);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	
 
 	// build 2D mip-maps from image
-	for (int i = 0; i<TEXTURENUM; i++) {
+	for (int i = 0; i<TEXTURENUM-1; i++) {
+		
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glBindTexture(GL_TEXTURE_2D, _textures[i]);
 		_images[i].gluBuild2DMipmaps();
 		_images[i].Free();
 	};
-	
-	
+	//last texture
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
+	_images[TEXTURENUM-1].gluBuild2DMipmaps();
+	_images[TEXTURENUM-1].Free();
 
 }
 

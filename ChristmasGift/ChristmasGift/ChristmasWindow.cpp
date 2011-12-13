@@ -609,9 +609,9 @@ void ChristmasWindow::InitialiseModels(){
 	/* tree                                                                     */
 	/************************************************************************/
 	_tree = new ChristmasTree();
-	_tree->trunk_texture_id = modelController->_textures[7];
-	_tree->leaf_texture_id = modelController->_textures[5];
-	_tree->leaf_nor_texture_id = modelController->_textures[6];
+	_tree->trunk_texture_id = modelController->_textures[5];
+	_tree->leaf_texture_id = modelController->_textures[6];
+	_tree->leaf_nor_texture_id = modelController->_textures[7];
 	_tree->trunk_shader_programID = _tree_trunk_shader_programID;
 	_tree->Initialize();
 
