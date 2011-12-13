@@ -193,6 +193,7 @@ public:
 	GLuint	trunk_texture_id;
 	GLuint	leaf_texture_id;
 	GLuint	leaf_nor_texture_id;
+	
 	/************************************************************************/
 	/* status control                                                                     */
 	/************************************************************************/

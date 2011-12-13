@@ -609,17 +609,20 @@ void ChristmasWindow::InitialiseModels(){
 	/* tree                                                                     */
 	/************************************************************************/
 	_tree = new ChristmasTree();
-
+	//tecture
 	LoadTexture("trunk_skin.tga",_tree->trunk_texture_id);
 	LoadTexture("leaf_texture.tga",_tree->leaf_texture_id);
 	LoadTexture("leaf_nor_texture.tga",_tree->leaf_nor_texture_id);
-
+	
+	//shader
+	//trunk
 	_tree->trunk_shader_programID = LoadShaderFromFile("phongvertexshader.glsl","phongfragmentshader.glsl");
-	_tree->leaf_shader_programID = LoadShaderFromFile("LeafVertexShader.glsl","LeafFragShader.glsl");
+	//leaf
+	_tree->leaf_shader_programID = LoadShaderFromFile("LeafVertexShader2.glsl","LeafFragShader2.glsl");
 
 // 	_tree->trunk_shader_programID = _tree_trunk_shader_programID;
 // 	_tree->leaf_shader_programID = _tree_leaf_shader_programID;
-	glUseProgram(_tree_leaf_shader_programID);
+	glUseProgram(_tree->leaf_shader_programID);
 	int loc = glGetUniformLocation(_tree->leaf_shader_programID,"ColorTexture");
 	if(loc!=-1)
 		glUniform1i(loc,0);
@@ -631,8 +634,22 @@ void ChristmasWindow::InitialiseModels(){
 	else
 		cout<<"uniform error"<<endl;
 
-	_tree->Initialize();
+	loc = glGetUniformLocation(_tree->leaf_shader_programID, "applyTexture");
+	if(loc!=-1)
+		glUniform1i(loc,true);
+	else
+		cout<<"uniform error"<<endl;
+	
+	loc = glGetUniformLocation(_tree->leaf_shader_programID, "applyNormalMap");
+	if(loc!=-1)
+		glUniform1i(loc,true);
+	else
+		cout<<"uniform error"<<endl;
+	
 	glUseProgram(0);
+
+
+	_tree->Initialize();
 
 	/************************************************************************/
 	/* glass ball                                                                     */

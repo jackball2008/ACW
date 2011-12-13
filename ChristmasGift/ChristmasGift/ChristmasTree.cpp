@@ -104,18 +104,9 @@ void ChristmasTree::Initialize(){
 
 }
 void ChristmasTree::Draw(){
-// 	GLint id = glGetUniformLocation(trunk_shader_programID, "applyTexture");
-// 	glUniform1i(id,trunk_shader_programID);
-// 	id = glGetUniformLocation(trunk_shader_programID, "applyNormalMap");
-// 	glUniform1i(id,trunk_shader_programID);
-// 	id = glGetUniformLocation(trunk_shader_programID, "applyParallaxMap");
-// 	glUniform1i(id,trunk_shader_programID);
-// 	id = glGetUniformLocation(trunk_shader_programID, "my_color_texture");
-// 	glUniform1i(id,0);
-// 	id = glGetUniformLocation(trunk_shader_programID, "normalMap");
-// 	glUniform1i(id,1);
-// 	id = glGetUniformLocation(trunk_shader_programID, "heightMap");
-// 	glUniform1i(id,2);
+	
+
+
 
 
 	drawTrunks();
@@ -694,12 +685,17 @@ void ChristmasTree::drawTrunks(){
 void ChristmasTree::drawLeaf(){
 	float green[] = { leafColor.x, leafColor.y, leafColor.z, leafColor.w};
 
-	float modelview[16];
-	glGetFloatv(GL_MODELVIEW, modelview);
-	glGetFloatv(GL_NORMAL_ARRAY,modelview);
+// 	float modelview[16];
+// 	glGetFloatv(GL_MODELVIEW, modelview);
+// 	glGetFloatv(GL_NORMAL_ARRAY,modelview);
 
-	//glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHTING);
 	glUseProgram(leaf_shader_programID);
+	
+
+
+
+
 	glColor3f(leafColor.x, leafColor.y, leafColor.z);
 	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, green);
 	glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 32.0f);
