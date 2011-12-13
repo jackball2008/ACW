@@ -609,21 +609,54 @@ void ChristmasWindow::InitialiseModels(){
 	/* tree                                                                     */
 	/************************************************************************/
 	_tree = new ChristmasTree();
-	//tecture
-	LoadTexture("trunk_skin.tga",_tree->trunk_texture_id);
+	// trunk tecture
+	LoadTexture("1142.jpg",_tree->trunk_texture_id);
+	LoadTexture("1142-normal.jpg",_tree->trunk_texture_normal_id);
+	LoadTexture("1142-bump.jpg",_tree->trunk_texture_height_id);
+	//trunk shader
+	_tree->trunk_shader_programID = LoadShaderFromFile("TrunkVertexShader.glsl","TrunkFragShader.glsl");
+	glUseProgram(_tree->trunk_shader_programID);
+	int loc = glGetUniformLocation(_tree->trunk_shader_programID,"ColorTexture");
+	if(loc!=-1)
+		glUniform1i(loc,0);
+	else
+		cout<<"uniform error"<<endl;
+	loc = glGetUniformLocation(_tree->trunk_shader_programID,"NormalMapTexture");
+	if(loc!=-1)
+		glUniform1i(loc,1);
+	else
+		cout<<"uniform error"<<endl;
+	loc = glGetUniformLocation(_tree->trunk_shader_programID,"heightMapTexture");
+	if(loc!=-1)
+		glUniform1i(loc,2);
+	else
+		cout<<"uniform error"<<endl;
+	loc = glGetUniformLocation(_tree->trunk_shader_programID,"applyTexture");
+	if(loc!=-1)
+		glUniform1i(loc,true);
+	else
+		cout<<"uniform error"<<endl;
+	loc = glGetUniformLocation(_tree->trunk_shader_programID,"applyNormalMap");
+	if(loc!=-1)
+		glUniform1i(loc,true);
+	else
+		cout<<"uniform error"<<endl;
+	loc = glGetUniformLocation(_tree->trunk_shader_programID,"applyParallaxMap");
+	if(loc!=-1)
+		glUniform1i(loc,true);
+	else
+		cout<<"uniform error"<<endl;
+	glUseProgram(0);
+	//////////////////////////////////////////////////////////////////////////
+	//leaf texture
 	LoadTexture("leaf_texture.tga",_tree->leaf_texture_id);
 	LoadTexture("leaf_nor_texture.tga",_tree->leaf_nor_texture_id);
-	
-	//shader
-	//trunk
-	_tree->trunk_shader_programID = LoadShaderFromFile("phongvertexshader.glsl","phongfragmentshader.glsl");
-	//leaf
+	//leaf leaf
 	_tree->leaf_shader_programID = LoadShaderFromFile("LeafVertexShader2.glsl","LeafFragShader2.glsl");
-
 // 	_tree->trunk_shader_programID = _tree_trunk_shader_programID;
 // 	_tree->leaf_shader_programID = _tree_leaf_shader_programID;
 	glUseProgram(_tree->leaf_shader_programID);
-	int loc = glGetUniformLocation(_tree->leaf_shader_programID,"ColorTexture");
+	loc = glGetUniformLocation(_tree->leaf_shader_programID,"ColorTexture");
 	if(loc!=-1)
 		glUniform1i(loc,0);
 	else

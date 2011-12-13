@@ -640,23 +640,48 @@ void ChristmasTree::buildAndFlushVBO(){
 /* draw trunk                                                                     */
 /************************************************************************/
 void ChristmasTree::drawTrunks(){
-	glUseProgram(/*trunk_shader_programID*/0);
-	float brown[] = { 0.5f, 0.5f, 0.0f, 1.0f};
-	glColor3f( 0.5f, 0.5f, 0.0f);
+	glUseProgram(trunk_shader_programID);
+// 	float brown[] = { 0.5f, 0.5f, 0.0f, 1.0f};
+// 	glColor3f( 0.5f, 0.5f, 0.0f);
+	glEnable(GL_LIGHTING);
+	/************************************************************************/
+	/* texture                                                                     */
+	/************************************************************************/
+	glActiveTexture(GL_TEXTURE0);
+	glEnable(GL_TEXTURE_2D); 
+	glBindTexture(GL_TEXTURE_2D, trunk_texture_id); 
+	/************************************************************************/
+	/* normal                                                                     */
+	/************************************************************************/
+	glActiveTexture(GL_TEXTURE1);
+	glEnable(GL_TEXTURE_2D); 
+	glBindTexture(GL_TEXTURE_2D, trunk_texture_normal_id); 
+	/************************************************************************/
+	/* height                                                                     */
+	/************************************************************************/
+	glActiveTexture(GL_TEXTURE2);
+	glEnable(GL_TEXTURE_2D); 
+	glBindTexture(GL_TEXTURE_2D, trunk_texture_height_id); 
+
+	//bind vbo
 	glBindBuffer( GL_ARRAY_BUFFER, _trunkVBO);
 
-	//glEnable(GL_LIGHTING);
-	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, brown);
-	glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 32.0f);
-	
+	//set texture coordinate
+	//texture
+	glClientActiveTexture(GL_TEXTURE0);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer( 2, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 6);
+	//normal
+	glClientActiveTexture(GL_TEXTURE1);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer( 2, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 6);
+	//height
+	glClientActiveTexture(GL_TEXTURE2);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer( 2, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 6);
+
 	glVertexPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, 0);
 	glNormalPointer( GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, (float*)(0) + 3);
-#ifdef SHOWTRUNKTEXTURE
-	glTexCoordPointer( 2, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, (float*)(0) + 6);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glBindTexture(GL_TEXTURE_2D, trunk_texture_id); 
-	glEnable(GL_TEXTURE_2D);
-#endif
 	
 	
 	glEnableClientState( GL_VERTEX_ARRAY);
@@ -667,16 +692,29 @@ void ChristmasTree::drawTrunks(){
 	//GL_LINE_LOOP
 	//GL_LINE_STRIP
 	//GL_TRIANGLES
+	glDisable(GL_LIGHTING);
+
+	glClientActiveTexture(GL_TEXTURE0);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glClientActiveTexture(GL_TEXTURE1);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glClientActiveTexture(GL_TEXTURE2);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+
+	glActiveTexture(GL_TEXTURE0);
+	glDisable(GL_TEXTURE_2D);
+	glActiveTexture(GL_TEXTURE1);
+	glDisable(GL_TEXTURE_2D);
+	glActiveTexture(GL_TEXTURE2);
+	glDisable(GL_TEXTURE_2D);
+
 	glDisableClientState( GL_VERTEX_ARRAY);
 	glDisableClientState( GL_NORMAL_ARRAY);
-#ifdef SHOWTRUNKTEXTURE
-	glDisable(GL_TEXTURE_2D);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-#endif
+
 
 	glBindBuffer( GL_ARRAY_BUFFER, 0);
 
-	glDisable(GL_LIGHTING);
 	glUseProgram(0);
 }
 /************************************************************************/

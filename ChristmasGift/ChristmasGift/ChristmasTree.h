@@ -191,6 +191,9 @@ public:
 	/* texture                                                                     */
 	/************************************************************************/
 	GLuint	trunk_texture_id;
+	GLuint	trunk_texture_normal_id;
+	GLuint	trunk_texture_height_id;
+
 	GLuint	leaf_texture_id;
 	GLuint	leaf_nor_texture_id;
 	
