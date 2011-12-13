@@ -612,9 +612,15 @@ void ChristmasWindow::InitialiseModels(){
 	/************************************************************************/
 	_tree = new ChristmasTree();
 	// trunk tecture
-	LoadTexture("1142.jpg",_tree->trunk_texture_id);
-	LoadTexture("1142-normal.jpg",_tree->trunk_texture_normal_id);
-	LoadTexture("1142-bump.jpg",_tree->trunk_texture_height_id);
+	//trunk_slide_tex.tga
+	//trunk_slide_nor.tga
+	//trunk_slide_hei.tga
+	LoadTexture("trunk_slide_tex.tga",_tree->trunk_texture_id);
+	LoadTexture("trunk_slide_nor.tga",_tree->trunk_texture_normal_id);
+	LoadTexture("trunk_slide_hei.tga",_tree->trunk_texture_height_id);
+// 	LoadTexture("1142.jpg",_tree->trunk_texture_id);
+// 	LoadTexture("1142-normal.jpg",_tree->trunk_texture_normal_id);
+// 	LoadTexture("1142-bump.jpg",_tree->trunk_texture_height_id);
 	//trunk shader
 	_tree->trunk_shader_programID = LoadShaderFromFile("TrunkVertexShader.glsl","TrunkFragShader.glsl");
 	glUseProgram(_tree->trunk_shader_programID);
