@@ -615,12 +615,12 @@ void ChristmasWindow::InitialiseModels(){
 	_tree->trunk_shader_programID = _tree_trunk_shader_programID;
 	_tree->leaf_shader_programID = _tree_leaf_shader_programID;
 	glUseProgram(_tree_leaf_shader_programID);
-	int loc = glGetUniformLocation(_tree_leaf_shader_programID,"Texture0");
+	int loc = glGetUniformLocation(_tree_leaf_shader_programID,"ColorTexture");
 	if(loc!=-1)
 		glUniform1i(loc,0);
 	else
 		cout<<"uniform error"<<endl;
-	loc = glGetUniformLocation(_tree_leaf_shader_programID,"Texture1");
+	loc = glGetUniformLocation(_tree_leaf_shader_programID,"NormalMapTexture");
 	if(loc!=-1)
 		glUniform1i(loc,1);
 	else

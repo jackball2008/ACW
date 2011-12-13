@@ -12,8 +12,8 @@ in vec4 colour;
 ///////////////////////////////
 // fg uniform
 ///////////////////////////////
-uniform sampler2D Texture0;
-uniform sampler2D Texture1;
+uniform sampler2D ColorTexture;
+uniform sampler2D NormalMapTexture;
 in vec2 Texcoord;
 ///////////////////////////////
 // fg uniform
@@ -22,8 +22,8 @@ out vec4 fragColour;
 void main( void )
 {
      vec4 texColor;
-    vec4 color0 = texture2D( Texture0, Texcoord );  
-    vec4 color1 =  texture2D( Texture1, Texcoord );
+    vec4 color0 = texture2D( ColorTexture, Texcoord );  
+    vec4 color1 =  texture2D( NormalMapTexture, Texcoord );
     
     
     vec4 baseColour = colour;
@@ -58,7 +58,7 @@ void main( void )
       discard;
    else{
        texColor = color0 + phongModel;//mix(color0, color1, color0.a*-1);
-       fragColour = texColor;// texture2D( Texture0, Texcoord );  
+       fragColour = texColor;// texture2D( ColorTexture, Texcoord );  
    }
        
 }
