@@ -609,18 +609,23 @@ void ChristmasWindow::InitialiseModels(){
 	/* tree                                                                     */
 	/************************************************************************/
 	_tree = new ChristmasTree();
+
 	LoadTexture("trunk_skin.tga",_tree->trunk_texture_id);
 	LoadTexture("leaf_texture.tga",_tree->leaf_texture_id);
 	LoadTexture("leaf_nor_texture.tga",_tree->leaf_nor_texture_id);
-	_tree->trunk_shader_programID = _tree_trunk_shader_programID;
-	_tree->leaf_shader_programID = _tree_leaf_shader_programID;
+
+	_tree->trunk_shader_programID = LoadShaderFromFile("phongvertexshader.glsl","phongfragmentshader.glsl");
+	_tree->leaf_shader_programID = LoadShaderFromFile("LeafVertexShader.glsl","LeafFragShader.glsl");
+
+// 	_tree->trunk_shader_programID = _tree_trunk_shader_programID;
+// 	_tree->leaf_shader_programID = _tree_leaf_shader_programID;
 	glUseProgram(_tree_leaf_shader_programID);
-	int loc = glGetUniformLocation(_tree_leaf_shader_programID,"ColorTexture");
+	int loc = glGetUniformLocation(_tree->leaf_shader_programID,"ColorTexture");
 	if(loc!=-1)
 		glUniform1i(loc,0);
 	else
 		cout<<"uniform error"<<endl;
-	loc = glGetUniformLocation(_tree_leaf_shader_programID,"NormalMapTexture");
+	loc = glGetUniformLocation(_tree->leaf_shader_programID,"NormalMapTexture");
 	if(loc!=-1)
 		glUniform1i(loc,1);
 	else
@@ -721,8 +726,11 @@ void ChristmasWindow::InitialiseShader(){
 
 void ChristmasWindow::LoadShaders(){
 	CheckShaderEnvironment();
-	_tree_trunk_shader_programID = LoadShaderFromFile("phongvertexshader.glsl","phongfragmentshader.glsl");
-	_tree_leaf_shader_programID = LoadShaderFromFile("LeafVertexShader.glsl","LeafFragShader.glsl");
+	//_tree_trunk_shader_programID = LoadShaderFromFile("phongvertexshader.glsl","phongfragmentshader.glsl");
+	//_tree_leaf_shader_programID = LoadShaderFromFile("LeafVertexShader.glsl","LeafFragShader.glsl");
+
+
+
 // 	_tree_trunk_shader_programID = LoadShaderFromFile("basic_vertex.glsl","basic_fragment.glsl");
 // 	glUseProgram( _tree_trunk_shader_programID);
 // 	glUniform1i( glGetUniformLocation( _tree_trunk_shader_programID, "normalTex"), 0);
