@@ -303,7 +303,7 @@ void ChristmasWindow::OnDisplay()
 		
 
 		glPushMatrix();
-			glRotatef(-4*_sunRunCycleAngle, 0.0, 0.0, 1.0);
+			//glRotatef(-4*_sunRunCycleAngle, 0.0, 0.0, 1.0);
 			_sunLight.setPosition(Vector4f(6.0,6.0,0.0,1.0));
 			glTranslatef(6.0,6.0,0.0);
 			_sunMaterial.apply();
@@ -554,7 +554,9 @@ void ChristmasWindow::InitialiseLights(){
 	_spotlightWhite.setSpot(30.0,100.0f);
 
 	// turn the global ambient off by setting it to zero
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Color::black().rgba());
+	
+	//GLfloat cc[4] = {0.5,0.5,0.5,1.0};
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT,/*cc*/ Color::black().rgba());
 
 	_sunLight.apply();
 

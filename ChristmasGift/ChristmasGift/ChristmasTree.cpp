@@ -323,6 +323,8 @@ void ChristmasTree::generateVertexAndNormalizeForPerSegments(vec3f& top, vec3f& 
 		_trunkVertices.push_back( currentSideDir.y);
 		_trunkVertices.push_back( currentSideDir.z);
 		//tex
+// 		_trunkVertices.push_back(float(jj/_branchSides));
+// 		_trunkVertices.push_back(0.0);
 #ifdef SHOWTRUNKTEXTURE
 
 		if(textureIndex<2)
@@ -330,8 +332,10 @@ void ChristmasTree::generateVertexAndNormalizeForPerSegments(vec3f& top, vec3f& 
 			_trunkVertices.push_back(0.0);
 			_trunkVertices.push_back(0.0);
 		}else{
+// 			_trunkVertices.push_back(1.0);
+// 			_trunkVertices.push_back(1.0);
 			_trunkVertices.push_back(1.0);
-			_trunkVertices.push_back(1.0);
+			_trunkVertices.push_back(0.0);
 		}
 		textureIndex++;
 #endif
@@ -343,13 +347,21 @@ void ChristmasTree::generateVertexAndNormalizeForPerSegments(vec3f& top, vec3f& 
 		_trunkVertices.push_back( currentSideDir.x);
 		_trunkVertices.push_back( currentSideDir.y);
 		_trunkVertices.push_back( currentSideDir.z);
+
+// 		_trunkVertices.push_back(float(jj/_branchSides));
+// 		_trunkVertices.push_back(0.0);
+
 #ifdef SHOWTRUNKTEXTURE
 		if(textureIndex<2)
 		{
+// 			_trunkVertices.push_back(1.0);
+// 			_trunkVertices.push_back(0.0);
+			_trunkVertices.push_back(0.0);
 			_trunkVertices.push_back(1.0);
-			_trunkVertices.push_back(0.0);
 		}else{
-			_trunkVertices.push_back(0.0);
+// 			_trunkVertices.push_back(0.0);
+// 			_trunkVertices.push_back(1.0);
+			_trunkVertices.push_back(1.0);
 			_trunkVertices.push_back(1.0);
 		}
 		textureIndex++;
@@ -472,6 +484,11 @@ void ChristmasTree::makeLeafGrowing(vec3f dir, vec3f root, float size, int itera
 			_trunkVertices.push_back( dir.y);
 			_trunkVertices.push_back( dir.z);
 
+
+// 			_trunkVertices.push_back(float(ii/_branchSides));
+// 			_trunkVertices.push_back(0.0);
+
+
 #ifdef SHOWTRUNKTEXTURE
 
 			if(textureIndex<2)
@@ -479,8 +496,10 @@ void ChristmasTree::makeLeafGrowing(vec3f dir, vec3f root, float size, int itera
 				_trunkVertices.push_back(0.0);
 				_trunkVertices.push_back(0.0);
 			}else{
+// 				_trunkVertices.push_back(1.0);
+// 				_trunkVertices.push_back(1.0);
 				_trunkVertices.push_back(1.0);
-				_trunkVertices.push_back(1.0);
+				_trunkVertices.push_back(0.0);
 			}
 			textureIndex++;
 #endif
@@ -493,13 +512,21 @@ void ChristmasTree::makeLeafGrowing(vec3f dir, vec3f root, float size, int itera
 			_trunkVertices.push_back( dir.y);
 			_trunkVertices.push_back( dir.z);
 
+
+// 			_trunkVertices.push_back(float(ii/_branchSides));
+// 			_trunkVertices.push_back(1.0);
+
 #ifdef SHOWTRUNKTEXTURE
 			if(textureIndex<2)
 			{
+// 				_trunkVertices.push_back(1.0);
+// 				_trunkVertices.push_back(0.0);
+				_trunkVertices.push_back(0.0);
 				_trunkVertices.push_back(1.0);
-				_trunkVertices.push_back(0.0);
 			}else{
-				_trunkVertices.push_back(0.0);
+// 				_trunkVertices.push_back(0.0);
+// 				_trunkVertices.push_back(1.0);
+				_trunkVertices.push_back(1.0);
 				_trunkVertices.push_back(1.0);
 			}
 			textureIndex++;
