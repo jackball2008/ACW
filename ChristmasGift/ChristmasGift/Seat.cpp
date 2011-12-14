@@ -4,8 +4,8 @@
 Seat::Seat(void)
 {
 	snowVal = 60;
-	//initPermTexture(&permTextureID);
-	initNullTexture(&permTextureID);
+	initPermTexture(&permTextureID);
+	//initNullTexture(&permTextureID);
 // 	initSimplexTexture(&simplexTextureID);
 // 	initGradTexture(&gradTextureID);
 }

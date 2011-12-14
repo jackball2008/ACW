@@ -112,7 +112,7 @@ void ChristmasWindow::OnUpdate(){
 
 	int loc = glGetUniformLocation(_seatSurface->shaderProgramID,"size");
 	if(loc!=-1)
-		glUniform1i(loc,_seatSurface->snowVal);
+		glUniform1f(loc,_seatSurface->snowVal);
 	else
 		cout<<"uniform error"<<endl;
 	glUseProgram(0);
@@ -631,7 +631,7 @@ void ChristmasWindow::LoadModels(){
 	_seatSurface->rotatex = 1.0f;
 	_seatSurface->Initialize("ground.mxy");
 	LoadTexture("seat_tex.tga",_seatSurface->seat_texture_ID);
-
+	//LoadTexture("blank_tex_s.tga",_seatSurface->permTextureID);
 	_seatSurface->shaderProgramID = LoadShaderFromFile("SeatVertexShader.glsl","SeatFragShader.glsl");
 
 	glUseProgram(_seatSurface->shaderProgramID);
@@ -642,7 +642,7 @@ void ChristmasWindow::LoadModels(){
 		cout<<"uniform error"<<endl;
 	int loc2 = glGetUniformLocation(_seatSurface->shaderProgramID,"size");
 	if(loc>-1)
-		glUniform1i(loc2,_seatSurface->snowVal);
+		glUniform1f(loc2,_seatSurface->snowVal);
 	else
 		cout<<"uniform error"<<endl;
 
@@ -654,7 +654,22 @@ void ChristmasWindow::LoadModels(){
 		cout<<"uniform error"<<endl;
 	glUseProgram(0);
 
-
+	/************************************************************************/
+	/* water pool                                                                     */
+	/************************************************************************/
+	_pool = new Pool();
+	_pool->translatex = 0.55;
+	_pool->translatey = -0.06;
+	_pool->translatez = 0.53;
+	_pool->scalex = 0.58;
+	_pool->scaley = 0.58;
+	_pool->scalez = 0.58;
+	// 	_pool->setRenderTexture(false);
+	// 	_pool->setRenderMaterials(false);
+	// 	_pool->setEnableTransparency(true);
+	// 	_pool->setColorApalha(0.5);
+	// 	modelController->AssemblyModelFromFile(_pool,"pool.mxy",modelController->_textures[0]);
+	// 	_pool->setEnableTransparency(false);
 	/************************************************************************/
 	/* tree                                                                     */
 	/************************************************************************/
@@ -756,16 +771,7 @@ void ChristmasWindow::LoadModels(){
 // 	_ball->setColorApalha(0.1);
 // 	modelController->AssemblyTransparencyPartSphere(_ball,1.0,40,40,modelController->_textures[0]);
 
-	/************************************************************************/
-	/* water pool                                                                     */
-	/************************************************************************/
-// 	_pool = new Pool();
-// 	_pool->setRenderTexture(false);
-// 	_pool->setRenderMaterials(false);
-// 	_pool->setEnableTransparency(true);
-// 	_pool->setColorApalha(0.5);
-// 	modelController->AssemblyModelFromFile(_pool,"pool.mxy",modelController->_textures[0]);
-// 	_pool->setEnableTransparency(false);
+	
 
 	//////////////////////////////////////////////////////////////////////////
 

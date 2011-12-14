@@ -6,5 +6,9 @@ class Pool :
 public:
 	Pool(void);
 	~Pool(void);
+
+	void Update(const float& t);
+	void Draw();
+
 };
 
