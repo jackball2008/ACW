@@ -103,6 +103,20 @@ void ChristmasWindow::OnUpdate(){
 	
 	float tempDelataTime = deltaTime * _timeSpeedFactor;
 
+	glUseProgram(_seatSurface->shaderProgramID);
+// 	int loc = glGetUniformLocation(_seatSurface->shaderProgramID,"time");
+// 	if(loc!=-1)
+// 		glUniform1i(loc,deltaTime);
+// 	else
+// 		cout<<"uniform error"<<endl;
+
+// 	int loc = glGetUniformLocation(_seatSurface->shaderProgramID,"size");
+// 	if(loc!=-1)
+// 		glUniform1i(loc,20.0f);
+// 	else
+// 		cout<<"uniform error"<<endl;
+	glUseProgram(0);
+
 	/************************************************************************/
 	/* update particles                                                                     */
 	/************************************************************************/
@@ -608,17 +622,28 @@ void ChristmasWindow::LoadModels(){
 	_seatSurface->Initialize("ground.mxy");
 	LoadTexture("seat_tex.tga",_seatSurface->seat_texture_ID);
 
-	_seatSurface->seat_shader_program_ID = LoadShaderFromFile("SeatVertexShader.glsl","SeatFragShader.glsl");
-	glUseProgram(_seatSurface->seat_shader_program_ID);
-	int loc = glGetUniformLocation(_seatSurface->seat_shader_program_ID,"ColorTexture");
+	_seatSurface->shaderProgramID = LoadShaderFromFile("SeatVertexShader.glsl","SeatFragShader.glsl");
+
+	glUseProgram(_seatSurface->shaderProgramID);
+	int loc = glGetUniformLocation(_seatSurface->shaderProgramID,"permTexture");
+	if(loc>-1)
+		glUniform1i(loc,1);
+	else
+		cout<<"uniform error"<<endl;
+	int loc2 = glGetUniformLocation(_seatSurface->shaderProgramID,"size");
+	if(loc>-1)
+		glUniform1i(loc2,2.5);
+	else
+		cout<<"uniform error"<<endl;
+
+	
+	loc = glGetUniformLocation(_seatSurface->shaderProgramID,"ColorTexture");
 	if(loc!=-1)
 		glUniform1i(loc,0);
 	else
 		cout<<"uniform error"<<endl;
 	glUseProgram(0);
-// 	_seat->setRenderTexture(true);
-// 	_seat->setRenderMaterials(false);
-// 	modelController->AssemblyModelFromFile(_seat,"ground.mxy",modelController->_textures[2]);
+
 
 	/************************************************************************/
 	/* tree                                                                     */

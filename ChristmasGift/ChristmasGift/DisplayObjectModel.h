@@ -51,12 +51,7 @@ public:
 	virtual void Draw();
 	virtual void DrawReflection();
 
-	/************************************************************************/
-	/* proceture texture id                                                                     */
-	/************************************************************************/
-	GLuint permTextureID;
-	GLuint simplexTextureID;
-	GLuint gradTextureID;
+	void initNullTexture(GLuint *texID);
 	/*
 	 * initPermTexture(GLuint *texID) - create and load a 2D texture for
 	 * a combined index permutation and gradient lookup table.
@@ -79,6 +74,14 @@ public:
 	/************************************************************************/
 	/* main varible                                                                     */
 	/************************************************************************/
+	GLuint shaderProgramID;
+	/************************************************************************/
+	/* proceture texture id                                                                     */
+	/************************************************************************/
+	GLuint permTextureID;
+	GLuint simplexTextureID;
+	GLuint gradTextureID;
+
 	Vertex (*_vertices);
 	GLuint	*_indices;
 

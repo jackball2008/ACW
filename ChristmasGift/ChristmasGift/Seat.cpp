@@ -3,10 +3,11 @@
 
 Seat::Seat(void)
 {
-	//MakeNoiseTexture();
-	initPermTexture(&permTextureID);
-	initSimplexTexture(&simplexTextureID);
-	initGradTexture(&gradTextureID);
+	
+	//initPermTexture(&permTextureID);
+	initNullTexture(&permTextureID);
+// 	initSimplexTexture(&simplexTextureID);
+// 	initGradTexture(&gradTextureID);
 }
 
 
@@ -20,7 +21,7 @@ void Seat::Update(const float& t){
 void Seat::Draw(){
 	
 
-	glUseProgram(seat_shader_program_ID);
+	glUseProgram(shaderProgramID);
 	glPushMatrix();
 	glRotatef(rotaterangle,rotatex,rotatey,rotatez);
 
@@ -33,9 +34,21 @@ void Seat::Draw(){
 	/************************************************************************/
 	/* texture                                                                     */
 	/************************************************************************/
+	glActiveTexture(GL_TEXTURE1);
+	glEnable(GL_TEXTURE_2D); 
+	glBindTexture(GL_TEXTURE_2D, permTextureID);
+
+// 	glActiveTexture(GL_TEXTURE1);
+// 	glEnable(GL_TEXTURE_2D); 
+// 	glBindTexture(GL_TEXTURE_2D, simplexTextureID);
+// 
+// 	glActiveTexture(GL_TEXTURE2);
+// 	glEnable(GL_TEXTURE_2D); 
+// 	glBindTexture(GL_TEXTURE_2D, gradTextureID);
+
 	glActiveTexture(GL_TEXTURE0);
 	glEnable(GL_TEXTURE_2D); 
-	glBindTexture(GL_TEXTURE_2D, seat_snow_texture_ID);
+	glBindTexture(GL_TEXTURE_2D, seat_texture_ID);
 
 
 	//bind vbo ibo
@@ -45,6 +58,18 @@ void Seat::Draw(){
 	//set texture coordinate
 	//texture
 	glClientActiveTexture(GL_TEXTURE0);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(12));
+
+// 	glClientActiveTexture(GL_TEXTURE1);
+// 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+// 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(12));
+// 
+// 	glClientActiveTexture(GL_TEXTURE2);
+// 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+// 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(12));
+
+	glClientActiveTexture(GL_TEXTURE1);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(12));
 
@@ -68,9 +93,24 @@ void Seat::Draw(){
 	glClientActiveTexture(GL_TEXTURE0);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
+	glClientActiveTexture(GL_TEXTURE1);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+// 	glClientActiveTexture(GL_TEXTURE2);
+// 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+// 
+// 	glClientActiveTexture(GL_TEXTURE3);
+// 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glActiveTexture(GL_TEXTURE0);
 	glDisable(GL_TEXTURE_2D);
+	glActiveTexture(GL_TEXTURE1);
+	glDisable(GL_TEXTURE_2D);
+// 	glActiveTexture(GL_TEXTURE2);
+// 	glDisable(GL_TEXTURE_2D);
+// 
+// 	glActiveTexture(GL_TEXTURE3);
+// 	glDisable(GL_TEXTURE_2D);
 
 
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -84,96 +124,4 @@ void Seat::Draw(){
 	/************************************************************************/
 	glPopMatrix();
 	glUseProgram(0);
-}
-
-void Seat::MakeNoiseTexture(){
-	int width = 512;
-	int height = 512;
-	noise::module::Perlin perlinNoise;
-	// Base frequency for octave 1.
-	perlinNoise.SetFrequency(4.0);
-	GLubyte *data = new GLubyte[ width * height * 4 ];
-	double xRange = 1.0;
-	double yRange = 1.0;
-	double xFactor = xRange / width;
-	double yFactor = yRange / height;
-
-	for( int oct = 0; oct < 4; oct++ ) {
-		perlinNoise.SetOctaveCount(oct+1);
-		for( int i = 0; i < width; i++ ) {
-			for( int j = 0 ; j < height; j++ ) {
-				double x = xFactor * i;
-				double y = yFactor * j;
-				double z = 0.0;
-				float val = (float)perlinNoise.GetValue(x,y,z);
-				// Scale and translate to roughly between 0 and 1
-				val = (val + 1.0f) * 0.5f;
-				// Clamp strictly between 0 and 1
-				val = val> 1.0f ? 1.0f :val;
-				val = val< 0.0f ? 0.0f :val;
-				// Store in texture
-				data[((j * width + i) * 4) + oct] = 
-					(GLubyte) ( val * 255.0f );
-			}
-		}
-	}
-	
-	glGenTextures(1, &seat_snow_texture_ID);
-	glBindTexture(GL_TEXTURE_2D, seat_snow_texture_ID);
-// 	glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,
-// 		GL_UNSIGNED_BYTE,data);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 
-		GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 
-		GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	delete [] data;
-}
-
-void Seat::UpdateNoise(){
-	int width = 512;
-	int height = 512;
-	noise::module::Perlin perlinNoise;
-	// Base frequency for octave 1.
-	srand((unsigned)time(0));
-	perlinNoise.SetFrequency(rand()%8);
-	GLubyte *data = new GLubyte[ width * height * 4 ];
-	double xRange = 1.0;
-	double yRange = 1.0;
-	double xFactor = xRange / width;
-	double yFactor = yRange / height;
-
-	for( int oct = 0; oct < 4; oct++ ) {
-		perlinNoise.SetOctaveCount(oct+1);
-		for( int i = 0; i < width; i++ ) {
-			for( int j = 0 ; j < height; j++ ) {
-				double x = xFactor * i;
-				double y = yFactor * j;
-				double z = 0.0;
-				float val = (float)perlinNoise.GetValue(x,y,z);
-				// Scale and translate to roughly between 0 and 1
-				val = (val + 1.0f) * 0.5f;
-				// Clamp strictly between 0 and 1
-				val = val> 1.0f ? 1.0f :val;
-				val = val< 0.0f ? 0.0f :val;
-				// Store in texture
-				data[((j * width + i) * 4) + oct] = 
-					(GLubyte) ( val * 255.0f );
-			}
-		}
-	}
-
-	glBindTexture(GL_TEXTURE_2D, seat_snow_texture_ID);
-	glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,
-		GL_UNSIGNED_BYTE,data);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 
-		GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 
-		GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	delete [] data;
 }
