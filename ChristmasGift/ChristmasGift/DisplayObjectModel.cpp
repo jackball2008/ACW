@@ -32,15 +32,15 @@ void DisplayObjectModel::Initialize(){
 	/*VBO*/
 	glGenBuffers(1, &vboID);
 	glBindBuffer(GL_ARRAY_BUFFER, vboID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*_numberOfVertices, 0, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex)*_numberOfVertices, _vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*numberOfVertices, 0, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex)*numberOfVertices, _vertices);
 	
 	
 	/*IBO*/
 	glGenBuffers(1, &iboID); // Generate buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID); // Bind the element array buffer
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numberOfIndices * sizeof(GLuint), _indices, GL_STATIC_DRAW);
-	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(GLuint)*_numberOfIndices, _indices);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numberOfIndices * sizeof(GLuint), _indices, GL_STATIC_DRAW);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(GLuint)*numberOfIndices, _indices);
 
 	/*release bind*/
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -48,7 +48,192 @@ void DisplayObjectModel::Initialize(){
 
 }
 void DisplayObjectModel::Initialize(const char* fpath){
+	/************************************************************************/
+	/* load model from .MXY model file                                                                     */
+	/************************************************************************/
+	ifstream fin(fpath);
+	if(!fin){
+		cout<<"file open error\n";
+		return;
+	}
+	else{
+		cout<<"read model file ok : "<<fpath<<endl;
+	}
 
+	char buffer[100];
+	int rA,rB,rv,rn,ru,rc;
+
+	int numofvertex;
+
+	float tempfloat;
+
+	int tempindex;
+
+	bool hasuv,hascol;
+	hasuv = false;
+	hascol = false;
+
+// 	Vertex (*_vertices);
+// 
+// 	GLuint *_indices;
+
+	while(!fin.eof()){
+		//analyze each line
+		fin.getline(buffer, sizeof(buffer));
+		int lengthOfLine = fin.gcount();
+		istrstream sin (buffer, lengthOfLine-1);
+		string word;
+		sin>>word;
+
+		rA = rB = rv = rn = ru = rc = -2;
+		rA = word.compare("A");
+		rB = word.compare("B");
+		rv = word.compare("v");
+		rn = word.compare("n");
+		ru = word.compare("u");
+		rc = word.compare("c");
+
+		if(rA == 0){
+			sin>>word;
+			numofvertex = (int)atof(word.c_str());
+			_vertices = new Vertex[numofvertex];
+
+		}
+		if(rB == 0){
+			sin>>word;
+			cout<<"fn = "<<atof(word.c_str())<<endl;
+		}
+		if(rv == 0){
+			sin>>word;
+			tempindex = (int)atof(word.c_str());
+
+			//x
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].position[X_POS] = tempfloat;
+			//y
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].position[Y_POS] = tempfloat;
+			//z
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].position[Z_POS] = tempfloat;
+
+
+
+		}
+		if(rn == 0){
+			sin>>word;
+			tempindex = (int)atof(word.c_str());
+
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].normal[X_POS] = tempfloat;
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].normal[Y_POS] = tempfloat;
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].normal[Z_POS] = tempfloat;
+		}
+		if(ru == 0){
+			sin>>word;
+			tempindex = (int)atof(word.c_str());
+
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].texture[U_POS] = tempfloat;
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].texture[V_POS] = tempfloat;
+
+			hasuv = true;
+		}
+		if(rc == 0){
+			sin>>word;
+			tempindex = (int)atof(word.c_str());
+
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].colour[R_POS] = tempfloat;
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].colour[G_POS] = tempfloat;
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].colour[B_POS] = tempfloat;
+			sin>>word;
+			tempfloat = atof(word.c_str());
+			_vertices[tempindex].colour[A_POS] = tempfloat;
+
+			hascol = true;
+		}
+
+	}
+	fin.close();
+
+	if(!hasuv){
+		for(int i = 0; i<numofvertex;i++)
+		{
+			_vertices[i].texture[U_POS] = 0.0;
+			_vertices[i].texture[V_POS] = 0.0;
+		}
+	}
+
+	if(!hascol){
+		for(int i = 0; i<numofvertex;i++){
+			_vertices[i].colour[R_POS] = 0.5;
+			_vertices[i].colour[G_POS] = 0.5;
+			_vertices[i].colour[B_POS] = 0.5;
+			_vertices[i].colour[A_POS] = 1.0;
+
+		}
+
+	}
+
+	_indices = new GLuint[numofvertex];
+	for(int i = 0; i<numofvertex;i++){
+		_indices[i] =  i;
+	}
+
+
+	numberOfVertices = numofvertex;
+	numberOfIndices = numofvertex;
+
+	//initialize VBO
+	Initialize();
+
+	
+}
+void DisplayObjectModel::Draw(){
+	glBindBuffer(GL_ARRAY_BUFFER, vboID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
+
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(0));
+	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(12));
+	glNormalPointer(GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(20));
+	glColorPointer(4, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(32));
+
+	if(GL_TRIANGLES == drawType)
+		glDrawElements(GL_TRIANGLES, numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+
+	if(GL_TRIANGLE_STRIP == drawType)
+		glDrawElements(GL_TRIANGLE_STRIP, numberOfIndices, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+
+	glDisable(GL_TEXTURE_2D);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 

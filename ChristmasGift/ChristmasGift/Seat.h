@@ -6,5 +6,8 @@ class Seat :
 public:
 	Seat(void);
 	~Seat(void);
+
+	void Update(const float& t);
+	void Draw();
 };
 

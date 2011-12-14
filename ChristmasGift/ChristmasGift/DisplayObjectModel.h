@@ -6,13 +6,17 @@
 #include <string>
 #include <sstream>
 #include <stdlib.h>
+#include <strstream>
+#include <math.h>
+
+
+
+
 
 using namespace std;
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
-
-/*enum seasons {Spring,Summer,Autumn,Winter};*/
 
 struct vertex{
 	GLfloat x;
@@ -44,7 +48,7 @@ public:
 	virtual void Initialize();
 	virtual void Initialize(const char* fpath);
 	//virtual void Update(const float& t);
-	//virtual void Draw();
+	virtual void Draw();
 	
 	/************************************************************************/
 	/* main varible                                                                     */
@@ -55,14 +59,17 @@ public:
 	GLuint vboID;
 	GLuint iboID; 
 
-	int _numberOfVertices;
-	int _numberOfIndices;
+	int numberOfVertices;
+	int numberOfIndices;
 
-	GLuint _textures;
+	GLuint textureID;
+	Materials material;
+	GLenum drawType;
 
-	Materials _materials;
 
-	GLenum _drawtype;
+	float tx,ty,tz;
+//	float 
+
 	/************************************************************************/
 	/* logic                                                                     */
 	/************************************************************************/

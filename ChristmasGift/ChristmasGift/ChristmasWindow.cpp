@@ -71,7 +71,7 @@ void ChristmasWindow::OnCreate()
 	//////////////////////////////////////////////////////////////////////////
 	LoadShaders();
 	//////////////////////////////////////////////////////////////////////////
-	InitialiseModels();
+	LoadModels();
 	//////////////////////////////////////////////////////////////////////////
 	InitialiseCamera();
 	//////////////////////////////////////////////////////////////////////////
@@ -304,8 +304,8 @@ void ChristmasWindow::OnDisplay()
 
 		glPushMatrix();
 			//glRotatef(-4*_sunRunCycleAngle, 0.0, 0.0, 1.0);
-			_sunLight.setPosition(Vector4f(6.0,6.0,0.0,1.0));
-			glTranslatef(6.0,6.0,0.0);
+			_sunLight.setPosition(Vector4f(5.0,5.0,0.0,1.0));
+			glTranslatef(5.0,5.0,0.0);
 			_sunMaterial.apply();
 			_sunSphere.draw();
 		glPopMatrix();
@@ -345,7 +345,7 @@ void ChristmasWindow::OnDisplay()
 
 		glPushMatrix();
 			glRotatef(-90.0f,1.0,0.0,0.0);
-/*			_seat->Draw();*/
+			_seat->Draw();
 		glPopMatrix();
 
 #endif
@@ -568,10 +568,14 @@ void ChristmasWindow::InitialiseLights(){
 	_sunSphere.create(0.1f, 10, 10, false);
 	_sunMaterial.create(Color::black(), Color::black(), Color(0.7,0.7,0.7,0.7));
 
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glShadeModel(GL_SMOOTH);
+	
 }
 
 
-void ChristmasWindow::InitialiseModels(){
+void ChristmasWindow::LoadModels(){
 	/************************************************************************/
 	/* test for modelcontroller       test passed                           */
 	/************************************************************************/
@@ -602,7 +606,9 @@ void ChristmasWindow::InitialiseModels(){
 	/************************************************************************/
 #ifdef DRAWSEAT
 
-// 	_seat = new Seat();
+ 	_seat = new Seat();
+	_seat->drawType = GL_TRIANGLES;
+	_seat->Initialize("ground.mxy");
 // 	_seat->setRenderTexture(true);
 // 	_seat->setRenderMaterials(false);
 // 	modelController->AssemblyModelFromFile(_seat,"ground.mxy",modelController->_textures[2]);
@@ -927,13 +933,13 @@ void ChristmasWindow::LoadCamera(){
 	gluPerspective(50.0f,(GLfloat)Width()/(GLfloat)Height(),0.01f,100.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glShadeModel(GL_SMOOTH);
+	
 	glViewport(0,0, Width(), Height());
 }
 void ChristmasWindow::LoadBasicOpenGLParame(){
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_TEXTURE_2D);
+	
+	//glEnable(GL_TEXTURE_2D);
 	// track material ambient and diffuse from surface color, call it before glEnable(GL_COLOR_MATERIAL)
 	//glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	glEnable(GL_COLOR_MATERIAL);
