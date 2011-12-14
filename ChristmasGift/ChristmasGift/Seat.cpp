@@ -3,7 +3,7 @@
 
 Seat::Seat(void)
 {
-	
+	snowVal = 60;
 	//initPermTexture(&permTextureID);
 	initNullTexture(&permTextureID);
 // 	initSimplexTexture(&simplexTextureID);

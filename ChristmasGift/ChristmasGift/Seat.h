@@ -12,6 +12,7 @@ public:
 	void Update(const float& t);
 	void Draw();
 
+	float snowVal;
 
 	GLuint seat_texture_ID;
 	GLuint seat_snow_texture_ID;

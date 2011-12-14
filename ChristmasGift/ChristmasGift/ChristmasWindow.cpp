@@ -110,11 +110,11 @@ void ChristmasWindow::OnUpdate(){
 // 	else
 // 		cout<<"uniform error"<<endl;
 
-// 	int loc = glGetUniformLocation(_seatSurface->shaderProgramID,"size");
-// 	if(loc!=-1)
-// 		glUniform1i(loc,20.0f);
-// 	else
-// 		cout<<"uniform error"<<endl;
+	int loc = glGetUniformLocation(_seatSurface->shaderProgramID,"size");
+	if(loc!=-1)
+		glUniform1i(loc,_seatSurface->snowVal);
+	else
+		cout<<"uniform error"<<endl;
 	glUseProgram(0);
 
 	/************************************************************************/
@@ -486,6 +486,16 @@ void ChristmasWindow::OnKeyboard(int key, bool down)
 		case 't':
 /*			_fire.working = !_fire.working;*/
 			break;
+		case 'q':
+			_seatSurface->snowVal = _seatSurface->snowVal + 0.1;
+			/*			_fire.working = !_fire.working;*/
+			cout<<"snow v = "<<_seatSurface->snowVal<<endl;
+			break;
+		case 'w':
+			_seatSurface->snowVal = _seatSurface->snowVal - 0.1;
+			/*			_fire.working = !_fire.working;*/
+			cout<<"snow v = "<<_seatSurface->snowVal<<endl;
+			break;
 		default:
 			break;
 	}
@@ -632,7 +642,7 @@ void ChristmasWindow::LoadModels(){
 		cout<<"uniform error"<<endl;
 	int loc2 = glGetUniformLocation(_seatSurface->shaderProgramID,"size");
 	if(loc>-1)
-		glUniform1i(loc2,2.5);
+		glUniform1i(loc2,_seatSurface->snowVal);
 	else
 		cout<<"uniform error"<<endl;
 

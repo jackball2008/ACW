@@ -495,6 +495,8 @@ void main(void)
    //float n = snoise(vec3(size * vp.xyz ));
    
    
+   
+   
    float n = 0;//noise(Texcoord * size ) + noise(Texcoord * size/2 )+ noise(Texcoord * size/3 );
    
    for(int i=0;i<10;i++){
@@ -514,7 +516,13 @@ void main(void)
    if(baseColor.a < 0.15)
       discard;
       else{
+      if(size>50)
+      fragColour = baseColor;
+      else
       fragColour = c +  baseColor;
+      if(size < 1.9)
+      fragColour = vec4(1,1,1,1);
+      
       }
    
    
