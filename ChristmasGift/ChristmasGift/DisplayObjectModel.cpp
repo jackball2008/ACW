@@ -205,6 +205,7 @@ void DisplayObjectModel::Initialize(const char* fpath){
 	numberOfVertices = numofvertex;
 	numberOfIndices = numofvertex;
 
+	drawType = GL_TRIANGLES;
 	//initialize VBO
 	Initialize();
 

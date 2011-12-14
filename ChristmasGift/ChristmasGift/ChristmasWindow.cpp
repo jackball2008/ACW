@@ -340,14 +340,13 @@ void ChristmasWindow::OnDisplay()
 // 			}
 		glPopMatrix();
 		
-#ifdef DRAWSEAT
 
-		glPushMatrix();
-			glRotatef(-90.0f,1.0,0.0,0.0);
+
+		/*glPushMatrix();*/
+			//glRotatef(-90.0f,1.0,0.0,0.0);
 			_seat->Draw();
-		glPopMatrix();
+		/*glPopMatrix();*/
 
-#endif
 		glPushMatrix();
 			glTranslatef(-1.0,0.28,0.0f);
 			glScalef(0.25,0.25,0.25);
@@ -603,15 +602,16 @@ void ChristmasWindow::LoadModels(){
 	/************************************************************************/
 	/* seat                                                                     */
 	/************************************************************************/
-#ifdef DRAWSEAT
+
 
  	_seat = new Seat();
-	_seat->drawType = GL_TRIANGLES;
+	_seat->rotaterangle = -90.0f;
+	_seat->rotatex = 1.0f;
 	_seat->Initialize("ground.mxy");
 // 	_seat->setRenderTexture(true);
 // 	_seat->setRenderMaterials(false);
 // 	modelController->AssemblyModelFromFile(_seat,"ground.mxy",modelController->_textures[2]);
-#endif
+
 	/************************************************************************/
 	/* tree                                                                     */
 	/************************************************************************/
