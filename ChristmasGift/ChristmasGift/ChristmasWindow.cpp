@@ -279,7 +279,7 @@ void ChristmasWindow::OnDisplay()
 		glTranslatef(0.0f, 0.0f,_cameraPositionZ);
 		glRotatef(_cameraAngle, 1.0,0.0,0.0);
 		glRotatef(_cameraRotation, 0.0, 1.0, 0.0);
-
+		glGetFloatv(GL_MODELVIEW_MATRIX,modelview);
 		/*flashLight->Draw();*/
 
 		if(_drawSpotLights){

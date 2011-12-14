@@ -50,6 +50,32 @@ public:
 	//virtual void Update(const float& t);
 	virtual void Draw();
 	virtual void DrawReflection();
+
+	/************************************************************************/
+	/* proceture texture id                                                                     */
+	/************************************************************************/
+	GLuint permTextureID;
+	GLuint simplexTextureID;
+	GLuint gradTextureID;
+	/*
+	 * initPermTexture(GLuint *texID) - create and load a 2D texture for
+	 * a combined index permutation and gradient lookup table.
+	 * This texture is used for 2D and 3D noise, both classic and simplex.
+	 */
+	void initPermTexture(GLuint *texID);
+	/*
+	* initSimplexTexture(GLuint *texID) - create and load a 1D texture for a
+	* simplex traversal order lookup table. This is used for simplex noise only,
+	* and only for 3D and 4D noise where there are more than 2 simplices.
+	* (3D simplex noise has 6 cases to sort out, 4D simplex noise has 24 cases.)
+	*/
+	void initSimplexTexture(GLuint *texID);
+	/*
+	 * initGradTexture(GLuint *texID) - create and load a 2D texture
+	 * for a 4D gradient lookup table. This is used for 4D noise only.
+	 */
+	void initGradTexture(GLuint *texID);
+
 	/************************************************************************/
 	/* main varible                                                                     */
 	/************************************************************************/
