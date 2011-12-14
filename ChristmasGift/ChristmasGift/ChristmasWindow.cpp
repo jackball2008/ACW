@@ -344,7 +344,7 @@ void ChristmasWindow::OnDisplay()
 
 		/*glPushMatrix();*/
 			//glRotatef(-90.0f,1.0,0.0,0.0);
-			_seat->Draw();
+			_seatSurface->Draw();
 		/*glPopMatrix();*/
 
 		glPushMatrix();
@@ -600,14 +600,22 @@ void ChristmasWindow::LoadModels(){
 
 	
 	/************************************************************************/
-	/* seat                                                                     */
+	/* seat  surface                                                           */
 	/************************************************************************/
+ 	_seatSurface = new Seat();
+	_seatSurface->rotaterangle = -90.0f;
+	_seatSurface->rotatex = 1.0f;
+	_seatSurface->Initialize("ground.mxy");
+	LoadTexture("seat_tex.tga",_seatSurface->seat_texture_ID);
 
-
- 	_seat = new Seat();
-	_seat->rotaterangle = -90.0f;
-	_seat->rotatex = 1.0f;
-	_seat->Initialize("ground.mxy");
+	_seatSurface->seat_shader_program_ID = LoadShaderFromFile("SeatVertexShader.glsl","SeatFragShader.glsl");
+	glUseProgram(_seatSurface->seat_shader_program_ID);
+	int loc = glGetUniformLocation(_seatSurface->seat_shader_program_ID,"ColorTexture");
+	if(loc!=-1)
+		glUniform1i(loc,0);
+	else
+		cout<<"uniform error"<<endl;
+	glUseProgram(0);
 // 	_seat->setRenderTexture(true);
 // 	_seat->setRenderMaterials(false);
 // 	modelController->AssemblyModelFromFile(_seat,"ground.mxy",modelController->_textures[2]);
@@ -635,7 +643,7 @@ void ChristmasWindow::LoadModels(){
 	//trunk shader
 	_tree->trunk_shader_programID = LoadShaderFromFile("TrunkVertexShader.glsl","TrunkFragShader.glsl");
 	glUseProgram(_tree->trunk_shader_programID);
-	int loc = glGetUniformLocation(_tree->trunk_shader_programID,"ColorTexture");
+	loc = glGetUniformLocation(_tree->trunk_shader_programID,"ColorTexture");
 	if(loc!=-1)
 		glUniform1i(loc,0);
 	else

@@ -9,6 +9,9 @@ public:
 
 	void Update(const float& t);
 	void Draw();
+
+	GLuint seat_texture_ID;
+	GLuint seat_shader_program_ID;
 	
 };
 
