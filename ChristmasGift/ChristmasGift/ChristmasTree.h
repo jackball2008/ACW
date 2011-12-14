@@ -209,7 +209,7 @@ public:
 	void Initialize();
 	void Draw();
 	void Update(const float& t);
-	
+	void DrawReflection();
 	/************************************************************************/
 	/* personal functions                                                                     */
 	/************************************************************************/

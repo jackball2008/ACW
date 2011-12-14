@@ -104,14 +104,28 @@ void ChristmasTree::Initialize(){
 
 }
 void ChristmasTree::Draw(){
-	
+	glPushMatrix();
 
-
-
+	glTranslatef(translatex,translatey,translatez);
+	glScalef(scalex,scaley,scalez);
 
 	drawTrunks();
 	if(showLeaf)
 		drawLeaf();
+
+	glPopMatrix();
+}
+void ChristmasTree::DrawReflection(){
+	glPushMatrix();
+
+	glTranslatef(translatex,-translatey,translatez);
+	glScalef(scalex,scaley,scalez);
+
+	drawTrunks();
+	if(showLeaf)
+		drawLeaf();
+
+	glPopMatrix();
 }
 
 //update data for all this tree

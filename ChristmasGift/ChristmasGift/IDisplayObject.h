@@ -29,7 +29,7 @@ public:
 	virtual void Initialize(const char* fpath) =0;
 	virtual void Update(const float& t)=0;
 	virtual void Draw()=0;
-
+	virtual void DrawReflection()=0;
 
 	/************************************************************************/
 	/* end                                                                     */

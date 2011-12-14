@@ -13,9 +13,9 @@ Seat::~Seat(void)
 void Seat::Update(const float& t){
 
 }
-void Seat::Draw(){
-
-
-
-
-}
+// void Seat::Draw(){
+// 
+// 
+// 
+// 
+// }

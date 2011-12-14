@@ -6,6 +6,10 @@ DisplayObjectModel::DisplayObjectModel(void)//:useShader(false),_enableCullBack(
 {
 	glex::Load();
 
+	translatex=translatey=translatez=0;
+	rotaterangle=rotatex=rotatey=rotatez=0;
+	scalex=scaley=scalez=0;
+
 // 	_renderTextures = false;
 // 	_renderMaterials = false;
 // 	_enableTransparency = false;
@@ -235,7 +239,9 @@ void DisplayObjectModel::Draw(){
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
+void DisplayObjectModel::DrawReflection(){
 
+}
 
 
 

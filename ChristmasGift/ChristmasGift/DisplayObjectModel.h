@@ -49,7 +49,7 @@ public:
 	virtual void Initialize(const char* fpath);
 	//virtual void Update(const float& t);
 	virtual void Draw();
-	
+	virtual void DrawReflection();
 	/************************************************************************/
 	/* main varible                                                                     */
 	/************************************************************************/
@@ -67,8 +67,9 @@ public:
 	GLenum drawType;
 
 
-	float tx,ty,tz;
-//	float 
+	float translatex,translatey,translatez;
+	float rotaterangle,rotatex,rotatey,rotatez;
+	float scalex,scaley,scalez;
 
 	/************************************************************************/
 	/* logic                                                                     */

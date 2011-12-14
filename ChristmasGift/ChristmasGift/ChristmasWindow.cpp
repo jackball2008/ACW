@@ -23,12 +23,12 @@ const float pool_scal_z = 0.58;
 /* tree and reflection  glTranslatef(0.65,-1.0,0.0);
 glScalef(0.25,0.25,0.25);                                                                   */
 /************************************************************************/
-const float tree_pos_x = 0.6;
-const float tree_pos_y = 0.0;
-const float tree_pos_z = -0.2;
-const float tree_scal_x = 0.2;
-const float tree_scal_y = 0.2;
-const float tree_scal_z = 0.2;
+// const float tree_pos_x = 0.6;
+// const float tree_pos_y = 0.0;
+// const float tree_pos_z = -0.2;
+// const float tree_scal_x = 0.2;
+// const float tree_scal_y = 0.2;
+// const float tree_scal_z = 0.2;
 
 
 ChristmasWindow::ChristmasWindow(void) :
@@ -252,10 +252,9 @@ void ChristmasWindow::DrawReflection()
 	glPushMatrix();
 	// reflect all objects about y=0 plane 
 	glScalef(1.0, -1.0, 1.0);	
-	glTranslatef(tree_pos_x,-tree_pos_y,tree_pos_z);
- 	glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
-	/*glRotatef(_treeangle,0,0,1);*/
-	// and front faces become back faces and visa-versa
+// 	glTranslatef(tree_pos_x,-tree_pos_y,tree_pos_z);
+//  	glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
+	
 	glCullFace(GL_FRONT);
 
 	_tree->Draw();
@@ -357,12 +356,12 @@ void ChristmasWindow::OnDisplay()
 		glPopMatrix();
 
 		//glUseProgram(_TreeProgramID);
-		glPushMatrix();
-			glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
-			glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
-			/*glRotatef(_treeangle,0,0,1);*/
+		//glPushMatrix();
+// 			glTranslatef(tree_pos_x,tree_pos_y,tree_pos_z);
+// 			glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
+			
 			_tree->Draw();
-		glPopMatrix();
+		//glPopMatrix();
 		//glUseProgram(0);
 
 
@@ -617,6 +616,12 @@ void ChristmasWindow::LoadModels(){
 	/* tree                                                                     */
 	/************************************************************************/
 	_tree = new ChristmasTree();
+	_tree->translatex = 0.6;
+	_tree->translatey = 0.0;
+	_tree->translatez = -0.2;
+	_tree->scalex = 0.2;
+	_tree->scaley = 0.2;
+	_tree->scalez = 0.2;
 	// trunk tecture
 	//trunk_slide_tex.tga
 	//trunk_slide_nor.tga

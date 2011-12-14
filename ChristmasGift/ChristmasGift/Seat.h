@@ -8,6 +8,7 @@ public:
 	~Seat(void);
 
 	void Update(const float& t);
-	void Draw();
+	//void Draw();
+	
 };
 
