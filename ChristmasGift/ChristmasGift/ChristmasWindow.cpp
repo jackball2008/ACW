@@ -250,7 +250,7 @@ void ChristmasWindow::LoadStencil()
 		glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
 		glRotatef(-270,1,0,0);
 		glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
-/*		_pool->Draw();*/
+		_pool->Draw();
 		
 	glPopMatrix();
 	glFrontFace(GL_CCW);
@@ -401,7 +401,7 @@ void ChristmasWindow::OnDisplay()
 			glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
 			glRotatef(-90,1,0,0);
 			glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
-/*			_pool->Draw();*/
+			_pool->Draw();
 		glPopMatrix();
 		glFrontFace(GL_CCW);
 		glDisable(GL_BLEND);
@@ -418,7 +418,7 @@ void ChristmasWindow::OnDisplay()
 			glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
 			glRotatef(-90,1,0,0);
 			glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
-/*			_pool->Draw();*/
+			_pool->Draw();
 		glPopMatrix();
 		
 #ifdef DRAWREFLECTION
@@ -664,6 +664,10 @@ void ChristmasWindow::LoadModels(){
 	_pool->scalex = 0.58;
 	_pool->scaley = 0.58;
 	_pool->scalez = 0.58;
+	_pool->Initialize("pool.mxy");
+	for(int i = 0; i < _pool->numberOfVertices;i++){
+		_pool->_vertices[i].colour[A_POS] = 0.5;
+	}
 	// 	_pool->setRenderTexture(false);
 	// 	_pool->setRenderMaterials(false);
 	// 	_pool->setEnableTransparency(true);
