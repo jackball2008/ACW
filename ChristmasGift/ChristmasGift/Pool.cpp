@@ -20,6 +20,11 @@ void Pool::Draw(){
 	glUseProgram(shaderProgramID);
 
 	glPushMatrix();
+
+	glTranslatef(translatex,translatey,translatez);
+	glRotatef(rotaterangle,1,0,0);
+	glScalef(scalex,scaley,scalez);
+
 /*	glRotatef(rotaterangle,rotatex,rotatey,rotatez);*/
 
 	/*DisplayObjectModel::Draw();*/

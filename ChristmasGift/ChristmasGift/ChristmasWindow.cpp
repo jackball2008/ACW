@@ -246,13 +246,14 @@ void ChristmasWindow::LoadStencil()
 	glStencilFunc(GL_ALWAYS, 1, 1);
 	glStencilOp(GL_REPLACE,GL_REPLACE,GL_REPLACE);
 	glFrontFace(GL_CW);
-	glPushMatrix();
-		glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
-		glRotatef(-270,1,0,0);
-		glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
+// 	glPushMatrix();
+// 		glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
+// 		glRotatef(-270,1,0,0);
+// 		glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
+// 		_pool->Draw();
+		_pool->rotaterangle=-270;
 		_pool->Draw();
-		
-	glPopMatrix();
+/*	glPopMatrix();*/
 	glFrontFace(GL_CCW);
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	glStencilFunc(GL_EQUAL, 1, 1);
@@ -399,12 +400,13 @@ void ChristmasWindow::OnDisplay()
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glFrontFace(GL_CW);
-		glPushMatrix();
-			glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
-			glRotatef(-90,1,0,0);
-			glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
+// 		glPushMatrix();
+// 			glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
+// 			glRotatef(-90,1,0,0);
+// 			glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
+			_pool->rotaterangle=-90;
 			_pool->Draw();
-		glPopMatrix();
+/*		glPopMatrix();*/
 		glFrontFace(GL_CCW);
 		glDisable(GL_BLEND);
 #endif
@@ -418,12 +420,14 @@ void ChristmasWindow::OnDisplay()
 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
-		glPushMatrix();
-			glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
-			glRotatef(-90,1,0,0);
-			glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
+// 		glPushMatrix();
+// 			glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
+// 			glRotatef(-90,1,0,0);
+// 			glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
+// 			_pool->Draw();
+			_pool->rotaterangle=-90;
 			_pool->Draw();
-		glPopMatrix();
+/*		glPopMatrix();*/
 		
 
 		glDisable(GL_BLEND);
