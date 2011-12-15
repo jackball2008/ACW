@@ -16,7 +16,7 @@ void Pool::Update(const float& t){
 
 void Pool::Draw(){
 
-
+	glColor3f(1,1,1);
 	glUseProgram(/*shaderProgramID*/0);
 
 	glPushMatrix();
@@ -26,7 +26,7 @@ void Pool::Draw(){
 	/************************************************************************/
 	/* override                                                                     */
 	/************************************************************************/
-	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHTING);
 
 	/************************************************************************/
 	/* texture                                                                     */

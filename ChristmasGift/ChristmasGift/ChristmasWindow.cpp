@@ -273,8 +273,9 @@ void ChristmasWindow::DrawReflection()
 
 	_tree->Draw();
 	
-	glCullFace(GL_BACK);
 	glPopMatrix();
+	glCullFace(GL_BACK);
+	
 
 
 
@@ -385,15 +386,15 @@ void ChristmasWindow::OnDisplay()
 		/* draw reflection                                                                     */
 		/************************************************************************/
 		glDepthMask(GL_FALSE);
-		if (_loadStencilBuffer)
-		{
-			LoadStencil();
-		}
-
+// 		if (_loadStencilBuffer)
+// 		{
+// 			LoadStencil();
+// 		}
+		LoadStencil();
 		DrawReflection();
 
 		glDisable(GL_STENCIL_TEST);
-		glDepthMask(GL_TRUE);
+		//glDepthMask(GL_TRUE);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glFrontFace(GL_CW);
@@ -439,7 +440,8 @@ void ChristmasWindow::OnDisplay()
 	glPopMatrix();
 
 	glDisable(GL_LIGHTING);
-	glColor3f(1.0,1.0,1.0);
+	//glClear(GL_COLOR_BUFFER_BIT);
+	/*glColor3f(1.0,1.0,1.0);*/
 	glEnable(GL_LIGHTING);
 	SwapBuffers();
 
