@@ -266,15 +266,16 @@ void ChristmasWindow::DrawReflection()
 	glPushMatrix();
 	// reflect all objects about y=0 plane 
 	glScalef(1.0, -1.0, 1.0);	
-// 	glTranslatef(tree_pos_x,-tree_pos_y,tree_pos_z);
-//  	glScalef(tree_scal_x,tree_scal_y,tree_scal_z);
+
 	
 	glCullFace(GL_FRONT);
 
-	_tree->Draw();
-	
-	glPopMatrix();
+	//_tree->Draw();
+	_tree->DrawReflection();
+
 	glCullFace(GL_BACK);
+	glPopMatrix();
+	
 	
 
 
@@ -394,7 +395,7 @@ void ChristmasWindow::OnDisplay()
 		DrawReflection();
 
 		glDisable(GL_STENCIL_TEST);
-		//glDepthMask(GL_TRUE);
+		glDepthMask(GL_TRUE);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glFrontFace(GL_CW);
@@ -419,7 +420,7 @@ void ChristmasWindow::OnDisplay()
 			glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
 			glRotatef(-90,1,0,0);
 			glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
-			_pool->Draw();
+			//_pool->Draw();
 		glPopMatrix();
 		
 #ifdef DRAWREFLECTION
@@ -440,8 +441,7 @@ void ChristmasWindow::OnDisplay()
 	glPopMatrix();
 
 	glDisable(GL_LIGHTING);
-	//glClear(GL_COLOR_BUFFER_BIT);
-	/*glColor3f(1.0,1.0,1.0);*/
+	glColor3f(1.0,1.0,1.0);
 	glEnable(GL_LIGHTING);
 	SwapBuffers();
 

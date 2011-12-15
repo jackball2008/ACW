@@ -29,7 +29,7 @@ void Seat::Draw(){
 	/************************************************************************/
 	/* override                                                                     */
 	/************************************************************************/
-	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHTING);
 
 	/************************************************************************/
 	/* texture                                                                     */
@@ -111,7 +111,7 @@ void Seat::Draw(){
 // 
 // 	glActiveTexture(GL_TEXTURE3);
 // 	glDisable(GL_TEXTURE_2D);
-
+	//glDisable(GL_LIGHTING);
 
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
