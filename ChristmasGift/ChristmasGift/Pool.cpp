@@ -17,7 +17,7 @@ void Pool::Update(const float& t){
 void Pool::Draw(){
 
 	//glColor3f(1,1,1);
-	glUseProgram(/*shaderProgramID*/0);
+	glUseProgram(shaderProgramID);
 
 	glPushMatrix();
 /*	glRotatef(rotaterangle,rotatex,rotatey,rotatez);*/

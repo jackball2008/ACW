@@ -409,23 +409,25 @@ void ChristmasWindow::OnDisplay()
 		glDisable(GL_BLEND);
 #endif
 		
-#ifdef DRAWREFLECTION
+
 		glDisable(GL_STENCIL_TEST);
 		glDepthMask(GL_TRUE);
+		
+		//I don't know why is here
 		glEnable(GL_BLEND);
-#endif
+
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
 		glPushMatrix();
 			glTranslatef(pool_pos_x,pool_pos_y,pool_pos_z);
 			glRotatef(-90,1,0,0);
 			glScalef(pool_scal_x,pool_scal_y,pool_scal_z);
-			//_pool->Draw();
+			_pool->Draw();
 		glPopMatrix();
 		
-#ifdef DRAWREFLECTION
+
 		glDisable(GL_BLEND);
-#endif
+		
 		
 		/************************************************************************/
 		/* last draw the ball                                                                     */
@@ -670,6 +672,7 @@ void ChristmasWindow::LoadModels(){
 	for(int i = 0; i < _pool->numberOfVertices;i++){
 		_pool->_vertices[i].colour[A_POS] = 0.5;
 	}
+	_pool->shaderProgramID = LoadShaderFromFile("PoolVertexShader.glsl","PoolFragShader.glsl");
 	// 	_pool->setRenderTexture(false);
 	// 	_pool->setRenderMaterials(false);
 	// 	_pool->setEnableTransparency(true);
