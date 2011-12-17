@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1C92DAEB-EE5B-4C10-B94D-52A929D0E45E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ChristmasGift</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <Profile>true</Profile>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Ball.h" />
+    <ClInclude Include="ChristmasGiftApp.h" />
+    <ClInclude Include="ChristmasTree.h" />
+    <ClInclude Include="ChristmasWindow.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="DisplayObjectModel.h" />
+    <ClInclude Include="FireParticles.h" />
+    <ClInclude Include="HouseBody.h" />
+    <ClInclude Include="HouseChemry.h" />
+    <ClInclude Include="HouseRoof.h" />
+    <ClInclude Include="IDisplayObject.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="LightingBolt.h" />
+    <ClInclude Include="Materials.h" />
+    <ClInclude Include="mxyMath.h" />
+    <ClInclude Include="mxyMatrix.h" />
+    <ClInclude Include="mxyVector.h" />
+    <ClInclude Include="ParticleStruct.h" />
+    <ClInclude Include="Pool.h" />
+    <ClInclude Include="Seat.h" />
+    <ClInclude Include="SeatBody.h" />
+    <ClInclude Include="SmokeParticles.h" />
+    <ClInclude Include="SnowParticleSys.h" />
+    <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Vector3f.h" />
+    <ClInclude Include="Vector4f.h" />
+    <ClInclude Include="Vertex.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="ChristmasGiftApp.cpp" />
+    <ClCompile Include="ChristmasTree.cpp" />
+    <ClCompile Include="ChristmasWindow.cpp" />
+    <ClCompile Include="DisplayObjectModel.cpp" />
+    <ClCompile Include="FireParticles.cpp" />
+    <ClCompile Include="HouseBody.cpp" />
+    <ClCompile Include="HouseChemry.cpp" />
+    <ClCompile Include="HouseRoof.cpp" />
+    <ClCompile Include="LightingBolt.cpp" />
+    <ClCompile Include="Pool.cpp" />
+    <ClCompile Include="Seat.cpp" />
+    <ClCompile Include="SeatBody.cpp" />
+    <ClCompile Include="SmokeParticles.cpp" />
+    <ClCompile Include="SnowParticleSys.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="1142-bump.jpg" />
+    <None Include="1142-normal.jpg" />
+    <None Include="1142.jpg" />
+    <None Include="BallFragShader.glsl" />
+    <None Include="BallVertexShader.glsl" />
+    <None Include="basic_fragment.glsl" />
+    <None Include="basic_vertex.glsl" />
+    <None Include="CubeFragShader.glsl" />
+    <None Include="CubeVertexShader.glsl" />
+    <None Include="demoshader.glsl" />
+    <None Include="example\brick.frag" />
+    <None Include="example\brick.gdp" />
+    <None Include="example\brick.vert" />
+    <None Include="example\bump.frag" />
+    <None Include="example\bump.gdp" />
+    <None Include="example\bump.vert" />
+    <None Include="example\bumpslc.frag" />
+    <None Include="example\bumpslc.gdp" />
+    <None Include="example\bumpslc.vert" />
+    <None Include="example\busto.frag" />
+    <None Include="example\busto.gdp" />
+    <None Include="example\busto.vert" />
+    <None Include="example\cloud.frag" />
+    <None Include="example\cloud.vert" />
+    <None Include="example\cloud2.frag" />
+    <None Include="example\cloud2.vert" />
+    <None Include="example\clouds.frag" />
+    <None Include="example\clouds.gdp" />
+    <None Include="example\clouds.vert" />
+    <None Include="example\crash.frag" />
+    <None Include="example\crash.vert" />
+    <None Include="example\dimple.frag" />
+    <None Include="example\dimple.gdp" />
+    <None Include="example\dimple.vert" />
+    <None Include="example\earth.frag" />
+    <None Include="example\earth.gdp" />
+    <None Include="example\earth.vert" />
+    <None Include="example\envmap.frag" />
+    <None Include="example\envmap.gdp" />
+    <None Include="example\envmap.vert" />
+    <None Include="example\envmap2.frag" />
+    <None Include="example\envmap2.gdp" />
+    <None Include="example\envmap2.vert" />
+    <None Include="example\eroded.frag" />
+    <None Include="example\eroded.vert" />
+    <None Include="example\fire.frag" />
+    <None Include="example\fire.vert" />
+    <None Include="example\fp1.frag" />
+    <None Include="example\glass.frag" />
+    <None Include="example\glass.gdp" />
+    <None Include="example\glass.vert" />
+    <None Include="example\Gooch.frag" />
+    <None Include="example\gooch.gdp" />
+    <None Include="example\Gooch.vert" />
+    <None Include="example\granite.frag" />
+    <None Include="example\granite.vert" />
+    <None Include="example\hatch.frag" />
+    <None Include="example\hatch.gdp" />
+    <None Include="example\hatch.vert" />
+    <None Include="example\inferno.frag" />
+    <None Include="example\inferno.vert" />
+    <None Include="example\julia.frag" />
+    <None Include="example\julia.gdp" />
+    <None Include="example\julia.vert" />
+    <None Include="example\kill.frag" />
+    <None Include="example\kill.gdp" />
+    <None Include="example\kill.vert" />
+    <None Include="example\license.txt" />
+    <None Include="example\mandel.frag" />
+    <None Include="example\mandel.vert" />
+    <None Include="example\marble.frag" />
+    <None Include="example\marble.vert" />
+    <None Include="example\mip1.frag" />
+    <None Include="example\mip1.vert" />
+    <None Include="example\miprimershader.gdp" />
+    <None Include="example\prueba.frag" />
+    <None Include="example\prueba.vert" />
+    <None Include="example\psycho.frag" />
+    <None Include="example\psycho.vert" />
+    <None Include="example\simple.frag" />
+    <None Include="example\simple.vert" />
+    <None Include="example\simple1.vert" />
+    <None Include="example\simple2.vert" />
+    <None Include="example\texture.frag" />
+    <None Include="example\texture.gdp" />
+    <None Include="example\texture.vert" />
+    <None Include="example\toon.frag" />
+    <None Include="example\toon.vert" />
+    <None Include="example\vp0.vert" />
+    <None Include="example\wood.frag" />
+    <None Include="example\wood.gdp" />
+    <None Include="example\wood.vert" />
+    <None Include="example\wood2.frag" />
+    <None Include="example\wood2.vert" />
+    <None Include="FireParticlesFragShader.glsl" />
+    <None Include="FireParticlesVertexShader.glsl" />
+    <None Include="fragshader1.glsl" />
+    <None Include="ground1.bmp" />
+    <None Include="house2.jpg" />
+    <None Include="House2.mxy" />
+    <None Include="HouseBodyFragShader.glsl" />
+    <None Include="HouseBodyVertexShader.glsl" />
+    <None Include="HouseRoofFragShader.glsl" />
+    <None Include="HouseRoofVertexShader.glsl" />
+    <None Include="LeafFragShader.glsl" />
+    <None Include="LeafFragShader2.glsl" />
+    <None Include="LeafVertexShader.glsl" />
+    <None Include="LeafVertexShader2.glsl" />
+    <None Include="phongfragmentshader.glsl" />
+    <None Include="phongvertexshader.glsl" />
+    <None Include="PoolFragShader.glsl" />
+    <None Include="PoolVertexShader.glsl" />
+    <None Include="SeatFragShader.glsl" />
+    <None Include="seatmap.bmp" />
+    <None Include="SeatVertexShader.glsl" />
+    <None Include="seat_tex.tga" />
+    <None Include="SmokeParticlesFragShader.glsl" />
+    <None Include="SmokeParticlesVertexShader.glsl" />
+    <None Include="SnowFlakeParticlesFragShader.glsl" />
+    <None Include="SnowFlakeParticlesVertexShader.glsl" />
+    <None Include="studyfragshader1.glsl" />
+    <None Include="studyvertexshader1.glsl" />
+    <None Include="testfragshader.glsl" />
+    <None Include="testvertexshader.glsl" />
+    <None Include="TreeFragShader.glsl" />
+    <None Include="TreeVertexShader.glsl" />
+    <None Include="TrunkFragShader.glsl" />
+    <None Include="TrunkVertexShader.glsl" />
+    <None Include="vertexshader1.glsl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

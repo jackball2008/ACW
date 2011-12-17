@@ -1,0 +1,584 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Data">
+      <UniqueIdentifier>{73e4eba6-f700-44d2-8441-93e1f558d791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Main">
+      <UniqueIdentifier>{f6d74f5a-f925-4485-9ea8-91d50c4ebf3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Main">
+      <UniqueIdentifier>{e911b4f3-0a4f-40de-8410-6f35e615e30d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{d28fbdc2-9531-4f6b-849c-cc31ac706954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\pool">
+      <UniqueIdentifier>{8f46a1f3-d160-4f4a-bc7b-2010fbc63c08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\House">
+      <UniqueIdentifier>{5d960d58-0f9e-4559-99a5-ce31fe8dae23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Tree">
+      <UniqueIdentifier>{439b689a-ab5c-4d42-a01f-c287b9a840a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\House\Roof">
+      <UniqueIdentifier>{f4425475-67f3-42f7-972c-c437f94f14ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\House\Body">
+      <UniqueIdentifier>{648cda97-8bf5-460a-abfa-7b60d08bdcfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Ball">
+      <UniqueIdentifier>{6eecc8d1-2f6d-4752-a28e-97526328740a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\SmokeParticles">
+      <UniqueIdentifier>{94616b88-b8c7-4b9c-aefd-bc9b94d9036f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\FireParticles">
+      <UniqueIdentifier>{a6fdb546-94a1-4d78-8614-1e2706ad6b95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\SnowFlakeParticles">
+      <UniqueIdentifier>{42be0330-a924-4638-b2ce-e5a0833c7ec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Cube">
+      <UniqueIdentifier>{2dd82650-ade4-440c-b294-5bad36dfd2a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Seat">
+      <UniqueIdentifier>{49a69ce3-026b-4f47-b68e-23eed604da90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\example">
+      <UniqueIdentifier>{e53063c4-acc4-4a91-828f-1bf74c46b299}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Vertex.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4f.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Materials.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ChristmasWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChristmasGiftApp.h">
+      <Filter>Header Files\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3f.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="mxyVector.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="mxyMatrix.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="mxyMath.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleStruct.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ChristmasTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IDisplayObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayObjectModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Seat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HouseBody.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HouseRoof.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HouseChemry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SnowParticleSys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SmokeParticles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FireParticles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LightingBolt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SeatBody.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ChristmasWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChristmasGiftApp.cpp">
+      <Filter>Source Files\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="ChristmasTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayObjectModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Seat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HouseBody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HouseRoof.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HouseChemry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SnowParticleSys.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmokeParticles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FireParticles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LightingBolt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SeatBody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ground1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="seatmap.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="demoshader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="house2.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="House2.mxy">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="testvertexshader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="testfragshader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="phongvertexshader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="phongfragmentshader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="vertexshader1.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="fragshader1.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="studyvertexshader1.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="studyfragshader1.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="PoolVertexShader.glsl">
+      <Filter>Shaders\pool</Filter>
+    </None>
+    <None Include="PoolFragShader.glsl">
+      <Filter>Shaders\pool</Filter>
+    </None>
+    <None Include="TreeVertexShader.glsl">
+      <Filter>Shaders\Tree</Filter>
+    </None>
+    <None Include="TreeFragShader.glsl">
+      <Filter>Shaders\Tree</Filter>
+    </None>
+    <None Include="HouseRoofVertexShader.glsl">
+      <Filter>Shaders\House\Roof</Filter>
+    </None>
+    <None Include="HouseRoofFragShader.glsl">
+      <Filter>Shaders\House\Roof</Filter>
+    </None>
+    <None Include="HouseBodyVertexShader.glsl">
+      <Filter>Shaders\House\Body</Filter>
+    </None>
+    <None Include="HouseBodyFragShader.glsl">
+      <Filter>Shaders\House\Body</Filter>
+    </None>
+    <None Include="LeafVertexShader.glsl">
+      <Filter>Shaders\Tree</Filter>
+    </None>
+    <None Include="LeafFragShader.glsl">
+      <Filter>Shaders\Tree</Filter>
+    </None>
+    <None Include="BallVertexShader.glsl">
+      <Filter>Shaders\Ball</Filter>
+    </None>
+    <None Include="BallFragShader.glsl">
+      <Filter>Shaders\Ball</Filter>
+    </None>
+    <None Include="SmokeParticlesVertexShader.glsl">
+      <Filter>Shaders\SmokeParticles</Filter>
+    </None>
+    <None Include="SmokeParticlesFragShader.glsl">
+      <Filter>Shaders\SmokeParticles</Filter>
+    </None>
+    <None Include="FireParticlesVertexShader.glsl">
+      <Filter>Shaders\FireParticles</Filter>
+    </None>
+    <None Include="FireParticlesFragShader.glsl">
+      <Filter>Shaders\FireParticles</Filter>
+    </None>
+    <None Include="SnowFlakeParticlesVertexShader.glsl">
+      <Filter>Shaders\SnowFlakeParticles</Filter>
+    </None>
+    <None Include="SnowFlakeParticlesFragShader.glsl">
+      <Filter>Shaders\SnowFlakeParticles</Filter>
+    </None>
+    <None Include="CubeVertexShader.glsl">
+      <Filter>Shaders\Cube</Filter>
+    </None>
+    <None Include="CubeFragShader.glsl">
+      <Filter>Shaders\Cube</Filter>
+    </None>
+    <None Include="SeatVertexShader.glsl">
+      <Filter>Shaders\Seat</Filter>
+    </None>
+    <None Include="SeatFragShader.glsl">
+      <Filter>Shaders\Seat</Filter>
+    </None>
+    <None Include="basic_fragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="basic_vertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="LeafVertexShader2.glsl">
+      <Filter>Shaders\Tree</Filter>
+    </None>
+    <None Include="LeafFragShader2.glsl">
+      <Filter>Shaders\Tree</Filter>
+    </None>
+    <None Include="TrunkVertexShader.glsl">
+      <Filter>Shaders\Tree</Filter>
+    </None>
+    <None Include="TrunkFragShader.glsl">
+      <Filter>Shaders\Tree</Filter>
+    </None>
+    <None Include="1142.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="1142-bump.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="1142-normal.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="seat_tex.tga">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="example\prueba.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\prueba.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\psycho.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\psycho.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\simple.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\simple.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\simple1.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\simple2.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\texture.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\texture.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\texture.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\toon.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\toon.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\vp0.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\wood.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\wood.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\wood.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\wood2.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\wood2.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\brick.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\brick.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\brick.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\bump.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\bump.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\bump.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\bumpslc.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\bumpslc.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\bumpslc.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\busto.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\busto.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\busto.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\cloud.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\cloud.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\cloud2.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\cloud2.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\clouds.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\clouds.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\clouds.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\crash.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\crash.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\dimple.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\dimple.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\dimple.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\earth.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\earth.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\earth.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\envmap.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\envmap.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\envmap.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\envmap2.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\envmap2.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\envmap2.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\eroded.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\eroded.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\fire.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\fire.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\fp1.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\glass.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\glass.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\glass.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\Gooch.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\gooch.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\Gooch.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\granite.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\granite.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\hatch.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\hatch.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\hatch.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\inferno.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\inferno.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\julia.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\julia.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\julia.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\kill.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\kill.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\kill.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\license.txt">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\mandel.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\mandel.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\marble.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\marble.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\mip1.frag">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\mip1.vert">
+      <Filter>Shaders\example</Filter>
+    </None>
+    <None Include="example\miprimershader.gdp">
+      <Filter>Shaders\example</Filter>
+    </None>
+  </ItemGroup>
+</Project>
