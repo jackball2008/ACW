@@ -20,6 +20,9 @@
 #include "Seat.h"
 // #include "Ball.h"
 #include "Pool.h"
+#include "HouseBody.h"
+#include "HouseRoof.h"
+#include "HouseChemry.h"
 // #include "TestCube.h"
 
 // #include "SmokeParticles.h"
@@ -66,6 +69,9 @@ private:
 	ChristmasTree* _tree;
 	Seat* _seatSurface;
 	Pool* _pool;
+	HouseBody* _houseBody;
+	HouseRoof* _houseRoof;
+	HouseChemry* _houseChemry;
 	/************************************************************************/
 	/*  tree roate                                             */
 	/************************************************************************/

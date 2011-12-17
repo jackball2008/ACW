@@ -368,6 +368,9 @@ void ChristmasWindow::OnDisplay()
 			glTranslatef(-1.0,0.28,0.0f);
 			glScalef(0.25,0.25,0.25);
 			glRotatef(-90,1.0,0.0,0.0);
+			_houseBody->Draw();
+			_houseRoof->Draw();
+			_houseChemry->Draw();
 /*			_house->Draw();*/
 		glPopMatrix();
 
@@ -683,6 +686,21 @@ void ChristmasWindow::LoadModels(){
 	// 	_pool->setColorApalha(0.5);
 	// 	modelController->AssemblyModelFromFile(_pool,"pool.mxy",modelController->_textures[0]);
 	// 	_pool->setEnableTransparency(false);
+	/************************************************************************/
+	/* house body                                                                     */
+	/************************************************************************/
+	_houseBody = new HouseBody();
+	_houseBody->Initialize("house2body.mxy");//brickbump.jpg
+	LoadTexture("brickbump.jpg",_houseBody->housebody_texture_id);
+	//////////////////////////////////////////////////////////////////////////
+	_houseRoof = new HouseRoof();
+	_houseRoof->Initialize("house2roof.mxy");
+	//roof.jpg
+	LoadTexture("roof.jpg",_houseRoof->roof_texture_id);
+	//////////////////////////////////////////////////////////////////////////
+	_houseChemry = new HouseChemry();
+	_houseChemry->Initialize("house2chemry.mxy");
+	LoadTexture("brickbump.jpg",_houseChemry->housechemry_texture_id);
 	/************************************************************************/
 	/* tree                                                                     */
 	/************************************************************************/
