@@ -55,6 +55,8 @@ ChristmasTree::ChristmasTree(void)
 	VBO_BUILD_OR_FLUSH_FLAG = 0;
 
 	leafDwonFinished = false;
+
+	rendertype = smooth_textured_shaded;
 }
 
 void ChristmasTree::reset(){
@@ -193,7 +195,7 @@ void ChristmasTree::Update(const float& t){
 		
 	}
 	if(LEAFGROWEND == TreeState){
-		//std::cout<<"ww"<<std::endl;
+		
 	}
 
 	if(LEAFCOLORBROWN == TreeState){
@@ -213,7 +215,7 @@ void ChristmasTree::Update(const float& t){
 		if(leafDwonFinished)
 		{
 			TreeState = LEAFDOWNEND; 
-			showLeaf = false;//great
+			showLeaf = false;//great//need daly
 		}
 			
 	}
@@ -229,7 +231,9 @@ void ChristmasTree::Update(const float& t){
 
 		//do fire change
 
-		TreeState = FIREEND;
+		//TreeState = FIREEND;
+		//////////////////////////////////////////////////////////////////////////
+
 	}
 
 	if(FIREEND == TreeState){
@@ -681,9 +685,87 @@ void ChristmasTree::buildAndFlushVBO(){
 /* draw trunk                                                                     */
 /************************************************************************/
 void ChristmasTree::drawTrunks(){
+	//////////////////////////////////////////////////////////////////////////
+	//rendertype = smooth_nontextured_shaded
+	if(smooth_nontextured_shaded == rendertype){
+		//////////////////////////////////////////////////////////////////////////
+		glBindBuffer( GL_ARRAY_BUFFER, _trunkVBO);
+		glVertexPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, 0);
+		glNormalPointer( GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, (float*)(0) + 3);
+
+
+		glEnableClientState( GL_VERTEX_ARRAY);
+		glEnableClientState( GL_NORMAL_ARRAY);
+		//GL_LINE GL_LINE_STRIP
+		glDrawElements( GL_TRIANGLES, (GLsizei)_trunkIndices.size(), GL_UNSIGNED_INT, &_trunkIndices[0]);
+		glDisableClientState( GL_VERTEX_ARRAY);
+		glDisableClientState( GL_NORMAL_ARRAY);
+
+
+		glBindBuffer( GL_ARRAY_BUFFER, 0);
+		//////////////////////////////////////////////////////////////////////////
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+
+
+	//////////////////////////////////////////////////////////////////////////
+	//rendertype = flat_nontextured_shaded
+	if(flat_nontextured_shaded == rendertype){
+		//////////////////////////////////////////////////////////////////////////
+		glShadeModel(GL_FLAT);
+
+		glBindBuffer( GL_ARRAY_BUFFER, _trunkVBO);
+		glVertexPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, 0);
+		glNormalPointer( GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, (float*)(0) + 3);
+
+
+		glEnableClientState( GL_VERTEX_ARRAY);
+		glEnableClientState( GL_NORMAL_ARRAY);
+		//GL_LINE GL_LINE_STRIP
+		glDrawElements( GL_TRIANGLES, (GLsizei)_trunkIndices.size(), GL_UNSIGNED_INT, &_trunkIndices[0]);
+		glDisableClientState( GL_VERTEX_ARRAY);
+		glDisableClientState( GL_NORMAL_ARRAY);
+
+
+		glBindBuffer( GL_ARRAY_BUFFER, 0);
+		
+		glShadeModel(GL_SMOOTH);
+		//////////////////////////////////////////////////////////////////////////
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+
+
+	//////////////////////////////////////////////////////////////////////////
+	//rendertype = smooth_textured_shaded
+	if(notex_nolit_wireframe == rendertype){
+	//////////////////////////////////////////////////////////////////////////
+		glBindBuffer( GL_ARRAY_BUFFER, _trunkVBO);
+		glVertexPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, 0);
+		glNormalPointer( GL_FLOAT, sizeof(float)*VERTEXSIZEPERINTRUNK, (float*)(0) + 3);
+
+
+		glEnableClientState( GL_VERTEX_ARRAY);
+		glEnableClientState( GL_NORMAL_ARRAY);
+		//GL_LINE GL_LINE_STRIP
+		glDrawElements( GL_LINE_STRIP, (GLsizei)_trunkIndices.size(), GL_UNSIGNED_INT, &_trunkIndices[0]);
+		glDisableClientState( GL_VERTEX_ARRAY);
+		glDisableClientState( GL_NORMAL_ARRAY);
+
+
+		glBindBuffer( GL_ARRAY_BUFFER, 0);
+	//////////////////////////////////////////////////////////////////////////
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+
+	//////////////////////////////////////////////////////////////////////////
+	//rendertype = smooth_textured_shaded
+	if(smooth_textured_shaded == rendertype){
+	//////////////////////////////////////////////////////////////////////////
 	glUseProgram(trunk_shader_programID);
-// 	float brown[] = { 0.5f, 0.5f, 0.0f, 1.0f};
-// 	glColor3f( 0.5f, 0.5f, 0.0f);
+
 	glEnable(GL_LIGHTING);
 	/************************************************************************/
 	/* texture                                                                     */
@@ -757,23 +839,110 @@ void ChristmasTree::drawTrunks(){
 	glBindBuffer( GL_ARRAY_BUFFER, 0);
 
 	glUseProgram(0);
+	//////////////////////////////////////////////////////////////////////////
+	}
+	//////////////////////////////////////////////////////////////////////////
 }
 /************************************************************************/
 /* draw leaf                                                                     */
 /************************************************************************/
 void ChristmasTree::drawLeaf(){
-	float green[] = { leafColor.x, leafColor.y, leafColor.z, leafColor.w};
 
-// 	float modelview[16];
-// 	glGetFloatv(GL_MODELVIEW, modelview);
-// 	glGetFloatv(GL_NORMAL_ARRAY,modelview);
+	//////////////////////////////////////////////////////////////////////////
+	//rendertype = smooth_nontextured_shaded
+	if(smooth_nontextured_shaded == rendertype){
+		//////////////////////////////////////////////////////////////////////////
+		float green[] = { leafColor.x, leafColor.y, leafColor.z, leafColor.w};
+		glColor3f(leafColor.x, leafColor.y, leafColor.z);
+		glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, green);
+		glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 32.0f);
+
+		glBindBuffer( GL_ARRAY_BUFFER, _leafVBO);
+
+		glVertexPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, 0);
+		glNormalPointer( GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 3);
+
+		glEnableClientState( GL_VERTEX_ARRAY);
+		glEnableClientState( GL_NORMAL_ARRAY);
+		//GL_LINE_STRIP
+		glDrawElements( GL_TRIANGLES, (GLsizei)_leafIndices.size(), GL_UNSIGNED_INT, &_leafIndices[0]);
+
+		glDisableClientState( GL_VERTEX_ARRAY);
+		glDisableClientState( GL_NORMAL_ARRAY);
+
+		glBindBuffer( GL_ARRAY_BUFFER, 0);
+		//////////////////////////////////////////////////////////////////////////
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////
+	//rendertype = flat_nontextured_shaded
+	if(flat_nontextured_shaded == rendertype){
+		//////////////////////////////////////////////////////////////////////////
+		glShadeModel(GL_FLAT);
+
+		float green[] = { leafColor.x, leafColor.y, leafColor.z, leafColor.w};
+		glColor3f(leafColor.x, leafColor.y, leafColor.z);
+		glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, green);
+		glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 32.0f);
+
+		glBindBuffer( GL_ARRAY_BUFFER, _leafVBO);
+
+		glVertexPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, 0);
+		glNormalPointer( GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 3);
+
+		glEnableClientState( GL_VERTEX_ARRAY);
+		glEnableClientState( GL_NORMAL_ARRAY);
+		//GL_LINE_STRIP
+		glDrawElements( GL_TRIANGLES, (GLsizei)_leafIndices.size(), GL_UNSIGNED_INT, &_leafIndices[0]);
+
+		glDisableClientState( GL_VERTEX_ARRAY);
+		glDisableClientState( GL_NORMAL_ARRAY);
+
+		glBindBuffer( GL_ARRAY_BUFFER, 0);
+
+		glShadeModel(GL_SMOOTH);
+		//////////////////////////////////////////////////////////////////////////
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+
+	//////////////////////////////////////////////////////////////////////////
+	//rendertype = smooth_textured_shaded
+	if(notex_nolit_wireframe == rendertype){
+		//////////////////////////////////////////////////////////////////////////
+		float green[] = { leafColor.x, leafColor.y, leafColor.z, leafColor.w};
+		glColor3f(leafColor.x, leafColor.y, leafColor.z);
+		glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, green);
+		glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 32.0f);
+
+		glBindBuffer( GL_ARRAY_BUFFER, _leafVBO);
+
+		glVertexPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, 0);
+		glNormalPointer( GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 3);
+
+		glEnableClientState( GL_VERTEX_ARRAY);
+		glEnableClientState( GL_NORMAL_ARRAY);
+		//GL_LINE_STRIP
+		glDrawElements( GL_LINE_STRIP, (GLsizei)_leafIndices.size(), GL_UNSIGNED_INT, &_leafIndices[0]);
+
+		glDisableClientState( GL_VERTEX_ARRAY);
+		glDisableClientState( GL_NORMAL_ARRAY);
+
+		glBindBuffer( GL_ARRAY_BUFFER, 0);
+		//////////////////////////////////////////////////////////////////////////
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+
+	//////////////////////////////////////////////////////////////////////////
+	//rendertype = smooth_textured_shaded
+	if(smooth_textured_shaded == rendertype){
+	//////////////////////////////////////////////////////////////////////////
+	float green[] = { leafColor.x, leafColor.y, leafColor.z, leafColor.w};
 
 	glEnable(GL_LIGHTING);
 	glUseProgram(leaf_shader_programID);
-	
-
-
-
 
 	glColor3f(leafColor.x, leafColor.y, leafColor.z);
 	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, green);
@@ -801,10 +970,10 @@ void ChristmasTree::drawLeaf(){
 
 	glVertexPointer( 3, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, 0);
 	glNormalPointer( GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 3);
-	//glTexCoordPointer( 2, GL_FLOAT, sizeof(float)*VERTEXSIZEPERINLEAF, (float*)(0) + 6);//pos nor uv*/
+	
 
 	
-	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	
 	glEnableClientState( GL_VERTEX_ARRAY);
 	glEnableClientState( GL_NORMAL_ARRAY);
 
@@ -826,9 +995,12 @@ void ChristmasTree::drawLeaf(){
 
 	glDisableClientState( GL_VERTEX_ARRAY);
 	glDisableClientState( GL_NORMAL_ARRAY);
-	//glDisable(GL_TEXTURE_2D);
+	
  	glBindBuffer( GL_ARRAY_BUFFER, 0);
 	glUseProgram(0);
+	//////////////////////////////////////////////////////////////////////////
+	}
+	//////////////////////////////////////////////////////////////////////////
 }
 
 void ChristmasTree::flushTrunkVBO(){
@@ -923,4 +1095,11 @@ void ChristmasTree::leafColorBrown(){
 
 	if(leafColor.x >= 0.5 && leafColor.y<=0.5)
 		leafColorBrownFinished = true;
+}
+
+void ChristmasTree::ChangeRenderType(){
+	rendertype++;
+	if(rendertype>displacement_mapping){
+		rendertype = notex_nolit_wireframe;
+	}
 }

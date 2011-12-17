@@ -11,5 +11,7 @@ public:
 	void Draw();
 
 	GLuint roof_texture_id;
+	
+	float snowVal;
 };
 

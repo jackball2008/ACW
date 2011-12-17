@@ -4,35 +4,10 @@
 
 
 #define DRAWREFLECTION
-#define ALLOWSEATCULLFACE1
 
-#define DRAWSEAT
-
-
-
-
-/*(0.64,1.0,0.51*/
-const float pool_pos_x = 0.55;
-const float pool_pos_y = -0.06;
-const float pool_pos_z = 0.53;
-/*0.5,0.5,0.5*/
-const float pool_scal_x = 0.58;
-const float pool_scal_y = 0.58;
-const float pool_scal_z = 0.58;
-/************************************************************************/
-/* tree and reflection  glTranslatef(0.65,-1.0,0.0);
-glScalef(0.25,0.25,0.25);                                                                   */
-/************************************************************************/
-// const float tree_pos_x = 0.6;
-// const float tree_pos_y = 0.0;
-// const float tree_pos_z = -0.2;
-// const float tree_scal_x = 0.2;
-// const float tree_scal_y = 0.2;
-// const float tree_scal_z = 0.2;
 
 
 ChristmasWindow::ChristmasWindow(void) :
-	//_treeangleInc(10),//tree crash angle inc
 	_sunRunCycleAngleInc(30)
 {
 	SetSize(512,512);
@@ -49,8 +24,6 @@ ChristmasWindow::ChristmasWindow(void) :
 	_timerCounter = 0;
 	_timeSpeedFactor = 1;
 
-// 	_treeCrash = false;
-// 	_treeangle = 0.0;
 	pauseCounter = 0;
 }
 
@@ -61,21 +34,25 @@ void ChristmasWindow::OnCreate()
 {
 	GLWindowEx::OnCreate();
 
+	//CreateFBO();
+
 	CheckMultitextureSupport();
-
+	//////////////////////////////////////////////////////////////////////////
+	InitialiseCamera();
 	LoadCamera();
-
+	//////////////////////////////////////////////////////////////////////////
 	LoadBasicOpenGLParame();
 	//////////////////////////////////////////////////////////////////////////
 	InitialiseLights();
 	//////////////////////////////////////////////////////////////////////////
-	LoadShaders();
+	CheckShaderEnvironment();
 	//////////////////////////////////////////////////////////////////////////
 	LoadModels();
-	//////////////////////////////////////////////////////////////////////////
-	InitialiseCamera();
+	
 	//////////////////////////////////////////////////////////////////////////
 	InitialiseParicles();
+
+	win_status = winterbegin;
 	
 }
 
@@ -102,26 +79,81 @@ void ChristmasWindow::OnUpdate(){
 	_timerCounter = _timerCounter + deltaTime;
 	
 	float tempDelataTime = deltaTime * _timeSpeedFactor;
-
+	/************************************************************************/
+	/* update every shader first                                                                     */
+	/************************************************************************/
+	
+	//update seat shader
 	glUseProgram(_seatSurface->shaderProgramID);
-// 	int loc = glGetUniformLocation(_seatSurface->shaderProgramID,"time");
-// 	if(loc!=-1)
-// 		glUniform1i(loc,deltaTime);
-// 	else
-// 		cout<<"uniform error"<<endl;
-
 	int loc = glGetUniformLocation(_seatSurface->shaderProgramID,"size");
 	if(loc!=-1)
 		glUniform1f(loc,_seatSurface->snowVal);
 	else
 		cout<<"uniform error"<<endl;
 	glUseProgram(0);
-
+	//update houseroof shader
+	glUseProgram(_houseRoof->shaderProgramID);
+	loc = glGetUniformLocation(_houseRoof->shaderProgramID,"size");
+	if(loc!=-1)
+		glUniform1f(loc,_seatSurface->snowVal);//same like seat
+	else
+		cout<<"uniform error"<<endl;
+	glUseProgram(0);
+	/************************************************************************/
+	/* updat                                                                     */
+	/************************************************************************/
 	/************************************************************************/
 	/* update particles                                                                     */
 	/************************************************************************/
+	glUseProgram(_snowflake->shaderProgramID);
+	//
+	loc = glGetUniformLocation(_snowflake->shaderProgramID,"ColorTexture");
+	if(loc>-1)
+		glUniform1i(loc,0);
+	else
+		cout<<"uniform error"<<endl;
+	loc = glGetUniformLocation(_snowflake->shaderProgramID,"cameraPos");
+	if(loc>-1)
+		glUniform4fv(loc,1,camera_org);
+	else
+		cout<<"uniform error"<<endl;
+
+	glUseProgram(0);
+
+	glUseProgram(_fire->shaderProgramID);
+	loc = glGetUniformLocation(_fire->shaderProgramID,"cameraPos");
+	if(loc>-1)
+		glUniform4fv(loc,1,camera_org);
+	else
+		cout<<"uniform error"<<endl;
+
+	glUseProgram(0);
+
+	/************************************************************************/
+	/* update ball                                                                     */
+	/************************************************************************/
+
+	glUseProgram(_ball->shaderProgramID);
+	loc = glGetUniformLocation(_ball->shaderProgramID,"cameraPos");
+	if(loc>-1)
+		glUniform4fv(loc,1,camera_org);
+	else
+		cout<<"uniform error"<<endl;
+	glUseProgram(0);
+
+// 	glUseProgram(_tree->leaf_shader_programID);
+// 	loc = glGetUniformLocation(_tree->leaf_shader_programID,"cameraPos");
+// 	if(loc>-1)
+// 		glUniform4fv(loc,1,camera_org);
+// 	else
+// 		cout<<"uniform error"<<endl;
+// 	glUseProgram(0);
+
+ 	_snowflake->Update(tempDelataTime);
+	_fire->Update(tempDelataTime);
+	_smoke->Update(tempDelataTime);
+	//////////////////////////////////////////////////////////////////////////
 // 	_smoke.Update(tempDelataTime);
-// 	_snowflake.Update(tempDelataTime);
 // 	_fire.Update(tempDelataTime);
 
 	/************************************************************************/
@@ -197,39 +229,80 @@ void ChristmasWindow::OnUpdate(){
 			/*std::cout<<"ww"<<std::endl;*/
 		}
 		if( LEAFDOWNEND == _tree->TreeState){
-			//cout<<"lging"<<endl;
+			//**************************************
+			//_currentSeason = Winter;
+			//**************************************
+
+			//start flash
+			_lightingBolt->Start();
+			if(Pause(20)){
+				_lightingBolt->Stop();
+				_tree->TreeState = FIREING;
+			}
+		}
+		if( FIREING == _tree->TreeState){
+			
+			//cout<<"fire"<<endl;
+			_tree->TreeState = TREEDOWNING;
+			_fire->Start();
+		}
+		if(FIREEND == _tree->TreeState){
+
+		}
+
+		if(TREEDOWNEND == _tree->TreeState){
+			_fire->Stop();
 			_currentSeason = Winter;
 		}
 
-		
 	}
 	
 	if(Winter == _currentSeason ){
-		if(LEAFDOWNEND == _tree->TreeState){
-			_tree->TreeState = FIREING;
-
-		}
-
-		if(FIREING == _tree->TreeState){
-
-		}
-
-		if(FIREEND == _tree->TreeState){
-
-			_tree->TreeState = TREEDOWNING;
-		}
 		
-		if(TREEDOWNING == _tree->TreeState){
-			//_treeCrash = true;
+		
+
+		if(winterbegin == win_status){
+			_smoke->Start();//the house start to emit smoke
+			_snowflake->Start();
+			_seatSurface->snowVal -= 0.01;
+			if(_seatSurface->snowVal < 0.19){
+				_seatSurface->snowVal = 0.19;
+				win_status = winterlast;
+			}
 		}
-		if( TREEDOWNEND == _tree->TreeState){
-			/*_currentSeason = Winter;*/
-			
+
+		if(winterlast == win_status){
+			if(Pause(5000))
+				win_status = winterend;
+		}
+		if(winterend == win_status){
+			_seatSurface->snowVal += 0.01;
+			if(_seatSurface->snowVal>50)
+			{
+				_seatSurface->snowVal = 51;
+
+				win_status = happynewyear;
+			}
+		}
+		if(happynewyear == win_status){
+			_smoke->Stop();
+			_snowflake->Stop();
 			_tree->reset();
 			_tree->TreeState = START;
 			_currentSeason = Spring;
-
+			win_status = winterbegin;
 		}
+		
+
+		
+// 		if( TREEDOWNEND == _tree->TreeState){
+// 			/*_currentSeason = Winter;*/
+// 			
+// 			_tree->reset();
+// 			_tree->TreeState = START;
+// 			_currentSeason = Spring;
+// 
+// 		}
 
 		
 	}
@@ -286,7 +359,7 @@ void ChristmasWindow::DrawReflection()
 
 void ChristmasWindow::OnDisplay()
 {
-	this->OnUpdate();
+	
 
 	
 	
@@ -296,8 +369,15 @@ void ChristmasWindow::OnDisplay()
 		glTranslatef(0.0f, 0.0f,_cameraPositionZ);
 		glRotatef(_cameraAngle, 1.0,0.0,0.0);
 		glRotatef(_cameraRotation, 0.0, 1.0, 0.0);
-		glGetFloatv(GL_MODELVIEW_MATRIX,modelview);
-		/*flashLight->Draw();*/
+		
+		
+
+		glGetFloatv(GL_MODELVIEW_MATRIX,mdl);
+		CalculateCameraWorldPosition();
+		//put here because the camera pos is the newest
+		this->OnUpdate();
+
+		
 
 		if(_drawSpotLights){
 			glDisable(GL_LIGHT0);
@@ -319,7 +399,7 @@ void ChristmasWindow::OnDisplay()
 		
 
 		glPushMatrix();
-			//glRotatef(-4*_sunRunCycleAngle, 0.0, 0.0, 1.0);
+			glRotatef(-4*_sunRunCycleAngle, 0.0, 0.0, 1.0);
 			_sunLight.setPosition(Vector4f(5.0,5.0,0.0,1.0));
 			glTranslatef(5.0,5.0,0.0);
 			_sunMaterial.apply();
@@ -331,7 +411,8 @@ void ChristmasWindow::OnDisplay()
 		/* draw smoke                                                                     */
 		/************************************************************************/
 		glPushMatrix();
-			glTranslatef(-1.4f,1.06,0);
+			glTranslatef(-1.24f,1.06,0.15);
+			_smoke->Draw();
 // 			if(_smoke.working){
 // 				_smoke.Draw();
 // 			}
@@ -345,20 +426,33 @@ void ChristmasWindow::OnDisplay()
 		glTranslatef(0,0.1,0);
 // 			if(_snowflake.working){
 // 				_snowflake.setCameraPos(0.0f, 0.0f,_cameraPositionZ);
-// 				_snowflake.Draw();
+ 				_snowflake->Draw();
 // 			}
 		glPopMatrix();
 
 
 		glPushMatrix();
-			glTranslatef(0.0f,1.06f,0.0f);
+			glTranslatef(0.6f,0.2f,-0.2f);
+			_fire->Draw();
+			//glRotatef(20,0,0,1);
+			
 // 			if(_fire.working){
 // 				_fire.Draw();
 // 			}
 		glPopMatrix();
 		
+		glPushMatrix();
+		glScalef(1,4,1);
+		glTranslatef(0.3f,0.0f,-0.2f);
+		_lightingBolt->Draw();
+		glPopMatrix();
 
-
+		glPushMatrix();
+		
+		glTranslatef(0.0f,-0.5f,0.0f);
+		glRotatef(-90.0f,1.0,0.0,0.0);
+		_seatBody->Draw();
+		glPopMatrix();
 		/*glPushMatrix();*/
 			//glRotatef(-90.0f,1.0,0.0,0.0);
 			_seatSurface->Draw();
@@ -386,7 +480,7 @@ void ChristmasWindow::OnDisplay()
 
 		// 		glUseProgram(_shaderProgramID);
 		// 		glUseProgram(0);	
-#ifdef DRAWREFLECTION
+/*#ifdef DRAWREFLECTION*/
 		/************************************************************************/
 		/* draw reflection                                                                     */
 		/************************************************************************/
@@ -412,7 +506,7 @@ void ChristmasWindow::OnDisplay()
 /*		glPopMatrix();*/
 		glFrontFace(GL_CCW);
 		glDisable(GL_BLEND);
-#endif
+/*#endif*/
 		
 
 		glDisable(GL_STENCIL_TEST);
@@ -439,11 +533,11 @@ void ChristmasWindow::OnDisplay()
 		/************************************************************************/
 		/* last draw the ball                                                                     */
 		/************************************************************************/
-		glUseProgram(_ballProgramID);
+		glUseProgram(0);
 		glPushMatrix();
-			glTranslatef(0.0f, 2.3f, 0.0f);
+			glTranslatef(0.0f, 2.1f, 0.0f);
 			glScalef(3,3,3);
-/*			_ball->Draw();*/
+			_ball->Draw();
 		glPopMatrix();
 		glUseProgram(0);
 		//////////////////////////////////////////////////////////////////////////
@@ -463,39 +557,52 @@ void ChristmasWindow::OnIdle()
 void ChristmasWindow::OnKeyboard(int key, bool down)
 {
 	if (!down) return;
+	//char c = tolower(key);
+
+	switch(key){
+	
+	case 187:
+		_timeSpeedFactor = _timeSpeedFactor * 2.0;
+		cout<<"Decrease Speed +"<<endl;
+		break;
+	case 189:
+		_timeSpeedFactor = _timeSpeedFactor * 0.5;
+		cout<<"Increase Speed -"<<endl;
+		break;
+	}
 	switch( tolower(key) ) {
-		case 'a': 
-			_cameraAngle += 5.0;
-			break;
-		case 'z':
-			_cameraAngle -= 5.0;
-			break;
-		case 's': 
+	case '&': 
+		_cameraAngle += 5.0;
+		break;
+	case '(':
+		_cameraAngle -= 5.0;
+		break;
+// 		case 'a': 
+// 			_cameraAngle += 5.0;
+// 			break;
+// 		case 'z':
+// 			_cameraAngle -= 5.0;
+// 			break;
+		case 'c': 
 			_cameraHerical += 5.0;
 			break;
 		case 'x':
 			_cameraHerical -= 5.0;
 			break;
-		case 'p':
-			_timeSpeedFactor = _timeSpeedFactor * 0.5;
-			cout<<"Increase Speed +"<<endl;
-			break;
-		case 'o':
-			_timeSpeedFactor = _timeSpeedFactor * 2.0;
-			cout<<"Decrease Speed -"<<endl;
-			break;
 		
-		case 'l':
+		
+		case 's':
 			_drawSpotLights = !_drawSpotLights;
 			break;
 		case 'u':
+			_smoke->working = !_smoke->working;
 /*			_smoke.working = !_smoke.working;*/
 			break;
 		case 'y':
-/*			_snowflake.working = !_snowflake.working;*/
+			_snowflake->working = !_snowflake->working;
 			break;
 		case 't':
-/*			_fire.working = !_fire.working;*/
+			_fire->working = !_fire->working;
 			break;
 		case 'q':
 			_seatSurface->snowVal = _seatSurface->snowVal + 0.1;
@@ -506,6 +613,9 @@ void ChristmasWindow::OnKeyboard(int key, bool down)
 			_seatSurface->snowVal = _seatSurface->snowVal - 0.1;
 			/*			_fire.working = !_fire.working;*/
 			cout<<"snow v = "<<_seatSurface->snowVal<<endl;
+			break;
+		case 'm':
+			_tree->ChangeRenderType();
 			break;
 		default:
 			break;
@@ -577,19 +687,17 @@ void ChristmasWindow::InitialiseLights(){
 	_spotlightRed.create(1,Color::black(),Color::red());
 	_spotlightRed.setSpot(30.0,100.0f);
 
-	_spotlightGreen.create(2,Color::black(),Color::green());
+	_spotlightGreen.create(2,Color::black(),Color::red());
 	_spotlightGreen.setSpot(30.0,100.0f);
 
-	_spotlightBlue.create(3,Color::black(),Color::blue());//
+	_spotlightBlue.create(3,Color::black(),Color::red());//
 	_spotlightBlue.setSpot(30.0,100.0f);
 
-	_spotlightWhite.create(4,Color::black(),Color::white());
+	_spotlightWhite.create(4,Color::black(),Color::red());
 	_spotlightWhite.setSpot(30.0,100.0f);
 
 	// turn the global ambient off by setting it to zero
-	
-	//GLfloat cc[4] = {0.5,0.5,0.5,1.0};
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT,/*cc*/ Color::black().rgba());
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Color::black().rgba());
 
 	_sunLight.apply();
 
@@ -599,7 +707,7 @@ void ChristmasWindow::InitialiseLights(){
 	_spotlightWhite.apply();
 
 	_sunSphere.create(0.1f, 10, 10, false);
-	_sunMaterial.create(Color::black(), Color::black(), Color(0.7,0.7,0.7,0.7));
+	_sunMaterial.create(Color::black(), Color::black(), Color(1.0,1.0,1.0,0.7));
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
@@ -609,31 +717,14 @@ void ChristmasWindow::InitialiseLights(){
 
 
 void ChristmasWindow::LoadModels(){
-	/************************************************************************/
-	/* test for modelcontroller       test passed                           */
-	/************************************************************************/
-	modelController = ModelController::GetInstance();
-	/************************************************************************/
-	/* load texture together                                                */
-	/************************************************************************/
-	//modelController->LoadTexture();
-
-	/************************************************************************/
-	/* test                                                                     */
-	/************************************************************************/
-// 	_testObject = new TestCube();
-// 	_testObject->setEnableShaderProgram(true);
-// 	_testObject->setShaderProgramID(_cubeShaderProgramID);
-// 	modelController->AssemblyModelFromFile2(_testObject,"cube.mxy",modelController->_textures[0]);
-	/************************************************************************/
-	/* start to create model in this scene                                   */
-	/************************************************************************/
-// 	_house = new House();
-// 	_house->setRenderTexture(true);
-// 	_house->setRenderMaterials(false);
-// 	modelController->AssemblyModelFromFile(_house,"House2.mxy",modelController->_textures[0]);
-
 	
+
+	/************************************************************************/
+	/* lighting nolt                                                                     */
+	/************************************************************************/
+	_lightingBolt = new LightingBolt();
+	LoadTexture("redflash.jpg",_lightingBolt->textureID);
+	_lightingBolt->shaderProgramID = LoadShaderFromFile("LightingBoltVertex.glsl","LightingBoltFrag.glsl");
 	/************************************************************************/
 	/* seat  surface                                                           */
 	/************************************************************************/
@@ -651,9 +742,9 @@ void ChristmasWindow::LoadModels(){
 		glUniform1i(loc,1);
 	else
 		cout<<"uniform error"<<endl;
-	int loc2 = glGetUniformLocation(_seatSurface->shaderProgramID,"size");
+	loc = glGetUniformLocation(_seatSurface->shaderProgramID,"size");
 	if(loc>-1)
-		glUniform1f(loc2,_seatSurface->snowVal);
+		glUniform1f(loc,_seatSurface->snowVal);
 	else
 		cout<<"uniform error"<<endl;
 
@@ -680,6 +771,11 @@ void ChristmasWindow::LoadModels(){
 		_pool->_vertices[i].colour[A_POS] = 0.5;
 	}
 	_pool->shaderProgramID = LoadShaderFromFile("PoolVertexShader.glsl","PoolFragShader.glsl");
+
+	_seatBody = new SeatBody();
+	_seatBody->Initialize("seatbody.mxy");//wood.jpg
+	LoadTexture("wood.jpg",_seatBody->textureID);
+
 	// 	_pool->setRenderTexture(false);
 	// 	_pool->setRenderMaterials(false);
 	// 	_pool->setEnableTransparency(true);
@@ -690,17 +786,53 @@ void ChristmasWindow::LoadModels(){
 	/* house body                                                                     */
 	/************************************************************************/
 	_houseBody = new HouseBody();
-	_houseBody->Initialize("house2body.mxy");//brickbump.jpg
+	_houseBody->Initialize("house2body.mxy");//brickbump.jpg ColorTexture
 	LoadTexture("brickbump.jpg",_houseBody->housebody_texture_id);
+	_houseBody->shaderProgramID = LoadShaderFromFile("HouseBodyVertexShader.glsl","HouseBodyFragShader.glsl");
+	glUseProgram(_houseBody->shaderProgramID);
+	loc = glGetUniformLocation(_houseBody->shaderProgramID,"ColorTexture");
+	if(loc!=-1)
+		glUniform1i(loc,0);
+	else
+		cout<<"uniform error"<<endl;
+	glUseProgram(0);
 	//////////////////////////////////////////////////////////////////////////
+	//roof
 	_houseRoof = new HouseRoof();
 	_houseRoof->Initialize("house2roof.mxy");
-	//roof.jpg
+	_houseRoof->shaderProgramID = LoadShaderFromFile("HouseRoofVertexShader.glsl","HouseRoofFragShader.glsl");
 	LoadTexture("roof.jpg",_houseRoof->roof_texture_id);
+	glUseProgram(_houseRoof->shaderProgramID);
+	loc = glGetUniformLocation(_houseRoof->shaderProgramID,"permTexture");
+	if(loc>-1)
+		glUniform1i(loc,1);
+	else
+		cout<<"uniform error"<<endl;
+	loc = glGetUniformLocation(_houseRoof->shaderProgramID,"size");
+	if(loc>-1)
+		glUniform1f(loc,_houseRoof->snowVal);
+	else
+		cout<<"uniform error"<<endl;
+	loc = glGetUniformLocation(_houseRoof->shaderProgramID,"ColorTexture");
+	if(loc!=-1)
+		glUniform1i(loc,0);
+	else
+		cout<<"uniform error"<<endl;
+	glUseProgram(0);
+	
+	
 	//////////////////////////////////////////////////////////////////////////
 	_houseChemry = new HouseChemry();
 	_houseChemry->Initialize("house2chemry.mxy");
 	LoadTexture("brickbump.jpg",_houseChemry->housechemry_texture_id);
+	_houseChemry->shaderProgramID = LoadShaderFromFile("HouseChemryVShader.glsl","HouseChemryFShader.glsl");
+	glUseProgram(_houseChemry->shaderProgramID);
+	loc = glGetUniformLocation(_houseChemry->shaderProgramID,"ColorTexture");
+	if(loc!=-1)
+		glUniform1i(loc,0);
+	else
+		cout<<"uniform error"<<endl;
+	glUseProgram(0);
 	/************************************************************************/
 	/* tree                                                                     */
 	/************************************************************************/
@@ -711,16 +843,11 @@ void ChristmasWindow::LoadModels(){
 	_tree->scalex = 0.2;
 	_tree->scaley = 0.2;
 	_tree->scalez = 0.2;
-	// trunk tecture
-	//trunk_slide_tex.tga
-	//trunk_slide_nor.tga
-	//trunk_slide_hei.tga
+	
 	LoadTexture("trunk_slide_tex.tga",_tree->trunk_texture_id);
 	LoadTexture("trunk_slide_nor.tga",_tree->trunk_texture_normal_id);
 	LoadTexture("trunk_slide_hei.tga",_tree->trunk_texture_height_id);
-// 	LoadTexture("1142.jpg",_tree->trunk_texture_id);
-// 	LoadTexture("1142-normal.jpg",_tree->trunk_texture_normal_id);
-// 	LoadTexture("1142-bump.jpg",_tree->trunk_texture_height_id);
+
 	//trunk shader
 	_tree->trunk_shader_programID = LoadShaderFromFile("TrunkVertexShader.glsl","TrunkFragShader.glsl");
 	glUseProgram(_tree->trunk_shader_programID);
@@ -761,8 +888,7 @@ void ChristmasWindow::LoadModels(){
 	LoadTexture("leaf_nor_texture.tga",_tree->leaf_nor_texture_id);
 	//leaf leaf
 	_tree->leaf_shader_programID = LoadShaderFromFile("LeafVertexShader2.glsl","LeafFragShader2.glsl");
-// 	_tree->trunk_shader_programID = _tree_trunk_shader_programID;
-// 	_tree->leaf_shader_programID = _tree_leaf_shader_programID;
+	//_tree->leaf_shader_programID = LoadShaderFromFile("LeafVShader.glsl","LeafFShader.glsl");
 	glUseProgram(_tree->leaf_shader_programID);
 	loc = glGetUniformLocation(_tree->leaf_shader_programID,"ColorTexture");
 	if(loc!=-1)
@@ -795,6 +921,10 @@ void ChristmasWindow::LoadModels(){
 	/************************************************************************/
 	/* glass ball                                                                     */
 	/************************************************************************/
+	_ball = new Ball();
+	_ball->Initialize();
+	_ball->shaderProgramID = LoadShaderFromFile("BallVShader.glsl","BallFShader.glsl");
+	
 // 	_ball = new Ball();
 // 	_ball->setEnableTransparency(true);
 // 	_ball->setRenderTexture(false);
@@ -802,25 +932,62 @@ void ChristmasWindow::LoadModels(){
 // 	_ball->setColorApalha(0.1);
 // 	modelController->AssemblyTransparencyPartSphere(_ball,1.0,40,40,modelController->_textures[0]);
 
-	
-
-	//////////////////////////////////////////////////////////////////////////
-
-	/************************************************************************/
-	/* flash                                                                     */
-	/************************************************************************/
-/*	flashLight = new FlashLighting();*/
 
 }
 
 void ChristmasWindow::InitialiseCamera(){
+	_cameraPos[0] = 0;
+	_cameraPos[1] = 0;
+	_cameraPos[2] = 5;
+	_cameraPos[3] = 1;
+
+	//
 	_cameraAngle = 30.0;
-	_cameraPositionZ = -5.0;
+	_cameraPositionZ = 0.0;
 	_cameraRotation = 0.0;
 	_cameraHerical = 0.0;
+
+	/**
+	_cameraWorldPos[0] = 0;
+	_cameraWorldPos[1] = 0;
+	_cameraWorldPos[2] = 0;
+	_cameraWorldPos[3] = 1;
+	*/
 }
 
 void ChristmasWindow::InitialiseParicles(){
+	_snowflake = new SnowParticleSys();
+	_snowflake->height = 2.7;
+	_snowflake->radius = 2.2;
+	_snowflake->Initialize();
+	LoadTexture("SnowFlake1.tga",_snowflake->snow_texture0_id);
+
+	_snowflake->shaderProgramID = LoadShaderFromFile("SnowVertexShader.glsl","SnowFragShader.glsl");
+	glUseProgram(_snowflake->shaderProgramID);
+	int loc = glGetUniformLocation(_snowflake->shaderProgramID,"ColorTexture");
+	if(loc>-1)
+		glUniform1i(loc,0);
+	else
+		cout<<"uniform error"<<endl;
+	glUseProgram(0);
+
+
+	_fire = new FireParticles();
+	_fire->Initialize();
+	//fire_texture0_id fire.jpg
+	LoadTexture("fire.jpg",_fire->textureID);
+	_fire->shaderProgramID = LoadShaderFromFile("FireParticlesVertexShader.glsl","FireParticlesFragShader.glsl");
+	glUseProgram(_fire->shaderProgramID);
+	loc = glGetUniformLocation(_fire->shaderProgramID,"ColorTexture");
+	if(loc>-1)
+		glUniform1i(loc,0);
+	else
+		cout<<"uniform error"<<endl;
+	glUseProgram(0);
+
+	//////////////////////////////////////////////////////////////////////////
+	_smoke = new SmokeParticles();
+	_smoke->Initialize();
 // 	_smoke.Initialize();
 // 
 // 	_snowflake.setTexture(modelController->_textures[4]);
@@ -872,9 +1039,9 @@ void ChristmasWindow::InitialiseShader(){
 
 }
 */
-
+/**
 void ChristmasWindow::LoadShaders(){
-	CheckShaderEnvironment();
+	
 	//_tree_trunk_shader_programID = LoadShaderFromFile("phongvertexshader.glsl","phongfragmentshader.glsl");
 	//_tree_leaf_shader_programID = LoadShaderFromFile("LeafVertexShader.glsl","LeafFragShader.glsl");
 
@@ -886,6 +1053,7 @@ void ChristmasWindow::LoadShaders(){
 // 	glUniform1i( glGetUniformLocation( _tree_trunk_shader_programID, "baseTex"), 1);
 	
 }
+**
 /**
 bool ChristmasWindow::GenerateShaderProgram(GLuint &programID, char* vPath, char* fPath){
 	programID = glCreateProgram();
@@ -1016,8 +1184,11 @@ void ChristmasWindow::LoadCamera(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(50.0f,(GLfloat)Width()/(GLfloat)Height(),0.01f,100.0f);
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	
+	gluLookAt(_cameraPos[0],_cameraPos[1],_cameraPos[2],0.0,0.0,0.0,0.0,1.0,0.0);
 	
 	glViewport(0,0, Width(), Height());
 }
@@ -1181,4 +1352,98 @@ void ChristmasWindow::LoadTexture(std::string fileName, GLuint &textureID)
 
 	image.gluBuild2DMipmaps();
 	image.Free();
+}
+/************************************************************************/
+/* camera world position                                                                     */
+/************************************************************************/
+void ChristmasWindow::CalculateCameraWorldPosition(){
+
+	camera_org[0] = -(mdl[0]*mdl[12] + mdl[1]*mdl[13] + mdl[2]*mdl[14]);
+	camera_org[1] = -(mdl[4]*mdl[12] + mdl[5]*mdl[13] + mdl[6]*mdl[14]);
+	camera_org[2] = -(mdl[8]*mdl[12] + mdl[9]*mdl[13] + mdl[10]*mdl[14]);
+	camera_org[3] = 1.0f;
+// 	float modelview[16];
+// 	GLfloat _cameraPos[4];
+// 	GLfloat _cameraWorldPos[4];
+	/**
+	_cameraWorldPos[0] = modelview[0] * _cameraPos[0] + 
+							modelview[1] * _cameraPos[1] + 
+							modelview[2] * _cameraPos[2] +
+							modelview[3] * _cameraPos[3];
+
+	_cameraWorldPos[1] = modelview[4] * _cameraPos[0] + 
+		modelview[5] * _cameraPos[1] + 
+		modelview[6] * _cameraPos[2] +
+		modelview[7] * _cameraPos[3];
+
+	_cameraWorldPos[2] = modelview[8] * _cameraPos[0] + 
+		modelview[9] * _cameraPos[1] + 
+		modelview[10] * _cameraPos[2] +
+		modelview[11] * _cameraPos[3];
+	_cameraWorldPos[3] = modelview[12] * _cameraPos[0] + 
+		modelview[13] * _cameraPos[1] + 
+		modelview[14] * _cameraPos[2] +
+		modelview[15] * _cameraPos[3];
+
+	_cameraWorldPos[0] = float(_cameraWorldPos[0]/_cameraWorldPos[3]);
+	_cameraWorldPos[1] = float(_cameraWorldPos[1]/_cameraWorldPos[3]);
+	_cameraWorldPos[2] = float(_cameraWorldPos[2]/_cameraWorldPos[3]);
+	_cameraWorldPos[3] = float(_cameraWorldPos[3]/_cameraWorldPos[3]);
+	*/
+
+
+
+}
+
+void ChristmasWindow::CreateFBO(){
+	/************************************************************************/
+	/* fbo                                                                     */
+	/************************************************************************/
+	glGenFramebuffers(1,&fboID);
+	glBindFramebuffer(GL_FRAMEBUFFER,fboID);
+	glGenTextures(1,&_textureID);
+	glBindTexture(GL_TEXTURE_2D,_textureID);
+	glTexImage2D(GL_TEXTURE_2D,
+		0,
+		GL_RGBA16F,
+		512,512,
+		0,
+		GL_RGBA,
+		GL_HALF_FLOAT,
+		0);
+
+	glTexParameteri(GL_TEXTURE_2D,
+		GL_TEXTURE_MIN_FILTER,
+		GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,
+		GL_TEXTURE_MAG_FILTER,
+		GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D,0);
+
+	glFramebufferTexture2D(
+		GL_FRAMEBUFFER,
+		GL_COLOR_ATTACHMENT0,
+		GL_TEXTURE_2D,
+		_textureID,
+		0);
+	glGenRenderbuffers(1,&_depthID);
+	glBindRenderbuffer(GL_RENDERBUFFER,_depthID);
+	glRenderbufferStorage(
+		GL_RENDERBUFFER,
+		GL_DEPTH_COMPONENT24,
+		512,512);
+	glFramebufferRenderbuffer(
+		GL_FRAMEBUFFER,
+		GL_DEPTH_ATTACHMENT,
+		GL_RENDERBUFFER,
+		_depthID);
+	glBindFramebuffer(GL_FRAMEBUFFER,0);
+
+}
+
+void ChristmasWindow::DisplayFBO(){
+	glBindFramebuffer(GL_FRAMEBUFFER,fboID);
+	glClear(GL_COLOR_BUFFER_BIT| (512? GL_DEPTH_BUFFER_BIT:0));
+
+
 }

@@ -28,6 +28,7 @@ static float rand2f1() {
 
 SmokeParticles::SmokeParticles(void)
 {
+	working = false;
 }
 
 
@@ -67,12 +68,70 @@ void SmokeParticles::Initialize(){
 
 
 void SmokeParticles::Update(const float& t){
-
-	intervaltime = t;
+	if(working){
 	
+
+	for(int loop  =0; loop< MAXPOINTPARTICLES;loop++){
+	/************************************************************************/
+	/* new update                                                                     */
+	/************************************************************************/
+	pool[loop].x_old_speed = pool[loop].x_speed;
+	pool[loop].y_old_speed = pool[loop].y_speed;
+	pool[loop].z_old_speed = pool[loop].z_speed;
+
+
+	pool[loop].x_speed = pool[loop].x_old_speed + pool[loop].xa * t;
+	pool[loop].y_speed = pool[loop].y_old_speed + pool[loop].ya * t;
+	pool[loop].z_speed = pool[loop].z_old_speed + pool[loop].za * t;
+
+	pool[loop].x = pool[loop].x + 0.5* (pool[loop].x_speed + pool[loop].x_old_speed) *t;
+	pool[loop].y = pool[loop].y + 0.5* (pool[loop].y_speed + pool[loop].y_old_speed) *t;
+	pool[loop].z = pool[loop].z + 0.5* (pool[loop].z_speed + pool[loop].z_old_speed) *t;
+
+	//color from 1 to 0, life from 1 to 0, size from max to 0;
+	pool[loop].life -= pool[loop].fade * t;
+	pool[loop].size -= ((pool[loop].fade * pool[loop].size)/pool[loop].life) *t;
+	if(pool[loop].size <= MINPOINTSIZE)pool[loop].size = MINPOINTSIZE;
+	pool[loop].a    -= pool[loop].fade *t;
+
+	if (pool[loop].life<0.0f){
+
+
+		pool[loop].active=true;                 // Make All The Particles Active
+		pool[loop].life=life;                   // Give All The Particles Full Life
+
+		pool[loop].fade=FADEFUNC;       // Random Fade Speed
+
+		pool[loop].r = 0.7;        // Select Red Rainbow Color
+		pool[loop].g = 0.7;        // Select Red Rainbow Color
+		pool[loop].b = 0.7;        // Select Red Rainbow Color
+		pool[loop].a = 1.0;
+
+		//set point size
+		pool[loop].size = MAXPOINTSIZE;
+
+		pool[loop].x_speed = 0;
+		pool[loop].y_speed = 0;
+		pool[loop].z_speed = 0;
+
+		pool[loop].xa= AXFUNC;//randf1();                     // Set Horizontal Pull To Zero
+		pool[loop].ya= AYFUNC;//randfPos1()*5;                    // Set Vertical Pull Downward
+		pool[loop].za= AZFUNC;//randf1(); 
+
+		pool[loop].x = 0;
+		pool[loop].y = 0;
+		pool[loop].z = 0;
+
+	}
+	}
+
+	}
 }
 
 void SmokeParticles::Draw(){
+	if(working){
+
+
 	for(int loop  =0; loop< MAXPOINTPARTICLES;loop++){
 		/************************************************************************/
 		/* draw                                                                     */
@@ -100,60 +159,14 @@ void SmokeParticles::Draw(){
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 
-
-		/************************************************************************/
-		/* new update                                                                     */
-		/************************************************************************/
-		pool[loop].x_old_speed = pool[loop].x_speed;
-		pool[loop].y_old_speed = pool[loop].y_speed;
-		pool[loop].z_old_speed = pool[loop].z_speed;
-
-
-		pool[loop].x_speed = pool[loop].x_old_speed + pool[loop].xa * intervaltime;
-		pool[loop].y_speed = pool[loop].y_old_speed + pool[loop].ya * intervaltime;
-		pool[loop].z_speed = pool[loop].z_old_speed + pool[loop].za * intervaltime;
-
-		pool[loop].x = pool[loop].x + 0.5* (pool[loop].x_speed + pool[loop].x_old_speed) *intervaltime;
-		pool[loop].y = pool[loop].y + 0.5* (pool[loop].y_speed + pool[loop].y_old_speed) *intervaltime;
-		pool[loop].z = pool[loop].z + 0.5* (pool[loop].z_speed + pool[loop].z_old_speed) *intervaltime;
-
-		//color from 1 to 0, life from 1 to 0, size from max to 0;
-		pool[loop].life -= pool[loop].fade * intervaltime;
-		pool[loop].size -= ((pool[loop].fade * pool[loop].size)/pool[loop].life) *intervaltime;
-		if(pool[loop].size <= MINPOINTSIZE)pool[loop].size = MINPOINTSIZE;
-		pool[loop].a    -= pool[loop].fade *intervaltime;
-
-		if (pool[loop].life<0.0f){
-			
-
-			pool[loop].active=true;                 // Make All The Particles Active
-			pool[loop].life=life;                   // Give All The Particles Full Life
-
-			pool[loop].fade=FADEFUNC;       // Random Fade Speed
-
-			pool[loop].r = 0.7;        // Select Red Rainbow Color
-			pool[loop].g = 0.7;        // Select Red Rainbow Color
-			pool[loop].b = 0.7;        // Select Red Rainbow Color
-			pool[loop].a = 1.0;
-
-			//set point size
-			pool[loop].size = MAXPOINTSIZE;
-
-			pool[loop].x_speed = 0;
-			pool[loop].y_speed = 0;
-			pool[loop].z_speed = 0;
-
-			pool[loop].xa= AXFUNC;//randf1();                     // Set Horizontal Pull To Zero
-			pool[loop].ya= AYFUNC;//randfPos1()*5;                    // Set Vertical Pull Downward
-			pool[loop].za= AZFUNC;//randf1(); 
-
-			pool[loop].x = 0;
-			pool[loop].y = 0;
-			pool[loop].z = 0;
-
-		}
-
-
 	}
+	}
+}
 
+
+void SmokeParticles::Start(){
+	working = true;
+}
+void SmokeParticles::Stop(){
+	working = false;
 }

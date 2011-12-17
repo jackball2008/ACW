@@ -3,6 +3,8 @@
 
 HouseRoof::HouseRoof(void)
 {
+	snowVal = 60;
+	initPermTexture(&permTextureID);
 }
 
 
@@ -12,6 +14,9 @@ HouseRoof::~HouseRoof(void)
 
 void HouseRoof::Update(const float& t){}
 void HouseRoof::Draw(){
+
+	glUseProgram(shaderProgramID);
+
 	glPushMatrix();
 
 
@@ -19,11 +24,19 @@ void HouseRoof::Draw(){
 	glEnable(GL_TEXTURE_2D); 
 	glBindTexture(GL_TEXTURE_2D, roof_texture_id);
 
+	glActiveTexture(GL_TEXTURE1);
+	glEnable(GL_TEXTURE_2D); 
+	glBindTexture(GL_TEXTURE_2D, permTextureID);
+
 
 	glBindBuffer(GL_ARRAY_BUFFER, vboID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
 
 	glClientActiveTexture(GL_TEXTURE0);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(12));
+
+	glClientActiveTexture(GL_TEXTURE1);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(12));
 
@@ -44,9 +57,15 @@ void HouseRoof::Draw(){
 	glClientActiveTexture(GL_TEXTURE0);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
+	glClientActiveTexture(GL_TEXTURE1);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+
 	glActiveTexture(GL_TEXTURE0);
 	glDisable(GL_TEXTURE_2D);
 
+	glActiveTexture(GL_TEXTURE1);
+	glDisable(GL_TEXTURE_2D);
 
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
@@ -57,5 +76,8 @@ void HouseRoof::Draw(){
 
 
 	glPopMatrix();
+
+
+	glUseProgram(0);
 
 }

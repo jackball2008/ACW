@@ -5,6 +5,7 @@ Name: 'C++ Model Export 2 (.h)'
 Blender: 249
 Group: 'Export'
 Tooltip: 'Exports header file for use with the OpenGL VBO '
+Author: 'Xiaoyu Ma, I am a good Boy ^_^ , Merry Christmas , If the script run error, delete this line , HaHa, I didn't test this script on higher version of blender, so I can not guarantee it will be ok on other version blender'
 """
 import Blender
 from Blender import *

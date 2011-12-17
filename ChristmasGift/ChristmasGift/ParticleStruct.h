@@ -60,3 +60,39 @@ typedef struct{
 	// Materials matrial;
 
 } ParticlesStruct;
+
+typedef struct{
+	float ox;
+	float oy;
+	float oz;
+
+	float x;
+	float y;
+	float z;
+
+	float r;
+	float g;
+	float b;
+	float a;
+
+	float life;
+	bool active;
+	float fade;
+
+	float x_speed;
+	float y_speed;
+	float z_speed;
+
+	float x_old_speed;
+	float y_old_speed;
+	float z_old_speed;
+
+
+	float xa;
+	float ya;
+	float za;
+
+	float size;
+
+	float distance;
+} PointParticle;

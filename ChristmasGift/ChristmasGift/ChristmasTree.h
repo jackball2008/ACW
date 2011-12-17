@@ -14,6 +14,8 @@ using std::vector;
 
 enum treestatus {START,GROWING,STOPGROWING,SYNCLIVE,LEAFGROWING,LEAFGROWEND,LEAFCOLORBROWN,LEAFCOLORBROWNEND,LEAFDOWN,LEAFDOWNEND,FIREING,FIREEND,TREEDOWNING,TREEDOWNEND};
 
+enum render_type{notex_nolit_wireframe,flat_nontextured_shaded,smooth_nontextured_shaded,smooth_textured_shaded,displacement_mapping};
+
 #define SHOWTRUNKTEXTURE
 #ifdef SHOWTRUNKTEXTURE
 #define VERTEXSIZEPERINTRUNK 8
@@ -222,8 +224,11 @@ public:
 	GLuint leaf_shader_programID;
 
 	
-
-	
+	/************************************************************************/
+	/* change render model                                                                     */
+	/************************************************************************/
+	int rendertype;
+	void ChangeRenderType();
 	
 };
 

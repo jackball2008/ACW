@@ -11,6 +11,9 @@ HouseChemry::~HouseChemry(void)
 }
 void HouseChemry::Update(const float& t){}
 void HouseChemry::Draw(){
+
+	glUseProgram(shaderProgramID);
+
 	glPushMatrix();
 
 	glActiveTexture(GL_TEXTURE0);
@@ -56,4 +59,5 @@ void HouseChemry::Draw(){
 
 	glPopMatrix();
 
+	glUseProgram(0);
 }

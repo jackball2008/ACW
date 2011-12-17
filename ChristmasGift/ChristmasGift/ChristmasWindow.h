@@ -9,32 +9,30 @@
 
 #include "DisplayObjectModel.h"
 
-#include "ModelController.h"
 #include "Light.h"
 #include "Materials.h"
 
 #include "ChristmasTree.h"
 #include "Sphere.h"
-// #include "Sphere.h"
-// #include "House.h"
+
 #include "Seat.h"
-// #include "Ball.h"
+
 #include "Pool.h"
 #include "HouseBody.h"
 #include "HouseRoof.h"
 #include "HouseChemry.h"
-// #include "TestCube.h"
+#include "SnowParticleSys.h"
+#include "FireParticles.h"
 
-// #include "SmokeParticles.h"
-// #include "SnowFlakeParticles.h"
-// #include "FireParticles.h"
+#include "SmokeParticles.h"
 
-/*#include "FlashLighting.h"*/
-
-
+#include "LightingBolt.h"
+#include "Ball.h"
+#include "SeatBody.h"
 using namespace gxbase;
 
 enum seasons {Spring,Summer,Autumn,Winter};
+enum winter_status{winterbegin,winterlast,winterend,happynewyear};
 
 class ChristmasWindow: public GLWindowEx
 {
@@ -59,10 +57,21 @@ public:
 	
 private:
 	/************************************************************************/
+	/* fbo bloom                                                                     */
+	/************************************************************************/
+	GLuint fboID;
+	GLuint _textureID;
+	GLuint _depthID;
+
+	void CreateFBO();
+	void DisplayFBO();
+	/************************************************************************/
 	/* important varible                                                                     */
 	/************************************************************************/
-	float modelview[16];
-	GLfloat _cameraPos[3];
+ 	GLfloat _cameraPos[4];
+	GLfloat mdl[16];
+	float camera_org[4];
+
 	/************************************************************************/
 	/* object                                                                     */
 	/************************************************************************/
@@ -72,6 +81,15 @@ private:
 	HouseBody* _houseBody;
 	HouseRoof* _houseRoof;
 	HouseChemry* _houseChemry;
+	Ball* _ball;
+	SeatBody* _seatBody;
+
+	SnowParticleSys *_snowflake;
+	LightingBolt* _lightingBolt;
+	FireParticles* _fire;
+	SmokeParticles* _smoke;
+
+	winter_status win_status;
 	/************************************************************************/
 	/*  tree roate                                             */
 	/************************************************************************/
@@ -86,7 +104,7 @@ private:
 	/************************************************************************/
 	/*                                                                      */
 	/************************************************************************/
-	ModelController* modelController;
+	//ModelController* modelController;
 	// change name to texture loader
 	/************************************************************************/
 	/* load texture                                                                     */
@@ -95,8 +113,13 @@ private:
 	/************************************************************************/
 	/* shader load program                                                                     */
 	/************************************************************************/
-	
-	void	LoadShaders();
+	/************************************************************************/
+	/* camera world position                                                                     */
+	/************************************************************************/
+	void CalculateCameraWorldPosition();
+
+
+	//void	LoadShaders();
 	void CheckShaderEnvironment();											//check shader environment
 	GLuint LoadShaderFromFile(const char* vp,const char* fp);				//load shader
 	GLuint GenerateShaderObject(std::string filename, GLenum shaderType);	//individual shader function  

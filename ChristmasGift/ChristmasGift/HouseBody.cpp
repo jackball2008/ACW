@@ -12,6 +12,8 @@ HouseBody::~HouseBody(void)
 
 void HouseBody::Update(const float& t){}
 void HouseBody::Draw(){
+	glUseProgram(shaderProgramID);
+
 	glPushMatrix();
 
 	glActiveTexture(GL_TEXTURE0);
@@ -56,4 +58,5 @@ void HouseBody::Draw(){
 
 	glPopMatrix();
 
+	glUseProgram(0);
 }
