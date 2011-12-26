@@ -92,7 +92,7 @@ public:
 	int numberOfIndices;
 
 	GLuint textureID;
-	Materials material;
+	/*Materials material;*/
 	GLenum drawType;
 
 

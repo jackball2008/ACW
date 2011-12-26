@@ -15,7 +15,7 @@ ChristmasWindow::ChristmasWindow(void) :
 	SetTitle("Christmas Gift From Xiaoyu Ma email: maxiaoyuzdz@gmail.com");
 
 	//stencilbuffer
-	_loadStencilBuffer = true;
+/*	_loadStencilBuffer = true;*/
 	_drawSpotLights = false;
 	//multitexture support check
 	_bMultitex = _bHaveMultitex = false;

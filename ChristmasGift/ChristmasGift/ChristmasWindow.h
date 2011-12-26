@@ -84,7 +84,7 @@ private:
 	Ball* _ball;
 	SeatBody* _seatBody;
 
-	SnowParticleSys *_snowflake;
+	SnowParticleSys* _snowflake;
 	LightingBolt* _lightingBolt;
 	FireParticles* _fire;
 	SmokeParticles* _smoke;
@@ -128,16 +128,16 @@ private:
 	/************************************************************************/
 	/* shader ID                                                                  */
 	/************************************************************************/
-	GLuint _cubeShaderProgramID;
-
-	GLuint _HouseBodyProgramID;
-	GLuint _HouseRoofProgramID;
-	GLuint _TreeProgramID;
-	GLuint _PoolProgramID;
-	GLuint _ballProgramID;
-	GLuint _FireParticleProgramID;
-	GLuint _SmokeParticleProgramID;
-	GLuint _SnowflakeParticleProgramID;
+// 	GLuint _cubeShaderProgramID;
+// 
+// 	GLuint _HouseBodyProgramID;
+// 	GLuint _HouseRoofProgramID;
+// 	GLuint _TreeProgramID;
+// 	GLuint _PoolProgramID;
+// 	GLuint _ballProgramID;
+// 	GLuint _FireParticleProgramID;
+// 	GLuint _SmokeParticleProgramID;
+// 	GLuint _SnowflakeParticleProgramID;
 	/************************************************************************/
 	/* particles                                                                     */
 	/************************************************************************/
@@ -153,7 +153,7 @@ private:
 	/************************************************************************/
 	/* reflection stencil buffer control                                                                     */
 	/************************************************************************/
-	bool _loadStencilBuffer;
+/*	bool _loadStencilBuffer;*/
 	/************************************************************************/
 	/* main light                                                                     */
 	/************************************************************************/
