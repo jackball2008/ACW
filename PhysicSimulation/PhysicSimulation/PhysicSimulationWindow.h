@@ -17,7 +17,12 @@ public:
 	void	OnKeyboard(int key, bool down);
 	void	OnMouseMove(int x, int y);
 	void	OnMouseButton(MouseButton button, bool down);
+	void	OnResize();
+	/************************************************************************/
+	/*                                                                      */
+	/************************************************************************/
 	void	OnUpdate();
+	
 
 };
 
