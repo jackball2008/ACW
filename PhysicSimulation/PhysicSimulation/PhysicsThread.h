@@ -1,5 +1,5 @@
 #pragma once
-#include "basethread.h"
+#include "Basethread.h"
 class PhysicsThread :
 	public BaseThread
 {

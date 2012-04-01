@@ -1,40 +1,34 @@
-/*#include "IThreads.h"*/
-
+#pragma once
 #include "GXBase.h"
 using namespace gxbase;
 #include <process.h>
 
-class BaseThread/*: public IThreads*/{
-	
-private:
-/*public:*/
-	HANDLE _hThread;
+class MyThread
+{
+
+
+protected:
+	HANDLE _hThread;	
 	bool _terminate;
 
 	static unsigned __stdcall threadFunc(void *param) {
 		if (param)
-			return ((BaseThread*)param)->run();
+			return ((MyThread*)param)->run();
 		return 1;  // Return error
 	}
+private:
+	
 
 public:
-	BaseThread() : _hThread(0), _terminate(false) {}
-	virtual ~BaseThread(){}
+	
 
+
+	MyThread() : _hThread(0), _terminate(false) {}
+	virtual ~MyThread() {}
 
 	void terminate() { _terminate = true; }
 	bool isTerminated() const { return _terminate; }
 
-	void waitForTermination(){
-		// wait for it to stop
-		WaitForSingleObject(_hThread, INFINITE);
-		// close thread handle
-		CloseHandle(_hThread);
-		_hThread=0;
-	};
-	//need to be implemented
-	virtual int run() = 0;
-	//thread function
 	HANDLE start(){
 		unsigned threadId=0;
 		_hThread = (HANDLE)_beginthreadex(
@@ -47,4 +41,15 @@ public:
 			);
 		return _hThread;
 	};
+
+	void waitForTermination(){
+		// wait for it to stop
+		WaitForSingleObject(_hThread, INFINITE);
+		// close thread handle
+		CloseHandle(_hThread);
+		_hThread=0;
+	};
+
+	virtual int run() = 0;
 };
+

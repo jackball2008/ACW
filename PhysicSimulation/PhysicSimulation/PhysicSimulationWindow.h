@@ -5,6 +5,11 @@ using namespace gxbase;
 class PhysicSimulationWindow :
 	public GLWindowEx
 {
+private:
+
+
+
+
 public:
 	PhysicSimulationWindow(void);
 	//~PhysicSimulationWindow(void);
