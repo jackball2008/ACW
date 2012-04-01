@@ -74,16 +74,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ControllerThread.h" />
     <ClInclude Include="MyThread.h" />
     <ClInclude Include="MyWindow.h" />
+    <ClInclude Include="NetReceiveThread.h" />
+    <ClInclude Include="NetSendThread.h" />
     <ClInclude Include="PhysicsApp.h" />
+    <ClInclude Include="PhysicsThread.h" />
+    <ClInclude Include="RenderThread.h" />
     <ClInclude Include="TestThread.h" />
     <ClInclude Include="TestThread2.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ControllerThread.cpp" />
     <ClCompile Include="MyThread.cpp" />
     <ClCompile Include="MyWindow.cpp" />
+    <ClCompile Include="NetReceiveThread.cpp" />
+    <ClCompile Include="NetSendThread.cpp" />
     <ClCompile Include="PhysicsApp.cpp" />
+    <ClCompile Include="PhysicsThread.cpp" />
+    <ClCompile Include="RenderThread.cpp" />
     <ClCompile Include="TestThread.cpp" />
     <ClCompile Include="TestThread2.cpp" />
   </ItemGroup>
