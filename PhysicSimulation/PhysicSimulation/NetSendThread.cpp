@@ -11,9 +11,9 @@ NetSendThread::~NetSendThread(void)
 }
 
 
-void NetSendThread::waitForTermination(){
-
-}
+// void NetSendThread::waitForTermination(){
+// 
+// }
 int NetSendThread::run(){
 	return 0;
 }

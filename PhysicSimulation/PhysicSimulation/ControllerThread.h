@@ -7,7 +7,7 @@ public:
 	ControllerThread(void);
 	~ControllerThread(void);
 
-	void waitForTermination();
+	/*void waitForTermination();*/
 	int run();
 };
 

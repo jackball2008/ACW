@@ -11,9 +11,9 @@ NetReceiveThread::~NetReceiveThread(void)
 }
 
 
-void NetReceiveThread::waitForTermination(){
-
-}
+// void NetReceiveThread::waitForTermination(){
+// 
+// }
 int NetReceiveThread::run(){
 	return 0;
 }

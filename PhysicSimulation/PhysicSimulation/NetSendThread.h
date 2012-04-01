@@ -7,7 +7,7 @@ public:
 	NetSendThread(void);
 	~NetSendThread(void);
 
-	void waitForTermination();
+	/*void waitForTermination();*/
 	int run();
 };
 

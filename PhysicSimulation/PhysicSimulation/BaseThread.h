@@ -23,7 +23,13 @@ public:
 	void terminate() { _terminate = true; }
 	bool isTerminated() const { return _terminate; }
 
-	virtual void waitForTermination(){};
+	void waitForTermination(){
+		// wait for it to stop
+		WaitForSingleObject(_hThread, INFINITE);
+		// close thread handle
+		CloseHandle(_hThread);
+		_hThread=0;
+	};
 	//need to override
 	virtual int run() = 0;
 	//thread function

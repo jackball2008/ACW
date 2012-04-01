@@ -11,9 +11,9 @@ ControllerThread::~ControllerThread(void)
 }
 
 
-void ControllerThread::waitForTermination(){
-
-}
+// void ControllerThread::waitForTermination(){
+// 
+// }
 int ControllerThread::run(){
 	return 0;
 }

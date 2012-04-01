@@ -7,7 +7,7 @@ public:
 	NetReceiveThread(void);
 	~NetReceiveThread(void);
 
-	void waitForTermination();
+	//void waitForTermination();
 	int run();
 };
 

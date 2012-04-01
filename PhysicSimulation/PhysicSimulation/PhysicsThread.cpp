@@ -10,9 +10,9 @@ PhysicsThread::~PhysicsThread(void)
 {
 }
 
-void PhysicsThread::waitForTermination(){
-
-}
+// void PhysicsThread::waitForTermination(){
+// 
+// }
 int PhysicsThread::run(){
 	return 0;
 }

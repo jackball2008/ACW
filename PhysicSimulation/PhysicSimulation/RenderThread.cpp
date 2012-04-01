@@ -10,9 +10,9 @@ RenderThread::~RenderThread(void)
 {
 }
 
-void RenderThread::waitForTermination(){
-
-}
+// void RenderThread::waitForTermination(){
+// 
+// }
 int RenderThread::run(){
 	return 0;
 }

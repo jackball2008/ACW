@@ -7,7 +7,7 @@ public:
 	PhysicsThread(void);
 	~PhysicsThread(void);
 
-	void waitForTermination();
+	/*void waitForTermination();*/
 	int run();
 };
 

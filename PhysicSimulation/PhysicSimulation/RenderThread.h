@@ -7,7 +7,7 @@ public:
 	RenderThread(void);
 	~RenderThread(void);
 
-	void waitForTermination();
+	/*void waitForTermination();*/
 	int run();
 };
 
