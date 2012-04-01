@@ -13,6 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Threads">
+      <UniqueIdentifier>{e4c752d0-6044-48be-a85c-01422f6fef7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Threads">
+      <UniqueIdentifier>{e370c741-3b75-4f3c-8261-38c54f885a36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Threads\NetWork">
+      <UniqueIdentifier>{5899e43f-3956-45b6-b866-7c2b08397910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Threads\NetWork">
+      <UniqueIdentifier>{23470d64-ae99-49e8-b435-e20dcef31aca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Threads\Controller">
+      <UniqueIdentifier>{a7a2e706-68cd-42c6-a861-84e47cf7c72c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Threads\Controller">
+      <UniqueIdentifier>{89f86907-2e1b-45c0-8c66-97a67b6d7ad9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Threads\Physics">
+      <UniqueIdentifier>{6d1848a2-d1f7-4762-96c7-7f702c099b16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Threads\Physics">
+      <UniqueIdentifier>{4f5c9529-8067-4056-9c58-49edeaaedfe7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Threads\Render">
+      <UniqueIdentifier>{97d81d84-8c78-40c4-9040-332e4700d307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Threads\Render">
+      <UniqueIdentifier>{a694ce95-9297-4d8e-8325-d169fb928ec9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PhysicSimulation.h">
@@ -21,6 +51,27 @@
     <ClInclude Include="PhysicSimulationWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IThreads.h">
+      <Filter>Header Files\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseThread.h">
+      <Filter>Header Files\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="NetReceiveThread.h">
+      <Filter>Header Files\Threads\NetWork</Filter>
+    </ClInclude>
+    <ClInclude Include="NetSendThread.h">
+      <Filter>Header Files\Threads\NetWork</Filter>
+    </ClInclude>
+    <ClInclude Include="ControllerThread.h">
+      <Filter>Header Files\Threads\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsThread.h">
+      <Filter>Header Files\Threads\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderThread.h">
+      <Filter>Header Files\Threads\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PhysicSimulation.cpp">
@@ -28,6 +79,21 @@
     </ClCompile>
     <ClCompile Include="PhysicSimulationWindow.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NetReceiveThread.cpp">
+      <Filter>Source Files\Threads\NetWork</Filter>
+    </ClCompile>
+    <ClCompile Include="NetSendThread.cpp">
+      <Filter>Source Files\Threads\NetWork</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerThread.cpp">
+      <Filter>Source Files\Threads\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsThread.cpp">
+      <Filter>Source Files\Threads\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderThread.cpp">
+      <Filter>Source Files\Threads\Render</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

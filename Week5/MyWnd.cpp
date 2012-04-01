@@ -56,6 +56,7 @@ void MyWnd::OnDisplay() {
 	gluDeleteQuadric(q);
 	glPopMatrix();
 	//
+	glColor3f (1.0, 0.0, 0.0);
 	glPushMatrix();
 	glTranslatef (0.5, MyApp::Get().getBallPhysics2()->height(), 0.0);
 

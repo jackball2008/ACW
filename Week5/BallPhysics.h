@@ -24,6 +24,8 @@ private:
 
 	int run();
 
+	CRITICAL_SECTION cs;
+
 public:
 	BallPhysics() :
 		_gravity (-9.8f),

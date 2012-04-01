@@ -6,7 +6,14 @@
 
 void BallPhysics::update() {
 	// CARE: GetDeltaTime is not thread safe
+	//CRITICAL_SECTION cs;
+	InitializeCriticalSection(&cs);
+	EnterCriticalSection(&cs);
 	float deltaT = (float)App::GetDeltaTime();
+	LeaveCriticalSection(&cs);
+	//DeleteCriticalSection(&cs);
+	//////////////////////////////////////////////////////////////////////////
+
 	float newHeight = _height + _velocity * deltaT + 0.5f * _gravity * deltaT * deltaT;
 	
 	if (newHeight < 0.0) { //Collision has occurred
@@ -38,7 +45,13 @@ void BallPhysics::update() {
 
 int BallPhysics::run() {
 	// CARE: GetDeltaTime is not thread safe
+	//CRITICAL_SECTION cs;
+	InitializeCriticalSection(&cs);
+	EnterCriticalSection(&cs);
 	App::GetDeltaTime();
+	LeaveCriticalSection(&cs);
+	//DeleteCriticalSection(&cs);
+	//////////////////////////////////////////////////////////////////////////
 	while(!_terminate) {
 		update();
 		Sleep(25);
@@ -60,6 +73,7 @@ HANDLE BallPhysics::start() {
 }
 
 void BallPhysics::waitForTermination() {
+	DeleteCriticalSection(&cs);
 	// wait for it to stop
 	WaitForSingleObject(_hThread, INFINITE);
 	// close thread handle

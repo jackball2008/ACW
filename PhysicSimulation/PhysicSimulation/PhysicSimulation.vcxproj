@@ -74,12 +74,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseThread.h" />
+    <ClInclude Include="ControllerThread.h" />
+    <ClInclude Include="IThreads.h" />
+    <ClInclude Include="NetReceiveThread.h" />
+    <ClInclude Include="NetSendThread.h" />
     <ClInclude Include="PhysicSimulation.h" />
     <ClInclude Include="PhysicSimulationWindow.h" />
+    <ClInclude Include="PhysicsThread.h" />
+    <ClInclude Include="RenderThread.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ControllerThread.cpp" />
+    <ClCompile Include="NetReceiveThread.cpp" />
+    <ClCompile Include="NetSendThread.cpp" />
     <ClCompile Include="PhysicSimulation.cpp" />
     <ClCompile Include="PhysicSimulationWindow.cpp" />
+    <ClCompile Include="PhysicsThread.cpp" />
+    <ClCompile Include="RenderThread.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
