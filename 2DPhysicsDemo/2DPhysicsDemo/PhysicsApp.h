@@ -34,5 +34,7 @@ public:
 	void OnCreate();
 	void OnDestroy();
 
+	static PhysicsApp &Get();
+
 };
 

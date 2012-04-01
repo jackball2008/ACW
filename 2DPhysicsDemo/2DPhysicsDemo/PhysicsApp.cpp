@@ -26,8 +26,14 @@ PhysicsApp::~PhysicsApp(void)
 	delete _renderThread;
 }
 
+PhysicsApp &PhysicsApp::Get()
+{
+
+	return theApp;
+}
+
 void PhysicsApp::OnCreate(){
-	cout<<"okok"<<endl;
+	
 	_mywindow.Show();
 	_mywindow.SetSize(640,480);
 
