@@ -75,6 +75,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ControllerThread.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="MyThread.h" />
     <ClInclude Include="MyWindow.h" />
     <ClInclude Include="NetReceiveThread.h" />
@@ -83,7 +84,6 @@
     <ClInclude Include="PhysicsThread.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="RenderThread.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="TestThread.h" />
@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControllerThread.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="MyThread.cpp" />
     <ClCompile Include="MyWindow.cpp" />
     <ClCompile Include="NetReceiveThread.cpp" />

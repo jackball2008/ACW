@@ -10,5 +10,10 @@ public:
 	Point(){
 		x=0;y=0;
 	};
+
+	Point(const float& _x, const float& _y){
+		x = _x;
+		y = _y;
+	};
 };
 

@@ -2,6 +2,9 @@
 /*#include "glwindowex.h"*/
 #include <GXBase.h>
 using namespace gxbase;
+#include <vector>
+using namespace std;
+
 
 class MyWindow :
 	public GLWindowEx
