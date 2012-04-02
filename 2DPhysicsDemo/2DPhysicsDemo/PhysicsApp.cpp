@@ -35,7 +35,7 @@ PhysicsApp &PhysicsApp::Get()
 void PhysicsApp::OnCreate(){
 	
 	_mywindow.Show();
-	_mywindow.SetSize(640,480);
+	_mywindow.SetSize(1024,768);
 
 // 	_testThread->start();
 // 	_testThread2->start();
