@@ -33,9 +33,17 @@ PhysicsApp &PhysicsApp::Get()
 }
 
 void PhysicsApp::OnCreate(){
+	/************************************************************************/
+	/* before all thread start, finish the initialize shape position                                                           */
+	/************************************************************************/
+	InitializeAllShpes();
+
+
+
 	
 	_mywindow.Show();
 	_mywindow.SetSize(1024,768);
+	_mywindow.SetPosition(0,0);
 
 // 	_testThread->start();
 // 	_testThread2->start();
@@ -45,6 +53,9 @@ void PhysicsApp::OnCreate(){
 	_controllerThread->start();
 	_physicsThread->start();
 	_renderThread->start();
+
+
+
 }
 
 void PhysicsApp::OnDestroy(){
@@ -68,4 +79,24 @@ void PhysicsApp::OnDestroy(){
 
 	_renderThread->terminate();
 	_renderThread->waitForTermination();
+}
+
+/************************************************************************/
+/* private function                                                                     */
+/************************************************************************/
+void PhysicsApp::InitializeAllShpes(){
+	//set line
+	Shape* line = new Line();
+	Point p1;
+	p1.x = -0.9f;
+	p1.y = -0.9f;
+	Point p2;
+	p2.x = 0.9f;
+	p2.y = -0.9f;
+	line->SetData(p1,p2,p2,p2,p2);
+	
+	//add
+	_renderObjects.push_back(line);
+
+
 }

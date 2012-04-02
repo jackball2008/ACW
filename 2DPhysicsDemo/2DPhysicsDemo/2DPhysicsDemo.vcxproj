@@ -75,18 +75,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ControllerThread.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="MyThread.h" />
     <ClInclude Include="MyWindow.h" />
     <ClInclude Include="NetReceiveThread.h" />
     <ClInclude Include="NetSendThread.h" />
     <ClInclude Include="PhysicsApp.h" />
     <ClInclude Include="PhysicsThread.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="RenderThread.h" />
+    <ClInclude Include="Shape.h" />
+    <ClInclude Include="Square.h" />
     <ClInclude Include="TestThread.h" />
     <ClInclude Include="TestThread2.h" />
+    <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControllerThread.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="MyThread.cpp" />
     <ClCompile Include="MyWindow.cpp" />
     <ClCompile Include="NetReceiveThread.cpp" />
@@ -94,8 +100,14 @@
     <ClCompile Include="PhysicsApp.cpp" />
     <ClCompile Include="PhysicsThread.cpp" />
     <ClCompile Include="RenderThread.cpp" />
+    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Square.cpp" />
     <ClCompile Include="TestThread.cpp" />
     <ClCompile Include="TestThread2.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="2DPhysicsDemo.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
