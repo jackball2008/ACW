@@ -131,5 +131,159 @@ void  CalcLoads(pRigidBody2D body)
 	Vector	vResultant;	
 	Vector	vtmp;	
 
+	// Calculate the aerodynamic drag force:
+	// Calculate local velocity:
+	// The local velocity includes the velocity due to linear motion of the craft, 
+	// plus the velocity at each element due to the rotation of the craft.
+	vtmp = body->vAngularVelocity^body->CD; // rotational part
+	vLocalVelocity = body->vVelocityBody + vtmp; 
+
+	// Calculate local air speed
+	fLocalSpeed = vLocalVelocity.Magnitude();
+
+	// Find the direction in which drag will act.
+	// Drag always acts inline with the relative velocity but in the opposing direction
+
+	if(fLocalSpeed> tol)
+	{
+		vLocalVelocity.Normalize();
+		vDragVector = -vLocalVelocity;
+
+		// Determine the resultant force on the element.
+		tmp = 0.5f * rho * fLocalSpeed*fLocalSpeed * body->ProjectedArea;		
+		vResultant = vDragVector * LINEARDRAGCOEFFICIENT * tmp; // simulate fuselage drag
+
+		// Keep a running total of these resultant forces (total force)
+		Fb += vResultant;
+
+		// Calculate the moment about the CG of this element's force
+		// and keep a running total of these moments (total moment)
+		vtmp = body->CD^vResultant; 
+		Mb += vtmp;
+
+	}
+
+	// Calculate the Port & Starboard bow thruster forces:
+	// Keep a running total of these resultant forces (total force)
+	Fb += body->PThrust;
+
+	// Calculate the moment about the CG of this element's force
+	// and keep a running total of these moments (total moment)
+	vtmp = body->CPT^body->PThrust; 
+	Mb += vtmp;
+
+	// Keep a running total of these resultant forces (total force)
+	Fb += body->SThrust;
+
+	// Calculate the moment about the CG of this element's force
+	// and keep a running total of these moments (total moment)
+	vtmp = body->CST^body->SThrust; 		
+	Mb += vtmp;
+
+	// Calculate rotational drag
+	if(body->vAngularVelocity.Magnitude() > tol)
+	{
+		vtmp.x = 0;
+		vtmp.y = 0;
+		tmp = 0.5f * rho * body->vAngularVelocity.z*body->vAngularVelocity.z * body->ProjectedArea;
+		if(body->vAngularVelocity.z > 0.0)
+			vtmp.z = -ANGULARDRAGCOEFFICIENT * tmp;		
+		else
+			vtmp.z = ANGULARDRAGCOEFFICIENT * tmp;		
+
+		Mb += vtmp;
+	}
+
+	// Now add the propulsion thrust
+	Fb += Thrust; // no moment since line of action is through CG
+
+	// Convert forces from model space to earth space
+	body->vForces = VRotate2D(body->fOrientation, Fb);
+
+	body->vMoment += Mb;
+}
+//------------------------------------------------------------------------//
+//
+//------------------------------------------------------------------------//
+Vector	GetBodyZAxisVector(void)
+{
+
+	Vector	v;
+
+	v.x = 0.0f;
+	v.y = 0.0f;
+	v.z = 1.0f;
+
+	return v;
+}
+
+//------------------------------------------------------------------------//
+//
+//------------------------------------------------------------------------//
+Vector	GetBodyXAxisVector(int	craft)
+{
+	Vector v;
+
+	v.x = 1.0f;
+	v.y = 0.0f;
+	v.z = 0.0f;
+
+	if(craft == 1)	
+		return VRotate2D(Square1.fOrientation, v);
+	else
+		return VRotate2D(Square2.fOrientation, v);
+}
+
+void Initialize(void)
+{
+	InitializeSquare(&Square1);
+	InitializeSquare(&Square2);
+
+	Square2.vPosition.y = 60;
+	Square2.vPosition.x = 500;
+	Square2.fOrientation = 0;
+
+
+}
+
+void StepSimulation(float dt)
+{
+	float           dtime= dt;
+	bool            tryAgain = true;
+	int             check = 0;
+	RigidBody2D     Square1Copy,Square2Copy;
+	bool            didPen = false;
+
+	while (tryAgain&&(dtime>tol))
+	{
+		tryAgain = false;
+		memcpy(&Square1Copy,&Square1,sizeof(RigidBody2D));
+		memcpy(&Square2Copy,&Square2,sizeof(RigidBody2D));
+
+		UpdateBody(&Square1Copy,dtime);
+		UpdateBody(&Square2Copy,dtime);
+
+		CollisionBody1= 0;
+		CollisionBody2= 0;
+		check = CheckForCollision(&Square1Copy,&Square2Copy);
+
+		if(check == PENETRATING )
+		{
+			dtime = dtime/2;
+			tryAgain = true;
+			didPen = true;
+		}
+		else if (check == COLLISION)
+		{
+			if(CollisionBody1 !=0&& CollisionBody2 != 0)
+				ApplyImpulse(CollisionBody1, CollisionBody2);
+		}
+
+	}
+	if (!didPen)
+	{
+		memcpy(&Square1, &Square1Copy, sizeof(RigidBody2D));
+		memcpy(&Square2, &Square2Copy, sizeof(RigidBody2D));
+	}
 
 }

@@ -38,7 +38,7 @@ typedef struct _RigidBody{
 
 	Vector    CP;                   
 	Vector	  CD;                   //  friction center base on center of gravity
-	Vector	  CT;
+	Vector	  CT;                   //  force center base on center of gravity
 	Vector	  CPT;
 	Vector	  CST;
 
@@ -83,6 +83,7 @@ void	PortThruster(int craft);
 void	STBDThruster(int craft);
 void	ZeroThrusters(int craft);
 
+void  Initialize(void);
 void  StepSimulation(float dt);
 void  ApplyImpulse(pRigidBody2D body1,pRigidBody2D body2);
 void  ApplyLinearImpulse(pRigidBody2D body1, pRigidBody2D body2);
