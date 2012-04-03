@@ -50,6 +50,7 @@ void PhysicsApp::OnCreate(){
 
 	/*_renderThread->SetShapeShareObject(&_shapeShareObject);*/
 	_controllerThread->SetMouseShareObject(&_mouseShareObject);
+	_controllerThread->SetShapeShareObject(&_shapeShareObject);
 	/************************************************************************/
 	/* window thread start                                                                     */
 	/************************************************************************/

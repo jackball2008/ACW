@@ -21,6 +21,10 @@ public:
 	//mark
 	int type;
 
+	bool visiable;
+
+	bool becontrolled;
+
 public:
 	Shape(void);
 	~Shape(void);
