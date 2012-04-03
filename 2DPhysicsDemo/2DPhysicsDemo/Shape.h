@@ -4,20 +4,20 @@
 using namespace std;
 class Shape
 {
-private:
+
 	
 
-protected:
-	vector<Point>_points;
+public:
+	vector<Point>points;
 
-	float _speed;
+	float speed;
 
-	Point _direction;
+	Point direction;
 
 	//color
-	float _r,_g,_b;
+	float r,g,b;
 	//mark
-	int _type;
+	int type;
 
 public:
 	Shape(void);
@@ -25,15 +25,20 @@ public:
 	/************************************************************************/
 	/* notice this must be thread safe                                       */
 	/************************************************************************/
+	//square
 	virtual void SetData(const Point& p1,const Point& p2,const Point& p3,const Point& p4,const Point& mid)=0;
+	//triangle
+	virtual void SetData(const Point& p1,const Point& p2,const Point& p3,const Point& mid)=0;
+	//line
+	virtual void SetData(const Point& p1,const Point& p2,const Point& mid)=0;
 	/************************************************************************/
 	/* read value, maybe do not need thread safe                             */
 	/************************************************************************/
-	virtual vector<Point>* GetData(){
-		return &_points;
-	};
+// 	virtual vector<Point>* GetData1(){
+// 		return &points;
+// 	};
 
-	const int& GetType(){ return _type;};
+	/*const int& GetType(){ return type;};*/
 
 
 };

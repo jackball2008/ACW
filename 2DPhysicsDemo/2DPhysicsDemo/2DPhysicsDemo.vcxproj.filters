@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Test">
-      <UniqueIdentifier>{d5abf1eb-0faa-479a-bb0e-c38cf34a353b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Test">
-      <UniqueIdentifier>{d7c43897-964d-4410-b571-7c205cccdf55}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Threads">
       <UniqueIdentifier>{6f2415fa-0455-4c01-9d47-a121700c47bf}</UniqueIdentifier>
     </Filter>
@@ -45,12 +39,6 @@
     <ClInclude Include="MyWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestThread2.h">
-      <Filter>Header Files\Test</Filter>
-    </ClInclude>
-    <ClInclude Include="TestThread.h">
-      <Filter>Header Files\Test</Filter>
-    </ClInclude>
     <ClInclude Include="MyThread.h">
       <Filter>Header Files\Threads</Filter>
     </ClInclude>
@@ -64,9 +52,6 @@
       <Filter>Header Files\Threads</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsThread.h">
-      <Filter>Header Files\Threads</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderThread.h">
       <Filter>Header Files\Threads</Filter>
     </ClInclude>
     <ClInclude Include="Point.h">
@@ -98,12 +83,6 @@
     <ClCompile Include="MyWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestThread2.cpp">
-      <Filter>Source Files\Test</Filter>
-    </ClCompile>
-    <ClCompile Include="TestThread.cpp">
-      <Filter>Source Files\Test</Filter>
-    </ClCompile>
     <ClCompile Include="MyThread.cpp">
       <Filter>Source Files\Threads</Filter>
     </ClCompile>
@@ -117,9 +96,6 @@
       <Filter>Source Files\Threads</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsThread.cpp">
-      <Filter>Source Files\Threads</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderThread.cpp">
       <Filter>Source Files\Threads</Filter>
     </ClCompile>
     <ClCompile Include="Shape.cpp">

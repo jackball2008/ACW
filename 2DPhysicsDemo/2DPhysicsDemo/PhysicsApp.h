@@ -8,7 +8,7 @@
 #include "NetSendThread.h"
 #include "ControllerThread.h"
 #include "PhysicsThread.h"
-#include "RenderThread.h"
+//#include "RenderThread.h"
 
 //////////////////////////////////////////////////////////////////////////
 #include "Shape.h"
@@ -36,7 +36,7 @@ private:
 	NetSendThread* _netSendThread;
 	ControllerThread* _controllerThread;
 	PhysicsThread* _physicsThread;
-	RenderThread* _renderThread;
+	/*RenderThread* _renderThread;*/
 
 	/************************************************************************/
 	/* share object                                                                     */

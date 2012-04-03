@@ -40,7 +40,7 @@ void RenderThread::Render(){
 
 
 			Shape* shape = *ite_vec_shape;
-			vector<Point>* pa = shape->GetData();
+			vector<Point>* pa = &shape->points;//  shape->GetData();
 
 			if(shape->GetType() == 1){
 				//draw line

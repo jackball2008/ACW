@@ -13,7 +13,7 @@ PhysicsApp::PhysicsApp(void)
 	_netSendThread = new NetSendThread();
 	_controllerThread = new ControllerThread();
 	_physicsThread = new PhysicsThread();
-	_renderThread = new RenderThread();
+	/*_renderThread = new RenderThread();*/
 }
 
 
@@ -27,7 +27,7 @@ PhysicsApp::~PhysicsApp(void)
 	delete _netSendThread;
 	delete _controllerThread;
 	delete _physicsThread;
-	delete _renderThread;
+	/*delete _renderThread;*/
 }
 
 // PhysicsApp &PhysicsApp::Get()
@@ -48,7 +48,7 @@ void PhysicsApp::OnCreate(){
 	_mywindow.SetShapeShareObject(&_shapeShareObject);
 	_mywindow.SetMouseShareObject(&_mouseShareObject);
 
-	_renderThread->SetShapeShareObject(&_shapeShareObject);
+	/*_renderThread->SetShapeShareObject(&_shapeShareObject);*/
 	_controllerThread->SetMouseShareObject(&_mouseShareObject);
 	/************************************************************************/
 	/* window thread start                                                                     */
@@ -63,7 +63,7 @@ void PhysicsApp::OnCreate(){
 	_netSendThread->start();
 	_controllerThread->start();
 	_physicsThread->start();
-	_renderThread->start();
+	/*_renderThread->start();*/
 
 
 
@@ -86,8 +86,8 @@ void PhysicsApp::OnDestroy(){
 	_physicsThread->terminate();
 	_physicsThread->waitForTermination();
 
-	_renderThread->terminate();
-	_renderThread->waitForTermination();
+// 	_renderThread->terminate();
+// 	_renderThread->waitForTermination();
 }
 
 /************************************************************************/
@@ -102,7 +102,10 @@ void PhysicsApp::InitializeAllShpes(){
 	Point p2;
 	p2.x = 1.0f;
 	p2.y = -0.9f;
-	line->SetData(p1,p2,p2,p2,p2);
+	Point lmid;
+	lmid.x = (p1.x + p2.x) / 2;
+	lmid.y = (p1.y + p2.y) / 2;
+	line->SetData(p1,p2,lmid);
 	
 	//add
 	_shapeShareObject.SetData(line);
@@ -168,7 +171,7 @@ void PhysicsApp::InitializeAllShpes(){
 
 			//add
 			Shape* triangle = new Triangle();
-			triangle->SetData(p1,p2,p3,p3,mid);
+			triangle->SetData(p1,p2,p3,mid);
 			_shapeShareObject.SetData(triangle);
 			if(j==0){
 				nextlevelstartp = p3;
@@ -192,7 +195,7 @@ void PhysicsApp::InitializeAllShpes(){
 				qmid.y = (q1.y + q2.y + q3.y)/3;
 
 				Shape* triangle = new Triangle();
-				triangle->SetData(q1,q2,q3,q3,qmid);
+				triangle->SetData(q1,q2,q3,qmid);
 				_shapeShareObject.SetData(triangle);
 			}
 			

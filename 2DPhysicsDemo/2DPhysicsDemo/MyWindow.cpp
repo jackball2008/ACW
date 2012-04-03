@@ -25,9 +25,9 @@ void	MyWindow::OnDisplay(){
 			
 			
 			Shape* shape = *ite_vec_shape;
-			vector<Point>* pa = shape->GetData();
+			vector<Point>* pa = &shape->points;
 
-			if(shape->GetType() == 1){
+			if(shape->type == 1){
 				//draw line
 
 
@@ -44,7 +44,7 @@ void	MyWindow::OnDisplay(){
 
 
 			}
-			if(shape->GetType() == 2){
+			if(shape->type == 2){
 				//draw triangles
 				
 				glColor3f(1.0,1.0,0.0);
@@ -58,7 +58,7 @@ void	MyWindow::OnDisplay(){
 				glVertex2f(pa->at(4).x, pa->at(4).y);
 				glEnd();
 			}
-			if(shape->GetType() == 3){
+			if(shape->type == 3){
 				//draw squares
 				
 				

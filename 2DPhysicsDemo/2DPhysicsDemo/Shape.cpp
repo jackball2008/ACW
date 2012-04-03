@@ -3,6 +3,7 @@
 
 Shape::Shape(void)
 {
+
 }
 
 
