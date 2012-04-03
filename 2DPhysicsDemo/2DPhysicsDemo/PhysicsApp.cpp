@@ -105,8 +105,8 @@ void PhysicsApp::InitializeAllShpes(){
 	Point lmid;
 	lmid.x = (p1.x + p2.x) / 2;
 	lmid.y = (p1.y + p2.y) / 2;
-	line->SetData(p1,p2,lmid);
-	
+	line->SetData(p1,p2/*,lmid*/);
+	line->middlepoint = lmid;
 	//add
 	_shapeShareObject.SetData(line);
 
@@ -137,7 +137,8 @@ void PhysicsApp::InitializeAllShpes(){
 			p5.y = (float)(p1.y + p3.y + p2.y + p4.y)/4;
 
 			Shape* square = new Square();
-			square->SetData(p1,p2,p3,p4,p5);
+			square->SetData(p1,p2,p3,p4/*,p5*/);
+			square->middlepoint = p5;
 			_shapeShareObject.SetData(square);
 
 			if(i==3 && j==6){
@@ -171,7 +172,8 @@ void PhysicsApp::InitializeAllShpes(){
 
 			//add
 			Shape* triangle = new Triangle();
-			triangle->SetData(p1,p2,p3,mid);
+			triangle->SetData(p1,p2,p3/*,mid*/);
+			triangle->middlepoint = mid;
 			_shapeShareObject.SetData(triangle);
 			if(j==0){
 				nextlevelstartp = p3;
@@ -195,7 +197,8 @@ void PhysicsApp::InitializeAllShpes(){
 				qmid.y = (q1.y + q2.y + q3.y)/3;
 
 				Shape* triangle = new Triangle();
-				triangle->SetData(q1,q2,q3,qmid);
+				triangle->SetData(q1,q2,q3/*,qmid*/);
+				triangle->middlepoint = qmid;
 				_shapeShareObject.SetData(triangle);
 			}
 			

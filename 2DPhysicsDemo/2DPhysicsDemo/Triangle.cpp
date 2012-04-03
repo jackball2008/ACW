@@ -5,7 +5,7 @@ Triangle::Triangle(void)
 {
 	//initialize
 	
-	for(int i=0;i<5;i++)
+	for(int i=0;i<3;i++)
 	{
 		Point p;
 		points.push_back(p);
@@ -20,13 +20,13 @@ Triangle::~Triangle(void)
 }
 
 //thread safe, need to be update later
-void Triangle::SetData(const Point& p1,const Point& p2,const Point& p3,const Point& mid){
+void Triangle::SetData(const Point& p1,const Point& p2,const Point& p3/*,const Point& mid*/){
 	//////////////////////////////////////////////////////////////////////////
 	points[0] = p1;
 	points[1] = p2;
 	points[2] = p3;
 	/*points[3] = p4;*/
-	points[4] = mid;
+	/*points[4] = mid;*/
 	
 	//////////////////////////////////////////////////////////////////////////
 }

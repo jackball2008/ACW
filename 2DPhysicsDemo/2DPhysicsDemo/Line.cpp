@@ -6,7 +6,7 @@ Line::Line(void)
 
 	//initialize
 
-	for(int i=0;i<5;i++)
+	for(int i=0;i<2;i++)
 	{
 		Point p;
 		points.push_back(p);
@@ -32,8 +32,7 @@ Line::~Line(void)
 // 	
 // }
 
-void Line::SetData(const Point& p1,const Point& p2,const Point& mid){
+void Line::SetData(const Point& p1,const Point& p2){
 	points[0] = p1;
 	points[1] = p2;
-	points[4] = mid;
 }

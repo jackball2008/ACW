@@ -55,7 +55,7 @@ void	MyWindow::OnDisplay(){
 				glEnd();
 
 				glBegin(GL_POINTS);
-				glVertex2f(pa->at(4).x, pa->at(4).y);
+				glVertex2f(shape->middlepoint.x, shape->middlepoint.y);
 				glEnd();
 			}
 			if(shape->type == 3){
@@ -72,7 +72,7 @@ void	MyWindow::OnDisplay(){
 
 				
 				glBegin(GL_POINTS);
-				glVertex2f(pa->at(4).x, pa->at(4).y);
+				glVertex2f(shape->middlepoint.x, shape->middlepoint.y);
 				glEnd();
 			}
 

@@ -14,6 +14,8 @@ public:
 
 	Point direction;
 
+	Point middlepoint;
+
 	//color
 	float r,g,b;
 	//mark
@@ -26,11 +28,11 @@ public:
 	/* notice this must be thread safe                                       */
 	/************************************************************************/
 	//square
-	virtual void SetData(const Point& p1,const Point& p2,const Point& p3,const Point& p4,const Point& mid)=0;
+	virtual void SetData(const Point& p1,const Point& p2,const Point& p3,const Point& p4)=0;
 	//triangle
-	virtual void SetData(const Point& p1,const Point& p2,const Point& p3,const Point& mid)=0;
+	virtual void SetData(const Point& p1,const Point& p2,const Point& p3)=0;
 	//line
-	virtual void SetData(const Point& p1,const Point& p2,const Point& mid)=0;
+	virtual void SetData(const Point& p1,const Point& p2)=0;
 	/************************************************************************/
 	/* read value, maybe do not need thread safe                             */
 	/************************************************************************/
