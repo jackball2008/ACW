@@ -16,6 +16,12 @@
 #include "Triangle.h"
 #include "Square.h"
 #include "Line.h"
+//////////////////////////////////////////////////////////////////////////
+/************************************************************************/
+/* share objects                                                                     */
+/************************************************************************/
+#include "ShapeShareObject.h"
+
 
 using namespace gxbase;
 using namespace std;
@@ -37,8 +43,8 @@ private:
 	/************************************************************************/
 	/* share object                                                                     */
 	/************************************************************************/
-	vector<Shape*>_renderObjects;
-
+	/*vector<Shape*>_renderObjects;*/
+	ShapeShareObject _shapeShareObject;
 
 	/************************************************************************/
 	/* functions                                                                     */
@@ -53,9 +59,9 @@ public:
 	void OnCreate();
 	void OnDestroy();
 
-	static PhysicsApp &Get();
+	//static PhysicsApp &Get();
 
-	vector<Shape*> GetElements() const { return _renderObjects;};
+	//vector<Shape*> GetElements() const { return _renderObjects;};
 
 };
 

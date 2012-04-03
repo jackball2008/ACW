@@ -85,6 +85,7 @@
     <ClInclude Include="Point.h" />
     <ClInclude Include="RenderThread.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="ShapeShareObject.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="TestThread.h" />
     <ClInclude Include="TestThread2.h" />
@@ -101,6 +102,7 @@
     <ClCompile Include="PhysicsThread.cpp" />
     <ClCompile Include="RenderThread.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="ShapeShareObject.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="TestThread.cpp" />
     <ClCompile Include="TestThread2.cpp" />

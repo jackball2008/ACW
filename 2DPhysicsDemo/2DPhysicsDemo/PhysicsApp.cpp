@@ -28,11 +28,11 @@ PhysicsApp::~PhysicsApp(void)
 	delete _renderThread;
 }
 
-PhysicsApp &PhysicsApp::Get()
-{
-
-	return theApp;
-}
+// PhysicsApp &PhysicsApp::Get()
+// {
+// 
+// 	return theApp;
+// }
 
 void PhysicsApp::OnCreate(){
 	/************************************************************************/
@@ -40,8 +40,10 @@ void PhysicsApp::OnCreate(){
 	/************************************************************************/
 	InitializeAllShpes();
 
-
-
+	/************************************************************************/
+	/* bound share objects                                                                     */
+	/************************************************************************/
+	_mywindow.SetShapeShareObject(&_shapeShareObject);
 	
 	_mywindow.Show();
 	_mywindow.SetSize(768,768);
@@ -98,8 +100,8 @@ void PhysicsApp::InitializeAllShpes(){
 	line->SetData(p1,p2,p2,p2,p2);
 	
 	//add
-	_renderObjects.push_back(line);
-
+	//_renderObjects.push_back(line);
+	_shapeShareObject.SetData(line);
 
 
 	//set squares
@@ -129,7 +131,8 @@ void PhysicsApp::InitializeAllShpes(){
 
 			Shape* square = new Square();
 			square->SetData(p1,p2,p3,p4,p5);
-			_renderObjects.push_back(square);
+			//_renderObjects.push_back(square);
+			_shapeShareObject.SetData(square);
 
 			if(i==3 && j==6){
 				tristartp = p4;
@@ -164,7 +167,8 @@ void PhysicsApp::InitializeAllShpes(){
 			//add
 			Shape* triangle = new Triangle();
 			triangle->SetData(p1,p2,p3,p3,mid);
-			_renderObjects.push_back(triangle);
+			//_renderObjects.push_back(triangle);
+			_shapeShareObject.SetData(triangle);
 			if(j==0){
 				nextlevelstartp = p3;
 			}
@@ -188,7 +192,8 @@ void PhysicsApp::InitializeAllShpes(){
 
 				Shape* triangle = new Triangle();
 				triangle->SetData(q1,q2,q3,q3,qmid);
-				_renderObjects.push_back(triangle);
+				//_renderObjects.push_back(triangle);
+				_shapeShareObject.SetData(triangle);
 			}
 			
 

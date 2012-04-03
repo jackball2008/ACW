@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Components">
       <UniqueIdentifier>{701f4499-4150-4840-8141-e61bae12ac41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ShareObjects">
+      <UniqueIdentifier>{d2aa63a5-a60e-4411-bb74-24af886ba1c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ShareObjects">
+      <UniqueIdentifier>{7dbe83b5-3934-445e-b314-592bf6597721}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PhysicsApp.h">
@@ -78,6 +84,9 @@
     <ClInclude Include="Line.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ShapeShareObject.h">
+      <Filter>Header Files\ShareObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PhysicsApp.cpp">
@@ -121,6 +130,9 @@
     </ClCompile>
     <ClCompile Include="Line.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeShareObject.cpp">
+      <Filter>Source Files\ShareObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

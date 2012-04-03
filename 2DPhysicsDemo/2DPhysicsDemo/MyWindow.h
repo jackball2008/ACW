@@ -5,10 +5,19 @@ using namespace gxbase;
 #include <vector>
 using namespace std;
 
+/************************************************************************/
+/* share object                                                                     */
+/************************************************************************/
+#include "ShapeShareObject.h"
+
+
 
 class MyWindow :
 	public GLWindowEx
 {
+private:
+	ShapeShareObject* _shapeShareObject;
+
 public:
 	MyWindow(void);
 	~MyWindow(void);
@@ -20,7 +29,7 @@ public:
 	void	OnMouseMove(int x, int y);
 	void	OnMouseButton(MouseButton button, bool down);
 
-
+	void SetShapeShareObject( ShapeShareObject*);
 
 };
 

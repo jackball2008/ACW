@@ -1,6 +1,6 @@
 #include "MyWindow.h"
-#include "Shape.h"
-#include "PhysicsApp.h"
+// #include "Shape.h"
+// #include "PhysicsApp.h"
 
 MyWindow::MyWindow(void)
 {
@@ -21,8 +21,9 @@ void	MyWindow::OnDisplay(){
 
 	
 
-	vector<Shape*> plist = PhysicsApp::Get().GetElements();
-
+	//vector<Shape*> plist = PhysicsApp::Get().GetElements();
+	/*_shapeShareObject*/
+	vector<Shape*> plist = _shapeShareObject->GetData();
 	for(vector<Shape*>::iterator ite_vec_shape = plist.begin();   
 		ite_vec_shape != plist.end();  
 		ite_vec_shape++){  
@@ -98,4 +99,9 @@ void	MyWindow::OnMouseMove(int x, int y){
 }
 void	MyWindow::OnMouseButton(MouseButton button, bool down){
 
+}
+
+
+void MyWindow::SetShapeShareObject( ShapeShareObject* s){
+	_shapeShareObject = s;
 }
