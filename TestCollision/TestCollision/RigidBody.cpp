@@ -287,3 +287,371 @@ void StepSimulation(float dt)
 	}
 
 }
+
+void	UpdateBody(pRigidBody2D craft, float dtime)
+{
+	Vector Ae;	
+	float Aa;
+	RigidBody2D	body;
+	Vector		k1, k2;
+	float		k1a, k2a;		
+	float		dt = dtime;			
+
+	// make a copy of the hovercraft's state		
+	memcpy(&body, craft, sizeof(RigidBody2D));
+
+	// calculate the k1 terms for both linear and angular velocity
+	CalcLoads(&body);		
+	Ae = body.vForces / body.fMass;		
+	k1 = Ae * dt;
+
+	Aa = body.vMoment.z / body.fInertia;
+	k1a = Aa * dt;
+
+	// add the k1 terms to the respective initial velocities
+	body.vVelocity += k1;
+	body.vAngularVelocity.z += k1a;
+
+	// calculate new loads and the k2 terms
+	CalcLoads(&body);
+	Ae = body.vForces / body.fMass;		
+	k2 = Ae * dt;
+
+	Aa = body.vMoment.z / body.fInertia;
+	k2a = Aa * dt;
+
+	// now calculate the hovercraft's new velocities at time t + dt
+	craft->vVelocity += (k1 + k2) / 2.0f;
+	craft->vAngularVelocity.z += (k1a + k2a) / 2.0f;
+
+	// calculate the new position 
+	craft->vPosition += craft->vVelocity * dt;		
+	craft->fSpeed = craft->vVelocity.Magnitude();		
+
+	// calculate the new orientation
+	craft->fOrientation += RadiansToDegrees(craft->vAngularVelocity.z * dt);
+	craft->vVelocityBody = VRotate2D(-craft->fOrientation, craft->vVelocity);	
+
+}
+
+void	UpdateBodyEuler(pRigidBody2D craft, float dt)
+{
+	Vector a;
+	Vector dv;
+	Vector ds;
+	float  aa;
+	float  dav;
+	float  dr;
+
+	// Calculate forces and moments:
+	CalcLoads(craft);
+
+	// Integrate linear equation of motion:
+	a = craft->vForces / craft->fMass;
+
+	dv = a * dt;
+	craft->vVelocity += dv;
+
+	ds = craft->vVelocity * dt;
+	craft->vPosition += ds;
+
+	// Integrate angular equation of motion:
+	aa = craft->vMoment.z / craft->fInertia;
+
+	dav = aa * dt;
+
+	craft->vAngularVelocity.z += dav;
+
+	dr = RadiansToDegrees(craft->vAngularVelocity.z * dt);
+	craft->fOrientation += dr; 
+
+	// Misc. calculations:
+	craft->fSpeed = craft->vVelocity.Magnitude();		
+	craft->vVelocityBody = VRotate2D(-craft->fOrientation, craft->vVelocity);	
+}
+
+// Applies impulse that includes both linear and angular effects
+void		ApplyImpulse(pRigidBody2D body1, pRigidBody2D body2)
+{
+	double	j, Vrt;
+	double	mu = FRICTIONCOEFFICIENT;
+	Vector	n;
+
+	j = (-(1+fCr) * (vRelativeVelocity*vCollisionNormal)) /						
+		( (1/body1->fMass + 1/body2->fMass) +
+		(vCollisionNormal * ( ( (body1->vCollisionPoint ^ vCollisionNormal)/body1->fInertia )^body1->vCollisionPoint) ) +
+		(vCollisionNormal * ( ( (body2->vCollisionPoint ^ vCollisionNormal)/body2->fInertia )^body2->vCollisionPoint) )
+		);
+
+	Impulse = j;
+
+	Vrt = vRelativeVelocity * vCollisionTangent;
+
+	if(fabs(Vrt) > 0.0) {
+		// with friction
+		body1->vVelocity += ( (j * vCollisionNormal) + ((mu * j) * vCollisionTangent) ) / body1->fMass;										
+		body1->vAngularVelocity += (body1->vCollisionPoint ^ ((j * vCollisionNormal) + ((mu * j) * vCollisionTangent))) / body1->fInertia;
+
+		body2->vVelocity += ((-j * vCollisionNormal) + ((mu * j) * vCollisionTangent)) / body2->fMass;										
+		body2->vAngularVelocity += (body2->vCollisionPoint ^ ((-j * vCollisionNormal) + ((mu * j) * vCollisionTangent))) / body2->fInertia;
+
+	} else {
+		// without friction
+		body1->vVelocity += (j * vCollisionNormal) / body1->fMass;
+		body1->vAngularVelocity += (body1->vCollisionPoint ^ (j * vCollisionNormal)) / body1->fInertia;
+
+		body2->vVelocity -= (j * vCollisionNormal) / body2->fMass;										
+		body2->vAngularVelocity -= (body2->vCollisionPoint ^ (j * vCollisionNormal)) / body2->fInertia;
+	}
+}
+
+// Applies only linear impulse
+void		ApplyLinearImpulse(pRigidBody2D body1, pRigidBody2D body2)
+{
+	float j;	
+
+
+
+	// calculate the impulse:
+	j = (-(1+fCr) * (vRelativeVelocity*vCollisionNormal)) /
+		((1/body1->fMass + 1/body2->fMass));
+
+	Impulse = j;
+
+	// calculate the new velocities after impact:
+	body1->vVelocity += (j * vCollisionNormal) / body1->fMass;	
+	body2->vVelocity -= (j * vCollisionNormal) / body2->fMass;	
+}
+
+// simple bounding circle algorithm
+int		CheckForCollisionSimple(pRigidBody2D body1, pRigidBody2D body2)
+{
+	float	r, Vrn, s;	
+	Vector	d, v1, v2;
+	int		retval = 0;
+
+	// calculate separation:
+	r = body1->fLength/2 + body2->fLength/2;
+	d = body1->vPosition - body2->vPosition;
+	s = d.Magnitude() - r;
+
+	// set collision normal vector:
+	d.Normalize();		
+	vCollisionNormal = d;
+
+	// calculate relative normal velocity:
+	v1 = body1->vVelocity;
+	v2 = body2->vVelocity;					
+	vRelativeVelocity = v1 - v2;
+	Vrn = vRelativeVelocity * vCollisionNormal;
+
+	// test:
+	if((fabs(s) <= ctol) && (Vrn < 0.0))
+	{
+		retval = COLLISION;
+		CollisionBody1 = body1;
+		CollisionBody2 = body2;
+	} else 	if(s < -ctol) 
+	{
+		retval = PENETRATING;
+	} else 
+		retval = NOCOLLISION;
+
+	return retval;
+}
+
+// vertex-vertex or vertex-edge collisions
+int		CheckForCollision(pRigidBody2D body1, pRigidBody2D body2)
+{
+	Vector	d, vList1[4], vList2[4], v1, v2, u, edge, p, proj;
+	float	r, wd, lg, s, dist, dot, Vrn;
+	int		i, j, retval = 0;
+	bool	interpenetrating = false;
+	bool	haveNodeEdge = false;	
+
+	// First check to see if the bounding circles are colliding
+	r = body1->fLength/2 + body2->fLength/2;
+	d = body1->vPosition - body2->vPosition;
+	s = d.Magnitude() - r;
+	if(s <= ctol)
+	{   // We have a possible collision, check further
+		// build vertex lists for each hovercraft
+		wd = body1->fWidth;
+		lg = body1->fLength;
+		vList1[0].y = wd/2;		vList1[0].x = lg/2;
+		vList1[1].y = -wd/2;	vList1[1].x = lg/2;
+		vList1[2].y = -wd/2;	vList1[2].x = -lg/2;
+		vList1[3].y = wd/2;		vList1[3].x = -lg/2;		
+		for(i=0; i<4; i++)
+		{
+			v1 = VRotate2D(body1->fOrientation, vList1[i]);
+			vList1[i] = v1 + body1->vPosition;			
+		}
+
+		wd = body2->fWidth;
+		lg = body2->fLength;
+		vList2[0].y = wd/2;		vList2[0].x = lg/2;
+		vList2[1].y = -wd/2;	vList2[1].x = lg/2;
+		vList2[2].y = -wd/2;	vList2[2].x = -lg/2;
+		vList2[3].y = wd/2;		vList2[3].x = -lg/2;		
+		for(i=0; i<4; i++)
+		{
+			v2 = VRotate2D(body2->fOrientation, vList2[i]);
+			vList2[i] = v2 + body2->vPosition;			
+		}
+
+		// Check for vertex-edge collision		
+		for(i=0; i<4 && !haveNodeEdge; i++)
+		{
+			for(j=0; j<4 && !haveNodeEdge; j++)
+			{							
+				if(j==3)
+					edge = vList2[j/*0*/] - vList2[0/*j*/];
+				else
+					edge = vList2[j+1] - vList2[j];				
+				u = edge;
+				u.Normalize();
+
+				p = vList1[i] - vList2[j];					
+				proj = (p * u) * u;
+
+				d = p^u;					
+				dist = d.Magnitude();
+
+				dot = p * edge;
+				if(dot > 0)
+					dist = -dist; // point is on inside
+
+				vCollisionPoint = vList1[i];
+				body1->vCollisionPoint = vCollisionPoint - body1->vPosition;
+				body2->vCollisionPoint = vCollisionPoint - body2->vPosition;
+
+
+				vCollisionNormal = ((u^p)^u);
+				vCollisionNormal.Normalize();
+
+				v1 = body1->vVelocity + (body1->vAngularVelocity^body1->vCollisionPoint);
+				v2 = body2->vVelocity + (body2->vAngularVelocity^body2->vCollisionPoint);
+
+
+				vRelativeVelocity = (v1 - v2);
+				Vrn = vRelativeVelocity * vCollisionNormal;
+
+				vCollisionTangent = (vCollisionNormal^vRelativeVelocity)^vCollisionNormal;
+				vCollisionTangent.Normalize();
+
+				if( (proj.Magnitude() > tol) && 
+					(proj.Magnitude() <= edge.Magnitude()) && 
+					(dist <= ctol) && 
+					(Vrn < 0.0f)						
+					)
+				{
+					haveNodeEdge = true;
+					CollisionBody1 = body1;
+					CollisionBody2 = body2;
+
+				}
+			}
+		}			
+
+		for(i=0; i<4 && !haveNodeEdge; i++)
+		{
+			for(j=0; j<4 && !haveNodeEdge; j++)
+			{							
+				if(j==3)
+					edge = vList1[j/*0*/] - vList1[0/*j*/];
+				else
+					edge = vList1[j+1] - vList1[j];				
+				u = edge;
+				u.Normalize();
+
+				p = vList2[i] - vList1[j];					
+				proj = (p * u) * u;
+
+				d = p^u;					
+				dist = d.Magnitude();
+
+				dot = p * edge;
+				if(dot > 0)
+					dist = -dist; // point is on inside
+
+				vCollisionPoint = vList2[i];
+				body1->vCollisionPoint = vCollisionPoint - body1->vPosition;
+				body2->vCollisionPoint = vCollisionPoint - body2->vPosition;
+
+
+				vCollisionNormal = ((u^p)^u);
+				vCollisionNormal.Normalize();
+
+				v1 = body1->vVelocity + (body1->vAngularVelocity^body1->vCollisionPoint);
+				v2 = body2->vVelocity + (body2->vAngularVelocity^body2->vCollisionPoint);
+
+
+				vRelativeVelocity = (v1 - v2);
+				Vrn = vRelativeVelocity * vCollisionNormal;
+
+				vCollisionTangent = (vCollisionNormal^vRelativeVelocity)^vCollisionNormal;
+				vCollisionTangent.Normalize();
+
+				if( (proj.Magnitude() > tol) && 
+					(proj.Magnitude() <= edge.Magnitude()) && 
+					(dist <= ctol) && 
+					(Vrn < 0.0f)						
+					)
+				{
+					haveNodeEdge = true;
+					CollisionBody1 = body2;
+					CollisionBody2 = body1;
+				}
+			}
+		}		
+
+		if(!haveNodeEdge)
+		{
+			for(i=0; i<4 && !interpenetrating; i++)
+			{
+				if(pnpoly(4, vList2, vList1[i]) == 1)
+					interpenetrating = true;
+
+				if(pnpoly(4, vList1, vList2[i]) == 1)
+					interpenetrating = true;
+			}
+		}
+
+		if(interpenetrating)
+			retval = PENETRATING;					
+		else if(haveNodeEdge)
+			retval = COLLISION;
+		else
+			retval = NOCOLLISION;		
+
+	} else
+	{
+		retval = NOCOLLISION;	
+	}
+
+	return retval;
+}
+
+bool	ArePointsEqual(Vector p1, Vector p2)
+{	
+	// Points are equal if each component is within ctol of each other
+	if(	(fabs(p1.x - p2.x) <= 0.1) &&
+		(fabs(p1.y - p2.y) <= 0.1) &&
+		(fabs(p1.z - p2.z) <= 0.1) )
+		return true;
+	else
+		return false;	
+}
+
+Vector	VRotate2D( float angle, Vector u)
+{
+	float	x,y;
+
+	x = u.x * cos(DegreesToRadians(-angle)) + u.y * sin(DegreesToRadians(-angle));
+	y = -u.x * sin(DegreesToRadians(-angle)) + u.y * cos(DegreesToRadians(-angle));
+
+	return Vector( x, y, 0);
+}
+
+
