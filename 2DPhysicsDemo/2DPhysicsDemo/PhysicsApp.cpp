@@ -108,7 +108,8 @@ void PhysicsApp::InitializeAllShpes(){
 	line->SetData(p1,p2/*,lmid*/);
 	line->middlepoint = lmid;
 	//add
-	_shapeShareObject.SetData(line);
+	_shapeShareObject.renderObjects.push_back(line);
+	/*_shapeShareObject.SetData(line);*/
 
 
 	//set squares
@@ -139,8 +140,8 @@ void PhysicsApp::InitializeAllShpes(){
 			Shape* square = new Square();
 			square->SetData(p1,p2,p3,p4/*,p5*/);
 			square->middlepoint = p5;
-			_shapeShareObject.SetData(square);
-
+			/*_shapeShareObject.SetData(square);*/
+			_shapeShareObject.renderObjects.push_back(square);
 			if(i==3 && j==6){
 				//setting triangle start position
 				tristartp = p4;
@@ -174,7 +175,8 @@ void PhysicsApp::InitializeAllShpes(){
 			Shape* triangle = new Triangle();
 			triangle->SetData(p1,p2,p3/*,mid*/);
 			triangle->middlepoint = mid;
-			_shapeShareObject.SetData(triangle);
+			/*_shapeShareObject.SetData(triangle);*/
+			_shapeShareObject.renderObjects.push_back(triangle);
 			if(j==0){
 				nextlevelstartp = p3;
 			}
@@ -199,7 +201,8 @@ void PhysicsApp::InitializeAllShpes(){
 				Shape* triangle = new Triangle();
 				triangle->SetData(q1,q2,q3/*,qmid*/);
 				triangle->middlepoint = qmid;
-				_shapeShareObject.SetData(triangle);
+				/*_shapeShareObject.SetData(triangle);*/
+				_shapeShareObject.renderObjects.push_back(triangle);
 			}
 			
 

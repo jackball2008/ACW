@@ -13,7 +13,7 @@ ControllerThread::~ControllerThread(void)
 int ControllerThread::run(){
 	while(!_terminate){
 		
-		Sleep(100);
+		Sleep(10);
 
 		if(_mouseShareObject->Acquire()){
 			__try{
@@ -21,7 +21,6 @@ int ControllerThread::run(){
 				float y = _mouseShareObject->v;
 				int lr = 0;
 				if(_mouseShareObject->left_down || _mouseShareObject->right_down){
-					
 					
 					if(_mouseShareObject->left_down)
 						lr = 1;

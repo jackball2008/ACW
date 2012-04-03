@@ -8,6 +8,9 @@ Shape::Shape(void)
 // 		Point p;
 // 		points.push_back(p);
 // 	}
+	r=1.0f;
+	g=1.0f;
+	b=0.0f;
 }
 
 

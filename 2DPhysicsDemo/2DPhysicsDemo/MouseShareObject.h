@@ -6,6 +6,8 @@ using namespace std;
 
 class MouseShareObject
 {
+private:
+	HANDLE mutex;
 public:
 	float u,v,old_u,old_v;
 
@@ -13,7 +15,7 @@ public:
 
 	
 
-	HANDLE mutex;
+	
 
 public:
 	MouseShareObject(void);

@@ -3,19 +3,34 @@
 #include "Triangle.h"
 #include "Square.h"
 #include "Line.h"
+#include <Windows.h>
 
 class ShapeShareObject
 {
 private:
-	vector<Shape*>_renderObjects;
+	HANDLE mutex;
+
+public:
+	vector<Shape*>renderObjects;
 
 public:
 	ShapeShareObject(void);
 	~ShapeShareObject(void);
 
-	void SetData(Shape*);
+	//void SetData(const Shape&);
 
-	vector<Shape*> GetData() const { return _renderObjects;};
-
+	//vector<Shape*> GetData() const { return renderObjects;};
+	/************************************************************************/
+	/* wait for mutex                                                                     */
+	/************************************************************************/
+	inline bool Acquire(){
+		return (WaitForSingleObject(mutex,5000L) == WAIT_OBJECT_0);
+	};
+	/************************************************************************/
+	/* release mutex                                                                     */
+	/************************************************************************/
+	inline void Release(){
+		ReleaseMutex(mutex);
+	};
 };
 

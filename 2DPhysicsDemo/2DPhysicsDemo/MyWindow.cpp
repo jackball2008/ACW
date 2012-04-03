@@ -18,24 +18,24 @@ void	MyWindow::OnDisplay(){
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	
-	vector<Shape*> plist = _shapeShareObject->GetData();
-	for(vector<Shape*>::iterator ite_vec_shape = plist.begin();   
-		ite_vec_shape != plist.end();  
+	/*vector<Shape*> plist = _shapeShareObject->GetData();*/
+	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
+		ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
 		ite_vec_shape++){  
 			
 			
 			Shape* shape = *ite_vec_shape;
-			vector<Point>* pa = &shape->points;
-
+			vector<Point>& pa = shape->points;
+			/*vector<Point>* pa = &shape->points;*/
 			if(shape->type == 1){
 				//draw line
 
 
-				glColor3f(1.0,1.0,0.0);
+				glColor3f(shape->r,shape->g,shape->b);
 				
 				glBegin(GL_LINES);
-				glVertex2f(pa->at(0).x, pa->at(0).y);
-				glVertex2f(pa->at(1).x, pa->at(1).y);
+				glVertex2f(pa.at(0).x, pa.at(0).y);
+				glVertex2f(pa.at(1).x, pa.at(1).y);
 				
 				glEnd();
 
@@ -47,11 +47,11 @@ void	MyWindow::OnDisplay(){
 			if(shape->type == 2){
 				//draw triangles
 				
-				glColor3f(1.0,1.0,0.0);
+				glColor3f(shape->r,shape->g,shape->b);
 				glBegin(GL_LINE_LOOP);
-				glVertex2f(pa->at(0).x, pa->at(0).y);
-				glVertex2f(pa->at(1).x, pa->at(1).y);
-				glVertex2f(pa->at(2).x, pa->at(2).y);
+				glVertex2f(pa.at(0).x, pa.at(0).y);
+				glVertex2f(pa.at(1).x, pa.at(1).y);
+				glVertex2f(pa.at(2).x, pa.at(2).y);
 				glEnd();
 
 				glBegin(GL_POINTS);
@@ -62,12 +62,12 @@ void	MyWindow::OnDisplay(){
 				//draw squares
 				
 				
-				glColor3f(1.0,1.0,0.0);
+				glColor3f(shape->r,shape->g,shape->b);
 				glBegin(GL_LINE_LOOP);
-				glVertex2f(pa->at(0).x, pa->at(0).y);
-				glVertex2f(pa->at(1).x, pa->at(1).y);
-				glVertex2f(pa->at(2).x, pa->at(2).y);
-				glVertex2f(pa->at(3).x, pa->at(3).y);
+				glVertex2f(pa.at(0).x, pa.at(0).y);
+				glVertex2f(pa.at(1).x, pa.at(1).y);
+				glVertex2f(pa.at(2).x, pa.at(2).y);
+				glVertex2f(pa.at(3).x, pa.at(3).y);
 				glEnd();
 
 				
