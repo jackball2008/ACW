@@ -2,8 +2,7 @@
 #include <GXBase.h>
 #include <iostream>
 #include "MyWindow.h"
-// #include "TestThread.h"
-// #include "TestThread2.h"
+
 //////////////////////////////////////////////////////////////////////////
 #include "NetReceiveThread.h"
 #include "NetSendThread.h"
@@ -21,6 +20,7 @@
 /* share objects                                                                     */
 /************************************************************************/
 #include "ShapeShareObject.h"
+#include "MouseShareObject.h"
 
 
 using namespace gxbase;
@@ -31,8 +31,6 @@ class PhysicsApp:
 private:
 	MyWindow _mywindow;
 
-// 	TestThread* _testThread;
-// 	TestThread2* _testThread2;
 	//real work thread
 	NetReceiveThread* _netReceiveThread;
 	NetSendThread* _netSendThread;
@@ -43,9 +41,8 @@ private:
 	/************************************************************************/
 	/* share object                                                                     */
 	/************************************************************************/
-	/*vector<Shape*>_renderObjects;*/
 	ShapeShareObject _shapeShareObject;
-
+	MouseShareObject _mouseShareObject;
 	/************************************************************************/
 	/* functions                                                                     */
 	/************************************************************************/
@@ -59,9 +56,7 @@ public:
 	void OnCreate();
 	void OnDestroy();
 
-	//static PhysicsApp &Get();
 
-	//vector<Shape*> GetElements() const { return _renderObjects;};
 
 };
 

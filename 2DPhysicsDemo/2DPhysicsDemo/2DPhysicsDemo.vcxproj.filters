@@ -87,6 +87,9 @@
     <ClInclude Include="ShapeShareObject.h">
       <Filter>Header Files\ShareObjects</Filter>
     </ClInclude>
+    <ClInclude Include="MouseShareObject.h">
+      <Filter>Header Files\ShareObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PhysicsApp.cpp">
@@ -132,6 +135,9 @@
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="ShapeShareObject.cpp">
+      <Filter>Source Files\ShareObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseShareObject.cpp">
       <Filter>Source Files\ShareObjects</Filter>
     </ClCompile>
   </ItemGroup>

@@ -15,14 +15,10 @@ void	MyWindow::OnCreate(){
 	GLWindowEx::OnCreate();
 }
 void	MyWindow::OnDisplay(){
-	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(1.0,1.0,0.0);
-
-
 	
-
-	//vector<Shape*> plist = PhysicsApp::Get().GetElements();
-	/*_shapeShareObject*/
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	
 	vector<Shape*> plist = _shapeShareObject->GetData();
 	for(vector<Shape*>::iterator ite_vec_shape = plist.begin();   
 		ite_vec_shape != plist.end();  
@@ -37,7 +33,7 @@ void	MyWindow::OnDisplay(){
 
 
 				glColor3f(1.0,1.0,0.0);
-				//glLineWidth(5);
+				
 				glBegin(GL_LINES);
 				glVertex2f(pa->at(0).x, pa->at(0).y);
 				glVertex2f(pa->at(1).x, pa->at(1).y);
@@ -75,7 +71,7 @@ void	MyWindow::OnDisplay(){
 				glVertex2f(pa->at(3).x, pa->at(3).y);
 				glEnd();
 
-				/*glPointSize(5);*/
+				
 				glBegin(GL_POINTS);
 				glVertex2f(pa->at(4).x, pa->at(4).y);
 				glEnd();
@@ -83,7 +79,7 @@ void	MyWindow::OnDisplay(){
 
 	}
 
-
+	
 
 
 	SwapBuffers();
@@ -101,7 +97,10 @@ void	MyWindow::OnMouseButton(MouseButton button, bool down){
 
 }
 
-
+//use once
 void MyWindow::SetShapeShareObject( ShapeShareObject* s){
 	_shapeShareObject = s;
+}
+void MyWindow::SetMouseShareObject(MouseShareObject* p){
+	_mouseShareObject = p;
 }

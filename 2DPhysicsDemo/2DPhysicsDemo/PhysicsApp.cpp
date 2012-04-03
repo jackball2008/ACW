@@ -5,9 +5,10 @@
 static PhysicsApp theApp;
 PhysicsApp::PhysicsApp(void)
 {
-// 	_testThread = new TestThread();
-// 	_testThread2 = new TestThread2();
-	//////////////////////////////////////////////////////////////////////////
+
+	/************************************************************************/
+	/* create working threads                                                                     */
+	/************************************************************************/
 	_netReceiveThread = new NetReceiveThread();
 	_netSendThread = new NetSendThread();
 	_controllerThread = new ControllerThread();
@@ -18,9 +19,10 @@ PhysicsApp::PhysicsApp(void)
 
 PhysicsApp::~PhysicsApp(void)
 {
-// 	delete _testThread;
-// 	delete _testThread2;
-	//////////////////////////////////////////////////////////////////////////
+
+	/************************************************************************/
+	/* delete all working threads except window thread                                                                     */
+	/************************************************************************/
 	delete _netReceiveThread;
 	delete _netSendThread;
 	delete _controllerThread;
@@ -44,13 +46,17 @@ void PhysicsApp::OnCreate(){
 	/* bound share objects                                                                     */
 	/************************************************************************/
 	_mywindow.SetShapeShareObject(&_shapeShareObject);
-	
+	_mywindow.SetMouseShareObject(&_mouseShareObject);
+
+	_renderThread->SetShapeShareObject(&_shapeShareObject);
+	/************************************************************************/
+	/* window thread start                                                                     */
+	/************************************************************************/
 	_mywindow.Show();
 	_mywindow.SetSize(768,768);
 	_mywindow.SetPosition(0,0);
 
-// 	_testThread->start();
-// 	_testThread2->start();
+
 
 	_netReceiveThread->start();
 	_netSendThread->start();
@@ -63,12 +69,10 @@ void PhysicsApp::OnCreate(){
 }
 
 void PhysicsApp::OnDestroy(){
-// 	_testThread->terminate();
-// 	_testThread->waitForTermination();
 
-// 	_testThread2->terminate();
-// 	_testThread2->waitForTermination();
-	//////////////////////////////////////////////////////////////////////////
+	/************************************************************************/
+	/* terminate all working threads                                                                     */
+	/************************************************************************/
 	_netReceiveThread->terminate();
 	_netReceiveThread->waitForTermination();
 
@@ -100,7 +104,6 @@ void PhysicsApp::InitializeAllShpes(){
 	line->SetData(p1,p2,p2,p2,p2);
 	
 	//add
-	//_renderObjects.push_back(line);
 	_shapeShareObject.SetData(line);
 
 
@@ -131,10 +134,10 @@ void PhysicsApp::InitializeAllShpes(){
 
 			Shape* square = new Square();
 			square->SetData(p1,p2,p3,p4,p5);
-			//_renderObjects.push_back(square);
 			_shapeShareObject.SetData(square);
 
 			if(i==3 && j==6){
+				//setting triangle start position
 				tristartp = p4;
 			}
 
@@ -162,20 +165,17 @@ void PhysicsApp::InitializeAllShpes(){
 			mid.x = (p1.x + p2.x + p3.x)/3;
 			mid.y = (p1.y + p2.y + p3.y)/3;
 
-			/*Point */
-
 			//add
 			Shape* triangle = new Triangle();
 			triangle->SetData(p1,p2,p3,p3,mid);
-			//_renderObjects.push_back(triangle);
 			_shapeShareObject.SetData(triangle);
 			if(j==0){
 				nextlevelstartp = p3;
 			}
-
+			//set the second triangle start position
 			tristartp = p2;
-// 
-			
+ 
+			//set the reverse triangle
 			if( (j+1)<i  ){
 				//reverse
 				Point q1;
@@ -192,7 +192,6 @@ void PhysicsApp::InitializeAllShpes(){
 
 				Shape* triangle = new Triangle();
 				triangle->SetData(q1,q2,q3,q3,qmid);
-				//_renderObjects.push_back(triangle);
 				_shapeShareObject.SetData(triangle);
 			}
 			
