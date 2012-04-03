@@ -13,3 +13,5 @@ ShapeShareObject::~ShapeShareObject(void)
 void ShapeShareObject::SetData(Shape* p){
 	_renderObjects.push_back(p);
 }
+
+
