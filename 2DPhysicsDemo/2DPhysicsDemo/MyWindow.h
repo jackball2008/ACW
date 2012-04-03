@@ -1,5 +1,4 @@
 #pragma once
-/*#include "glwindowex.h"*/
 #include <GXBase.h>
 using namespace gxbase;
 #include <vector>
@@ -9,7 +8,7 @@ using namespace std;
 /* share object                                                                     */
 /************************************************************************/
 #include "ShapeShareObject.h"
-
+#include "MouseShareObject.h"
 
 
 class MyWindow :
@@ -17,7 +16,7 @@ class MyWindow :
 {
 private:
 	ShapeShareObject* _shapeShareObject;
-
+	MouseShareObject* _mouseShareObject;
 public:
 	MyWindow(void);
 	~MyWindow(void);
@@ -30,6 +29,7 @@ public:
 	void	OnMouseButton(MouseButton button, bool down);
 
 	void SetShapeShareObject( ShapeShareObject*);
+	void SetMouseShareObject(MouseShareObject*);
 
 };
 

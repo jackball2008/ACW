@@ -76,6 +76,7 @@
   <ItemGroup>
     <ClInclude Include="ControllerThread.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="MouseShareObject.h" />
     <ClInclude Include="MyThread.h" />
     <ClInclude Include="MyWindow.h" />
     <ClInclude Include="NetReceiveThread.h" />
@@ -94,6 +95,7 @@
   <ItemGroup>
     <ClCompile Include="ControllerThread.cpp" />
     <ClCompile Include="Line.cpp" />
+    <ClCompile Include="MouseShareObject.cpp" />
     <ClCompile Include="MyThread.cpp" />
     <ClCompile Include="MyWindow.cpp" />
     <ClCompile Include="NetReceiveThread.cpp" />
