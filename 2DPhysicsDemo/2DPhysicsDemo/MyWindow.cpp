@@ -1,6 +1,5 @@
 #include "MyWindow.h"
-// #include "Shape.h"
-// #include "PhysicsApp.h"
+
 
 MyWindow::MyWindow(void)
 {

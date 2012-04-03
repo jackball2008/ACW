@@ -12,7 +12,7 @@ ControllerThread::~ControllerThread(void)
 
 int ControllerThread::run(){
 	while(!_terminate){
-		//cout<<"controller"<<endl;
+		
 		Sleep(100);
 
 		if(_mouseShareObject->Acquire()){
@@ -21,7 +21,7 @@ int ControllerThread::run(){
 				float y = _mouseShareObject->v;
 				int lr = 0;
 				if(_mouseShareObject->left_down || _mouseShareObject->right_down){
-					//_mouseShareObject->left_down = false;
+					
 					
 					if(_mouseShareObject->left_down)
 						lr = 1;
@@ -31,13 +31,7 @@ int ControllerThread::run(){
 				else{
 					lr = 0;
 				}
-// 				if(_mouseShareObject->right_down){
-// 					//_mouseShareObject->right_down = false;
-// 					lr = 2;
-// 				}
-// 				else{
-// 					lr = 0;
-// 				}
+
 				cout<<"x = "<<x<<" y = "<<y<<" LR = "<<lr<<endl;
 			}__finally{
 				_mouseShareObject->Release();
