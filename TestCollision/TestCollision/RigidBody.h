@@ -91,4 +91,6 @@ int	  CheckForCollisionSimple(pRigidBody2D body1, pRigidBody2D body2);
 int	  CheckForCollision(pRigidBody2D body1, pRigidBody2D body2);
 bool  ArePointsEqual(Vector p1, Vector p2);
 
+int	pnpoly(int	npol, Vector *vlist, Vector p);
+
 Vector VRotate2D(float angle, Vector u);

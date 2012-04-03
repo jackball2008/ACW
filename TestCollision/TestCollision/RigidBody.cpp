@@ -7,7 +7,7 @@
 #define	_MAXTHRUST	2000.0f
 
 extern	void	MyBeep();
-int	pnpoly(int	npol, Vector *vlist, Vector p);
+
 
 //------------------------------------------------------------------------//
 // Global variables
@@ -655,3 +655,16 @@ Vector	VRotate2D( float angle, Vector u)
 }
 
 
+int	pnpoly(int	npol, Vector *vlist, Vector p)
+{
+	int	i, j, c = 0;
+
+	for (i = 0, j = npol-1; i<npol; j = i++) {
+		if ((((vlist[i].y<=p.y) && (p.y<vlist[j].y)) ||
+			((vlist[j].y<=p.y) && (p.y<vlist[i].y))) &&
+			(p.x < (vlist[j].x - vlist[i].x) * (p.y - vlist[i].y) / (vlist[j].y - vlist[i].y) + vlist[i].x))
+
+			c = !c;
+	}
+	return c;
+}
