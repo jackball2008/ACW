@@ -110,9 +110,6 @@
     <ClCompile Include="TestThread2.cpp" />
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="2DPhysicsDemo.rc" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
