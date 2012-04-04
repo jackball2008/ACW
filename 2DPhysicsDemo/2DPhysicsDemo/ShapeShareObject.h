@@ -15,9 +15,12 @@ public:
 	/************************************************************************/
 	/* mouse                                                                      */
 	/************************************************************************/
-	float u,v,old_u,old_v;
+	/*float u,v,old_u,old_v;*/
 
 	bool left_down, right_down;
+
+	Point mouseposition;
+	Point old_mouseposition;
 
 public:
 	ShapeShareObject(void);
