@@ -2,6 +2,7 @@
 
 const float MAX_LENGTH_IN_SQUARE = 0.1365685425f;
 const float MIN_LENGTH_IN_SQUARE = 0.113137085f;
+
 ControllerThread::ControllerThread(void)
 {
 	_x = 0;
@@ -27,14 +28,14 @@ int ControllerThread::run(){
 // 				_y = _shapeShareObject->v;
 // 				_down = _shapeShareObject->left_down;
 				
-// 				if(_shapeShareObject->left_down){
-// 					cout<<"x = "<<_shapeShareObject->u<<" y = "<<_shapeShareObject->v<<" LR = "<<1<<endl;
-// 
-// 				}
-// 				else{
-// 					
-// 					cout<<"x = "<<_shapeShareObject->u<<" y = "<<_shapeShareObject->v<<" LR = "<<0<<endl;
-// 				}
+				if(_shapeShareObject->left_down){
+					cout<<"x = "<<_shapeShareObject->mouseposition.x<<" y = "<<_shapeShareObject->mouseposition.y<<" LR = "<<1<<endl;
+
+				}
+				else{
+					
+					cout<<"x = "<<_shapeShareObject->mouseposition.x<<" y = "<<_shapeShareObject->mouseposition.y<<" LR = "<<0<<endl;
+				}
 				
 				//////////////////////////////////////////////////////////////////////////
 				/************************************************************************/
@@ -63,7 +64,7 @@ int ControllerThread::run(){
 
 void ControllerThread::CheckMouseInShape(){
 	try{
-		int k = _shapeShareObject->renderObjects.size();
+		//int k = _shapeShareObject->renderObjects.size();
 
 		for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
 			ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
@@ -95,6 +96,24 @@ void ControllerThread::CheckMouseInShape(){
 
 				//check triangle
 				if(shape->type == 2){
+					bool intriangle = false;
+					for(int i= 0;i < 3; i++){
+						//mul(p,tr[i],tr[(i+1)%3])*mul(p,tr[(i+2)%3],tr[(i+1)%3])> 0
+						if(Mul(_shapeShareObject->mouseposition,pa.at(i),pa.at((i+1)%3)) * Mul(_shapeShareObject->mouseposition, pa.at((i + 2)%3), pa.at((i+1)%3)) > 0)
+							intriangle = false;
+
+					}
+
+					if(!intriangle){
+						shape->r = 1.0f;
+						shape->g = 0.0f;
+						shape->b = 0.0f;
+					}else{
+						shape->r = 1.0f;
+						shape->g = 1.0f;
+						shape->b = 0.0f;
+					}
+
 // 					for(int i=0; i<3;i++)
 // 					{
 // 						if(Mul())
@@ -112,7 +131,7 @@ void ControllerThread::CheckMouseInShape(){
 
 				//check line
 				if(shape->type == 1){
-					if(_shapeShareObject->v <= pa.at(0).y){
+					if(_shapeShareObject->mouseposition.y <= pa.at(0).y){
 						shape->r = 1.0f;
 						shape->g = 0.0f;
 						shape->b = 0.0f;

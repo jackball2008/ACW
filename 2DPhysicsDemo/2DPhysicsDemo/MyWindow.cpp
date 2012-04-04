@@ -24,7 +24,7 @@ void	MyWindow::OnDisplay(){
 	glPointSize(5);
 	glBegin(GL_POINTS);
 	
-	glVertex2f(_shapeShareObject->u, _shapeShareObject->v);
+	glVertex2f(_shapeShareObject->mouseposition.x, _shapeShareObject->mouseposition.y);
 	glEnd();
 	
 	/*vector<Shape*> plist = _shapeShareObject->GetData();*/
@@ -105,13 +105,13 @@ void	MyWindow::OnMouseMove(int x, int y){
 		//now modify the shared memory
 		__try{
 			if(Width()){
-				_shapeShareObject->old_u = _shapeShareObject->u;
-				_shapeShareObject->u = 2.0f * (float)x / (float)Width() - 1.0f;
+				_shapeShareObject->old_mouseposition.x = _shapeShareObject->mouseposition.x;
+				_shapeShareObject->mouseposition.x = 2.0f * (float)x / (float)Width() - 1.0f;
 				
 			}
 			if(Height()){
-				_shapeShareObject->old_v = _shapeShareObject->v;
-				_shapeShareObject->v = 2.0f * (float)y / (float)Height() - 1.0f;
+				_shapeShareObject->old_mouseposition.y = _shapeShareObject->mouseposition.y;
+				_shapeShareObject->mouseposition.y = 2.0f * (float)y / (float)Height() - 1.0f;
 			}
 			Redraw();
 
