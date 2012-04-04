@@ -12,11 +12,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mymath.h" />
+    <ClInclude Include="MyPhysics.h" />
+    <ClInclude Include="MyWindow.h" />
     <ClInclude Include="RigidBody.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mymath.cpp" />
+    <ClCompile Include="MyPhysics.cpp" />
+    <ClCompile Include="MyWindow.cpp" />
     <ClCompile Include="RigidBody.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -48,6 +52,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\Program Files %28x86%29\shu\学科\graphic\gxbase_R714_VC10_binaries\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Program Files %28x86%29\shu\学科\graphic\gxbase_R714_VC10_binaries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

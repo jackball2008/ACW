@@ -17,8 +17,8 @@
 // 2D rigid body
 //------------------------------------------------------------------------//
 
-typedef struct _RigidBody{
-
+class _RigidBody{
+public:
 	float     fMass;                // total mass (constant)
 	float     fInertia;             // mass moment of inertia in body coordinates (constant)
 	float     fInertiaInverse;      // inverse of mass moment of inertia (constant)
@@ -52,8 +52,7 @@ typedef struct _RigidBody{
 	float     fLength;
 
 	Vector    vCollisionPoint;       // point of impact in local coordinates
-} RigidBody2D, *pRigidBody2D;
-
+};
 
 #define	ANGULARDRAGCOEFFICIENT	100.25f
 #define LINEARDRAGCOEFFICIENT	0.25f
@@ -64,33 +63,34 @@ typedef struct _RigidBody{
 #define	PENETRATING				-1
 #define FRICTIONCOEFFICIENT		0.35f
 
+
 //------------------------------------------------------------------------//
 // Function headers
 //------------------------------------------------------------------------//
 
-void  InitializeSquare(pRigidBody2D body);
-void  CalcLoads(pRigidBody2D body);
-
-void  UpdateBody(pRigidBody2D craft, float dtime);
-void  UpdateBodyEuler(pRigidBody2D craft, float dt);
-
-Vector	GetBodyZAxisVector(void);
-Vector	GetBodyXAxisVector(int craft);
-
-void	IncThrust(int craft);
-void	DecThrust(int craft);
-void	PortThruster(int craft);
-void	STBDThruster(int craft);
-void	ZeroThrusters(int craft);
-
-void  Initialize(void);
-void  StepSimulation(float dt);
-void  ApplyImpulse(pRigidBody2D body1,pRigidBody2D body2);
-void  ApplyLinearImpulse(pRigidBody2D body1, pRigidBody2D body2);
-int	  CheckForCollisionSimple(pRigidBody2D body1, pRigidBody2D body2);
-int	  CheckForCollision(pRigidBody2D body1, pRigidBody2D body2);
-bool  ArePointsEqual(Vector p1, Vector p2);
-
-int	pnpoly(int	npol, Vector *vlist, Vector p);
-
-Vector VRotate2D(float angle, Vector u);
+//void  InitializeSquare(pRigidBody2D body);
+//void  CalcLoads(pRigidBody2D body);
+//
+//void  UpdateBody(pRigidBody2D craft, float dtime);
+//void  UpdateBodyEuler(pRigidBody2D craft, float dt);
+//
+//Vector	GetBodyZAxisVector(void);
+//Vector	GetBodyXAxisVector(int craft);
+//
+//void	IncThrust(int craft);
+//void	DecThrust(int craft);
+//void	PortThruster(int craft);
+//void	STBDThruster(int craft);
+//void	ZeroThrusters(int craft);
+//
+//void  Initialize(void);
+//void  StepSimulation(float dt);
+//void  ApplyImpulse(pRigidBody2D body1,pRigidBody2D body2);
+//void  ApplyLinearImpulse(pRigidBody2D body1, pRigidBody2D body2);
+//int	  CheckForCollisionSimple(pRigidBody2D body1, pRigidBody2D body2);
+//int	  CheckForCollision(pRigidBody2D body1, pRigidBody2D body2);
+//bool  ArePointsEqual(Vector p1, Vector p2);
+//
+//int	pnpoly(int	npol, Vector *vlist, Vector p);
+//
+//Vector VRotate2D(float angle, Vector u);};
