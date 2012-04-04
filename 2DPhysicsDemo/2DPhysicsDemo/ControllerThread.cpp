@@ -72,10 +72,34 @@ void ControllerThread::CheckMouseInShape(){
 				Shape* shape = *ite_vec_shape;
 				vector<Point>& pa = shape->points;
 
+				/************************************************************************/
+				/* int inside(struct   TPoint   tr[],struct   TPoint   p){ 
+				int   i; 
+				for   (i=0;i <3;i++) 
+				if   (mul(p,tr[i],tr[(i+1)%3])*mul(p,tr[(i+2)%3],tr[(i+1)%3])> 0) 
+				return   0; 
+				return   1; 
+				} 
+
+				int   inside2(struct   TPoint   tr[],struct   TPoint   p){ 
+				if   (fabs(area(tr[0],tr[1],tr[2])- 
+				area(p,tr[1],tr[2])- 
+				area(tr[0],p,tr[2])- 
+				area(tr[0],tr[1],p)) <1.0e-20) 
+				return   1; 
+				else 
+				return   0; 
+				}                                                                     */
+				/************************************************************************/
+
 
 				//check triangle
 				if(shape->type == 2){
-
+// 					for(int i=0; i<3;i++)
+// 					{
+// 						if(Mul())
+// 
+// 					}
 				}
 
 
