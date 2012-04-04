@@ -66,6 +66,12 @@ void ControllerThread::Test(){
 			ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
 			ite_vec_shape++){
 
+
+
+
+
+
+
 		}
 	}catch(vector<Shape*>::iterator){
 

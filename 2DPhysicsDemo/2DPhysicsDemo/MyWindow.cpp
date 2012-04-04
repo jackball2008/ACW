@@ -17,6 +17,15 @@ void	MyWindow::OnDisplay(){
 	
 	glClear(GL_COLOR_BUFFER_BIT);
 	
+	/************************************************************************/
+	/* draw mouse points                                                                     */
+	/************************************************************************/
+	glColor3f(1.0f,1.0f,0.0f);
+	glPointSize(5);
+	glBegin(GL_POINTS);
+	
+	glVertex2f(_shapeShareObject->u, _shapeShareObject->v);
+	glEnd();
 	
 	/*vector<Shape*> plist = _shapeShareObject->GetData();*/
 	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
@@ -54,6 +63,7 @@ void	MyWindow::OnDisplay(){
 				glVertex2f(pa.at(2).x, pa.at(2).y);
 				glEnd();
 
+				glPointSize(1);
 				glBegin(GL_POINTS);
 				glVertex2f(shape->middlepoint.x, shape->middlepoint.y);
 				glEnd();
@@ -70,7 +80,7 @@ void	MyWindow::OnDisplay(){
 				glVertex2f(pa.at(3).x, pa.at(3).y);
 				glEnd();
 
-				
+				glPointSize(1);
 				glBegin(GL_POINTS);
 				glVertex2f(shape->middlepoint.x, shape->middlepoint.y);
 				glEnd();
