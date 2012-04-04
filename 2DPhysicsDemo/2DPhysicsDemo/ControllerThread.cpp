@@ -1,6 +1,7 @@
 #include "ControllerThread.h"
 
-
+const float MAX_LENGTH_IN_SQUARE = 0.1365685425f;
+const float MIN_LENGTH_IN_SQUARE = 0.113137085f;
 ControllerThread::ControllerThread(void)
 {
 	_x = 0;
@@ -20,26 +21,26 @@ int ControllerThread::run(){
 
 		if(_shapeShareObject->Acquire()){
 			__try{
-				float x = _shapeShareObject->u;
-				float y = _shapeShareObject->v;
-				_x = _shapeShareObject->u;
-				_y = _shapeShareObject->v;
-				_down = _shapeShareObject->left_down;
+// 				float x = _shapeShareObject->u;
+// 				float y = _shapeShareObject->v;
+// 				_x = _shapeShareObject->u;
+// 				_y = _shapeShareObject->v;
+// 				_down = _shapeShareObject->left_down;
 				
-				if(_shapeShareObject->left_down){
-					cout<<"x = "<<x<<" y = "<<y<<" LR = "<<1<<endl;
-
-				}
-				else{
-					
-					cout<<"x = "<<x<<" y = "<<y<<" LR = "<<0<<endl;
-				}
-
+// 				if(_shapeShareObject->left_down){
+// 					cout<<"x = "<<_shapeShareObject->u<<" y = "<<_shapeShareObject->v<<" LR = "<<1<<endl;
+// 
+// 				}
+// 				else{
+// 					
+// 					cout<<"x = "<<_shapeShareObject->u<<" y = "<<_shapeShareObject->v<<" LR = "<<0<<endl;
+// 				}
+				
 				//////////////////////////////////////////////////////////////////////////
 				/************************************************************************/
 				/* judge the mouse position in triangle                                                                     */
 				/************************************************************************/
-				Test();
+				CheckMouseInShape();
 				
 
 				//////////////////////////////////////////////////////////////////////////
@@ -60,14 +61,44 @@ int ControllerThread::run(){
 	return 0;
 }
 
-void ControllerThread::Test(){
+void ControllerThread::CheckMouseInShape(){
 	try{
+		int k = _shapeShareObject->renderObjects.size();
+
 		for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
 			ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
 			ite_vec_shape++){
 
+				Shape* shape = *ite_vec_shape;
+				vector<Point>& pa = shape->points;
 
 
+				//check triangle
+				if(shape->type == 2){
+
+				}
+
+
+
+				//check square
+				if(shape->type ==3){
+
+				}
+
+
+				//check line
+				if(shape->type == 1){
+					if(_shapeShareObject->v <= pa.at(0).y){
+						shape->r = 1.0f;
+						shape->g = 0.0f;
+						shape->b = 0.0f;
+					}
+					else{
+						shape->r = 1.0f;
+						shape->g = 1.0f;
+						shape->b = 0.0f;
+					}
+				}
 
 
 
