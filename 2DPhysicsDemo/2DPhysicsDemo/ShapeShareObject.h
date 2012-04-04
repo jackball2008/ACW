@@ -12,6 +12,12 @@ private:
 
 public:
 	vector<Shape*>renderObjects;
+	/************************************************************************/
+	/* mouse                                                                      */
+	/************************************************************************/
+	float u,v,old_u,old_v;
+
+	bool left_down, right_down;
 
 public:
 	ShapeShareObject(void);

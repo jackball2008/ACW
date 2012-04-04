@@ -24,13 +24,15 @@ public:
 	void SetMouseShareObject(MouseShareObject* p){ _mouseShareObject = p; };
 	void SetShapeShareObject(ShapeShareObject* p){ _shapeShareObject = p; };
 
-// 	static float Area(const Point& p1, const Point& p2, const Point& p3){
-// 		return fabs((p1.x-p3.x)*(p2.y-p3.y)-(p2.x-p3.x)*(p1.y-p3.y));
-// 	};
-// 	static float Mul(const Point& p1, const Point& p2, const Point& p0){
-// 		return((p1.x-p0.x)*(p2.y-p0.y)-(p2.x-p0.x)*(p1.y-p0.y)); 
-// 	};
+	static float Area(const Point& p1, const Point& p2, const Point& p3){
+		return fabs((p1.x-p3.x)*(p2.y-p3.y)-(p2.x-p3.x)*(p1.y-p3.y));
+	};
+	static float Mul(const Point& p1, const Point& p2, const Point& p0){
+		return((p1.x-p0.x)*(p2.y-p0.y)-(p2.x-p0.x)*(p1.y-p0.y)); 
+	};
 
 	void Test();
+
+	
 };
 

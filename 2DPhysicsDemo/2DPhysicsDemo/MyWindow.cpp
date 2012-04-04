@@ -91,22 +91,22 @@ void	MyWindow::OnKeyboard(int key, bool down){
 }
 void	MyWindow::OnMouseMove(int x, int y){
 
-	if(_mouseShareObject->Acquire()){
+	if(_shapeShareObject->Acquire()){
 		//now modify the shared memory
 		__try{
 			if(Width()){
-				_mouseShareObject->old_u = _mouseShareObject->u;
-				_mouseShareObject->u = 2.0f * (float)x / (float)Width() - 1.0f;
+				_shapeShareObject->old_u = _shapeShareObject->u;
+				_shapeShareObject->u = 2.0f * (float)x / (float)Width() - 1.0f;
 				
 			}
 			if(Height()){
-				_mouseShareObject->old_v = _mouseShareObject->v;
-				_mouseShareObject->v = 2.0f * (float)y / (float)Height() - 1.0f;
+				_shapeShareObject->old_v = _shapeShareObject->v;
+				_shapeShareObject->v = 2.0f * (float)y / (float)Height() - 1.0f;
 			}
 			Redraw();
 
 		}__finally{
-			_mouseShareObject->Release();
+			_shapeShareObject->Release();
 		}
 
 
@@ -116,27 +116,27 @@ void	MyWindow::OnMouseMove(int x, int y){
 void	MyWindow::OnMouseButton(MouseButton button, bool down){
 	
 	//if(down) return;
-	if(_mouseShareObject->Acquire()){
+	if(_shapeShareObject->Acquire()){
 		__try{
 			switch(button){
 			case MBLeft:
 				if(down)
-					_mouseShareObject->left_down = true;
+					_shapeShareObject->left_down = true;
 				else
-					_mouseShareObject->left_down = false;
+					_shapeShareObject->left_down = false;
 				break;
 			case MBRight:
 				if(down)
-					_mouseShareObject->right_down = true;
+					_shapeShareObject->right_down = true;
 				else
-					_mouseShareObject->right_down = false;
+					_shapeShareObject->right_down = false;
 				break;
 			}
 
 			Redraw();
 
 		}__finally{
-			_mouseShareObject->Release();
+			_shapeShareObject->Release();
 		}
 	}
 

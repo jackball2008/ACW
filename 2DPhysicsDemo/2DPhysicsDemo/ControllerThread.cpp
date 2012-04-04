@@ -18,69 +18,57 @@ int ControllerThread::run(){
 		
 		Sleep(10);
 
-		if(_mouseShareObject->Acquire()){
+		if(_shapeShareObject->Acquire()){
 			__try{
-				float x = _mouseShareObject->u;
-				float y = _mouseShareObject->v;
-				_x = _mouseShareObject->u;
-				_y = _mouseShareObject->v;
-				_down = _mouseShareObject->left_down;
-				/*int lr = 0;*/
-				if(_mouseShareObject->left_down /*|| _mouseShareObject->right_down*/){
+				float x = _shapeShareObject->u;
+				float y = _shapeShareObject->v;
+				_x = _shapeShareObject->u;
+				_y = _shapeShareObject->v;
+				_down = _shapeShareObject->left_down;
+				
+				if(_shapeShareObject->left_down){
 					cout<<"x = "<<x<<" y = "<<y<<" LR = "<<1<<endl;
-// 					if(_mouseShareObject->left_down)
-// 						lr = 1;
-// 					if(_mouseShareObject->right_down)
-// 						lr = 2;
+
 				}
 				else{
-					/*lr = 0;*/
+					
 					cout<<"x = "<<x<<" y = "<<y<<" LR = "<<0<<endl;
 				}
 
-				/*cout<<"x = "<<x<<" y = "<<y<<" LR = "<<lr<<endl;*/
+				//////////////////////////////////////////////////////////////////////////
+				/************************************************************************/
+				/* judge the mouse position in triangle                                                                     */
+				/************************************************************************/
+				Test();
+				
+
+				//////////////////////////////////////////////////////////////////////////
+
+
+
+				
 			}__finally{
-				_mouseShareObject->Release();
+				_shapeShareObject->Release();
 			}
 		}
 
 		//share
 		//Test();
-// 		if(_shapeShareObject->Acquire()){
-// 			__try{
-// 				//compare the position with each shape
-// 				for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
-// 					ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
-// 					ite_vec_shape++){
-// 
-// 
-// 				}
-// 
-// 
-// 			}__finally{
-// 				_shapeShareObject->Release();
-// 			}
-// 		}
+
 		
 	}
 	return 0;
 }
 
 void ControllerThread::Test(){
-// 	if(_shapeShareObject->Acquire()){
-// 		__try{
-// 			//compare the position with each shape
-// 			for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
-// 				ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
-// 				ite_vec_shape++){
-// 
-// 
-// 			}
-// 
-// 
-// 		}__finally{
-// 			_shapeShareObject->Release();
-// 		}
-// 	}
-}
+	try{
+		for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
+			ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
+			ite_vec_shape++){
 
+		}
+	}catch(vector<Shape*>::iterator){
+
+	}
+
+}
