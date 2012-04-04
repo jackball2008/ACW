@@ -17,6 +17,15 @@ void	MyWindow::OnDisplay(){
 	
 	glClear(GL_COLOR_BUFFER_BIT);
 	
+	/************************************************************************/
+	/* draw mouse points                                                                     */
+	/************************************************************************/
+	glColor3f(1.0f,1.0f,0.0f);
+	glPointSize(5);
+	glBegin(GL_POINTS);
+	
+	glVertex2f(_shapeShareObject->u, _shapeShareObject->v);
+	glEnd();
 	
 	/*vector<Shape*> plist = _shapeShareObject->GetData();*/
 	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
@@ -54,6 +63,7 @@ void	MyWindow::OnDisplay(){
 				glVertex2f(pa.at(2).x, pa.at(2).y);
 				glEnd();
 
+				glPointSize(1);
 				glBegin(GL_POINTS);
 				glVertex2f(shape->middlepoint.x, shape->middlepoint.y);
 				glEnd();
@@ -70,7 +80,7 @@ void	MyWindow::OnDisplay(){
 				glVertex2f(pa.at(3).x, pa.at(3).y);
 				glEnd();
 
-				
+				glPointSize(1);
 				glBegin(GL_POINTS);
 				glVertex2f(shape->middlepoint.x, shape->middlepoint.y);
 				glEnd();
@@ -91,22 +101,22 @@ void	MyWindow::OnKeyboard(int key, bool down){
 }
 void	MyWindow::OnMouseMove(int x, int y){
 
-	if(_mouseShareObject->Acquire()){
+	if(_shapeShareObject->Acquire()){
 		//now modify the shared memory
 		__try{
 			if(Width()){
-				_mouseShareObject->old_u = _mouseShareObject->u;
-				_mouseShareObject->u = 2.0f * (float)x / (float)Width() - 1.0f;
+				_shapeShareObject->old_u = _shapeShareObject->u;
+				_shapeShareObject->u = 2.0f * (float)x / (float)Width() - 1.0f;
 				
 			}
 			if(Height()){
-				_mouseShareObject->old_v = _mouseShareObject->v;
-				_mouseShareObject->v = 2.0f * (float)y / (float)Height() - 1.0f;
+				_shapeShareObject->old_v = _shapeShareObject->v;
+				_shapeShareObject->v = 2.0f * (float)y / (float)Height() - 1.0f;
 			}
 			Redraw();
 
 		}__finally{
-			_mouseShareObject->Release();
+			_shapeShareObject->Release();
 		}
 
 
@@ -116,27 +126,27 @@ void	MyWindow::OnMouseMove(int x, int y){
 void	MyWindow::OnMouseButton(MouseButton button, bool down){
 	
 	//if(down) return;
-	if(_mouseShareObject->Acquire()){
+	if(_shapeShareObject->Acquire()){
 		__try{
 			switch(button){
 			case MBLeft:
 				if(down)
-					_mouseShareObject->left_down = true;
+					_shapeShareObject->left_down = true;
 				else
-					_mouseShareObject->left_down = false;
+					_shapeShareObject->left_down = false;
 				break;
 			case MBRight:
 				if(down)
-					_mouseShareObject->right_down = true;
+					_shapeShareObject->right_down = true;
 				else
-					_mouseShareObject->right_down = false;
+					_shapeShareObject->right_down = false;
 				break;
 			}
 
 			Redraw();
 
 		}__finally{
-			_mouseShareObject->Release();
+			_shapeShareObject->Release();
 		}
 	}
 
