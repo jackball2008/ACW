@@ -20,7 +20,7 @@
 /* share objects                                                                     */
 /************************************************************************/
 #include "ShapeShareObject.h"
-#include "MouseShareObject.h"
+/*#include "MouseShareObject.h"*/
 
 
 using namespace gxbase;
@@ -42,7 +42,7 @@ private:
 	/* share object                                                                     */
 	/************************************************************************/
 	ShapeShareObject _shapeShareObject;
-	MouseShareObject _mouseShareObject;
+	/*MouseShareObject _mouseShareObject;*/
 	/************************************************************************/
 	/* functions                                                                     */
 	/************************************************************************/
