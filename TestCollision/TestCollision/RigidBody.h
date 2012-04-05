@@ -44,6 +44,7 @@ public:
 	Vector    vForces;              // total force on body
 	Vector    vMoment;              // total moment (torque) on body (2D: about z-axis only)
 
+	Vector    vGravity;             
 
 	Vector    vCollisionPoint;       // point of impact in local coordinates
 };

@@ -9,6 +9,8 @@ public:
 
 	_RigidBody Square1,Square2;
 
+	_RigidBody *CollisionBody1,*CollisionBody2;
+
 	Vector      vCollisionNormal;           // the collision normal returned by our collision detection routine
 	Vector		vCollisionTangent;			// the collision tangent returned by our collision detection routine
 	Vector		vCollisionPoint;			// the world space point of collision
@@ -23,11 +25,10 @@ public:
 	 
 	void  SetPosititon();
 
-	void  CalcLoads(_RigidBody *body);
-	void  UpdateBody(_RigidBody craft, float dtime);
+	void  UpdateBody(_RigidBody *Upbody, float dtime);
 
 
-	int	  CheckForCollision(_RigidBody body1, _RigidBody body2);
+	int	  CheckForCollision(_RigidBody *body1, _RigidBody *body2);
 
 	Vector VRotate2D(float angle, Vector u);
 };
