@@ -3,7 +3,7 @@
 const float MAX_LENGTH_IN_SQUARE = 0.1365685425f;
 const float MIN_LENGTH_IN_SQUARE = 0.113137085f;
 
-const Point ORIGIN_P;
+
 
 ControllerThread::ControllerThread(void)
 {

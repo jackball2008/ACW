@@ -7,7 +7,7 @@ using namespace std;
 /*#include "MouseShareObject.h"*/
 #include "ShapeShareObject.h"
 
-
+const Point ORIGIN_P;
 
 class ControllerThread :
 	public MyThread
@@ -27,27 +27,28 @@ public:
 	void SetShapeShareObject(ShapeShareObject* p){ _shapeShareObject = p; };
 
 	//////////////////////////////////////////////////////////////////////////
-	static float Area(const Point& p1, const Point& p2, const Point& p3){
-		return fabs((p1.x-p3.x)*(p2.y-p3.y)-(p2.x-p3.x)*(p1.y-p3.y));
-	};
-	
-	static float Mul(const Point& p1, const Point& p2, const Point& p0){
-		return((p1.x-p0.x)*(p2.y-p0.y)-(p2.x-p0.x)*(p1.y-p0.y)); 
-	};
+// 	static float Area(const Point& p1, const Point& p2, const Point& p3){
+// 		return fabs((p1.x-p3.x)*(p2.y-p3.y)-(p2.x-p3.x)*(p1.y-p3.y));
+// 	};
+// 	
+// 	static float Mul(const Point& p1, const Point& p2, const Point& p0){
+// 		return((p1.x-p0.x)*(p2.y-p0.y)-(p2.x-p0.x)*(p1.y-p0.y)); 
+// 	};
 
 	static float Dis(const Point& p, const float& x, const float& y){
 		return sqrt((p.x - x)*(p.x-1)+(p.y-y)*(p.y-y));
 	};
 
-	static int   InsideTriangle(const vector<Point>& pa,const Point& mp){ 
-		/*int   i;*/ 
-		for   (int i=0;i <3;i++) 
-			if   (Mul(mp,pa[i],pa[(i+1)%3])*Mul(mp,pa[(i+2)%3],pa[(i+1)%3])> 0) 
-				return   0; 
-		return   1; 
-	}
+// 	static int   InsideTriangle(const vector<Point>& pa,const Point& mp){ 
+// 		/*int   i;*/ 
+// 		for   (int i=0;i <3;i++) 
+// 			if   (Mul(mp,pa[i],pa[(i+1)%3])*Mul(mp,pa[(i+2)%3],pa[(i+1)%3])> 0) 
+// 				return   0; 
+// 		return   1; 
+// 	}
 
 	static bool JudgePointInTriangle(const vector<Point>& pa,const Point& mp){
+		/**
 		bool result;
 		for(int i= 0;i < 3; i++){
 
@@ -58,6 +59,19 @@ public:
 
 		}
 		return result;
+		*/
+		//////////////////////////////////////////////////////////////////////////
+		int numofacroess = 0;
+		if(JudgeTwoLineAcroess(ORIGIN_P,mp,pa.at(0),pa.at(1)))
+			numofacroess++;
+		if(JudgeTwoLineAcroess(ORIGIN_P,mp,pa.at(1),pa.at(2)))
+			numofacroess++;
+		if(JudgeTwoLineAcroess(ORIGIN_P,mp,pa.at(2),pa.at(0)))
+			numofacroess++;
+		if(/*numofacroess==1*/!(numofacroess%2==0))
+			return true;
+		else
+			return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
