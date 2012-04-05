@@ -98,13 +98,15 @@ void ControllerThread::CheckMouseInShape(){
 				if(shape->type == 2){
 					bool intriangle = false;
 					for(int i= 0;i < 3; i++){
-						//mul(p,tr[i],tr[(i+1)%3])*mul(p,tr[(i+2)%3],tr[(i+1)%3])> 0
-						if(Mul(_shapeShareObject->mouseposition,pa.at(i),pa.at((i+1)%3)) * Mul(_shapeShareObject->mouseposition, pa.at((i + 2)%3), pa.at((i+1)%3)) > 0)
+
+						if(Inside(pa,_shapeShareObject->mouseposition) == 0)
 							intriangle = false;
+						else
+							intriangle = true;
 
 					}
 
-					if(!intriangle){
+					if(intriangle){
 						shape->r = 1.0f;
 						shape->g = 0.0f;
 						shape->b = 0.0f;

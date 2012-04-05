@@ -45,10 +45,11 @@ void PhysicsApp::OnCreate(){
 	/************************************************************************/
 	/* bound share objects                                                                     */
 	/************************************************************************/
+	//main thread
 	_mywindow.SetShapeShareObject(&_shapeShareObject);
 	_mywindow.SetMouseShareObject(&_mouseShareObject);
 
-	/*_renderThread->SetShapeShareObject(&_shapeShareObject);*/
+	//controller thread
 	_controllerThread->SetMouseShareObject(&_mouseShareObject);
 	_controllerThread->SetShapeShareObject(&_shapeShareObject);
 	/************************************************************************/
@@ -60,11 +61,11 @@ void PhysicsApp::OnCreate(){
 
 
 
-	_netReceiveThread->start();
-	_netSendThread->start();
+// 	_netReceiveThread->start();
+// 	_netSendThread->start();
 	_controllerThread->start();
-	_physicsThread->start();
-	/*_renderThread->start();*/
+	/*_physicsThread->start();*/
+	
 
 
 
