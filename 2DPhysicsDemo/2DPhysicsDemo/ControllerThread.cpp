@@ -77,17 +77,19 @@ void ControllerThread::CheckMouseInShape(){
 
 				//check triangle
 				if(shape->type == 2){
-					bool intriangle = false;
-					for(int i= 0;i < 3; i++){
+// 					bool intriangle = false;
+// 					for(int i= 0;i < 3; i++){
+// 
+// 						if(InsideTriangle(pa,_shapeShareObject->mouseposition) == 0)
+// 							intriangle = false;
+// 						else
+// 							intriangle = true;
+// 
+// 					}
 
-						if(InsideTriangle(pa,_shapeShareObject->mouseposition) == 0)
-							intriangle = false;
-						else
-							intriangle = true;
+					
 
-					}
-
-					if(intriangle){
+					if(/*intriangle*/JudgePointInTriangle(pa,_shapeShareObject->mouseposition)){
 						//change color
 						shape->r = 1.0f;
 						shape->g = 0.0f;
@@ -105,7 +107,20 @@ void ControllerThread::CheckMouseInShape(){
 				//check square
 				if(shape->type ==3){
 
+					if(JudgePointInSquare(pa,_shapeShareObject->mouseposition,ORIGIN_P))
+					{
 
+						shape->r = 1.0f;
+						shape->g = 0.0f;
+						shape->b = 0.0f;
+					}
+					else
+					{
+						shape->r = 1.0f;
+						shape->g = 1.0f;
+						shape->b = 0.0f;
+
+					}
 
 
 				}

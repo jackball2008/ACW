@@ -75,6 +75,9 @@
     <ClInclude Include="MouseShareObject.h">
       <Filter>Header Files\ShareObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Utiles.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PhysicsApp.cpp">

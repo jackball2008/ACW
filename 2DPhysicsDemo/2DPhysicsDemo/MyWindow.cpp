@@ -26,6 +26,13 @@ void	MyWindow::OnDisplay(){
 	
 	glVertex2f(_shapeShareObject->mouseposition.x, _shapeShareObject->mouseposition.y);
 	glEnd();
+	//draw line
+	glColor3f(1.0f,1.0f,0.0f);
+	
+	glBegin(GL_LINES);
+	glVertex2f(0.0f,0.0f);
+	glVertex2f(_shapeShareObject->mouseposition.x, _shapeShareObject->mouseposition.y);
+	glEnd();
 	
 	/*vector<Shape*> plist = _shapeShareObject->GetData();*/
 	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   

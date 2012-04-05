@@ -91,6 +91,7 @@
     <ClInclude Include="ShapeShareObject.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="Triangle.h" />
+    <ClInclude Include="Utiles.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControllerThread.cpp" />
