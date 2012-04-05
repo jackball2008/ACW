@@ -47,7 +47,7 @@ public:
 // 		return   1; 
 // 	}
 
-	static bool JudgePointInTriangle(const vector<Point>& pa,const Point& mp){
+	static bool JudgePointInTriangle(const vector<Point>& pa,const Point& mp,const Point& ori){
 		/**
 		bool result;
 		for(int i= 0;i < 3; i++){
@@ -62,13 +62,31 @@ public:
 		*/
 		//////////////////////////////////////////////////////////////////////////
 		int numofacroess = 0;
-		if(JudgeTwoLineAcroess(ORIGIN_P,mp,pa.at(0),pa.at(1)))
+		if(JudgeTwoLineAcroess(ori,mp,pa.at(0),pa.at(1)))
 			numofacroess++;
-		if(JudgeTwoLineAcroess(ORIGIN_P,mp,pa.at(1),pa.at(2)))
+		if(JudgeTwoLineAcroess(ori,mp,pa.at(1),pa.at(2)))
 			numofacroess++;
-		if(JudgeTwoLineAcroess(ORIGIN_P,mp,pa.at(2),pa.at(0)))
+		if(JudgeTwoLineAcroess(ori,mp,pa.at(2),pa.at(0)))
 			numofacroess++;
 		if(/*numofacroess==1*/!(numofacroess%2==0))
+			return true;
+		else
+			return false;
+	}
+
+	static bool JudgePointInPologon(const vector<Point>& pa,const Point& mp,const Point& ori){
+		int numofacroess = 0;
+		int nsize = pa.size();
+		for(int i=0; i<nsize;i++){
+			if((i+1)<nsize){
+				if(JudgeTwoLineAcroess(ori,mp,pa.at(i),pa.at(i+1)))
+					numofacroess++;
+			}else{
+				if(JudgeTwoLineAcroess(ori,mp,pa.at(i),pa.at(0)))
+					numofacroess++;
+			}
+		}
+		if(!(numofacroess%2==0))
 			return true;
 		else
 			return false;

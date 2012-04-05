@@ -75,21 +75,10 @@ void ControllerThread::CheckMouseInShape(){
 				Shape* shape = *ite_vec_shape;
 				vector<Point>& pa = shape->points;
 
-				//check triangle
-				if(shape->type == 2){
-// 					bool intriangle = false;
-// 					for(int i= 0;i < 3; i++){
-// 
-// 						if(InsideTriangle(pa,_shapeShareObject->mouseposition) == 0)
-// 							intriangle = false;
-// 						else
-// 							intriangle = true;
-// 
-// 					}
+				//check any pologon besides line
+				if(shape->type >1){
 
-					
-
-					if(/*intriangle*/JudgePointInTriangle(pa,_shapeShareObject->mouseposition)){
+					if(JudgePointInPologon(pa,_shapeShareObject->mouseposition,ORIGIN_P)){
 						//change color
 						shape->r = 1.0f;
 						shape->g = 0.0f;
@@ -104,10 +93,11 @@ void ControllerThread::CheckMouseInShape(){
 
 
 
-				//check square
-				if(shape->type ==3){
-
-					if(JudgePointInSquare(pa,_shapeShareObject->mouseposition,ORIGIN_P))
+				//check square  no use
+				/**
+				if(shape->type ==4){
+					//JudgePointInSquare
+					if(JudgePointInPologon(pa,_shapeShareObject->mouseposition,ORIGIN_P))
 					{
 
 						shape->r = 1.0f;
@@ -124,7 +114,7 @@ void ControllerThread::CheckMouseInShape(){
 
 
 				}
-
+				*/
 
 				//check line
 				if(shape->type == 1){
