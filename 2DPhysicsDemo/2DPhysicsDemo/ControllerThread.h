@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-#include "MouseShareObject.h"
+/*#include "MouseShareObject.h"*/
 #include "ShapeShareObject.h"
 
 
@@ -13,7 +13,7 @@ class ControllerThread :
 	public MyThread
 {
 private:
-	MouseShareObject* _mouseShareObject;
+	/*MouseShareObject* _mouseShareObject;*/
 	ShapeShareObject* _shapeShareObject;
 
 // 	float _x,_y;
@@ -23,7 +23,7 @@ public:
 	ControllerThread(void);
 	~ControllerThread(void);
 	int run();
-	void SetMouseShareObject(MouseShareObject* p){ _mouseShareObject = p; };
+	/*void SetMouseShareObject(MouseShareObject* p){ _mouseShareObject = p; };*/
 	void SetShapeShareObject(ShapeShareObject* p){ _shapeShareObject = p; };
 
 	//////////////////////////////////////////////////////////////////////////
