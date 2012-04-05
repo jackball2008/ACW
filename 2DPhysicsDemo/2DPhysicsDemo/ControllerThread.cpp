@@ -3,7 +3,7 @@
 const float MAX_LENGTH_IN_SQUARE = 0.1365685425f;
 const float MIN_LENGTH_IN_SQUARE = 0.113137085f;
 
-
+#define PRINTMOUSTPOSITION1
 
 ControllerThread::ControllerThread(void)
 {
@@ -24,42 +24,34 @@ int ControllerThread::run(){
 
 		if(_shapeShareObject->Acquire()){
 			__try{
-// 				float x = _shapeShareObject->u;
-// 				float y = _shapeShareObject->v;
-// 				_x = _shapeShareObject->u;
-// 				_y = _shapeShareObject->v;
-// 				_down = _shapeShareObject->left_down;
-				
+
+#ifdef PRINTMOUSTPOSITION				
 				if(_shapeShareObject->left_down){
+
 					cout<<"x = "<<_shapeShareObject->mouseposition.x<<" y = "<<_shapeShareObject->mouseposition.y<<" LR = "<<1<<endl;
+
+					
 
 				}
 				else{
-					
+
 					cout<<"x = "<<_shapeShareObject->mouseposition.x<<" y = "<<_shapeShareObject->mouseposition.y<<" LR = "<<0<<endl;
+
+					
 				}
-				
+#endif				
 				//////////////////////////////////////////////////////////////////////////
 				/************************************************************************/
 				/* judge the mouse position in triangle                                                                     */
 				/************************************************************************/
 				CheckMouseInShape();
 				
-
-				//////////////////////////////////////////////////////////////////////////
-
-
-
 				
 			}__finally{
 				_shapeShareObject->Release();
 			}
 		}
 
-		//share
-		//Test();
-
-		
 	}
 	return 0;
 }
@@ -83,10 +75,16 @@ void ControllerThread::CheckMouseInShape(){
 						shape->r = 1.0f;
 						shape->g = 0.0f;
 						shape->b = 0.0f;
+
+						if(_shapeShareObject->left_down)
+							shape->becontrolled = true;
+
 					}else{
 						shape->r = 1.0f;
 						shape->g = 1.0f;
 						shape->b = 0.0f;
+
+						shape->becontrolled = false;
 					}
 
 				}
