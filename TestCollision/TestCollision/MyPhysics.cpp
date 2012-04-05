@@ -1,5 +1,5 @@
 #include "MyPhysics.h"
-
+#include <memory.h>
 
 float   fCr     = COEFFICIENTOFRESTITUTION;				// the coefficient of restitution
 float	const	ctol = COLLISIONTOLERANCE;			// the collision tolerance
@@ -31,7 +31,7 @@ void MyPhysics::InitializeElement(_RigidBody *body){
 
 				// Set the initial thrust, forces and moments
 		body->vForces.x = 0.0f;
-		body->vForces.y = 0.0f;
+		body->vForces.y = -9.8f;
 		body->vForces.z = 0.0f;		// set all z's to zero b/c this is a 2D example
 			
 		body->vMoment.x = 0.0f;		// will always be zero in 2D
@@ -48,7 +48,11 @@ void MyPhysics::InitializeElement(_RigidBody *body){
 		body->fInertia = 383320;
 		body->fInertiaInverse = 1.0f / body->fInertia;
 
-
+		// Set the initial orientation
+		body->fOrientation = 0.0;
+		// Set width and length
+		body->fLength = 0.04f;
+		body->fWidth = 0.04f;
 }
 
 void MyPhysics::SetPosititon(){
@@ -81,7 +85,8 @@ void MyPhysics::SetPosititon(){
 	_RigidBody triangle;
 	for(int i=5; i >0; i--){
 		for(int j=0; j<i;j++){
-			triangle.vFirstpoint = square.vFourthpoint;
+			triangle.vFirstpoint.x = -0.34f;
+			triangle.vFirstpoint.y = -0.74f;
 
 			triangle.vSecondpoint.x = triangle.vFirstpoint.x+0.04f;
 			triangle.vSecondpoint.y = triangle.vFirstpoint.y;
@@ -94,6 +99,85 @@ void MyPhysics::SetPosititon(){
 		}
 	}
 }
+
+void MyPhysics::UpdateBody(_RigidBody *Upbody, float dtime){
+	Vector Ae;            //accelerate
+	float  Aa;
+
+    _RigidBody body;
+	Vector k1;
+
+	float  k1a;
+	float  dt = dtime;
+
+	// make a copy of the hovercraft's state		
+	memcpy(&body, Upbody, sizeof(_RigidBody));
+    
+	// linear velocity
+	Ae = body.vForces / body.fMass;
+	k1 = Ae*dt;
+
+	Aa = body.vMoment.z / body.fInertia;
+	k1a = Aa* dt;
+
+	// add the k1 terms to the respective initial velocities
+	// vt = vo+at
+	body.vVelocity += k1;
+	body.vAngularVelocity.z += k1a;
+
+	// update position
+	body.vPosition += body.vVelocity*dt;
+	
+	// calculate the new orientation
+	body.fOrientation += RadiansToDegrees(body.vAngularVelocity.z*dt);
+	
+
+}
+
+int MyPhysics::CheckForCollision(_RigidBody *body1, _RigidBody *body2){
+
+	Vector d;
+	float  r;
+	int    retval = 0;
+	float  s;
+	Vector v1,v2;
+	float  Vrn;
+
+	// calculate distance
+	r= body1->fLength/2+body2->fLength/2;
+	d= body1->vPosition-body1->vPosition;
+	s =d.Magnitude()-r;
+
+	// get collision normal vector
+	d.Normalize();
+	vCollisionNormal =d;
+
+	//calculate relative normal velocity:
+	v1 = body1->vVelocity;
+	v2 = body2->vVelocity;
+
+	vRelativeVelocity =v1 -v2;
+
+	Vrn = vRelativeVelocity*vCollisionNormal;
+
+	// test:
+	if((fabs(s) <= ctol) && (Vrn < 0.0))
+	{
+		retval = COLLISION;
+		CollisionBody1 = body1;
+		CollisionBody2 = body2;
+	} else 	if(s < -ctol) 
+	{
+		retval = PENETRATING;
+	} else 
+		retval = NOCOLLISION;
+
+	return retval;
+
+
+}
+
+
 
 Vector MyPhysics::VRotate2D( float angle, Vector u)
 {
