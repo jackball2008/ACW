@@ -3,7 +3,7 @@
 const float MAX_LENGTH_IN_SQUARE = 0.1365685425f;
 const float MIN_LENGTH_IN_SQUARE = 0.113137085f;
 
-#define PRINTMOUSTPOSITION
+#define PRINTMOUSTPOSITION1
 
 ControllerThread::ControllerThread(void)
 {

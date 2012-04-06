@@ -17,6 +17,10 @@ class MyWindow :
 private:
 	ShapeShareObject* _shapeShareObject;
 	MouseShareObject* _mouseShareObject;
+
+	Point _currentmouseposition;
+
+	bool ishold;
 public:
 	MyWindow(void);
 	~MyWindow(void);

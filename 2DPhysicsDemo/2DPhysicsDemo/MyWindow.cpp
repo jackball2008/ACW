@@ -3,6 +3,7 @@
 
 MyWindow::MyWindow(void)
 {
+	ishold = false;
 }
 
 
@@ -49,6 +50,12 @@ void	MyWindow::OnDisplay(){
 			/*vector<Point>* pa = &shape->points;*/
 
 			if(shape->type == 0 && shape->isvisiable){
+
+				glColor3f(1.0f,0.0f,0.0f);
+				glPointSize(10);
+				glBegin(GL_POINTS);
+				glVertex2f(pa.at(0).x, pa.at(0).y);
+				glEnd();
 				//draw springline
 				glColor3f(shape->r,shape->g,shape->b);
 // 				cout<<"x1="<<pa.at(0).x<<"y1="<<pa.at(0).y<<endl;
@@ -121,13 +128,31 @@ void	MyWindow::OnMouseMove(int x, int y){
 		//now modify the shared memory
 		__try{
 			if(Width()){
-				/*_shapeShareObject->old_mouseposition.x = _shapeShareObject->mouseposition.x;*/
-				_shapeShareObject->mouseposition.x = 2.0f * (float)x / (float)Width() - 1.0f;
 				
+				_currentmouseposition.x =  2.0f * (float)x / (float)Width() - 1.0f;
+				_shapeShareObject->mouseposition.x = _currentmouseposition.x;
+				
+				if(ishold){
+					(_shapeShareObject->renderObjects.at(0))->points.at(1).x = _currentmouseposition.x;
+				}else{
+					(_shapeShareObject->renderObjects.at(0))->points.at(0).x = _currentmouseposition.x;
+
+					(_shapeShareObject->renderObjects.at(0))->points.at(1).x = _currentmouseposition.x;
+				}
+
 			}
 			if(Height()){
-				/*_shapeShareObject->old_mouseposition.y = _shapeShareObject->mouseposition.y;*/
-				_shapeShareObject->mouseposition.y = 2.0f * (float)y / (float)Height() - 1.0f;
+				
+				_currentmouseposition.y = 2.0f * (float)y / (float)Height() - 1.0f;
+				_shapeShareObject->mouseposition.y =_currentmouseposition.y;
+				
+				if(ishold){
+					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = _currentmouseposition.y;
+				}else{
+					(_shapeShareObject->renderObjects.at(0))->points.at(0).y = _currentmouseposition.y;
+
+					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = _currentmouseposition.y;
+				}
 			}
 			Redraw();
 
@@ -148,37 +173,30 @@ void	MyWindow::OnMouseButton(MouseButton button, bool down){
 			case MBLeft:
 				if(down){
 					_shapeShareObject->left_down = true;
-// 					if(!(_shapeShareObject->renderObjects.at(0))->isvisiable)
-// 					{
-// 						(_shapeShareObject->renderObjects.at(0))->points.at(0).x = _shapeShareObject->mouseposition.x;
-// 						(_shapeShareObject->renderObjects.at(0))->points.at(0).y = _shapeShareObject->mouseposition.y;
-// 						(_shapeShareObject->renderObjects.at(0))->isvisiable = true;
-// 					}
-// 					(_shapeShareObject->renderObjects.at(0))->points.at(1).x = _shapeShareObject->mouseposition.x;
-// 					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = _shapeShareObject->mouseposition.y;
-					(_shapeShareObject->renderObjects.at(0))->points.at(0).x = 1;
-					(_shapeShareObject->renderObjects.at(0))->points.at(0).y = 0;
-					(_shapeShareObject->renderObjects.at(0))->points.at(1).x =-1;
-					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = 0;
+					if(_shapeShareObject->last_left_down != _shapeShareObject->left_down && _shapeShareObject->last_left_down == false){
+						_shapeShareObject->last_left_down = true;
+						//set start point
+						cout<<"press down"<<endl;
+						ishold = false;
+					}
+					if(_shapeShareObject->last_left_down == _shapeShareObject->left_down){
+						cout<<"press hold"<<endl;
+						ishold = true;
+					}
+
 					(_shapeShareObject->renderObjects.at(0))->isvisiable = true;
 				}
 				else{
 					_shapeShareObject->left_down = false;
-// 					if((_shapeShareObject->renderObjects.at(0))->isvisiable)
-// 					{
-// 						(_shapeShareObject->renderObjects.at(0))->isvisiable = false;
-// 						
-// 						(_shapeShareObject->renderObjects.at(0))->points.at(0).x = 2;
-// 						(_shapeShareObject->renderObjects.at(0))->points.at(0).y = 2;
-// 						(_shapeShareObject->renderObjects.at(0))->points.at(1).x = 2;
-// 						(_shapeShareObject->renderObjects.at(0))->points.at(1).y = 2;
-// 						
-// 					}
-					(_shapeShareObject->renderObjects.at(0))->points.at(0).x = 2;
-					(_shapeShareObject->renderObjects.at(0))->points.at(0).y = 2;
-					(_shapeShareObject->renderObjects.at(0))->points.at(1).x = 2;
-					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = 2;
+
+					if(_shapeShareObject->last_left_down != _shapeShareObject->left_down && _shapeShareObject->last_left_down == true){
+						_shapeShareObject->last_left_down = false;
+						cout<<"press up"<<endl;
+						ishold = false;
+						
+					}
 					(_shapeShareObject->renderObjects.at(0))->isvisiable = false;
+					
 				}
 				break;
 
