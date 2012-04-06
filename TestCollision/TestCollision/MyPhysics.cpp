@@ -177,6 +177,23 @@ int MyPhysics::CheckForCollision(_RigidBody *body1, _RigidBody *body2){
 
 }
 
+void MyPhysics::ApplyImpulse(_RigidBody *body1,_RigidBody *body2){
+	
+	double j,Vrt;
+	double mu = FRICTIONCOEFFICIENT;
+	Vector n;
+
+	// calculate the impulse:
+	j = (-(1+fCr) * (vRelativeVelocity*vCollisionNormal)) /
+		((1/body1->fMass + 1/body2->fMass));
+
+	Impulse = j;
+
+	// calculate the new velocity after impact
+	body1->vVelocity += (j * vCollisionNormal) / body1->fMass;	
+	body2->vVelocity -= (j * vCollisionNormal) / body2->fMass;	
+}
+
 
 
 Vector MyPhysics::VRotate2D( float angle, Vector u)
@@ -187,4 +204,39 @@ Vector MyPhysics::VRotate2D( float angle, Vector u)
 	y = -u.x * sin(DegreesToRadians(-angle)) + u.y * cos(DegreesToRadians(-angle));
 
 	return Vector( x, y, 0);
+}
+
+void MyPhysics::StepSimulation(float dt){
+
+	float      dtime = dt;
+	bool       tryAgain = true;
+	int        check = 0;
+	_RigidBody  rigidcopy[114];
+	bool        didPen = false;
+	while(tryAgain&& (dtime>tol)){
+		tryAgain = false;
+		memcpy(&rigidcopy[114],&rigidbody[114],sizeof(_RigidBody));
+		UpdateBody(&rigidcopy[114],dtime);
+
+		CollisionBody1 = 0;
+		CollisionBody2 = 0;
+		check = CheckForCollision(&rigidcopy[0],&rigidcopy[1]);
+
+		if (check == PENETRATING)
+		{			dtime = dtime/2;
+		            tryAgain = true;
+		            didPen = true;
+		} 
+		else if(check == COLLISION)
+		{
+			if(CollisionBody1 !=0&& CollisionBody2 !=0)
+				ApplyImpulse(CollisionBody1,  CollisionBody2);
+		}
+	}
+	if(!didPen)
+	{
+		
+		memcpy(&rigidbody[114], &rigidcopy[114], sizeof(_RigidBody));
+	}
+
 }
