@@ -78,6 +78,9 @@
     <ClInclude Include="Utiles.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="SpringLine.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PhysicsApp.cpp">
@@ -118,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="MouseShareObject.cpp">
       <Filter>Source Files\ShareObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SpringLine.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

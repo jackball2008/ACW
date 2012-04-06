@@ -3,11 +3,11 @@
 const float MAX_LENGTH_IN_SQUARE = 0.1365685425f;
 const float MIN_LENGTH_IN_SQUARE = 0.113137085f;
 
-#define PRINTMOUSTPOSITION1
+#define PRINTMOUSTPOSITION
 
 ControllerThread::ControllerThread(void)
 {
-
+	_springcount = 0;
 }
 
 
@@ -23,21 +23,44 @@ int ControllerThread::run(){
 		if(_shapeShareObject->Acquire()){
 			__try{
 
-#ifdef PRINTMOUSTPOSITION				
+				//record springline status
 				if(_shapeShareObject->left_down){
-
+#ifdef PRINTMOUSTPOSITION
 					cout<<"x = "<<_shapeShareObject->mouseposition.x<<" y = "<<_shapeShareObject->mouseposition.y<<" LR = "<<1<<endl;
+#endif	
+// 					if(_springcount<1)
+// 						_springcount++;
+					_springcount = 1;
 
-					
-
+// 					(_shapeShareObject->renderObjects.at(0))->points.at(0).x = 1;
+// 					(_shapeShareObject->renderObjects.at(0))->points.at(0).y = 0;
+// 					(_shapeShareObject->renderObjects.at(0))->points.at(1).x =-1;
+// 					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = 0;
+// 					(_shapeShareObject->renderObjects.at(0))->isvisiable = true;
 				}
 				else{
-
+#ifdef PRINTMOUSTPOSITION
 					cout<<"x = "<<_shapeShareObject->mouseposition.x<<" y = "<<_shapeShareObject->mouseposition.y<<" LR = "<<0<<endl;
+#endif	
+					_springcount = 0;
 
+// 					(_shapeShareObject->renderObjects.at(0))->points.at(0).x = 2;
+// 					(_shapeShareObject->renderObjects.at(0))->points.at(0).y = 2;
+// 					(_shapeShareObject->renderObjects.at(0))->points.at(1).x = 2;
+// 					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = 2;
+// 					(_shapeShareObject->renderObjects.at(0))->isvisiable = false;
+				}
+
+
+				if(_springcount == 1){
+					
 					
 				}
-#endif				
+				else{
+					
+				}
+
+			
 				//////////////////////////////////////////////////////////////////////////
 				/************************************************************************/
 				/* judge the mouse position in triangle                                                                     */

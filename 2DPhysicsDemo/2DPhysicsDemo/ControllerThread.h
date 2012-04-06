@@ -18,6 +18,7 @@ private:
 
 // 	float _x,_y;
 // 	bool _down;
+	int _springcount;
 
 public:
 	ControllerThread(void);

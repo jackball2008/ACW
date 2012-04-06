@@ -1,5 +1,5 @@
 #include "MyWindow.h"
-
+#include "SpringLine.h"
 
 MyWindow::MyWindow(void)
 {
@@ -47,7 +47,20 @@ void	MyWindow::OnDisplay(){
 			Shape* shape = *ite_vec_shape;
 			vector<Point>& pa = shape->points;
 			/*vector<Point>* pa = &shape->points;*/
-			if(shape->type == 1 && shape->visiable){
+
+			if(shape->type == 0 && shape->isvisiable){
+				//draw springline
+				glColor3f(shape->r,shape->g,shape->b);
+// 				cout<<"x1="<<pa.at(0).x<<"y1="<<pa.at(0).y<<endl;
+// 				cout<<"x2="<<pa.at(1).x<<"y2="<<pa.at(1).y<<endl;
+				glBegin(GL_LINES);
+				glVertex2f(pa.at(0).x, pa.at(0).y);
+				glVertex2f(pa.at(1).x, pa.at(1).y);
+
+				glEnd();
+			}
+
+			if(shape->type == 1 && shape->isvisiable){
 				//draw line
 
 				glColor3f(shape->r,shape->g,shape->b);
@@ -59,7 +72,7 @@ void	MyWindow::OnDisplay(){
 				glEnd();
 
 			}
-			if(shape->type == 2 && shape->visiable){
+			if(shape->type == 2 && shape->isvisiable){
 				//draw triangles
 				
 				glColor3f(shape->r,shape->g,shape->b);
@@ -74,7 +87,7 @@ void	MyWindow::OnDisplay(){
 				glVertex2f(shape->middlepoint.x, shape->middlepoint.y);
 				glEnd();
 			}
-			if(shape->type == 3 && shape->visiable){
+			if(shape->type == 3 && shape->isvisiable){
 				//draw squares
 				
 				
@@ -133,17 +146,42 @@ void	MyWindow::OnMouseButton(MouseButton button, bool down){
 		__try{
 			switch(button){
 			case MBLeft:
-				if(down)
+				if(down){
 					_shapeShareObject->left_down = true;
-				else
+// 					if(!(_shapeShareObject->renderObjects.at(0))->isvisiable)
+// 					{
+// 						(_shapeShareObject->renderObjects.at(0))->points.at(0).x = _shapeShareObject->mouseposition.x;
+// 						(_shapeShareObject->renderObjects.at(0))->points.at(0).y = _shapeShareObject->mouseposition.y;
+// 						(_shapeShareObject->renderObjects.at(0))->isvisiable = true;
+// 					}
+// 					(_shapeShareObject->renderObjects.at(0))->points.at(1).x = _shapeShareObject->mouseposition.x;
+// 					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = _shapeShareObject->mouseposition.y;
+					(_shapeShareObject->renderObjects.at(0))->points.at(0).x = 1;
+					(_shapeShareObject->renderObjects.at(0))->points.at(0).y = 0;
+					(_shapeShareObject->renderObjects.at(0))->points.at(1).x =-1;
+					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = 0;
+					(_shapeShareObject->renderObjects.at(0))->isvisiable = true;
+				}
+				else{
 					_shapeShareObject->left_down = false;
+// 					if((_shapeShareObject->renderObjects.at(0))->isvisiable)
+// 					{
+// 						(_shapeShareObject->renderObjects.at(0))->isvisiable = false;
+// 						
+// 						(_shapeShareObject->renderObjects.at(0))->points.at(0).x = 2;
+// 						(_shapeShareObject->renderObjects.at(0))->points.at(0).y = 2;
+// 						(_shapeShareObject->renderObjects.at(0))->points.at(1).x = 2;
+// 						(_shapeShareObject->renderObjects.at(0))->points.at(1).y = 2;
+// 						
+// 					}
+					(_shapeShareObject->renderObjects.at(0))->points.at(0).x = 2;
+					(_shapeShareObject->renderObjects.at(0))->points.at(0).y = 2;
+					(_shapeShareObject->renderObjects.at(0))->points.at(1).x = 2;
+					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = 2;
+					(_shapeShareObject->renderObjects.at(0))->isvisiable = false;
+				}
 				break;
-// 			case MBRight:
-// 				if(down)
-// 					_shapeShareObject->right_down = true;
-// 				else
-// 					_shapeShareObject->right_down = false;
-// 				break;
+
 			}
 
 			Redraw();

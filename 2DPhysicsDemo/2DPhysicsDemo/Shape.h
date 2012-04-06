@@ -21,7 +21,7 @@ public:
 	//mark
 	int type;
 
-	bool visiable;
+	bool isvisiable;
 
 	bool becontrolled;
 

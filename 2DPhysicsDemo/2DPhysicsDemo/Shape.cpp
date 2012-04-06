@@ -12,7 +12,7 @@ Shape::Shape(void)
 	g=1.0f;
 	b=0.0f;
 
-	visiable = true;
+	isvisiable = true;
 	becontrolled = false;
 }
 

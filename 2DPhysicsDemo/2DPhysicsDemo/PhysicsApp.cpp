@@ -97,6 +97,17 @@ void PhysicsApp::OnDestroy(){
 /* private function                                                                     */
 /************************************************************************/
 void PhysicsApp::InitializeAllShpes(){
+	//set springline
+	SpringLine *springLine = new SpringLine();
+	Point sp;
+	sp.x = ORIGIN_SPRING_X;
+	sp.y = ORIGIN_SPRING_Y;
+	Point ep;
+	ep.x = ORIGIN_SPRING_X;
+	ep.y = ORIGIN_SPRING_Y;
+	springLine->SetData(sp,ep);
+	_shapeShareObject.renderObjects.push_back(springLine);
+
 	//set line
 	Shape* line = new Line();
 	Point p1;
