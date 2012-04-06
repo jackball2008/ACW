@@ -13,6 +13,8 @@ MyWindow::~MyWindow(void)
 void	MyWindow::OnCreate(){
 	GLWindowEx::OnCreate();
 }
+#define _DRAWMOUSELINE
+#define _DRAWMOUSEPOINT
 void	MyWindow::OnDisplay(){
 	
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -20,19 +22,21 @@ void	MyWindow::OnDisplay(){
 	/************************************************************************/
 	/* draw mouse points                                                                     */
 	/************************************************************************/
+#ifdef DRAWMOUSEPOINT
 	glColor3f(1.0f,1.0f,0.0f);
 	glPointSize(5);
 	glBegin(GL_POINTS);
-	
 	glVertex2f(_shapeShareObject->mouseposition.x, _shapeShareObject->mouseposition.y);
 	glEnd();
+#endif
 	//draw line
+#ifdef DRAWMOUSELINE
 	glColor3f(1.0f,1.0f,0.0f);
-	
 	glBegin(GL_LINES);
 	glVertex2f(0.0f,0.0f);
 	glVertex2f(_shapeShareObject->mouseposition.x, _shapeShareObject->mouseposition.y);
 	glEnd();
+#endif
 	
 	/*vector<Shape*> plist = _shapeShareObject->GetData();*/
 	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
@@ -46,7 +50,6 @@ void	MyWindow::OnDisplay(){
 			if(shape->type == 1 && shape->visiable){
 				//draw line
 
-
 				glColor3f(shape->r,shape->g,shape->b);
 				
 				glBegin(GL_LINES);
@@ -54,10 +57,6 @@ void	MyWindow::OnDisplay(){
 				glVertex2f(pa.at(1).x, pa.at(1).y);
 				
 				glEnd();
-
-
-
-
 
 			}
 			if(shape->type == 2 && shape->visiable){
@@ -95,9 +94,6 @@ void	MyWindow::OnDisplay(){
 
 	}
 
-	
-
-
 	SwapBuffers();
 }
 void	MyWindow::OnIdle(){
@@ -112,12 +108,12 @@ void	MyWindow::OnMouseMove(int x, int y){
 		//now modify the shared memory
 		__try{
 			if(Width()){
-				_shapeShareObject->old_mouseposition.x = _shapeShareObject->mouseposition.x;
+				/*_shapeShareObject->old_mouseposition.x = _shapeShareObject->mouseposition.x;*/
 				_shapeShareObject->mouseposition.x = 2.0f * (float)x / (float)Width() - 1.0f;
 				
 			}
 			if(Height()){
-				_shapeShareObject->old_mouseposition.y = _shapeShareObject->mouseposition.y;
+				/*_shapeShareObject->old_mouseposition.y = _shapeShareObject->mouseposition.y;*/
 				_shapeShareObject->mouseposition.y = 2.0f * (float)y / (float)Height() - 1.0f;
 			}
 			Redraw();
@@ -142,12 +138,12 @@ void	MyWindow::OnMouseButton(MouseButton button, bool down){
 				else
 					_shapeShareObject->left_down = false;
 				break;
-			case MBRight:
-				if(down)
-					_shapeShareObject->right_down = true;
-				else
-					_shapeShareObject->right_down = false;
-				break;
+// 			case MBRight:
+// 				if(down)
+// 					_shapeShareObject->right_down = true;
+// 				else
+// 					_shapeShareObject->right_down = false;
+// 				break;
 			}
 
 			Redraw();

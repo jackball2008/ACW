@@ -4,6 +4,8 @@
 ShapeShareObject::ShapeShareObject(void)
 {
 	mutex = CreateMutex(NULL, FALSE, "shapeMutes");
+	last_left_down = false;
+	left_down = false;
 }
 
 
@@ -12,8 +14,6 @@ ShapeShareObject::~ShapeShareObject(void)
 	CloseHandle(mutex);
 }
 
-// void ShapeShareObject::SetData(Shape* p){
-// 	renderObjects.push_back(p);
-// }
+
 
 

@@ -7,9 +7,7 @@ const float MIN_LENGTH_IN_SQUARE = 0.113137085f;
 
 ControllerThread::ControllerThread(void)
 {
-// 	_x = 0;
-// 	_y = 0;
-// 	_down = false;
+
 }
 
 
@@ -58,8 +56,7 @@ int ControllerThread::run(){
 
 void ControllerThread::CheckMouseInShape(){
 	try{
-		//int k = _shapeShareObject->renderObjects.size();
-
+		
 		for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
 			ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
 			ite_vec_shape++){
@@ -89,39 +86,10 @@ void ControllerThread::CheckMouseInShape(){
 
 				}
 
-
-
-				//check square  no use
-				/**
-				if(shape->type ==4){
-					//JudgePointInSquare
-					if(JudgePointInPologon(pa,_shapeShareObject->mouseposition,ORIGIN_P))
-					{
-
-						shape->r = 1.0f;
-						shape->g = 0.0f;
-						shape->b = 0.0f;
-					}
-					else
-					{
-						shape->r = 1.0f;
-						shape->g = 1.0f;
-						shape->b = 0.0f;
-
-					}
-
-
-				}
-				*/
-
 				//check line
 				if(shape->type == 1){
-// 					bool acroess = false;
-// 					int k = pa.size();
-// 					acroess = JudgeTwoLineAcroess(ORIGIN_P,_shapeShareObject->mouseposition,pa.at(0),pa.at(1));
 
-
-					if(/*_shapeShareObject->mouseposition.y <= pa.at(0).y*//*acroess*/
+					if(
 						JudgeTwoLineAcroess(ORIGIN_P,_shapeShareObject->mouseposition,pa.at(0),pa.at(1))
 						){
 						shape->r = 1.0f;

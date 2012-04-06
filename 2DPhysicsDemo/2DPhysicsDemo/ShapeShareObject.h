@@ -17,10 +17,12 @@ public:
 	/************************************************************************/
 	/*float u,v,old_u,old_v;*/
 
-	bool left_down, right_down;
+	bool left_down/*, right_down*/;
+	bool last_left_down;
 
 	Point mouseposition;
-	Point old_mouseposition;
+	Point record_mouseposition;
+	/*Point old_mouseposition;*/
 
 public:
 	ShapeShareObject(void);
