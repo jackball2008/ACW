@@ -7,7 +7,7 @@ const float MIN_LENGTH_IN_SQUARE = 0.113137085f;
 
 ControllerThread::ControllerThread(void)
 {
-	_springcount = 0;
+	/*_springcount = 0;*/
 }
 
 
@@ -22,50 +22,26 @@ int ControllerThread::run(){
 
 		if(_shapeShareObject->Acquire()){
 			__try{
-
+#ifdef PRINTMOUSTPOSITION
 				//record springline status
 				if(_shapeShareObject->left_down){
 #ifdef PRINTMOUSTPOSITION
 					cout<<"x = "<<_shapeShareObject->mouseposition.x<<" y = "<<_shapeShareObject->mouseposition.y<<" LR = "<<1<<endl;
 #endif	
-// 					if(_springcount<1)
-// 						_springcount++;
-					_springcount = 1;
-
-// 					(_shapeShareObject->renderObjects.at(0))->points.at(0).x = 1;
-// 					(_shapeShareObject->renderObjects.at(0))->points.at(0).y = 0;
-// 					(_shapeShareObject->renderObjects.at(0))->points.at(1).x =-1;
-// 					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = 0;
-// 					(_shapeShareObject->renderObjects.at(0))->isvisiable = true;
 				}
 				else{
 #ifdef PRINTMOUSTPOSITION
 					cout<<"x = "<<_shapeShareObject->mouseposition.x<<" y = "<<_shapeShareObject->mouseposition.y<<" LR = "<<0<<endl;
 #endif	
-					_springcount = 0;
 
-// 					(_shapeShareObject->renderObjects.at(0))->points.at(0).x = 2;
-// 					(_shapeShareObject->renderObjects.at(0))->points.at(0).y = 2;
-// 					(_shapeShareObject->renderObjects.at(0))->points.at(1).x = 2;
-// 					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = 2;
-// 					(_shapeShareObject->renderObjects.at(0))->isvisiable = false;
 				}
+#endif
 
-
-				if(_springcount == 1){
-					
-					
-				}
-				else{
-					
-				}
-
-			
 				//////////////////////////////////////////////////////////////////////////
 				/************************************************************************/
-				/* judge the mouse position in triangle                                                                     */
+				/* judge the springline start point position in triangle                                                                     */
 				/************************************************************************/
-				CheckMouseInShape();
+				CheckSpringLineStartPointInShape();
 				
 				
 			}__finally{
@@ -77,7 +53,7 @@ int ControllerThread::run(){
 	return 0;
 }
 
-void ControllerThread::CheckMouseInShape(){
+void ControllerThread::CheckSpringLineStartPointInShape(){
 	try{
 		
 		for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
@@ -89,15 +65,27 @@ void ControllerThread::CheckMouseInShape(){
 
 				//check any pologon besides line
 				if(shape->type >1){
+					//(_shapeShareObject->renderObjects.at(0))->points.at(0)
+					//_shapeShareObject->mouseposition
+					if(JudgePointInPologon(pa,(_shapeShareObject->renderObjects.at(0))->points.at(0),ORIGIN_P))
+					{
+						
 
-					if(JudgePointInPologon(pa,_shapeShareObject->mouseposition,ORIGIN_P)){
-						//change color
-						shape->r = 1.0f;
-						shape->g = 0.0f;
-						shape->b = 0.0f;
+						if(_shapeShareObject->left_hold){
 
-						if(_shapeShareObject->left_down)
 							shape->becontrolled = true;
+							//change color
+							shape->r = 1.0f;
+							shape->g = 0.0f;
+							shape->b = 0.0f;
+						}else{
+							shape->r = 1.0f;
+							shape->g = 1.0f;
+							shape->b = 0.0f;
+
+							shape->becontrolled = false;
+						}
+							
 
 					}else{
 						shape->r = 1.0f;
@@ -113,7 +101,7 @@ void ControllerThread::CheckMouseInShape(){
 				if(shape->type == 1){
 
 					if(
-						JudgeTwoLineAcroess(ORIGIN_P,_shapeShareObject->mouseposition,pa.at(0),pa.at(1))
+						JudgeTwoLineAcroess(ORIGIN_P,(_shapeShareObject->renderObjects.at(0))->points.at(0),pa.at(0),pa.at(1))
 						){
 						shape->r = 1.0f;
 						shape->g = 0.0f;
@@ -125,9 +113,6 @@ void ControllerThread::CheckMouseInShape(){
 						shape->b = 0.0f;
 					}
 				}
-
-
-
 
 		}
 	}catch(vector<Shape*>::iterator){

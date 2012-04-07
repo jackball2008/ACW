@@ -21,7 +21,7 @@ void	MyWindow::OnDisplay(){
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	/************************************************************************/
-	/* draw mouse points                                                                     */
+	/* draw mouse points                                                     */
 	/************************************************************************/
 #ifdef DRAWMOUSEPOINT
 	glColor3f(1.0f,1.0f,0.0f);
@@ -52,14 +52,12 @@ void	MyWindow::OnDisplay(){
 			if(shape->type == 0 && shape->isvisiable){
 
 				glColor3f(1.0f,0.0f,0.0f);
-				glPointSize(10);
+				glPointSize(3);
 				glBegin(GL_POINTS);
 				glVertex2f(pa.at(0).x, pa.at(0).y);
 				glEnd();
 				//draw springline
 				glColor3f(shape->r,shape->g,shape->b);
-// 				cout<<"x1="<<pa.at(0).x<<"y1="<<pa.at(0).y<<endl;
-// 				cout<<"x2="<<pa.at(1).x<<"y2="<<pa.at(1).y<<endl;
 				glBegin(GL_LINES);
 				glVertex2f(pa.at(0).x, pa.at(0).y);
 				glVertex2f(pa.at(1).x, pa.at(1).y);
@@ -178,10 +176,12 @@ void	MyWindow::OnMouseButton(MouseButton button, bool down){
 						//set start point
 						cout<<"press down"<<endl;
 						ishold = false;
+						_shapeShareObject->left_hold = false;
 					}
 					if(_shapeShareObject->last_left_down == _shapeShareObject->left_down){
 						cout<<"press hold"<<endl;
 						ishold = true;
+						_shapeShareObject->left_hold = true;
 					}
 
 					(_shapeShareObject->renderObjects.at(0))->isvisiable = true;
@@ -193,7 +193,7 @@ void	MyWindow::OnMouseButton(MouseButton button, bool down){
 						_shapeShareObject->last_left_down = false;
 						cout<<"press up"<<endl;
 						ishold = false;
-						
+						_shapeShareObject->left_hold = false;
 					}
 					(_shapeShareObject->renderObjects.at(0))->isvisiable = false;
 					

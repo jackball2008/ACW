@@ -20,6 +20,8 @@ public:
 	bool left_down/*, right_down*/;
 	bool last_left_down;
 
+	bool left_hold;
+
 	Point mouseposition;
 	Point record_mouseposition;
 	/*Point old_mouseposition;*/

@@ -18,7 +18,7 @@ private:
 
 // 	float _x,_y;
 // 	bool _down;
-	int _springcount;
+	/*int _springcount;*/
 
 public:
 	ControllerThread(void);
@@ -203,7 +203,7 @@ public:
 	
 
 
-	void CheckMouseInShape();
+	void CheckSpringLineStartPointInShape();
 
 	
 };
