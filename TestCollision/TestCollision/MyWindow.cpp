@@ -22,12 +22,26 @@ void  MyWindow::OnDisplay(){
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(1.0f,0.0f,0.0f);
+	glBegin(GL_LINE_LOOP);
+	glVertex2f(_myphysics._rigidbody1.vFirstpoint.x,_myphysics._rigidbody1.vFirstpoint.y);
+	glVertex2f(_myphysics._rigidbody1.vSecondpoint.x,_myphysics._rigidbody1.vSecondpoint.y);
+	glVertex2f(_myphysics._rigidbody1.vThirdpoint.x,_myphysics._rigidbody1.vThirdpoint.y);
+	glVertex2f(_myphysics._rigidbody1.vFourthpoint.x,_myphysics._rigidbody1.vFourthpoint.y);
+	glEnd();
+
+	glColor3f(1.0f,1.0f,0.0f);
+	glBegin(GL_LINE_LOOP);
+	glVertex2f(_myphysics._rigidbody2.vFirstpoint.x,_myphysics._rigidbody2.vFirstpoint.y);
+	glVertex2f(_myphysics._rigidbody2.vSecondpoint.x,_myphysics._rigidbody2.vSecondpoint.y);
+	glVertex2f(_myphysics._rigidbody2.vThirdpoint.x,_myphysics._rigidbody2.vThirdpoint.y);
+	glVertex2f(_myphysics._rigidbody2.vFourthpoint.x,_myphysics._rigidbody2.vFourthpoint.y);
+	glEnd();
 
 	temp_time = (float)App::GetTime();
 	delta_t = temp_time-current_time;
 	current_time = temp_time;
 	_myphysics.StepSimulation(current_time);
-
+	SwapBuffers();
 }
 
 void	MyWindow::OnIdle(){

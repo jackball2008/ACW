@@ -27,6 +27,8 @@ public:
 	 
 	void  SetPosititon();
 
+	void  SetPosititon(_RigidBody *body1,_RigidBody *body2);
+
 	void  ApplyImpulse(_RigidBody *body1,_RigidBody *body2);
 
 	void  UpdateBody(_RigidBody *Upbody, float dtime);

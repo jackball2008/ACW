@@ -55,6 +55,45 @@ void MyPhysics::InitializeElement(_RigidBody *body){
 		body->fWidth = 0.04f;
 }
 
+void MyPhysics::SetPosititon(_RigidBody *body1,_RigidBody *body2){
+	_RigidBody *square1,*square2;
+	square1=body1;
+	square2=body2;
+
+	square1->vFirstpoint.x= -0.5f;
+	square1->vFirstpoint.y= -0.9f;
+
+	square1->vSecondpoint.x= square1->vFirstpoint.x+0.04f;
+	square1->vSecondpoint.y= square1->vFirstpoint.y;
+
+	square1->vThirdpoint.x= square1->vSecondpoint.x;
+	square1->vThirdpoint.y= square1->vSecondpoint.y+0.04f;
+
+	square1->vFourthpoint.x= square1->vFirstpoint.x;
+	square1->vFourthpoint.y= square1->vThirdpoint.y;
+
+	square1->vPosition.x= (float)(square1->vFirstpoint.x+square1->vSecondpoint.x)/2;
+	square1->vPosition.y= (float)(square1->vFirstpoint.y+square1->vThirdpoint.y)/2;
+
+
+	square2->vFirstpoint.x= -1.5f;
+	square2->vFirstpoint.y= -1.9f;
+
+	square2->vSecondpoint.x= square2->vFirstpoint.x+0.04f;
+	square2->vSecondpoint.y= square2->vFirstpoint.y;
+
+	square2->vThirdpoint.x= square2->vSecondpoint.x;
+	square2->vThirdpoint.y= square2->vSecondpoint.y+0.04f;
+
+	square2->vFourthpoint.x= square2->vFirstpoint.x;
+	square2->vFourthpoint.y= square2->vThirdpoint.y;
+
+	square2->vPosition.x= (float)(square2->vFirstpoint.x+square1->vSecondpoint.x)/2;
+	square2->vPosition.y= (float)(square2->vFirstpoint.y+square1->vThirdpoint.y)/2;
+
+
+}
+
 void MyPhysics::SetPosititon(){
 	//set squares
 	//25*4
@@ -371,16 +410,17 @@ void MyPhysics::StepSimulation(float dt){
 	float      dtime = dt;
 	bool       tryAgain = true;
 	int        check = 0;
-	_RigidBody  rigidcopy[114];
+	_RigidBody  rigidcopy1,rigidcopy2;
 
 	while(tryAgain&& (dtime>tol)){
 		tryAgain = false;
 		
-		UpdateBody(&rigidcopy[114],dtime);
+		UpdateBody(&rigidcopy1,dtime);
+		UpdateBody(&rigidcopy2,dtime);
 
 		CollisionBody1 = 0;
 		CollisionBody2 = 0;
-		check = CheckForCollisionSimple(&rigidcopy[0],&rigidcopy[1]);
+		check = CheckForCollisionSimple(&rigidcopy1,&rigidcopy2);
 
 		if (check == PENETRATING)
 		{			dtime = dtime/2;
@@ -399,7 +439,7 @@ void MyPhysics::StepSimulation(float dt){
 
 void MyPhysics::Initialize(void){
 	
-	 SetPosititon();
+	 SetPosititon(&_rigidbody1,&_rigidbody2);
 	 InitializeElement(&_rigidbody1);
 	 InitializeElement(&_rigidbody2);
 
