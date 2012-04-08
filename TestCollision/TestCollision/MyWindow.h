@@ -1,21 +1,28 @@
 #pragma once
-#include "RigidBody.h"
+#include "MyPhysics.h"
 #include <GXBase.h>
 using gxbase::GLWindowEx;
+using gxbase::App;
 #include <vector>
 using std::vector;
+
 
 
 class MyWindow : 
 	public GLWindowEx
 {
 public:
-	MyWindow(void);
+	MyWindow();
 	~MyWindow(void);
 
 	void  OnCreate();
 	void  OnDisplay();
 	void  OnIdle();
-	_RigidBody rigidbody1,rigidbody2;
+	
+	MyPhysics _myphysics;
+	
+
+private:
+	float current_time;
 
 };

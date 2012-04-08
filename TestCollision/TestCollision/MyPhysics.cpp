@@ -31,7 +31,7 @@ void MyPhysics::InitializeElement(_RigidBody *body){
 
 				// Set the initial thrust, forces and moments
 		body->vForces.x = 0.0f;
-		body->vForces.y = -9.8f;
+		body->vForces.y = 0.0f;
 		body->vForces.z = 0.0f;		// set all z's to zero b/c this is a 2D example
 			
 		body->vMoment.x = 0.0f;		// will always be zero in 2D
@@ -100,41 +100,38 @@ void MyPhysics::SetPosititon(){
 	}
 }
 
-void MyPhysics::UpdateBody(_RigidBody *Upbody, float dtime){
+void MyPhysics::UpdateBody(_RigidBody *body, float dtime){
 	Vector Ae;            //accelerate
 	float  Aa;
 
-    _RigidBody body;
 	Vector k1;
 
 	float  k1a;
 	float  dt = dtime;
 
-	// make a copy of the hovercraft's state		
-	memcpy(&body, Upbody, sizeof(_RigidBody));
     
 	// linear velocity
-	Ae = body.vForces / body.fMass;
+	Ae = body->vForces / body->fMass;
 	k1 = Ae*dt;
 
-	Aa = body.vMoment.z / body.fInertia;
+	Aa = body->vMoment.z / body->fInertia;
 	k1a = Aa* dt;
 
 	// add the k1 terms to the respective initial velocities
 	// vt = vo+at
-	body.vVelocity += k1;
-	body.vAngularVelocity.z += k1a;
+	body->vVelocity += k1;
+	body->vAngularVelocity.z += k1a;
 
 	// update position
-	body.vPosition += body.vVelocity*dt;
+	body->vPosition += body->vVelocity*dt;
 	
 	// calculate the new orientation
-	body.fOrientation += RadiansToDegrees(body.vAngularVelocity.z*dt);
+	body->fOrientation += RadiansToDegrees(body->vAngularVelocity.z*dt);
 	
 
 }
 
-int MyPhysics::CheckForCollision(_RigidBody *body1, _RigidBody *body2){
+int MyPhysics::CheckForCollisionSimple(_RigidBody *body1, _RigidBody *body2){
 
 	Vector d;
 	float  r;
@@ -177,6 +174,169 @@ int MyPhysics::CheckForCollision(_RigidBody *body1, _RigidBody *body2){
 
 }
 
+// vertex-vertex or vertex-edge collisions
+int MyPhysics::CheckForCollision(_RigidBody *body1, _RigidBody *body2){
+	Vector	d, vList1[4], vList2[4], v1, v2, u, edge, p, proj;
+	float	r, wd, lg, s, dist, dot, Vrn;
+	int		i, j, retval = 0;
+	bool	interpenetrating = false;
+	bool	haveNodeEdge = false;	
+
+	// First check to see if the bounding circles are colliding
+	r = body1->fLength/2 + body2->fLength/2;
+	d = body1->vPosition - body2->vPosition;
+	s = d.Magnitude() - r;
+	if(s <= ctol)
+	{   // We have a possible collision, check further
+		// build vertex lists for each hovercraft
+		wd = body1->fWidth;
+		lg = body1->fLength;
+		vList1[0].y = wd/2;		vList1[0].x = lg/2;
+		vList1[1].y = -wd/2;	vList1[1].x = lg/2;
+		vList1[2].y = -wd/2;	vList1[2].x = -lg/2;
+		vList1[3].y = wd/2;		vList1[3].x = -lg/2;		
+		for(i=0; i<4; i++)
+		{
+			v1 = VRotate2D(body1->fOrientation, vList1[i]);
+			vList1[i] = v1 + body1->vPosition;			
+		}
+
+		wd = body2->fWidth;
+		lg = body2->fLength;
+		vList2[0].y = wd/2;		vList2[0].x = lg/2;
+		vList2[1].y = -wd/2;	vList2[1].x = lg/2;
+		vList2[2].y = -wd/2;	vList2[2].x = -lg/2;
+		vList2[3].y = wd/2;		vList2[3].x = -lg/2;		
+		for(i=0; i<4; i++)
+		{
+			v2 = VRotate2D(body2->fOrientation, vList2[i]);
+			vList2[i] = v2 + body2->vPosition;			
+		}
+
+		// Check for vertex-edge collision		
+		for(i=0; i<4 && !haveNodeEdge; i++)
+		{
+			for(j=0; j<4 && !haveNodeEdge; j++)
+			{							
+				if(j==3)
+					edge = vList2[j/*0*/] - vList2[0/*j*/];
+				else
+					edge = vList2[j+1] - vList2[j];				
+				u = edge;
+				u.Normalize();
+
+				p = vList1[i] - vList2[j];					
+				proj = (p * u) * u;
+
+				d = p^u;					
+				dist = d.Magnitude();
+
+				dot = p * edge;
+				if(dot > 0)
+					dist = -dist; // point is on inside
+
+				vCollisionPoint = vList1[i];
+				body1->vCollisionPoint = vCollisionPoint - body1->vPosition;
+				body2->vCollisionPoint = vCollisionPoint - body2->vPosition;
+
+
+				vCollisionNormal = ((u^p)^u);
+				vCollisionNormal.Normalize();
+
+				v1 = body1->vVelocity + (body1->vAngularVelocity^body1->vCollisionPoint);
+				v2 = body2->vVelocity + (body2->vAngularVelocity^body2->vCollisionPoint);
+
+
+				vRelativeVelocity = (v1 - v2);
+				Vrn = vRelativeVelocity * vCollisionNormal;
+
+				vCollisionTangent = (vCollisionNormal^vRelativeVelocity)^vCollisionNormal;
+				vCollisionTangent.Normalize();
+
+				if( (proj.Magnitude() > tol) && 
+					(proj.Magnitude() <= edge.Magnitude()) && 
+					(dist <= ctol) && 
+					(Vrn < 0.0f)						
+					)
+				{
+					haveNodeEdge = true;
+					CollisionBody1 = body1;
+					CollisionBody2 = body2;
+
+				}
+			}
+		}			
+
+		for(i=0; i<4 && !haveNodeEdge; i++)
+		{
+			for(j=0; j<4 && !haveNodeEdge; j++)
+			{							
+				if(j==3)
+					edge = vList1[j/*0*/] - vList1[0/*j*/];
+				else
+					edge = vList1[j+1] - vList1[j];				
+				u = edge;
+				u.Normalize();
+
+				p = vList2[i] - vList1[j];					
+				proj = (p * u) * u;
+
+				d = p^u;					
+				dist = d.Magnitude();
+
+				dot = p * edge;
+				if(dot > 0)
+					dist = -dist; // point is on inside
+
+				vCollisionPoint = vList2[i];
+				body1->vCollisionPoint = vCollisionPoint - body1->vPosition;
+				body2->vCollisionPoint = vCollisionPoint - body2->vPosition;
+
+
+				vCollisionNormal = ((u^p)^u);
+				vCollisionNormal.Normalize();
+
+				v1 = body1->vVelocity + (body1->vAngularVelocity^body1->vCollisionPoint);
+				v2 = body2->vVelocity + (body2->vAngularVelocity^body2->vCollisionPoint);
+
+
+				vRelativeVelocity = (v1 - v2);
+				Vrn = vRelativeVelocity * vCollisionNormal;
+
+				vCollisionTangent = (vCollisionNormal^vRelativeVelocity)^vCollisionNormal;
+				vCollisionTangent.Normalize();
+
+				if( (proj.Magnitude() > tol) && 
+					(proj.Magnitude() <= edge.Magnitude()) && 
+					(dist <= ctol) && 
+					(Vrn < 0.0f)						
+					)
+				{
+					haveNodeEdge = true;
+					CollisionBody1 = body2;
+					CollisionBody2 = body1;
+				}
+			}
+		}		
+
+		
+
+		if(interpenetrating)
+			retval = PENETRATING;					
+		else if(haveNodeEdge)
+			retval = COLLISION;
+		else
+			retval = NOCOLLISION;		
+
+	} else
+	{
+		retval = NOCOLLISION;	
+	}
+
+	return retval;
+
+}
+
 void MyPhysics::ApplyImpulse(_RigidBody *body1,_RigidBody *body2){
 	
 	double j,Vrt;
@@ -212,20 +372,20 @@ void MyPhysics::StepSimulation(float dt){
 	bool       tryAgain = true;
 	int        check = 0;
 	_RigidBody  rigidcopy[114];
-	bool        didPen = false;
+
 	while(tryAgain&& (dtime>tol)){
 		tryAgain = false;
-		memcpy(&rigidcopy[114],&rigidbody[114],sizeof(_RigidBody));
+		
 		UpdateBody(&rigidcopy[114],dtime);
 
 		CollisionBody1 = 0;
 		CollisionBody2 = 0;
-		check = CheckForCollision(&rigidcopy[0],&rigidcopy[1]);
+		check = CheckForCollisionSimple(&rigidcopy[0],&rigidcopy[1]);
 
 		if (check == PENETRATING)
 		{			dtime = dtime/2;
 		            tryAgain = true;
-		            didPen = true;
+		       
 		} 
 		else if(check == COLLISION)
 		{
@@ -233,10 +393,14 @@ void MyPhysics::StepSimulation(float dt){
 				ApplyImpulse(CollisionBody1,  CollisionBody2);
 		}
 	}
-	if(!didPen)
-	{
-		
-		memcpy(&rigidbody[114], &rigidcopy[114], sizeof(_RigidBody));
-	}
+
+
+}
+
+void MyPhysics::Initialize(void){
+	
+	 SetPosititon();
+	 InitializeElement(&_rigidbody1);
+	 InitializeElement(&_rigidbody2);
 
 }
