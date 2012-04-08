@@ -29,7 +29,9 @@ void  MyWindow::OnDisplay(){
 	glVertex2f(_myphysics._rigidbody1.vFourthpoint.x,_myphysics._rigidbody1.vFourthpoint.y);
 	glEnd();
 
-	glColor3f(1.0f,1.0f,0.0f);
+
+
+	glColor3f(0.0f,1.0f,0.0f);
 	glBegin(GL_LINE_LOOP);
 	glVertex2f(_myphysics._rigidbody2.vFirstpoint.x,_myphysics._rigidbody2.vFirstpoint.y);
 	glVertex2f(_myphysics._rigidbody2.vSecondpoint.x,_myphysics._rigidbody2.vSecondpoint.y);
@@ -40,10 +42,10 @@ void  MyWindow::OnDisplay(){
 	temp_time = (float)App::GetTime();
 	delta_t = temp_time-current_time;
 	current_time = temp_time;
-	_myphysics.StepSimulation(current_time);
+	_myphysics.StepSimulation(current_time,_myphysics._rigidbody1,_myphysics._rigidbody2);
 	SwapBuffers();
 }
 
 void	MyWindow::OnIdle(){
-
+	Redraw();
 }

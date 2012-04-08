@@ -7,7 +7,7 @@ public:
 	MyPhysics(void);
 	~MyPhysics(void);
 
-	_RigidBody rigidbody[114],_rigidbody1,_rigidbody2;
+	_RigidBody _rigidbody1,_rigidbody2;
 
 	_RigidBody *CollisionBody1,*CollisionBody2;
 
@@ -39,7 +39,7 @@ public:
 
 	Vector VRotate2D(float angle, Vector u);
 
-	void  StepSimulation(float dt);
+	void  StepSimulation(float dt,_RigidBody rigidcopy1,_RigidBody rigidcopy2);
 
 	void Initialize(void);
 };

@@ -19,7 +19,7 @@ MyPhysics::~MyPhysics(void)
 void MyPhysics::InitializeElement(_RigidBody *body){
 
 			//set initial velocity
-		body->vVelocity.x =0.0f;
+		body->vVelocity.x =1.0f;
 		body->vVelocity.y = 0.0f;
 		body->vVelocity.z = 0.0f;  // set all z's to zero b/c this is a 2D example
 		body->fSpeed = 0.0f;
@@ -44,7 +44,7 @@ void MyPhysics::InitializeElement(_RigidBody *body){
 		body->vVelocityBody.z = 0.0f;
 				
 					// Now define the mass properties
-		body->fMass = 621.6;
+		body->fMass = 1.0f;
 		body->fInertia = 383320;
 		body->fInertiaInverse = 1.0f / body->fInertia;
 
@@ -76,8 +76,8 @@ void MyPhysics::SetPosititon(_RigidBody *body1,_RigidBody *body2){
 	square1->vPosition.y= (float)(square1->vFirstpoint.y+square1->vThirdpoint.y)/2;
 
 
-	square2->vFirstpoint.x= -1.5f;
-	square2->vFirstpoint.y= -1.9f;
+	square2->vFirstpoint.x= 0.0f;
+	square2->vFirstpoint.y= 0.0f;
 
 	square2->vSecondpoint.x= square2->vFirstpoint.x+0.04f;
 	square2->vSecondpoint.y= square2->vFirstpoint.y;
@@ -405,16 +405,17 @@ Vector MyPhysics::VRotate2D( float angle, Vector u)
 	return Vector( x, y, 0);
 }
 
-void MyPhysics::StepSimulation(float dt){
+void MyPhysics::StepSimulation(float dt,_RigidBody rigidcopy1,_RigidBody rigidcopy2){
 
 	float      dtime = dt;
 	bool       tryAgain = true;
 	int        check = 0;
-	_RigidBody  rigidcopy1,rigidcopy2;
+
 
 	while(tryAgain&& (dtime>tol)){
 		tryAgain = false;
 		
+
 		UpdateBody(&rigidcopy1,dtime);
 		UpdateBody(&rigidcopy2,dtime);
 
@@ -429,8 +430,8 @@ void MyPhysics::StepSimulation(float dt){
 		} 
 		else if(check == COLLISION)
 		{
-			if(CollisionBody1 !=0&& CollisionBody2 !=0)
-				ApplyImpulse(CollisionBody1,  CollisionBody2);
+			
+		  ApplyImpulse(&rigidcopy1, &rigidcopy2);
 		}
 	}
 
@@ -439,8 +440,9 @@ void MyPhysics::StepSimulation(float dt){
 
 void MyPhysics::Initialize(void){
 	
-	 SetPosititon(&_rigidbody1,&_rigidbody2);
+	 
 	 InitializeElement(&_rigidbody1);
 	 InitializeElement(&_rigidbody2);
+	 SetPosititon(&_rigidbody1,&_rigidbody2);
 
 }
