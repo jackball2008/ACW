@@ -85,7 +85,7 @@ inline void Vector::Normalize(void){
 
 	if (fabs(x) < tol) x =0.0f;
 	if (fabs(x) < tol) y =0.0f;
-	if (fabs(x)< tol)  z =0.0f;
+	if (fabs(x) <  tol) z =0.0f;
 }
 
 inline void Vector::Reverse(void){

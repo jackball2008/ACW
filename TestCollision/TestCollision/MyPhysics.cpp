@@ -247,10 +247,10 @@ int MyPhysics::CheckForCollisionSimple(_RigidBody *body1, _RigidBody *body2){
 		//CollisionBody1 = body1;
 		//CollisionBody2 = body2;
 	}
-	/*else 	if(s < -ctol) 
+	else 	if(s < -ctol) 
 	{
 		retval = PENETRATING;
-	}*/ 
+	} 
 	else 
 		retval = NOCOLLISION;
 
@@ -458,31 +458,32 @@ void MyPhysics::StepSimulation(float dt,_RigidBody *rigidcopy1,_RigidBody *rigid
 	int        check = 0;
 
 
-	/*while(tryAgain&& (dtime>tol)){*/
-		/*tryAgain = false;*/
+	while(tryAgain&& (dtime>tol)){
+	tryAgain = false;
 		
-		
-		UpdateBody(rigidcopy1,dtime);
-		UpdateBody(rigidcopy2,dtime);
+	UpdateBody(rigidcopy1,dtime);
+	UpdateBody(rigidcopy2,dtime);
 
-		UpdatePosition(rigidcopy1,rigidcopy2);
+	UpdatePosition(rigidcopy1,rigidcopy2);
+
 
 		CollisionBody1 = 0;
 		CollisionBody2 = 0;
 		check = CheckForCollisionSimple(rigidcopy1,rigidcopy2);
 
-		/*	if (check == PENETRATING)
+		if (check == PENETRATING)
 		{			dtime = dtime/2;
 		tryAgain = true;
 
 		} 
-		else*/ 
+		else 
 		if(check == COLLISION)
 		{
 
 			ApplyImpulse(rigidcopy1, rigidcopy2);
 		}
-	/*}*/
+	}
+
 
 
 }
