@@ -29,6 +29,8 @@ public:
 
 	void  SetPosititon(_RigidBody *body1,_RigidBody *body2);
 
+	void UpdatePosition(_RigidBody *square1,_RigidBody *square2);
+
 	void  ApplyImpulse(_RigidBody *body1,_RigidBody *body2);
 
 	void  UpdateBody(_RigidBody *Upbody, float dtime);
@@ -39,7 +41,7 @@ public:
 
 	Vector VRotate2D(float angle, Vector u);
 
-	void  StepSimulation(float dt,_RigidBody rigidcopy1,_RigidBody rigidcopy2);
+	void  StepSimulation(float dt,_RigidBody *rigidcopy1,_RigidBody *rigidcopy2);
 
 	void Initialize(void);
 };

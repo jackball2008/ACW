@@ -18,7 +18,8 @@ void MyWindow::OnCreate(){
 
 void  MyWindow::OnDisplay(){
 
-	float delta_t, temp_time;
+	float delta_t;
+
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(1.0f,0.0f,0.0f);
@@ -39,10 +40,9 @@ void  MyWindow::OnDisplay(){
 	glVertex2f(_myphysics._rigidbody2.vFourthpoint.x,_myphysics._rigidbody2.vFourthpoint.y);
 	glEnd();
 
-	temp_time = (float)App::GetTime();
-	delta_t = temp_time-current_time;
-	current_time = temp_time;
-	_myphysics.StepSimulation(current_time,_myphysics._rigidbody1,_myphysics._rigidbody2);
+	delta_t = (float)App::GetDeltaTime();
+	
+	_myphysics.StepSimulation(delta_t,&_myphysics._rigidbody1,&_myphysics._rigidbody2);
 	SwapBuffers();
 }
 

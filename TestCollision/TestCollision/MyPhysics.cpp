@@ -19,7 +19,7 @@ MyPhysics::~MyPhysics(void)
 void MyPhysics::InitializeElement(_RigidBody *body){
 
 			//set initial velocity
-		body->vVelocity.x =1.0f;
+		body->vVelocity.x = 0.0f;
 		body->vVelocity.y = 0.0f;
 		body->vVelocity.z = 0.0f;  // set all z's to zero b/c this is a 2D example
 		body->fSpeed = 0.0f;
@@ -60,36 +60,40 @@ void MyPhysics::SetPosititon(_RigidBody *body1,_RigidBody *body2){
 	square1=body1;
 	square2=body2;
 
-	square1->vFirstpoint.x= -0.5f;
-	square1->vFirstpoint.y= -0.9f;
+	square1->vPosition.x= -0.5f;
+	square1->vPosition.y= -0.9f;
 
-	square1->vSecondpoint.x= square1->vFirstpoint.x+0.04f;
-	square1->vSecondpoint.y= square1->vFirstpoint.y;
+	square1->vFirstpoint.x= square1->vPosition.x-0.02f;
+	square1->vFirstpoint.y= square1->vPosition.y+0.02f;
 
-	square1->vThirdpoint.x= square1->vSecondpoint.x;
-	square1->vThirdpoint.y= square1->vSecondpoint.y+0.04f;
+	square1->vSecondpoint.x= square1->vPosition.x+0.02f;
+	square1->vSecondpoint.y= square1->vPosition.y+0.02f;
 
-	square1->vFourthpoint.x= square1->vFirstpoint.x;
-	square1->vFourthpoint.y= square1->vThirdpoint.y;
+	square1->vThirdpoint.x= square1->vPosition.x+0.02f;
+	square1->vThirdpoint.y= square1->vPosition.y-0.02f;
 
-	square1->vPosition.x= (float)(square1->vFirstpoint.x+square1->vSecondpoint.x)/2;
-	square1->vPosition.y= (float)(square1->vFirstpoint.y+square1->vThirdpoint.y)/2;
+	square1->vFourthpoint.x= square1->vPosition.x-0.02f;
+	square1->vFourthpoint.y= square1->vPosition.y-0.02f;
 
 
-	square2->vFirstpoint.x= 0.0f;
-	square2->vFirstpoint.y= 0.0f;
 
-	square2->vSecondpoint.x= square2->vFirstpoint.x+0.04f;
-	square2->vSecondpoint.y= square2->vFirstpoint.y;
 
-	square2->vThirdpoint.x= square2->vSecondpoint.x;
-	square2->vThirdpoint.y= square2->vSecondpoint.y+0.04f;
+	square2->vPosition.x= 0.0f;
+	square2->vPosition.y= -0.9f;
 
-	square2->vFourthpoint.x= square2->vFirstpoint.x;
-	square2->vFourthpoint.y= square2->vThirdpoint.y;
+	square2->vFirstpoint.x= square2->vPosition.x-0.02f;
+	square2->vFirstpoint.y= square2->vPosition.y+0.02f;
 
-	square2->vPosition.x= (float)(square2->vFirstpoint.x+square1->vSecondpoint.x)/2;
-	square2->vPosition.y= (float)(square2->vFirstpoint.y+square1->vThirdpoint.y)/2;
+	square2->vSecondpoint.x= square2->vPosition.x+0.02f;
+	square2->vSecondpoint.y= square2->vPosition.y+0.02f;
+
+	square2->vThirdpoint.x= square2->vPosition.x+0.02f;
+	square2->vThirdpoint.y= square2->vPosition.y-0.02f;
+
+	square2->vFourthpoint.x= square2->vPosition.x-0.02f;
+	square2->vFourthpoint.y= square2->vPosition.y-0.02f;
+
+
 
 
 }
@@ -139,6 +143,42 @@ void MyPhysics::SetPosititon(){
 	}
 }
 
+void MyPhysics::UpdatePosition(_RigidBody *square1,_RigidBody *square2){
+
+
+
+
+	square1->vFirstpoint.x= square1->vPosition.x-0.02f;
+	square1->vFirstpoint.y= square1->vPosition.y+0.02f;
+
+	square1->vSecondpoint.x= square1->vPosition.x+0.02f;
+	square1->vSecondpoint.y= square1->vPosition.y+0.02f;
+
+	square1->vThirdpoint.x= square1->vPosition.x+0.02f;
+	square1->vThirdpoint.y= square1->vPosition.y-0.02f;
+
+	square1->vFourthpoint.x= square1->vPosition.x-0.02f;
+	square1->vFourthpoint.y= square1->vPosition.y-0.02f;
+
+
+
+
+
+
+	square2->vFirstpoint.x= square2->vPosition.x-0.02f;
+	square2->vFirstpoint.y= square2->vPosition.y+0.02f;
+
+	square2->vSecondpoint.x= square2->vPosition.x+0.02f;
+	square2->vSecondpoint.y= square2->vPosition.y+0.02f;
+
+	square2->vThirdpoint.x= square2->vPosition.x+0.02f;
+	square2->vThirdpoint.y= square2->vPosition.y-0.02f;
+
+	square2->vFourthpoint.x= square2->vPosition.x-0.02f;
+	square2->vFourthpoint.y= square2->vPosition.y-0.02f;
+
+}
+
 void MyPhysics::UpdateBody(_RigidBody *body, float dtime){
 	Vector Ae;            //accelerate
 	float  Aa;
@@ -148,6 +188,9 @@ void MyPhysics::UpdateBody(_RigidBody *body, float dtime){
 	float  k1a;
 	float  dt = dtime;
 
+	Vector test;
+	test.x=0.00004f;
+	test.y=0.0f;
     
 	// linear velocity
 	Ae = body->vForces / body->fMass;
@@ -163,6 +206,7 @@ void MyPhysics::UpdateBody(_RigidBody *body, float dtime){
 
 	// update position
 	body->vPosition += body->vVelocity*dt;
+	/*body->vPosition +=test;*/
 	
 	// calculate the new orientation
 	body->fOrientation += RadiansToDegrees(body->vAngularVelocity.z*dt);
@@ -180,8 +224,8 @@ int MyPhysics::CheckForCollisionSimple(_RigidBody *body1, _RigidBody *body2){
 	float  Vrn;
 
 	// calculate distance
-	r= body1->fLength/2+body2->fLength/2;
-	d= body1->vPosition-body1->vPosition;
+	r= 0.04f;
+	d= body1->vPosition-body2->vPosition;
 	s =d.Magnitude()-r;
 
 	// get collision normal vector
@@ -200,12 +244,14 @@ int MyPhysics::CheckForCollisionSimple(_RigidBody *body1, _RigidBody *body2){
 	if((fabs(s) <= ctol) && (Vrn < 0.0))
 	{
 		retval = COLLISION;
-		CollisionBody1 = body1;
-		CollisionBody2 = body2;
-	} else 	if(s < -ctol) 
+		//CollisionBody1 = body1;
+		//CollisionBody2 = body2;
+	}
+	/*else 	if(s < -ctol) 
 	{
 		retval = PENETRATING;
-	} else 
+	}*/ 
+	else 
 		retval = NOCOLLISION;
 
 	return retval;
@@ -405,35 +451,38 @@ Vector MyPhysics::VRotate2D( float angle, Vector u)
 	return Vector( x, y, 0);
 }
 
-void MyPhysics::StepSimulation(float dt,_RigidBody rigidcopy1,_RigidBody rigidcopy2){
+void MyPhysics::StepSimulation(float dt,_RigidBody *rigidcopy1,_RigidBody *rigidcopy2){
 
 	float      dtime = dt;
 	bool       tryAgain = true;
 	int        check = 0;
 
 
-	while(tryAgain&& (dtime>tol)){
-		tryAgain = false;
+	/*while(tryAgain&& (dtime>tol)){*/
+		/*tryAgain = false;*/
 		
+		
+		UpdateBody(rigidcopy1,dtime);
+		UpdateBody(rigidcopy2,dtime);
 
-		UpdateBody(&rigidcopy1,dtime);
-		UpdateBody(&rigidcopy2,dtime);
+		UpdatePosition(rigidcopy1,rigidcopy2);
 
 		CollisionBody1 = 0;
 		CollisionBody2 = 0;
-		check = CheckForCollisionSimple(&rigidcopy1,&rigidcopy2);
+		check = CheckForCollisionSimple(rigidcopy1,rigidcopy2);
 
-		if (check == PENETRATING)
+		/*	if (check == PENETRATING)
 		{			dtime = dtime/2;
-		            tryAgain = true;
-		       
+		tryAgain = true;
+
 		} 
-		else if(check == COLLISION)
+		else*/ 
+		if(check == COLLISION)
 		{
-			
-		  ApplyImpulse(&rigidcopy1, &rigidcopy2);
+
+			ApplyImpulse(rigidcopy1, rigidcopy2);
 		}
-	}
+	/*}*/
 
 
 }
@@ -443,6 +492,7 @@ void MyPhysics::Initialize(void){
 	 
 	 InitializeElement(&_rigidbody1);
 	 InitializeElement(&_rigidbody2);
+	 _rigidbody1.vForces.x=0.02f;
 	 SetPosititon(&_rigidbody1,&_rigidbody2);
 
 }
