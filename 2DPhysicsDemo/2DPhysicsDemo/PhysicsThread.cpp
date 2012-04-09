@@ -13,14 +13,9 @@ PhysicsThread::~PhysicsThread(void)
 }
 
 int PhysicsThread::run(){
-
 	//get sticks per second
 	GetProcessAffinityMask(GetCurrentProcess(), &procMask, &sysMask);
 	thread = GetCurrentThread();
-
-
-
-
 
 	while(!_terminate){
 		/*cout<<"physics"<<endl;*/
@@ -32,9 +27,36 @@ int PhysicsThread::run(){
 			__try{
 				//only get the access,then calculate the time _delta_time
 				CalculateDeltaTime();
+				if(_delta_time <10000 ){
+					///cout<<"ms = "<<_delta_time<<" right "<<endl;
+					//logic here
+					//////////////////////////////////////////////////////////////////////////
+					//calculate the forces
+					//spring and grivaty
+					
+					//////////////////////////////////////////////////////////////////////////
+					//calculate the acceleration
+					
 
 
-				
+					/////////////////////////////////////////////////////////////////////////
+					//calculate new velocity
+					
+
+
+
+					/////////////////////////////////////////////////////////////////////////
+					//calculate new position
+					//detect collision
+					//double for loop { response }
+
+					/////////////////////////////////////////////////////////////////////////
+					//
+
+
+
+				}
+
 			}__finally{
 				_shapeShareObject->Release();
 			}
