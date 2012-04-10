@@ -42,6 +42,11 @@ int PhysicsThread::run(){
 						_shapeShareObject->springstartp.y = 0;
 						_shapeShareObject->springendp.x = 0;
 						_shapeShareObject->springendp.y = 0;
+
+						//use springlength to do the calculation
+						//calculate the spring force
+						_springforce.energy = 100;
+
 					}
 
 

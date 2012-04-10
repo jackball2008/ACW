@@ -5,6 +5,7 @@
 #include "ShapeShareObject.h"
 using namespace std;
 #include <Windows.h>
+#include "Force.h"
 
 class PhysicsThread :
 	public MyThread
@@ -20,6 +21,9 @@ private:
 	DWORD procMask, sysMask;
 
 	HANDLE thread;
+
+	//Force
+	Force _springforce;
 
 public:
 	PhysicsThread(void);
