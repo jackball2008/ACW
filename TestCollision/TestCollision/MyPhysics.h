@@ -39,10 +39,14 @@ public:
 
 	int   CheckForCollision(_RigidBody *body1, _RigidBody *body2);
 
+	int  CheckForCollisionP(_RigidBody *body1, _RigidBody *body2);
+
 	Vector VRotate2D(float angle, Vector u);
 
 	void  StepSimulation(float dt,_RigidBody *rigidcopy1,_RigidBody *rigidcopy2);
 
 	void Initialize(void);
+
+	int	pnpoly(int	npol, Vector *vlist, Vector p);
 };
 

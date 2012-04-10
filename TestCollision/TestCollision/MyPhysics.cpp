@@ -259,6 +259,68 @@ int MyPhysics::CheckForCollisionSimple(_RigidBody *body1, _RigidBody *body2){
 
 }
 
+int MyPhysics::CheckForCollisionP(_RigidBody *body1, _RigidBody *body2){
+
+	float Max_1x,Max_1y,Min_1x,Min_1y,Max_2x,Max_2y,Min_2x,Min_2y,a,b,c,d;
+	int    retval = 0;
+	//body1
+	Max_1x=CompareValueMax(CompareValueMax(body1->vFirstpoint.x,body1->vSecondpoint.x),CompareValueMax(body1->vThirdpoint.x,body1->vFourthpoint.x));
+	Max_1y=CompareValueMax(CompareValueMax(body1->vFirstpoint.y,body1->vSecondpoint.y),CompareValueMax(body1->vThirdpoint.y,body1->vFourthpoint.y));
+
+	Min_1x=CompareValueMin(CompareValueMax(body1->vFirstpoint.x,body1->vSecondpoint.x),CompareValueMin(body1->vThirdpoint.x,body1->vFourthpoint.x));
+	Min_1y=CompareValueMin(CompareValueMax(body1->vFirstpoint.y,body1->vSecondpoint.y),CompareValueMin(body1->vThirdpoint.y,body1->vFourthpoint.y));
+
+	//body2
+
+	Max_2x=CompareValueMax(CompareValueMax(body2->vFirstpoint.x,body2->vSecondpoint.x),CompareValueMax(body2->vThirdpoint.x,body2->vFourthpoint.x));
+	Max_2y=CompareValueMax(CompareValueMax(body2->vFirstpoint.y,body2->vSecondpoint.y),CompareValueMax(body2->vThirdpoint.y,body2->vFourthpoint.y));
+
+	Min_2x=CompareValueMin(CompareValueMax(body2->vFirstpoint.x,body2->vSecondpoint.x),CompareValueMin(body2->vThirdpoint.x,body2->vFourthpoint.x));
+	Min_2y=CompareValueMin(CompareValueMax(body2->vFirstpoint.y,body2->vSecondpoint.y),CompareValueMin(body2->vThirdpoint.y,body2->vFourthpoint.y));
+	
+	// compare projection from x axis
+	if (Min_1x<Min_2x)
+	{
+		return a=Min_2x-Max_1x;
+	} 
+	else
+	{
+		return b=Min_1x-Max_2x;
+	}
+
+	//compare projection from y axis
+	if (Min_1y<Min_2y)
+	{
+		return c=Min_2y-Max_1y;
+	}
+	else
+	{
+		return d=Min_1y-Max_2y;
+	}
+	
+	
+	//test collision
+	if ((a<0)&&(c<0))
+	{
+		return retval=COLLISION;
+	} 
+	else if ((a<0)&&(d<0))
+	{
+		return retval=COLLISION;
+	} 
+	else if((b<0)&&(c<0))
+	{
+		return retval=COLLISION;
+	}
+	else if((b<0)&&(d<0)){
+		return retval=COLLISION;
+	}
+	else{
+		return retval=NOCOLLISION;
+	}
+	return retval;
+}
+
 // vertex-vertex or vertex-edge collisions
 int MyPhysics::CheckForCollision(_RigidBody *body1, _RigidBody *body2){
 	Vector	d, vList1[4], vList2[4], v1, v2, u, edge, p, proj;
@@ -276,26 +338,26 @@ int MyPhysics::CheckForCollision(_RigidBody *body1, _RigidBody *body2){
 		// build vertex lists for each hovercraft
 		wd = body1->fWidth;
 		lg = body1->fLength;
-		vList1[0].y = wd/2;		vList1[0].x = lg/2;
-		vList1[1].y = -wd/2;	vList1[1].x = lg/2;
-		vList1[2].y = -wd/2;	vList1[2].x = -lg/2;
-		vList1[3].y = wd/2;		vList1[3].x = -lg/2;		
+		vList1[0].y = body1->vFirstpoint.y;		vList1[0].x = body1->vFirstpoint.x;
+		vList1[1].y = body1->vSecondpoint.y;	vList1[1].x = body1->vSecondpoint.x;
+		vList1[2].y = body1->vThirdpoint.y;	    vList1[2].x = body1->vThirdpoint.x;
+		vList1[3].y = body1->vFourthpoint.y;	vList1[3].x = body1->vFirstpoint.x;		
 		for(i=0; i<4; i++)
 		{
-			v1 = VRotate2D(body1->fOrientation, vList1[i]);
-			vList1[i] = v1 + body1->vPosition;			
+			/*v1 = VRotate2D(body1->fOrientation, vList1[i]);*/
+			vList1[i] += body1->vPosition;			
 		}
 
 		wd = body2->fWidth;
 		lg = body2->fLength;
-		vList2[0].y = wd/2;		vList2[0].x = lg/2;
-		vList2[1].y = -wd/2;	vList2[1].x = lg/2;
-		vList2[2].y = -wd/2;	vList2[2].x = -lg/2;
-		vList2[3].y = wd/2;		vList2[3].x = -lg/2;		
+		vList2[0].y = body2->vFirstpoint.y;		vList2[0].x = body2->vFirstpoint.x;
+		vList2[1].y = body2->vSecondpoint.y;	vList2[1].x = body2->vSecondpoint.x;
+		vList2[2].y = body2->vThirdpoint.y;	    vList2[2].x = body2->vThirdpoint.x;
+		vList2[3].y = body2->vFourthpoint.y;	vList2[3].x = body2->vFirstpoint.x;		
 		for(i=0; i<4; i++)
 		{
-			v2 = VRotate2D(body2->fOrientation, vList2[i]);
-			vList2[i] = v2 + body2->vPosition;			
+			/*v2 = VRotate2D(body2->fOrientation, vList2[i]);*/
+			vList2[i] += body2->vPosition;			
 		}
 
 		// Check for vertex-edge collision		
@@ -403,7 +465,17 @@ int MyPhysics::CheckForCollision(_RigidBody *body1, _RigidBody *body2){
 				}
 			}
 		}		
+		if(!haveNodeEdge)
+		{
+			for(i=0; i<4 && !interpenetrating; i++)
+			{
+				if(pnpoly(4, vList2, vList1[i]) == 1)
+					interpenetrating = true;
 
+				if(pnpoly(4, vList1, vList2[i]) == 1)
+					interpenetrating = true;
+			}
+		}
 		
 
 		if(interpenetrating)
@@ -458,8 +530,8 @@ void MyPhysics::StepSimulation(float dt,_RigidBody *rigidcopy1,_RigidBody *rigid
 	int        check = 0;
 
 
-	while(tryAgain&& (dtime>tol)){
-	tryAgain = false;
+	//while(tryAgain&& (dtime>tol)){
+	//tryAgain = false;
 		
 	UpdateBody(rigidcopy1,dtime);
 	UpdateBody(rigidcopy2,dtime);
@@ -469,20 +541,20 @@ void MyPhysics::StepSimulation(float dt,_RigidBody *rigidcopy1,_RigidBody *rigid
 
 		CollisionBody1 = 0;
 		CollisionBody2 = 0;
-		check = CheckForCollisionSimple(rigidcopy1,rigidcopy2);
+		check = CheckForCollisionP(rigidcopy1,rigidcopy2);
 
-		if (check == PENETRATING)
-		{			dtime = dtime/2;
-		tryAgain = true;
+		//if (check == PENETRATING)
+		//{			dtime = dtime/2;
+		//tryAgain = true;
 
-		} 
-		else 
+		//} 
+		//else 
 		if(check == COLLISION)
 		{
 
 			ApplyImpulse(rigidcopy1, rigidcopy2);
 		}
-	}
+	/*}*/
 
 
 
@@ -493,7 +565,22 @@ void MyPhysics::Initialize(void){
 	 
 	 InitializeElement(&_rigidbody1);
 	 InitializeElement(&_rigidbody2);
-	 _rigidbody1.vForces.x=0.02f;
+	 _rigidbody1.vVelocity.x=0.2f;
+	 /*_rigidbody1.vVelocity.y=0.2f;*/
 	 SetPosititon(&_rigidbody1,&_rigidbody2);
 
+}
+
+int	MyPhysics::pnpoly(int	npol, Vector *vlist, Vector p)
+{
+	int	i, j, c = 0;
+
+	for (i = 0, j = npol-1; i<npol; j = i++) {
+		if ((((vlist[i].y<=p.y) && (p.y<vlist[j].y)) ||
+			((vlist[j].y<=p.y) && (p.y<vlist[i].y))) &&
+			(p.x < (vlist[j].x - vlist[i].x) * (p.y - vlist[i].y) / (vlist[j].y - vlist[i].y) + vlist[i].x))
+
+			c = !c;
+	}
+	return c;
 }

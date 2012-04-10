@@ -60,6 +60,38 @@ inline Vector operator*(Vector u, float s);
 inline Vector operator/(Vector u, float s);
 inline float TripleScalarProduct(Vector u,Vector v,Vector w);
 
+inline float CompareValueMax(float a,float b){
+	if (a>b)
+	{
+		return a;
+	} 
+	else if(a<b)
+	{   
+		return b;
+	}
+	else
+	{
+		return a;
+	}
+}
+
+inline float CompareValueMin(float a,float b){
+	if (a<b)
+	{
+		return a;
+	} 
+	else if(a>b)
+	{
+		return b;
+	}
+	else{
+		return a;
+	}
+}
+
+
+
+
 inline Vector::Vector(void){
 	x=0;
 	y=0;
