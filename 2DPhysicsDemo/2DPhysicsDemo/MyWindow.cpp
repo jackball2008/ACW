@@ -49,6 +49,7 @@ void	MyWindow::OnDisplay(){
 			vector<Point>& pa = shape->points;
 			/*vector<Point>* pa = &shape->points;*/
 
+			//////////////////////////////////////////////////////////////////////////
 			if(shape->type == 0 && shape->isvisiable){
 
 				glColor3f(1.0f,0.0f,0.0f);
@@ -64,7 +65,7 @@ void	MyWindow::OnDisplay(){
 
 				glEnd();
 			}
-
+			//////////////////////////////////////////////////////////////////////////
 			if(shape->type == 1 && shape->isvisiable){
 				//draw line
 
@@ -132,7 +133,10 @@ void	MyWindow::OnMouseMove(int x, int y){
 				
 				if(ishold){
 					(_shapeShareObject->renderObjects.at(0))->points.at(1).x = _currentmouseposition.x;
+					
 				}else{
+					
+
 					(_shapeShareObject->renderObjects.at(0))->points.at(0).x = _currentmouseposition.x;
 
 					(_shapeShareObject->renderObjects.at(0))->points.at(1).x = _currentmouseposition.x;
@@ -147,6 +151,7 @@ void	MyWindow::OnMouseMove(int x, int y){
 				if(ishold){
 					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = _currentmouseposition.y;
 				}else{
+					
 					(_shapeShareObject->renderObjects.at(0))->points.at(0).y = _currentmouseposition.y;
 
 					(_shapeShareObject->renderObjects.at(0))->points.at(1).y = _currentmouseposition.y;
@@ -192,6 +197,17 @@ void	MyWindow::OnMouseButton(MouseButton button, bool down){
 					if(_shapeShareObject->last_left_down != _shapeShareObject->left_down && _shapeShareObject->last_left_down == true){
 						_shapeShareObject->last_left_down = false;
 						cout<<"press up"<<endl;
+
+						//save spring point
+						//start
+						_shapeShareObject->springstartp.x = (_shapeShareObject->renderObjects.at(0))->points.at(0).x;
+						_shapeShareObject->springstartp.y = (_shapeShareObject->renderObjects.at(0))->points.at(0).y;
+						//end
+						_shapeShareObject->springendp.x = (_shapeShareObject->renderObjects.at(0))->points.at(1).x;
+						_shapeShareObject->springendp.y = (_shapeShareObject->renderObjects.at(0))->points.at(1).y;
+						///////////////////
+
+
 						ishold = false;
 						_shapeShareObject->left_hold = false;
 					}
