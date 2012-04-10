@@ -32,7 +32,24 @@ int PhysicsThread::run(){
 					//logic here
 					//////////////////////////////////////////////////////////////////////////
 					//calculate the forces
-					//spring and grivaty
+					//spring and G
+					//spring
+					float springlength = Dis(_shapeShareObject->springstartp,_shapeShareObject->springendp);
+					if(!_shapeShareObject->left_hold && springlength >0){
+// 						cout<<"spring work length = "<<springlength<<endl;
+// 						cout<<"clear spring"<<endl;
+						_shapeShareObject->springstartp.x = 0;
+						_shapeShareObject->springstartp.y = 0;
+						_shapeShareObject->springendp.x = 0;
+						_shapeShareObject->springendp.y = 0;
+
+						//use springlength to do the calculation
+						//calculate the spring force
+						_springforce.energy = 100;
+
+					}
+
+
 					
 					//////////////////////////////////////////////////////////////////////////
 					//calculate the acceleration
