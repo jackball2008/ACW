@@ -78,7 +78,7 @@ void MyPhysics::SetPosititon(_RigidBody *body1,_RigidBody *body2){
 
 
 
-	square2->vPosition.x= 0.0f;
+	square2->vPosition.x= -0.45f;
 	square2->vPosition.y= -0.9f;
 
 	square2->vFirstpoint.x= square2->vPosition.x-0.02f;
@@ -261,7 +261,7 @@ int MyPhysics::CheckForCollisionSimple(_RigidBody *body1, _RigidBody *body2){
 
 int MyPhysics::CheckForCollisionP(_RigidBody *body1, _RigidBody *body2){
 
-	float Max_1x,Max_1y,Min_1x,Min_1y,Max_2x,Max_2y,Min_2x,Min_2y,a,b,c,d;
+	float Max_1x,Max_1y,Min_1x,Min_1y,Max_2x,Max_2y,Min_2x,Min_2y,a=0,b=0,c=0,d=0;
 	int    retval = 0;
 	//body1
 	Max_1x=CompareValueMax(CompareValueMax(body1->vFirstpoint.x,body1->vSecondpoint.x),CompareValueMax(body1->vThirdpoint.x,body1->vFourthpoint.x));
@@ -281,21 +281,22 @@ int MyPhysics::CheckForCollisionP(_RigidBody *body1, _RigidBody *body2){
 	// compare projection from x axis
 	if (Min_1x<Min_2x)
 	{
-		return a=Min_2x-Max_1x;
+		 a=Min_2x-Max_1x;
+	
 	} 
 	else
 	{
-		return b=Min_1x-Max_2x;
+		 b=Min_1x-Max_2x;
 	}
 
 	//compare projection from y axis
 	if (Min_1y<Min_2y)
 	{
-		return c=Min_2y-Max_1y;
+		 c=Min_2y-Max_1y;
 	}
 	else
 	{
-		return d=Min_1y-Max_2y;
+		 d=Min_1y-Max_2y;
 	}
 	
 	
@@ -511,6 +512,42 @@ void MyPhysics::ApplyImpulse(_RigidBody *body1,_RigidBody *body2){
 	body2->vVelocity -= (j * vCollisionNormal) / body2->fMass;	
 }
 
+void MyPhysics::ApplyImpulseP(_RigidBody *body1,_RigidBody *body2){
+
+	Vector d;
+	float  r;
+	int    retval = 0;
+	float  s;
+	Vector v1,v2;
+	float  Vrn;
+	double j,Vrt;
+	// calculate distance
+	r= 0.04f;
+	d= body1->vPosition-body2->vPosition;
+	s =d.Magnitude()-r;
+
+	// get collision normal vector
+	d.Normalize();
+	vCollisionNormal =d;
+
+	//calculate relative normal velocity:
+	v1 = body1->vVelocity;
+	v2 = body2->vVelocity;
+
+	vRelativeVelocity =v1 -v2;
+
+	Vrn = vRelativeVelocity*vCollisionNormal;
+
+	// calculate the impulse:
+	j = (-(1+fCr) * (vRelativeVelocity*vCollisionNormal)) /
+		((1/body1->fMass + 1/body2->fMass));
+
+	Impulse = j;
+
+	// calculate the new velocity after impact
+	body1->vVelocity += (j * vCollisionNormal) / body1->fMass;	
+	body2->vVelocity -= (j * vCollisionNormal) / body2->fMass;
+}
 
 
 Vector MyPhysics::VRotate2D( float angle, Vector u)
@@ -530,7 +567,8 @@ void MyPhysics::StepSimulation(float dt,_RigidBody *rigidcopy1,_RigidBody *rigid
 	int        check = 0;
 
 
-	//while(tryAgain&& (dtime>tol)){
+	//while(tryAgain&& (dtime>tol))
+	//{
 	//tryAgain = false;
 		
 	UpdateBody(rigidcopy1,dtime);
@@ -544,15 +582,17 @@ void MyPhysics::StepSimulation(float dt,_RigidBody *rigidcopy1,_RigidBody *rigid
 		check = CheckForCollisionP(rigidcopy1,rigidcopy2);
 
 		//if (check == PENETRATING)
-		//{			dtime = dtime/2;
-		//tryAgain = true;
+		//{					
+		//	dtime = dtime/2;
+		//    tryAgain = true;
+		//
 
 		//} 
 		//else 
 		if(check == COLLISION)
 		{
 
-			ApplyImpulse(rigidcopy1, rigidcopy2);
+			ApplyImpulseP(rigidcopy1, rigidcopy2);
 		}
 	/*}*/
 

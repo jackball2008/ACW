@@ -18,7 +18,7 @@ void MyWindow::OnCreate(){
 
 void  MyWindow::OnDisplay(){
 
-	float delta_t;
+	float delta_t,finalt;
 
 
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -42,7 +42,8 @@ void  MyWindow::OnDisplay(){
 
 	delta_t = (float)App::GetDeltaTime();
 	
-	_myphysics.StepSimulation(delta_t,&_myphysics._rigidbody1,&_myphysics._rigidbody2);
+	
+	_myphysics.StepSimulation(0.001,&_myphysics._rigidbody1,&_myphysics._rigidbody2);
 	SwapBuffers();
 }
 

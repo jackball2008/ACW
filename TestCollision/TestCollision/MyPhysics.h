@@ -33,6 +33,8 @@ public:
 
 	void  ApplyImpulse(_RigidBody *body1,_RigidBody *body2);
 
+	void ApplyImpulseP(_RigidBody *body1,_RigidBody *body2);
+
 	void  UpdateBody(_RigidBody *Upbody, float dtime);
 
 	int	  CheckForCollisionSimple(_RigidBody *body1, _RigidBody *body2);
@@ -48,5 +50,7 @@ public:
 	void Initialize(void);
 
 	int	pnpoly(int	npol, Vector *vlist, Vector p);
+
+
 };
 
