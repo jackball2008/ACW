@@ -41,7 +41,7 @@ int ControllerThread::run(){
 				/************************************************************************/
 				/* judge the springline start point position in triangle                                                                     */
 				/************************************************************************/
-				CheckSpringLineStartPointInShape();
+				//CheckSpringLineStartPointInShape();
 				
 				
 			}__finally{
