@@ -35,7 +35,7 @@ private:
 	//real work thread
 	NetReceiveThread* _netReceiveThread;
 	NetSendThread* _netSendThread;
-	ControllerThread* _controllerThread;
+	/*ControllerThread* _controllerThread;*/
 	PhysicsThread* _physicsThread;
 	/*RenderThread* _renderThread;*/
 

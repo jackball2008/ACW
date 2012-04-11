@@ -11,7 +11,7 @@ PhysicsApp::PhysicsApp(void)
 	/************************************************************************/
 	_netReceiveThread = new NetReceiveThread();
 	_netSendThread = new NetSendThread();
-	_controllerThread = new ControllerThread();
+	/*_controllerThread = new ControllerThread();*/
 	_physicsThread = new PhysicsThread();
 	/*_renderThread = new RenderThread();*/
 }
@@ -25,7 +25,7 @@ PhysicsApp::~PhysicsApp(void)
 	/************************************************************************/
 	delete _netReceiveThread;
 	delete _netSendThread;
-	delete _controllerThread;
+	/*delete _controllerThread;*/
 	delete _physicsThread;
 	/*delete _renderThread;*/
 }
@@ -47,11 +47,11 @@ void PhysicsApp::OnCreate(){
 	/************************************************************************/
 	//main thread
 	_mywindow.SetShapeShareObject(&_shapeShareObject);
-	/*_mywindow.SetMouseShareObject(&_mouseShareObject);*/
+	
 
 	//controller thread
-	/*_controllerThread->SetMouseShareObject(&_mouseShareObject);*/
-	_controllerThread->SetShapeShareObject(&_shapeShareObject);
+	
+	/*_controllerThread->SetShapeShareObject(&_shapeShareObject);*/
 	_physicsThread->SetShapeShareObject(&_shapeShareObject);
 	/************************************************************************/
 	/* window thread start                                                                     */
@@ -64,7 +64,7 @@ void PhysicsApp::OnCreate(){
 
 // 	_netReceiveThread->start();
 // 	_netSendThread->start();
-	_controllerThread->start();
+	
 	_physicsThread->start();
 	
 
@@ -83,8 +83,8 @@ void PhysicsApp::OnDestroy(){
 	_netSendThread->terminate();
 	_netSendThread->waitForTermination();
 
-	_controllerThread->terminate();
-	_controllerThread->waitForTermination();
+// 	_controllerThread->terminate();
+// 	_controllerThread->waitForTermination();
 
 	_physicsThread->terminate();
 	_physicsThread->waitForTermination();
@@ -96,6 +96,7 @@ void PhysicsApp::OnDestroy(){
 /************************************************************************/
 /* private function                                                                     */
 /************************************************************************/
+#define DRAWTRIANGLE
 void PhysicsApp::InitializeAllShpes(){
 	//set springline
 	SpringLine *springLine = new SpringLine();
@@ -165,6 +166,9 @@ void PhysicsApp::InitializeAllShpes(){
 	}
 
 	//set triangles
+	/////////////////////////////
+#ifdef DRAWTRIANGLE
+
 	Point nextlevelstartp;
 	float h = 0.03464101615f;	
 	for(int i=5; i >0; i--){
@@ -187,9 +191,9 @@ void PhysicsApp::InitializeAllShpes(){
 
 			//add
 			Shape* triangle = new Triangle();
-			triangle->SetData(p1,p2,p3/*,mid*/);
+			triangle->SetData(p1,p2,p3);
 			triangle->middlepoint = mid;
-			/*_shapeShareObject.SetData(triangle);*/
+			
 			_shapeShareObject.renderObjects.push_back(triangle);
 			if(j==0){
 				nextlevelstartp = p3;
@@ -213,9 +217,9 @@ void PhysicsApp::InitializeAllShpes(){
 				qmid.y = (q1.y + q2.y + q3.y)/3;
 
 				Shape* triangle = new Triangle();
-				triangle->SetData(q1,q2,q3/*,qmid*/);
+				triangle->SetData(q1,q2,q3);
 				triangle->middlepoint = qmid;
-				/*_shapeShareObject.SetData(triangle);*/
+				
 				_shapeShareObject.renderObjects.push_back(triangle);
 			}
 			
@@ -224,8 +228,8 @@ void PhysicsApp::InitializeAllShpes(){
 
 		tristartp = nextlevelstartp;
 	}
-	
-
+#endif	
+	/////////////////////////////
 
 
 }
