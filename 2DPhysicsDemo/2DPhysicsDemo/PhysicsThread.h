@@ -7,6 +7,7 @@ using namespace std;
 #include <Windows.h>
 #include "Force.h"
 
+const float SPRING_FATOR = 2.5f;
 class PhysicsThread :
 	public MyThread
 {

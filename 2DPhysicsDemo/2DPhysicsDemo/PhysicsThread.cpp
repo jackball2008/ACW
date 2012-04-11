@@ -37,15 +37,23 @@ int PhysicsThread::run(){
 					float springlength = Dis(_shapeShareObject->springstartp,_shapeShareObject->springendp);
 					if(!_shapeShareObject->left_hold && springlength >0){
 // 						cout<<"spring work length = "<<springlength<<endl;
-// 						cout<<"clear spring"<<endl;
+// 						
+
+						//use springlength to do the calculation
+						//calculate the spring force
+						_springforce.energy = SPRING_FATOR * springlength;
+						_springforce.dx = _shapeShareObject->springendp.x - _shapeShareObject->springstartp.x;
+						_springforce.dy = _shapeShareObject->springendp.y - _shapeShareObject->springstartp.y;
+						_springforce.sx = _shapeShareObject->springstartp.x;
+						_springforce.sy = _shapeShareObject->springstartp.y;
+
+
+
+						cout<<"clear spring"<<endl;
 						_shapeShareObject->springstartp.x = 0;
 						_shapeShareObject->springstartp.y = 0;
 						_shapeShareObject->springendp.x = 0;
 						_shapeShareObject->springendp.y = 0;
-
-						//use springlength to do the calculation
-						//calculate the spring force
-						_springforce.energy = 100;
 
 					}
 
