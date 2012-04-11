@@ -107,10 +107,12 @@ void PhysicsThread::CalculatePyhsics(){
 						_springforce.energy = 0;
 						//
 						/*shape->becontrolled = true;*/
+						
 					}
 					else{
-						//shape->acceleration = 0;
+						shape->acceleration = 0;
 						/*shape->becontrolled = false;*/
+
 					}
 
 					if(/*shape->becontrolled &&*/ shape->acceleration != 0){
@@ -118,6 +120,9 @@ void PhysicsThread::CalculatePyhsics(){
 						shape->velocity = shape->velocity + shape->acceleration * _delta_time;
 						//reset acceleration
 						shape->acceleration = 0;
+
+					}else{
+						
 					}
 					//change position get s = v + 1/2 * a * t * t
 					float distanceformove = float(shape->velocity + 0.5* shape->acceleration * _delta_time * _delta_time);
