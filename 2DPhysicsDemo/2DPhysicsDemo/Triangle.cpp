@@ -12,6 +12,9 @@ Triangle::Triangle(void)
 		
 	}
 	type = 2;
+
+	mass = 0.4330127019f;
+	point_mass = mass/3;
 }
 
 
@@ -20,7 +23,7 @@ Triangle::~Triangle(void)
 }
 
 //thread safe, need to be update later
-void Triangle::SetData(const Point& p1,const Point& p2,const Point& p3/*,const Point& mid*/){
+void Triangle::SetData(const Point& p1,const Point& p2,const Point& p3){
 	//////////////////////////////////////////////////////////////////////////
 	points[0] = p1;
 	points[1] = p2;

@@ -10,12 +10,18 @@ class Shape
 public:
 	vector<Point>points;
 
-	float speed;
+	float velocity;
 
 	Point direction;
 
 	Point middlepoint;
 
+	//mass
+	float mass;
+	float point_mass;
+
+	//acceleration
+	float acceleration;
 	//color
 	float r,g,b;
 	//mark

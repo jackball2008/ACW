@@ -48,13 +48,9 @@ int PhysicsThread::run(){
 						_checkp.x = _springforce.sx;
 						_checkp.y = _springforce.sy;
 						//////////////////////////////////////////
-						//get one polygon
+						//get one polygon to
 						CalculatePyhsics();
 						
-
-
-
-
 						//////////////////////////////////////////
 						cout<<"clear spring"<<endl;
 						_shapeShareObject->springstartp.x = 0;
@@ -102,8 +98,6 @@ int PhysicsThread::run(){
 
 #define DEBUG_DELTATIME1
 void PhysicsThread::CalculateDeltaTime(){
-
-	
 	//Ensure QueryPerformance is called on a specific core
 	SetThreadAffinityMask(thread, 0x1);
 	QueryPerformanceFrequency(&_ticksPerSecond);
@@ -117,31 +111,6 @@ void PhysicsThread::CalculateDeltaTime(){
 	cout<<"ms = "<<_delta_time<<endl;
 #endif
 	
-
-	//////////////////////////////////////////////////////////////////////////
-
-// 	SetThreadAffinityMask(thread, 0x1);
-// 	QueryPerformanceCounter(&endCount);
-// 	SetThreadAffinityMask(thread, procMask);
-// 
-// 	elapsedCount.QuadPart = endCount.QuadPart - startCount.QuadPart;
-// 	double elapsedTime = double(elapsedCount.QuadPart)/_ticksPerSecond.QuadPart;
-
-	//////////////////////////////////////////////////////////////////////////
-
-/*	try{*/
-// 		for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
-// 			ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
-// 			ite_vec_shape++){
-// 				Shape* shape = *ite_vec_shape;
-// 				vector<Point>& pa = shape->points;
-// 
-// 
-// 		}
-
-// 	}catch(vector<Shape*>::iterator){
-// 
-// 	}
 }
 
 void PhysicsThread::CalculatePyhsics(){
@@ -153,25 +122,37 @@ void PhysicsThread::CalculatePyhsics(){
 			//check the spring start point in or not in the shape's polygon
 			if(shape->type >1){
 				//type>1 = polygon now line or spring itself
-				
 				if(JudgePointInPologon(pa,_checkp,ORIGIN_P_PHYSICS)){
-					
+					//make spring work a = f/m
+					shape->acceleration = _springforce.energy / shape->mass;
+					//v = v + at
+					shape->velocity = shape->velocity + shape->acceleration * _delta_time;
+					//change position get s = v + 1/2 * a * t * t
+					float distanceformove = float(shape->velocity + 0.5* shape->acceleration * _delta_time * _delta_time);
+					float tanangle = _springforce.dx/_springforce.dy;
+					float my = float(sqrt(distanceformove * distanceformove / ( 1+ tanangle * tanangle)));
+					float mx = float(my * tanangle);
+					int nsize = pa.size();
+					for(int i=0; i<nsize;i++){
+						pa.at(i).x = pa.at(i).x + mx;
+						pa.at(i).y = pa.at(i).y + my;
+					}
+					shape->middlepoint.x = shape->middlepoint.x + mx;
+					shape->middlepoint.y = shape->middlepoint.y + my;
 
-						
+
 						//change color
-						shape->r = 1.0f;
-						shape->g = 0.0f;
-						shape->b = 0.0f;
+// 						shape->r = 1.0f;
+// 						shape->g = 0.0f;
+// 						shape->b = 0.0f;
 					
 				}else{
-					shape->r = 1.0f;
-					shape->g = 1.0f;
-					shape->b = 0.0f;
+// 					shape->r = 1.0f;
+// 					shape->g = 1.0f;
+// 					shape->b = 0.0f;
 
 					
 				}
-
-
 
 			}
 

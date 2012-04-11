@@ -12,6 +12,8 @@ SpringLine::SpringLine(void)
 	g = 1.0f;
 	b = 0.0f;
 
+	mass = 0.0f;
+	point_mass = 0.0f;
 }
 
 

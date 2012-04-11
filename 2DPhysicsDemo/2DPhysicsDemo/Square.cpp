@@ -11,6 +11,9 @@ Square::Square(void)
 		points.push_back(p);
 	}
 	type = 3;
+
+	mass = 1.0f;
+	point_mass = mass/4;
 }
 
 
