@@ -9,6 +9,8 @@ struct Force{
 	float sx;
 	float sy;
 
+	float length;
+
 public:
 	Force(){
 		dx = 0;
@@ -17,5 +19,7 @@ public:
 
 		sx = 0;
 		sy = 0;
+
+		length = 0;
 	}
 };

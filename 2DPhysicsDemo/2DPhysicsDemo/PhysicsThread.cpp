@@ -29,25 +29,29 @@ int PhysicsThread::run(){
 				if(_delta_time <10000 ){
 					//get spring length
 					float springlength = Dis(_shapeShareObject->springstartp,_shapeShareObject->springendp);
-					if(!_shapeShareObject->left_hold && springlength >0){
-
-						_springforce.energy = SPRING_FACTOR * springlength;
-
+					_springforce.length = springlength;
+					if(!_shapeShareObject->left_hold && _springforce.length >0){
+						//get spring force
+						_springforce.energy = SPRING_FACTOR * _springforce.length;
+						//get force direction
 						_springforce.dx = _shapeShareObject->springendp.x - _shapeShareObject->springstartp.x;
 						_springforce.dy = _shapeShareObject->springendp.y - _shapeShareObject->springstartp.y;
+						//get force effect point position
 						_springforce.sx = _shapeShareObject->springstartp.x;
 						_springforce.sy = _shapeShareObject->springstartp.y;
+						//save the position to a Point, easy to computing later
 						_checkp.x = _springforce.sx;
 						_checkp.y = _springforce.sy;
 
 						/*cout<<"clear spring"<<endl;*/
+						//after save the current spring variables, clear the variables in shareobject
 						_shapeShareObject->springstartp.x = 0;
 						_shapeShareObject->springstartp.y = 0;
 						_shapeShareObject->springendp.x = 0;
 						_shapeShareObject->springendp.y = 0;
 					}
 					//////////////////////////////////////////
-					//get one polygon to
+					//start to compute the physics
 					CalculatePyhsics();
 					
 				}
@@ -82,32 +86,27 @@ void PhysicsThread::CalculatePyhsics(){
 				float my = 0;
 				float mx = 0;
 				//type>1 = polygon now line or spring itself
-				if(JudgePointInPologon(pa,_checkp,ORIGIN_P_PHYSICS)){
+				if(JudgePointInPologon(pa,_checkp,ORIGIN_P_PHYSICS) && _springforce.length>0  ){
 					//make spring work a = f/m
 					shape->acceleration = _springforce.energy / (shape->mass * 10000);
 					//change direction
 					shape->direction.x = _springforce.dx - shape->direction.x;
 					shape->direction.y = _springforce.dy - shape->direction.y;
 					//_checkp reset
-					_checkp.x = 20;
-					_checkp.y = 20;
+					_checkp.x = 0;
+					_checkp.y = 0;
 					//energy reset = 0;
 					_springforce.energy = 0;
+					_springforce.length = 0;
 					//direction reset
 					_springforce.dx = 0;
 					_springforce.dy = 0;
 						
-					/*shape->becontrolled = true;*/
-					/*cout<<"in shape"<<endl;*/
+					
 				}
-				else{
-					/*shape->acceleration = 0;*/
-						
-					/*shape->becontrolled = false;*/
-					/*cout<<"out shape"<<endl;*/
-				}
+				
 
-				if(/*shape->becontrolled && */shape->acceleration != 0){
+				if(shape->acceleration != 0){
 					//v = v + at  get new velocity
 					shape->velocity = shape->velocity + shape->acceleration * _delta_time;
 					//reset acceleration
@@ -125,10 +124,7 @@ void PhysicsThread::CalculatePyhsics(){
 					mx =   distanceformove * shape->direction.x / dd;
 						
 				}
-// 				else{
-// 					my = 0;
-// 					mx = 0;
-// 				}
+
 				//update all points position
 				int nsize = pa.size();
 				for(int i=0; i<nsize;i++){
