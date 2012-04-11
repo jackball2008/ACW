@@ -11,6 +11,7 @@ Shape::Shape(void)
 	isvisiable = true;
 	becontrolled = false;
 	acceleration = 0.0f;
+	velocity = 0.0f;
 }
 
 

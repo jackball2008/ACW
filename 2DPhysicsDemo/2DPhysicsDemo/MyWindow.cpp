@@ -116,7 +116,7 @@ void	MyWindow::OnDisplay(){
 	SwapBuffers();
 }
 void	MyWindow::OnIdle(){
-
+	Redraw();
 }
 void	MyWindow::OnKeyboard(int key, bool down){
 
