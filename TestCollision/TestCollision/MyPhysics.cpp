@@ -33,7 +33,15 @@ void MyPhysics::InitializeElement(_RigidBody *body){
 		body->vForces.x = 0.0f;
 		body->vForces.y = 0.0f;
 		body->vForces.z = 0.0f;		// set all z's to zero b/c this is a 2D example
-			
+		
+		body->vGravity.x =0.0f;
+		body->vGravity.y =-0.098f;
+		body->vGravity.z =0.0f;
+
+		body->vSupport.x = 0.0f;
+		body->vSupport.y = 0.098f;
+		body->vSupport.z = 0.0f;
+
 		body->vMoment.x = 0.0f;		// will always be zero in 2D
 		body->vMoment.y = 0.0f;		// will always be zero in 2D
 		body->vMoment.z = 0.0f;		// in 2D only this component with be used
@@ -61,7 +69,7 @@ void MyPhysics::SetPosititon(_RigidBody *body1,_RigidBody *body2){
 	square2=body2;
 
 	square1->vPosition.x= -0.5f;
-	square1->vPosition.y= -0.9f;
+	square1->vPosition.y= 0.9f;
 
 	square1->vFirstpoint.x= square1->vPosition.x-0.02f;
 	square1->vFirstpoint.y= square1->vPosition.y+0.02f;
@@ -192,6 +200,7 @@ void MyPhysics::UpdateBody(_RigidBody *body, float dtime){
 	test.x=0.00004f;
 	test.y=0.0f;
     
+
 	// linear velocity
 	Ae = body->vForces / body->fMass;
 	k1 = Ae*dt;
