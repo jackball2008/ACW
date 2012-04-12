@@ -11,7 +11,7 @@ public:
 
 	vector<_RigidBody>squarel;
 
-	_RigidBody _rigidbody1,_rigidbody2,square[40][20];
+	_RigidBody _rigidbody1,_rigidbody2,square[40][20],triangle[20][10];
 
 	_RigidBody *CollisionBody1,*CollisionBody2;
 
@@ -39,11 +39,15 @@ public:
 
 	void UpdatePosition(_RigidBody *square1,_RigidBody *square2);
 
+	void UpdatePosition(_RigidBody square[][20]);
+
 	void  ApplyImpulse(_RigidBody *body1,_RigidBody *body2);
 
 	void ApplyImpulseP(_RigidBody *body1,_RigidBody *body2);
 
 	void  UpdateBody(_RigidBody *Upbody, float dtime);
+
+	void  UpdateBody(_RigidBody square[][20],float dtime);
 
 	int	  CheckForCollisionSimple(_RigidBody *body1, _RigidBody *body2);
 
@@ -54,6 +58,8 @@ public:
 	Vector VRotate2D(float angle, Vector u);
 
 	void  StepSimulation(float dt,_RigidBody *rigidcopy1,_RigidBody *rigidcopy2);
+
+	void StepSimulation(float dt,_RigidBody square[][20]);
 
 	void Initialize(void);
 
