@@ -1,5 +1,7 @@
 #pragma once
 #include "RigidBody.h"
+#include <vector>
+using std::vector;
 
 class MyPhysics
 {
@@ -7,7 +9,9 @@ public:
 	MyPhysics(void);
 	~MyPhysics(void);
 
-	_RigidBody _rigidbody1,_rigidbody2;
+	vector<_RigidBody>squarel;
+
+	_RigidBody _rigidbody1,_rigidbody2,square[40][20];
 
 	_RigidBody *CollisionBody1,*CollisionBody2;
 
@@ -21,11 +25,15 @@ public:
 
 	void  InitializeElement(_RigidBody *body);
 
+	void  InitializeElement(vector<_RigidBody>&squarel);
+
+	void  InitializeElement(_RigidBody square[][20]);
+
 	void  CreateSquare(_RigidBody *body);
 
 	void  CreateTriangle(_RigidBody *body);
 	 
-	void  SetPosititon();
+	void  SetPosititon(_RigidBody square[][20]);
 
 	void  SetPosititon(_RigidBody *body1,_RigidBody *body2);
 

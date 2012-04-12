@@ -18,7 +18,7 @@ public:
 	void  OnCreate();
 	void  OnDisplay();
 	void  OnIdle();
-	
+	/*void OnResize(int w, int h);*/
 	MyPhysics _myphysics;
 	
 

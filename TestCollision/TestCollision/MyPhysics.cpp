@@ -63,6 +63,62 @@ void MyPhysics::InitializeElement(_RigidBody *body){
 		body->fWidth = 0.04f;
 }
 
+void MyPhysics::InitializeElement(_RigidBody square[][20]){
+	for(int i = 0; i< 40; i ++){
+		for( int j =0; j < 20 ; j ++){
+			//set initial velocity
+			square[i][j].vVelocity.x = 0.0f;
+			square[i][j].vVelocity.y = 0.0f;
+			square[i][j].vVelocity.z = 0.0f;  // set all z's to zero b/c this is a 2D example
+			square[i][j].fSpeed = 0.0f;
+
+			// Set initial angular velocity
+			square[i][j].vAngularVelocity.x = 0.0f;	// will always be zero in 2D
+			square[i][j].vAngularVelocity.y = 0.0f;	// will always be zero in 2D
+			square[i][j].vAngularVelocity.z = 0.0f;	// in 2D only this component with be used
+
+			// Set the initial thrust, forces and moments
+			square[i][j].vForces.x = 0.0f;
+			square[i][j].vForces.y = 0.0f;
+			square[i][j].vForces.z = 0.0f;		// set all z's to zero b/c this is a 2D example
+
+			square[i][j].vGravity.x =0.0f;
+			square[i][j].vGravity.y =-0.098f;
+			square[i][j].vGravity.z =0.0f;
+
+			square[i][j].vSupport.x = 0.0f;
+			square[i][j].vSupport.y = 0.098f;
+			square[i][j].vSupport.z = 0.0f;
+
+			square[i][j].vMoment.x = 0.0f;		// will always be zero in 2D
+			square[i][j].vMoment.y = 0.0f;		// will always be zero in 2D
+			square[i][j].vMoment.z = 0.0f;		// in 2D only this component with be used
+
+			// Zero the velocity in body space coordinates
+			square[i][j].vVelocityBody.x = 0.0f;
+			square[i][j].vVelocityBody.y = 0.0f;
+			square[i][j].vVelocityBody.z = 0.0f;
+
+			// Now define the mass properties
+			square[i][j].fMass = 1.0f;
+			square[i][j].fInertia = 383320;
+			/*square[i][j].fInertiaInverse = 1.0f / body->fInertia;*/
+
+			// Set the initial orientation
+			square[i][j].fOrientation = 0.0;
+			// Set width and length
+			square[i][j].fLength = 0.04f;
+			square[i][j].fWidth = 0.04f;
+		}
+	}
+
+}
+
+void MyPhysics::InitializeElement(vector<_RigidBody>&squarel){
+
+
+}
+
 void MyPhysics::SetPosititon(_RigidBody *body1,_RigidBody *body2){
 	_RigidBody *square1,*square2;
 	square1=body1;
@@ -106,33 +162,34 @@ void MyPhysics::SetPosititon(_RigidBody *body1,_RigidBody *body2){
 
 }
 
-void MyPhysics::SetPosititon(){
+void MyPhysics::SetPosititon(_RigidBody square[][20]){
 	//set squares
 	//25*4
-	_RigidBody square;
-	for(int i = 0; i< 4; i ++){
-		for( int j =0; j < 25 ; j ++){
-		square.vFirstpoint.x= -0.5f + j * 0.04f;
-		square.vFirstpoint.y= -0.9f + i * 0.04f;
+	
+	for(int i = 0; i< 40; i ++){
+		for( int j =0; j < 20 ; j ++){
+			square[i][j].vPosition.x= -0.9f+i*0.04;
+			square[i][j].vPosition.y= -0.9f+j*0.04;
 
-		square.vSecondpoint.x= square.vFirstpoint.x+0.04f;
-		square.vSecondpoint.y= square.vFirstpoint.y;
+			square[i][j].vFirstpoint.x= square[i][j].vPosition.x-0.02f;
+			square[i][j].vFirstpoint.x= square[i][j].vPosition.x-0.02f;
+			square[i][j].vFirstpoint.y= square[i][j].vPosition.y+0.02f;
 
-		square.vThirdpoint.x= square.vSecondpoint.x;
-		square.vThirdpoint.y= square.vSecondpoint.y+0.04f;
+			square[i][j].vSecondpoint.x= square[i][j].vPosition.x+0.02f;
+			square[i][j].vSecondpoint.y= square[i][j].vPosition.y+0.02f;
 
-		square.vFourthpoint.x= square.vFirstpoint.x;
-		square.vFourthpoint.y= square.vThirdpoint.y;
+			square[i][j].vThirdpoint.x= square[i][j].vPosition.x+0.02f;
+			square[i][j].vThirdpoint.y= square[i][j].vPosition.y-0.02f;
 
-		square.vPosition.x= (float)(square.vFirstpoint.x+square.vSecondpoint.x)/2;
-		square.vPosition.y= (float)(square.vFirstpoint.y+square.vThirdpoint.y)/2;
+			square[i][j].vFourthpoint.x= square[i][j].vPosition.x-0.02f;
+			square[i][j].vFourthpoint.y= square[i][j].vPosition.y-0.02f;
 
 		
 
 		}
 	}
 	//set triangles
-	float h = 0.03464101615f;
+	/*float h = 0.03464101615f;
 	_RigidBody triangle;
 	for(int i=5; i >0; i--){
 		for(int j=0; j<i;j++){
@@ -148,7 +205,7 @@ void MyPhysics::SetPosititon(){
 			triangle.vPosition.x= triangle.vThirdpoint.x;
 			triangle.vPosition.y= triangle.vThirdpoint.y/3;
 		}
-	}
+	}*/
 }
 
 void MyPhysics::UpdatePosition(_RigidBody *square1,_RigidBody *square2){
@@ -611,12 +668,13 @@ void MyPhysics::StepSimulation(float dt,_RigidBody *rigidcopy1,_RigidBody *rigid
 
 void MyPhysics::Initialize(void){
 	
-	 
-	 InitializeElement(&_rigidbody1);
-	 InitializeElement(&_rigidbody2);
-	 _rigidbody1.vVelocity.x=0.2f;
+	 InitializeElement(square);
+	 //InitializeElement(&_rigidbody1);
+	 //InitializeElement(&_rigidbody2);
+	 //_rigidbody1.vVelocity.x=0.2f;
 	 /*_rigidbody1.vVelocity.y=0.2f;*/
-	 SetPosititon(&_rigidbody1,&_rigidbody2);
+	 /*SetPosititon(&_rigidbody1,&_rigidbody2);*/
+	 SetPosititon(square);
 
 }
 
