@@ -13,7 +13,7 @@ Triangle::Triangle(void)
 	}
 	type = 2;
 
-	mass = 0.4330127019f;
+	mass = 0.4330127019f * 10000;
 	point_mass = mass/3;
 }
 

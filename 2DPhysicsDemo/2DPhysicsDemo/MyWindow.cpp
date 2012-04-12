@@ -179,12 +179,12 @@ void	MyWindow::OnMouseButton(MouseButton button, bool down){
 					if(_shapeShareObject->last_left_down != _shapeShareObject->left_down && _shapeShareObject->last_left_down == false){
 						_shapeShareObject->last_left_down = true;
 						//set start point
-						cout<<"press down"<<endl;
+						/*cout<<"press down"<<endl;*/
 						ishold = false;
 						_shapeShareObject->left_hold = false;
 					}
 					if(_shapeShareObject->last_left_down == _shapeShareObject->left_down){
-						cout<<"press hold"<<endl;
+						/*cout<<"press hold"<<endl;*/
 						ishold = true;
 						_shapeShareObject->left_hold = true;
 					}
@@ -196,7 +196,7 @@ void	MyWindow::OnMouseButton(MouseButton button, bool down){
 
 					if(_shapeShareObject->last_left_down != _shapeShareObject->left_down && _shapeShareObject->last_left_down == true){
 						_shapeShareObject->last_left_down = false;
-						cout<<"press up"<<endl;
+						/*cout<<"press up"<<endl;*/
 
 						//save spring point
 						//start

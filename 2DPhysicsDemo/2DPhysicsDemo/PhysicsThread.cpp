@@ -88,7 +88,7 @@ void PhysicsThread::CalculatePyhsics(){
 				//type>1 = polygon now line or spring itself
 				if(JudgePointInPologon(pa,_checkp,ORIGIN_P_PHYSICS) && _springforce.length>0  ){
 					//make spring work a = f/m
-					shape->acceleration = _springforce.energy / (shape->mass * 10000);
+					shape->acceleration = _springforce.energy / (shape->mass);
 					//change direction
 					shape->direction.x = _springforce.dx - shape->direction.x;
 					shape->direction.y = _springforce.dy - shape->direction.y;
@@ -135,7 +135,8 @@ void PhysicsThread::CalculatePyhsics(){
 				shape->middlepoint.x = shape->middlepoint.x + mx;
 				shape->middlepoint.y = shape->middlepoint.y + my;
 
-					
+
+
 			}
 
 
@@ -154,7 +155,7 @@ void PhysicsThread::CalculateDeltaTime(){
 	QueryPerformanceCounter(&_currentCount);
 	SetThreadAffinityMask(thread, procMask);
 
-	_consumedCount.QuadPart = _currentCount.QuadPart - _lastCount.QuadPart;
+	_consumedCount.QuadPart = _currentCount.QuadPart - _lastCount.QuadPart;  
 	_lastCount = _currentCount;
 	_delta_time = float(_consumedCount.QuadPart/(_ticksPerSecond.QuadPart/1000));
 #ifdef DEBUG_DELTATIME
