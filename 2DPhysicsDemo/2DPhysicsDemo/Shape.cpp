@@ -16,6 +16,9 @@ Shape::Shape(void)
 	acceleration_y = 0.0f;
 	velocity_x = 0.0f;
 	velocity_y = 0.0f;
+	force = 0.0f;
+	force_x = 0.0f;
+	force_y = 0.0f;
 }
 
 

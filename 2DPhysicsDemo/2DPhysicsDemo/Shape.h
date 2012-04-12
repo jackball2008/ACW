@@ -11,17 +11,26 @@ public:
 	vector<Point>points;
 
 	float velocity;
+	float velocity_x;
+	float velocity_y;
 
 	Point direction;
 
 	Point middlepoint;
 
-	//mass
-	float mass;
-	float point_mass;
+	
+	//force
+	float force;
+	float force_x;
+	float force_y;
 
 	//acceleration
 	float acceleration;
+	float acceleration_x;
+	float acceleration_y;
+	//mass
+	float mass;
+	float point_mass;
 	//color
 	float r,g,b;
 	//mark
