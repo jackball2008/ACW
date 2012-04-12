@@ -30,6 +30,7 @@ private:
 	//functions
 	void CalculateDeltaTime();
 	void CalculatePyhsics();
+	void CalculatePyhsics2();
 	Point _checkp;
 
 public:
