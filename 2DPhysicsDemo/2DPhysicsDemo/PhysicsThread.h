@@ -7,8 +7,10 @@ using namespace std;
 #include <Windows.h>
 #include "Force.h"
 
-const float SPRING_FACTOR = 2.5f;
+const float SPRING_FACTOR = 2.5f/10000;
 const Point ORIGIN_P_PHYSICS;
+const float G_ACCERLATION = -9.8f/10000;
+const float GROUND_Y = -0.9f;
 class PhysicsThread :
 	public MyThread
 {

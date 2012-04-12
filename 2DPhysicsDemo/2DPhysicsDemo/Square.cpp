@@ -12,7 +12,7 @@ Square::Square(void)
 	}
 	type = 3;
 
-	mass = 1.0f * 10000;
+	mass = 1.0f;
 	point_mass = mass/4;
 }
 

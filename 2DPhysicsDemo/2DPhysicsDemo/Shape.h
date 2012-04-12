@@ -13,6 +13,8 @@ public:
 	float velocity;
 	float velocity_x;
 	float velocity_y;
+	float old_velocity_x;
+	float old_velocity_y;
 
 	Point direction;
 

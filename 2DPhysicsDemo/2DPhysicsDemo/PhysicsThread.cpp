@@ -52,7 +52,7 @@ int PhysicsThread::run(){
 					}
 					//////////////////////////////////////////
 					//start to compute the physics
-					CalculatePyhsics();
+					CalculatePyhsics2();
 					
 				}
 
@@ -78,6 +78,7 @@ void PhysicsThread::CalculatePyhsics2(){
 		vector<Point>& pa = shape->points;
 		if(shape->type >1)
 		{
+			//computing the force
 			if(JudgePointInPologon(pa,_checkp,ORIGIN_P_PHYSICS) && _springforce.length>0  )
 			{
 				//computing the push force
@@ -89,8 +90,10 @@ void PhysicsThread::CalculatePyhsics2(){
 				// ----
 				shape->force_x = shape->direction.x * shape->force / dd;
 				//fy - g  ||||
-				shape->force_y = (shape->direction.y * shape->force / dd) - shape->mass * 9.8f * shape->middlepoint.y - (-0.9f);
-
+				shape->force_y = (shape->direction.y * shape->force / dd);
+				//////////////////////////////////////////////////////////////////////////
+				//G = m*g
+				shape->force_y = shape->force_y /*+ shape->mass * G_ACCERLATION*/;
 				//////////////////////////////////////////////////////////////////////////
 				//the initialize force only work once, then clear
 				//_checkp reset
@@ -106,9 +109,64 @@ void PhysicsThread::CalculatePyhsics2(){
 			}
 			else
 			{
+				//no spring force
 				shape->force_x = 0;
-				
+				//fy = m * g
+				//shape->force_y = shape->mass * G_ACCERLATION;
+
 			}
+
+			//computing the accerlation
+
+			shape->acceleration_x = shape->force_x / shape->mass;
+			shape->acceleration_y = shape->force_y / shape->mass;
+			shape->force_x = 0;
+			shape->force_y = 0;
+			//computing the speed
+			shape->old_velocity_x = shape->velocity_x;
+			shape->old_velocity_y = shape->velocity_y;
+			shape->velocity_x = shape->velocity_x + shape->acceleration_x * _delta_time;
+			shape->velocity_y = shape->velocity_y + shape->acceleration_y * _delta_time;
+			if(shape->velocity_y != 0)
+			{
+				float k = 0;
+			}
+			
+			//computing the dis
+			float mx = float(shape->old_velocity_x * _delta_time + 0.5 * shape->acceleration_x * _delta_time * _delta_time);
+			float my = float(shape->old_velocity_y * _delta_time + 0.5 * shape->acceleration_y * _delta_time * _delta_time);
+
+			//update shape position
+			int nsize = pa.size();
+			
+			for(int i=0; i<nsize;i++){
+				
+				pa.at(i).x = pa.at(i).x + mx;
+				//////////////////////////////////////////////////////////////////////////
+				float y = pa.at(i).y + my;
+				if(y < GROUND_Y)
+					y = 0;
+				else
+					pa.at(i).y = pa.at(i).y + my;
+
+				//////////////////////////////////////////////////////////////////////////
+			}
+			//update middle points
+			shape->middlepoint.x = shape->middlepoint.x + mx;
+			float middley = shape->middlepoint.y + my;
+			if (middley < GROUND_Y)
+			{
+
+			} 
+			else
+			{
+				shape->middlepoint.y = shape->middlepoint.y + my;
+			}
+			
+
+
+
+
 
 		}
 

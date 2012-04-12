@@ -96,7 +96,7 @@ void PhysicsApp::OnDestroy(){
 /************************************************************************/
 /* private function                                                                     */
 /************************************************************************/
-#define DRAWTRIANGLE
+#define DRAWTRIANGLE1
 void PhysicsApp::InitializeAllShpes(){
 	//set springline
 	SpringLine *springLine = new SpringLine();
@@ -130,8 +130,8 @@ void PhysicsApp::InitializeAllShpes(){
 	//set squares
 	//25 * 4
 	Point tristartp;
-	for(int i = 0; i< 4; i ++){
-		for( int j =0; j < 25 ; j ++){
+	for(int i = 0; i<1 /*4*/; i ++){
+		for( int j =0; j <1 /*25*/ ; j ++){
 			Point p1;
 			p1.x = -0.5f + j * 0.04f;
 			p1.y = -0.9f + i * 0.04f;

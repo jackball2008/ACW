@@ -11,11 +11,16 @@ Shape::Shape(void)
 	isvisiable = true;
 	becontrolled = false;
 	acceleration = 0.0f;
-	velocity = 0.0f;
+	
 	acceleration_x = 0.0f;
 	acceleration_y = 0.0f;
+
+	velocity = 0.0f;
 	velocity_x = 0.0f;
 	velocity_y = 0.0f;
+	old_velocity_x = 0.0f;
+	old_velocity_y = 0.0f;
+
 	force = 0.0f;
 	force_x = 0.0f;
 	force_y = 0.0f;
