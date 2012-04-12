@@ -12,6 +12,10 @@ Shape::Shape(void)
 	becontrolled = false;
 	acceleration = 0.0f;
 	velocity = 0.0f;
+	acceleration_x = 0.0f;
+	acceleration_y = 0.0f;
+	velocity_x = 0.0f;
+	velocity_y = 0.0f;
 }
 
 

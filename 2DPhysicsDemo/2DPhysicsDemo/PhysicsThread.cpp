@@ -67,7 +67,53 @@ int PhysicsThread::run(){
 	return 0;
 }
 
+void PhysicsThread::CalculatePyhsics2(){
+	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
+		ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
+		ite_vec_shape++)
+	{
+		//get shape
+		Shape* shape = *ite_vec_shape;
+		//get all points in the shape
+		vector<Point>& pa = shape->points;
+		if(shape->type >1)
+		{
+			if(JudgePointInPologon(pa,_checkp,ORIGIN_P_PHYSICS) && _springforce.length>0  )
+			{
+				//computing the push force
+				shape->force =  _springforce.energy;
+				//force direction
+				shape->direction.x = _springforce.dx - shape->direction.x;
+				shape->direction.y = _springforce.dy - shape->direction.y;
+				float dd = sqrt(shape->direction.x * shape->direction.x + shape->direction.y * shape->direction.y);
+				// ----
+				shape->force_x = shape->direction.x * shape->force / dd;
+				//fy - g  ||||
+				shape->force_y = (shape->direction.y * shape->force / dd) - shape->mass * 9.8f * shape->middlepoint.y - (-0.9f);
 
+				//////////////////////////////////////////////////////////////////////////
+				//the initialize force only work once, then clear
+				//_checkp reset
+				_checkp.x = 0;
+				_checkp.y = 0;
+				//energy reset = 0;
+				_springforce.energy = 0;
+				_springforce.length = 0;
+				//direction reset
+				_springforce.dx = 0;
+				_springforce.dy = 0;
+				//////////////////////////////////////////////////////////////////////////
+			}
+			else
+			{
+				shape->force_x = 0;
+				
+			}
+
+		}
+
+	}
+}
 
 void PhysicsThread::CalculatePyhsics(){
 	//pass each shape
@@ -87,6 +133,7 @@ void PhysicsThread::CalculatePyhsics(){
 				float mx = 0;
 				//type>1 = polygon now line or spring itself
 				if(JudgePointInPologon(pa,_checkp,ORIGIN_P_PHYSICS) && _springforce.length>0  ){
+					//compute G and F
 					//make spring work a = f/m
 					shape->acceleration = _springforce.energy / (shape->mass);
 					//change direction
@@ -103,6 +150,10 @@ void PhysicsThread::CalculatePyhsics(){
 					_springforce.dy = 0;
 						
 					
+				}else{
+					//only compute G
+
+
 				}
 				
 
