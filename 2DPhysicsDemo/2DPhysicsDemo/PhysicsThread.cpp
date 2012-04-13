@@ -138,10 +138,12 @@ void PhysicsThread::CalculatePyhsics2(){
 
 			//update shape position
 			int nsize = pa.size();
-			
+			float middlep_x = 0;
+			float midllep_y = 0;
 			for(int i=0; i<nsize;i++){
 				
 				pa.at(i).x = pa.at(i).x + mx;
+				middlep_x = middlep_x + pa.at(i).x;
 				//////////////////////////////////////////////////////////////////////////
 				float y = pa.at(i).y + my;
 				if(y < GROUND_Y)
@@ -150,18 +152,22 @@ void PhysicsThread::CalculatePyhsics2(){
 					pa.at(i).y = pa.at(i).y + my;
 
 				//////////////////////////////////////////////////////////////////////////
+				midllep_y = midllep_y + pa.at(i).y;
 			}
 			//update middle points
-			shape->middlepoint.x = shape->middlepoint.x + mx;
-			float middley = shape->middlepoint.y + my;
-			if (middley < GROUND_Y)
-			{
+			shape->middlepoint.x = middlep_x / nsize;
+			shape->middlepoint.y = midllep_y / nsize;
 
-			} 
-			else
-			{
-				shape->middlepoint.y = shape->middlepoint.y + my;
-			}
+// 			shape->middlepoint.x = shape->middlepoint.x + mx;
+// 			float middley = shape->middlepoint.y + my;
+// 			if (middley < GROUND_Y)
+// 			{
+// 
+// 			} 
+// 			else
+// 			{
+// 				shape->middlepoint.y = shape->middlepoint.y + my;
+// 			}
 			
 
 
