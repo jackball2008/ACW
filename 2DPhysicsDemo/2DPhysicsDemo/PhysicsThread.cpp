@@ -34,7 +34,7 @@ int PhysicsThread::run(){
 					if(!_shapeShareObject->left_hold && _springforce.length >0){
 						/*cout<<"L = "<<springlength<<endl;*/
 						//get spring force
-						_springforce.energy = SPRING_FACTOR * _springforce.length;
+						_springforce.allforce = SPRING_FACTOR * _springforce.length;
 						//get force direction
 						_springforce.dx = _shapeShareObject->springendp.x - _shapeShareObject->springstartp.x;
 						_springforce.dy = _shapeShareObject->springendp.y - _shapeShareObject->springstartp.y;
@@ -53,7 +53,7 @@ int PhysicsThread::run(){
 					}
 					//////////////////////////////////////////
 					//start to compute the physics
-					CalculatePyhsics2();
+					CalculatePyhsics3();
 					
 				}
 
@@ -67,7 +67,36 @@ int PhysicsThread::run(){
 	}
 	return 0;
 }
+//only think about the Y axix
+void PhysicsThread::CalculatePyhsics3(){
+	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
+		ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
+		ite_vec_shape++)
+	{
+		//calculate force x y
+		if(_springforce.length>0)
+		{
 
+		}else
+		{
+
+		}
+		//get shape
+		Shape* shape = *ite_vec_shape;
+		if(shape->type >1)
+		{
+
+			//get all points in the shape
+			vector<Point>& pa = shape->points;
+			
+
+
+
+
+		}
+		
+	}
+}
 void PhysicsThread::CalculatePyhsics2(){
 	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
 		ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
@@ -99,8 +128,8 @@ void PhysicsThread::CalculatePyhsics2(){
 				//_checkp reset
 				_checkp.x = 0;
 				_checkp.y = 0;
-				//energy reset = 0;
-				_springforce.energy = 0;
+				//allforce reset = 0;
+				_springforce.allforce = 0;
 				_springforce.length = 0;
 				//direction reset
 				_springforce.dx = 0;
@@ -112,7 +141,7 @@ void PhysicsThread::CalculatePyhsics2(){
 				//no spring force
 				shape->force_x = 0;
 				//fy = m * g
-				shape->force_y = shape->mass * G_ACCERLATION; 
+				shape->force_y = shape->force_y + shape->mass * G_ACCERLATION; 
 				
 			}
 
@@ -150,8 +179,14 @@ void PhysicsThread::CalculatePyhsics2(){
 			Shape* groundline = _shapeShareObject->renderObjects.at(1);
 			if(DectecHit(*shape,*groundline))
 			{
-
-			}	
+				shape->force_y = -(shape->mass * G_ACCERLATION);
+// 				midllep_y = 0;
+// 				for(int i=0; i<nsize;i++){
+// 					pa.at(i).y = pa.at(i).y - my;
+// 					midllep_y = midllep_y + pa.at(i).y;
+// 				}
+// 				shape->middlepoint.y = midllep_y / nsize;
+			}
 			//test hit other shapes
 			
 			for(vector<Shape*>::iterator ite_vec_shape1 = _shapeShareObject->renderObjects.begin();   
@@ -240,7 +275,7 @@ void PhysicsThread::CalculatePyhsics(){
 					_checkp.x = 0;
 					_checkp.y = 0;
 					//energy reset = 0;
-					_springforce.energy = 0;
+					_springforce.allforce = 0;
 					_springforce.length = 0;
 					//direction reset
 					_springforce.dx = 0;

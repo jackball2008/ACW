@@ -33,6 +33,7 @@ private:
 	void CalculateDeltaTime();
 	void CalculatePyhsics();
 	void CalculatePyhsics2();
+	void CalculatePyhsics3();
 
 	bool DectecHit(const Shape&s1, const Shape&s2);
 
