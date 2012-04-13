@@ -42,6 +42,8 @@ public:
 
 	bool becontrolled;
 
+	int id;
+
 public:
 	Shape(void);
 	~Shape(void);

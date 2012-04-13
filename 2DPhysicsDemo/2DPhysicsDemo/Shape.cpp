@@ -24,6 +24,8 @@ Shape::Shape(void)
 	force = 0.0f;
 	force_x = 0.0f;
 	force_y = 0.0f;
+
+	id = 0;
 }
 
 

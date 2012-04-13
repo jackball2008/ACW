@@ -19,7 +19,7 @@ int PhysicsThread::run(){
 
 	while(!_terminate){
 		/*cout<<"physics"<<endl;*/
-		Sleep(10);
+		Sleep(2);
 		
 		//
 		if(_shapeShareObject->Acquire()){
@@ -32,7 +32,7 @@ int PhysicsThread::run(){
 					
 					_springforce.length = springlength;
 					if(!_shapeShareObject->left_hold && _springforce.length >0){
-						cout<<"L = "<<springlength<<endl;
+						/*cout<<"L = "<<springlength<<endl;*/
 						//get spring force
 						_springforce.energy = SPRING_FACTOR * _springforce.length;
 						//get force direction
@@ -44,7 +44,6 @@ int PhysicsThread::run(){
 						//save the position to a Point, easy to computing later
 						_checkp.x = _springforce.sx;
 						_checkp.y = _springforce.sy;
-
 						/*cout<<"clear spring"<<endl;*/
 						//after save the current spring variables, clear the variables in shareobject
 						_shapeShareObject->springstartp.x = 0;
@@ -85,21 +84,16 @@ void PhysicsThread::CalculatePyhsics2(){
 			if(JudgePointInPologon(pa,_checkp,ORIGIN_P_PHYSICS) && _springforce.length>0  )
 			{
 				//computing the push force
-				shape->force =  _springforce.energy;
+				shape->force =  SPRING_FACTOR * _springforce.length;
 				//force direction
 				shape->direction.x = _springforce.dx - shape->direction.x;
 				shape->direction.y = _springforce.dy - shape->direction.y;
 				float dd = sqrt(shape->direction.x * shape->direction.x + shape->direction.y * shape->direction.y);
-				// ----  =0 for test
-				shape->force_x = 0 ;//shape->direction.x * shape->force / dd;
+				//x force
+				shape->force_x = shape->direction.x * shape->force / dd;
 				//fy - g  ||||
 				shape->force_y = shape->direction.y * shape->force / dd;
-				cout<<"g1 = "<<shape->force_y<<endl;
-				//////////////////////////////////////////////////////////////////////////
-				//fy = m*g + push
-				ispushforceony = true;
 				shape->force_y = shape->force_y + shape->mass * G_ACCERLATION;
-				cout<<"g2 = "<<shape->force_y<<endl;
 				//////////////////////////////////////////////////////////////////////////
 				//the initialize force only work once, then clear
 				//_checkp reset
@@ -118,20 +112,13 @@ void PhysicsThread::CalculatePyhsics2(){
 				//no spring force
 				shape->force_x = 0;
 				//fy = m * g
-				/*shape->force_y = shape->mass * G_ACCERLATION; */
-				ispushforceony = false;
-
+				shape->force_y = shape->mass * G_ACCERLATION; 
+				
 			}
 
 			//computing the accerlation
-
 			shape->acceleration_x = shape->force_x / shape->mass;
-			if(ispushforceony)
-				shape->acceleration_y = shape->force_y / shape->mass;
-			else
-				shape->acceleration_y = G_ACCERLATION;
-			if(shape->acceleration_y != G_ACCERLATION)
-				int k = 0;
+			shape->acceleration_y = shape->force_y / shape->mass;
 			//clear force
 			shape->force_x = 0;
 			shape->force_y = 0;
@@ -139,53 +126,90 @@ void PhysicsThread::CalculatePyhsics2(){
 			shape->old_velocity_x = shape->velocity_x;
 			shape->old_velocity_y = shape->velocity_y;
 			shape->velocity_x = shape->velocity_x + shape->acceleration_x * _delta_time;
-			shape->velocity_y = shape->velocity_y + shape->acceleration_y * _delta_time;
-			if((shape->middlepoint.y - GROUND_Y)<=0.2 ){
-				shape->velocity_y = 0;
-			}
-			cout<<"my = "<<shape->middlepoint.y<<endl;
-			cout<<"vy = "<<shape->velocity_y<<endl;
-			cout<<"gy = "<<shape->acceleration_y<<endl;
-// 			if(shape->velocity_y != 0)
-// 			{
-// 				float k = 0;
-// 			}
-			
+			shape->velocity_y = shape->velocity_y + shape->acceleration_y * _delta_time;			
 			//computing the dis
 			float mx = float(shape->old_velocity_x * _delta_time + 0.5 * shape->acceleration_x * _delta_time * _delta_time);
 			float my = float(shape->old_velocity_y * _delta_time + 0.5 * shape->acceleration_y * _delta_time * _delta_time);
-
 			//update shape position
 			int nsize = pa.size();
 			float middlep_x = 0;
 			float midllep_y = 0;
 			for(int i=0; i<nsize;i++){
-				
 				pa.at(i).x = pa.at(i).x + mx;
 				middlep_x = middlep_x + pa.at(i).x;
-				//////////////////////////////////////////////////////////////////////////
-				float y = pa.at(i).y + my;
-				if(y < GROUND_Y)
-					y = 0;
-				else
-					pa.at(i).y = pa.at(i).y + my;
-
-				//////////////////////////////////////////////////////////////////////////
+				pa.at(i).y = pa.at(i).y + my;
 				midllep_y = midllep_y + pa.at(i).y;
 			}
 			//update middle points
 			shape->middlepoint.x = middlep_x / nsize;
 			shape->middlepoint.y = midllep_y / nsize;
+			cout<<"x = "<<shape->middlepoint.x<<" y = "<<shape->middlepoint.y<<endl;
+			//////////////////////////////////////////////////////////////////////////
+			//do collection detection
+			//test hit ground first
+			Shape* groundline = _shapeShareObject->renderObjects.at(1);
+			if(DectecHit(*shape,*groundline))
+			{
 
-
-
-
-
-
+			}	
+			//test hit other shapes
+			
+			for(vector<Shape*>::iterator ite_vec_shape1 = _shapeShareObject->renderObjects.begin();   
+				ite_vec_shape1 !=  _shapeShareObject->renderObjects.end();  
+				ite_vec_shape1++)
+			{
+				//get shape
+				Shape* dshape = *ite_vec_shape;
+				
+				if(dshape->type>1)// not spring and groundline
+				{
+					if(shape->id != dshape->id && DectecHit(*shape,*dshape))
+						cout<<"hit"<<endl;
+					
+				}
+			}
+			
+			//////////////////////////////////////////////////////////////////////////
 
 		}
 
 	}
+}
+bool PhysicsThread::DectecHit(const Shape&s1, const Shape&s2){
+// 	vector<Point>& s1pa = s1.points;
+// 	vector<Point>& s2pa = s2.points;
+	bool res = false;
+	int s1size = s1.points.size();
+	int s2size = s2.points.size();
+	//JudgeTwoLineAcroess
+	for(int i=0; i<s1size;i++){
+		/*Point* p1 = s1.points.at(i);*/
+		for (int j = 0; j < s2size; j++)
+		{
+			if((i+1)<s1size)
+			{
+				if((j+1)<s2size)
+					res = JudgeTwoLineAcroess(s1.points.at(i),s1.points.at(i+1),s2.points.at(j),s2.points.at(j+1));
+				else
+					res = JudgeTwoLineAcroess(s1.points.at(i),s1.points.at(i+1),s2.points.at(j),s2.points.at(0));
+			}
+			else
+			{
+				if((j+1)<s2size)
+					res = JudgeTwoLineAcroess(s1.points.at(i),s1.points.at(0),s2.points.at(j),s2.points.at(j+1));
+				else
+					res = JudgeTwoLineAcroess(s1.points.at(i),s1.points.at(0),s2.points.at(j),s2.points.at(0));
+
+			}
+			
+			if(res)
+				return res;
+
+		}
+
+
+	}
+	return false;
 }
 
 void PhysicsThread::CalculatePyhsics(){

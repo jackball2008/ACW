@@ -98,6 +98,7 @@ void PhysicsApp::OnDestroy(){
 /************************************************************************/
 #define DRAWTRIANGLE1
 void PhysicsApp::InitializeAllShpes(){
+	int sid = 0;
 	//set springline
 	SpringLine *springLine = new SpringLine();
 	Point sp;
@@ -107,6 +108,8 @@ void PhysicsApp::InitializeAllShpes(){
 	ep.x = ORIGIN_SPRING_X;
 	ep.y = ORIGIN_SPRING_Y;
 	springLine->SetData(sp,ep);
+	sid++;
+	springLine->id = sid;
 	_shapeShareObject.renderObjects.push_back(springLine);
 
 	//set line
@@ -121,6 +124,8 @@ void PhysicsApp::InitializeAllShpes(){
 	lmid.x = (p1.x + p2.x) / 2;
 	lmid.y = (p1.y + p2.y) / 2;
 	line->SetData(p1,p2/*,lmid*/);
+	sid++;
+	line->id = sid;
 	line->middlepoint = lmid;
 	//add
 	_shapeShareObject.renderObjects.push_back(line);
@@ -154,6 +159,8 @@ void PhysicsApp::InitializeAllShpes(){
 
 			Shape* square = new Square();
 			square->SetData(p1,p2,p3,p4/*,p5*/);
+			sid++;
+			square->id = sid;
 			square->middlepoint = p5;
 			/*_shapeShareObject.SetData(square);*/
 			_shapeShareObject.renderObjects.push_back(square);
@@ -192,6 +199,8 @@ void PhysicsApp::InitializeAllShpes(){
 			//add
 			Shape* triangle = new Triangle();
 			triangle->SetData(p1,p2,p3);
+			sid++;
+			triangle->id = sid;
 			triangle->middlepoint = mid;
 			
 			_shapeShareObject.renderObjects.push_back(triangle);
@@ -218,6 +227,8 @@ void PhysicsApp::InitializeAllShpes(){
 
 				Shape* triangle = new Triangle();
 				triangle->SetData(q1,q2,q3);
+				sid++;
+				triangle->id = sid;
 				triangle->middlepoint = qmid;
 				
 				_shapeShareObject.renderObjects.push_back(triangle);

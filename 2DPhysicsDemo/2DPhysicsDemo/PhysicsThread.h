@@ -7,9 +7,9 @@ using namespace std;
 #include <Windows.h>
 #include "Force.h"
 
-const float SPRING_FACTOR = 2814;
+const float SPRING_FACTOR = 2.5f/1000;
 const Point ORIGIN_P_PHYSICS;
-const float G_ACCERLATION = -9.8f;
+const float G_ACCERLATION = -1.8f/10000000000;
 const float GROUND_Y = -0.9f;
 class PhysicsThread :
 	public MyThread
@@ -33,6 +33,9 @@ private:
 	void CalculateDeltaTime();
 	void CalculatePyhsics();
 	void CalculatePyhsics2();
+
+	bool DectecHit(const Shape&s1, const Shape&s2);
+
 	Point _checkp;
 
 public:
