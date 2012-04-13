@@ -4,7 +4,7 @@
 PhysicsThread::PhysicsThread(void)
 {
 	_delta_time  = 0.0f;
-
+	_isspringforcegenerated = false;
 }
 
 
@@ -28,28 +28,38 @@ int PhysicsThread::run(){
 				CalculateDeltaTime();
 				if(_delta_time <10000 ){
 					//get spring length
-					float springlength = Dis(_shapeShareObject->springstartp,_shapeShareObject->springendp);
-					
-					_springforce.length = springlength;
+					_springforce.length = Dis(_shapeShareObject->springstartp,_shapeShareObject->springendp);
 					if(!_shapeShareObject->left_hold && _springforce.length >0){
 						/*cout<<"L = "<<springlength<<endl;*/
 						//get spring force
-						_springforce.allforce = SPRING_FACTOR * _springforce.length;
+						float allforce = SPRING_FACTOR * _springforce.length;
 						//get force direction
-						_springforce.dx = _shapeShareObject->springendp.x - _shapeShareObject->springstartp.x;
-						_springforce.dy = _shapeShareObject->springendp.y - _shapeShareObject->springstartp.y;
+						_springforce.dir_x = _shapeShareObject->springendp.x - _shapeShareObject->springstartp.x;
+						_springforce.dir_y = _shapeShareObject->springendp.y - _shapeShareObject->springstartp.y;
+						//computing force x y
+						float dd = sqrt(_springforce.dir_x * _springforce.dir_x + _springforce.dir_y * _springforce.dir_y);
+						_springforce.force_x = _springforce.dir_x * allforce / dd;
+						_springforce.force_y = _springforce.dir_y * allforce / dd;
+
 						//get force effect point position
-						_springforce.sx = _shapeShareObject->springstartp.x;
-						_springforce.sy = _shapeShareObject->springstartp.y;
+// 						_springforce.workposition_x = _shapeShareObject->springstartp.x;
+// 						_springforce.workposition_y = _shapeShareObject->springstartp.y;
 						//save the position to a Point, easy to computing later
-						_checkp.x = _springforce.sx;
-						_checkp.y = _springforce.sy;
+						_springforceworkposition.x = _shapeShareObject->springstartp.x;
+						_springforceworkposition.y = _shapeShareObject->springstartp.y;
 						/*cout<<"clear spring"<<endl;*/
 						//after save the current spring variables, clear the variables in shareobject
 						_shapeShareObject->springstartp.x = 0;
 						_shapeShareObject->springstartp.y = 0;
 						_shapeShareObject->springendp.x = 0;
 						_shapeShareObject->springendp.y = 0;
+
+						//mark
+						_isspringforcegenerated = true;
+					}
+					else
+					{
+						_isspringforcegenerated = false;
 					}
 					//////////////////////////////////////////
 					//start to compute the physics
@@ -73,27 +83,24 @@ void PhysicsThread::CalculatePyhsics3(){
 		ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
 		ite_vec_shape++)
 	{
-		//calculate force x y
-		if(_springforce.length>0)
-		{
-
-		}else
-		{
-
-		}
+		
 		//get shape
 		Shape* shape = *ite_vec_shape;
-		if(shape->type >1)
+		//get all points in the shape
+		vector<Point>& pa = shape->points;
+		if(_isspringforcegenerated && shape->type > 1)
+			//spring work and this tye is triangle and square
 		{
+			if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS))
+			{
+				/*cout<<"spring work"<<endl;*/
+				//change the 
 
-			//get all points in the shape
-			vector<Point>& pa = shape->points;
-			
 
-
-
+			}
 
 		}
+
 		
 	}
 }
@@ -110,13 +117,13 @@ void PhysicsThread::CalculatePyhsics2(){
 		{
 			bool ispushforceony = false;
 			//computing the force
-			if(JudgePointInPologon(pa,_checkp,ORIGIN_P_PHYSICS) && _springforce.length>0  )
+			if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS) && _springforce.length>0  )
 			{
 				//computing the push force
 				shape->force =  SPRING_FACTOR * _springforce.length;
 				//force direction
-				shape->direction.x = _springforce.dx - shape->direction.x;
-				shape->direction.y = _springforce.dy - shape->direction.y;
+				shape->direction.x = _springforce.dir_x - shape->direction.x;
+				shape->direction.y = _springforce.dir_y - shape->direction.y;
 				float dd = sqrt(shape->direction.x * shape->direction.x + shape->direction.y * shape->direction.y);
 				//x force
 				shape->force_x = shape->direction.x * shape->force / dd;
@@ -126,14 +133,14 @@ void PhysicsThread::CalculatePyhsics2(){
 				//////////////////////////////////////////////////////////////////////////
 				//the initialize force only work once, then clear
 				//_checkp reset
-				_checkp.x = 0;
-				_checkp.y = 0;
+				_springforceworkposition.x = 0;
+				_springforceworkposition.y = 0;
 				//allforce reset = 0;
 				_springforce.allforce = 0;
 				_springforce.length = 0;
 				//direction reset
-				_springforce.dx = 0;
-				_springforce.dy = 0;
+				_springforce.dir_x = 0;
+				_springforce.dir_y = 0;
 				//////////////////////////////////////////////////////////////////////////
 			}
 			else
@@ -264,22 +271,22 @@ void PhysicsThread::CalculatePyhsics(){
 				float my = 0;
 				float mx = 0;
 				//type>1 = polygon now line or spring itself
-				if(JudgePointInPologon(pa,_checkp,ORIGIN_P_PHYSICS) && _springforce.length>0  ){
+				if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS) && _springforce.length>0  ){
 					//compute G and F
 					//make spring work a = f/m
-					shape->acceleration = _springforce.energy / (shape->mass);
+					shape->acceleration = _springforce.allforce / (shape->mass);
 					//change direction
-					shape->direction.x = _springforce.dx - shape->direction.x;
-					shape->direction.y = _springforce.dy - shape->direction.y;
+					shape->direction.x = _springforce.dir_x - shape->direction.x;
+					shape->direction.y = _springforce.dir_y - shape->direction.y;
 					//_checkp reset
-					_checkp.x = 0;
-					_checkp.y = 0;
+					_springforceworkposition.x = 0;
+					_springforceworkposition.y = 0;
 					//energy reset = 0;
 					_springforce.allforce = 0;
 					_springforce.length = 0;
 					//direction reset
-					_springforce.dx = 0;
-					_springforce.dy = 0;
+					_springforce.dir_x = 0;
+					_springforce.dir_y = 0;
 						
 					
 				}else{

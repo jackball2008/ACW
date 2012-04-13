@@ -17,7 +17,6 @@ class PhysicsThread :
 private:
 	ShapeShareObject* _shapeShareObject;
 
-	
 	//ms
 	float _delta_time;
 
@@ -37,7 +36,9 @@ private:
 
 	bool DectecHit(const Shape&s1, const Shape&s2);
 
-	Point _checkp;
+	Point _springforceworkposition;
+
+	bool _isspringforcegenerated;
 
 public:
 	PhysicsThread(void);
