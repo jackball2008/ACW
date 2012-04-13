@@ -29,8 +29,10 @@ int PhysicsThread::run(){
 				if(_delta_time <10000 ){
 					//get spring length
 					float springlength = Dis(_shapeShareObject->springstartp,_shapeShareObject->springendp);
+					
 					_springforce.length = springlength;
 					if(!_shapeShareObject->left_hold && _springforce.length >0){
+						cout<<"L = "<<springlength<<endl;
 						//get spring force
 						_springforce.energy = SPRING_FACTOR * _springforce.length;
 						//get force direction
@@ -78,6 +80,7 @@ void PhysicsThread::CalculatePyhsics2(){
 		vector<Point>& pa = shape->points;
 		if(shape->type >1)
 		{
+			bool ispushforceony = false;
 			//computing the force
 			if(JudgePointInPologon(pa,_checkp,ORIGIN_P_PHYSICS) && _springforce.length>0  )
 			{
@@ -87,13 +90,16 @@ void PhysicsThread::CalculatePyhsics2(){
 				shape->direction.x = _springforce.dx - shape->direction.x;
 				shape->direction.y = _springforce.dy - shape->direction.y;
 				float dd = sqrt(shape->direction.x * shape->direction.x + shape->direction.y * shape->direction.y);
-				// ----
-				shape->force_x = shape->direction.x * shape->force / dd;
+				// ----  =0 for test
+				shape->force_x = 0 ;//shape->direction.x * shape->force / dd;
 				//fy - g  ||||
-				shape->force_y = (shape->direction.y * shape->force / dd);
+				shape->force_y = shape->direction.y * shape->force / dd;
+				cout<<"g1 = "<<shape->force_y<<endl;
 				//////////////////////////////////////////////////////////////////////////
-				//G = m*g
-				shape->force_y = shape->force_y /*+ shape->mass * G_ACCERLATION*/;
+				//fy = m*g + push
+				ispushforceony = true;
+				shape->force_y = shape->force_y + shape->mass * G_ACCERLATION;
+				cout<<"g2 = "<<shape->force_y<<endl;
 				//////////////////////////////////////////////////////////////////////////
 				//the initialize force only work once, then clear
 				//_checkp reset
@@ -112,14 +118,21 @@ void PhysicsThread::CalculatePyhsics2(){
 				//no spring force
 				shape->force_x = 0;
 				//fy = m * g
-				//shape->force_y = shape->mass * G_ACCERLATION;
+				/*shape->force_y = shape->mass * G_ACCERLATION; */
+				ispushforceony = false;
 
 			}
 
 			//computing the accerlation
 
 			shape->acceleration_x = shape->force_x / shape->mass;
-			shape->acceleration_y = shape->force_y / shape->mass;
+			if(ispushforceony)
+				shape->acceleration_y = shape->force_y / shape->mass;
+			else
+				shape->acceleration_y = G_ACCERLATION;
+			if(shape->acceleration_y != G_ACCERLATION)
+				int k = 0;
+			//clear force
 			shape->force_x = 0;
 			shape->force_y = 0;
 			//computing the speed
@@ -127,10 +140,16 @@ void PhysicsThread::CalculatePyhsics2(){
 			shape->old_velocity_y = shape->velocity_y;
 			shape->velocity_x = shape->velocity_x + shape->acceleration_x * _delta_time;
 			shape->velocity_y = shape->velocity_y + shape->acceleration_y * _delta_time;
-			if(shape->velocity_y != 0)
-			{
-				float k = 0;
+			if((shape->middlepoint.y - GROUND_Y)<=0.2 ){
+				shape->velocity_y = 0;
 			}
+			cout<<"my = "<<shape->middlepoint.y<<endl;
+			cout<<"vy = "<<shape->velocity_y<<endl;
+			cout<<"gy = "<<shape->acceleration_y<<endl;
+// 			if(shape->velocity_y != 0)
+// 			{
+// 				float k = 0;
+// 			}
 			
 			//computing the dis
 			float mx = float(shape->old_velocity_x * _delta_time + 0.5 * shape->acceleration_x * _delta_time * _delta_time);
@@ -158,17 +177,7 @@ void PhysicsThread::CalculatePyhsics2(){
 			shape->middlepoint.x = middlep_x / nsize;
 			shape->middlepoint.y = midllep_y / nsize;
 
-// 			shape->middlepoint.x = shape->middlepoint.x + mx;
-// 			float middley = shape->middlepoint.y + my;
-// 			if (middley < GROUND_Y)
-// 			{
-// 
-// 			} 
-// 			else
-// 			{
-// 				shape->middlepoint.y = shape->middlepoint.y + my;
-// 			}
-			
+
 
 
 
