@@ -131,6 +131,7 @@ void PhysicsApp::InitializeAllShpes(){
 	ground->middlepoint = lmid;
 	ground->isground = true;
 	ground->iscommonshape = false;
+	ground->isspring = false;
 	//add
 	_shapeShareObject.renderObjects.push_back(ground);
 	/*_shapeShareObject.SetData(line);*/
@@ -140,7 +141,7 @@ void PhysicsApp::InitializeAllShpes(){
 	//25 * 4
 	YPoint tristartp;
 	for(int i = 0; i<1 /*4*/; i ++){
-		for( int j =0; j <1 /*25*/ ; j ++){
+		for( int j =0; j <2 /*25*/ ; j ++){
 			YPoint p1;
 			p1.x = -0.5f + j * 0.04f;
 			p1.y = -0.9f + i * 0.04f;

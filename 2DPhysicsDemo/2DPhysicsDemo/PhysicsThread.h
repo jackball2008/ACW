@@ -54,9 +54,191 @@ public:
 
 	int run();
 
+	static bool JudgeBrightA(const Shape &shapeA, const Shape &shapeB)
+	{
+		float Max_1x,Max_1y,Min_1x,Min_1y,Max_2x,Max_2y,Min_2x,Min_2y,a=0,b=0,c=0,d=0;
+		int body1size = shapeA.points.size();
+		int body2size = shapeB.points.size();
+
+		if(body1size == 2)
+		{
+			Max_1x=max(shapeA.points.at(0).x,shapeA.points.at(1).x);
+			Max_1y=max(shapeA.points.at(0).y,shapeA.points.at(1).y);
+
+			Min_1x=min(shapeA.points.at(0).x,shapeA.points.at(1).x);
+			Min_1y=min(shapeA.points.at(0).y,shapeA.points.at(1).y);
+		}
+		if(body1size == 3)
+		{
+			Max_1x=max(max(shapeA.points.at(0).x,shapeA.points.at(1).x),shapeA.points.at(2).x);
+			Max_1y=max(max(shapeA.points.at(0).y,shapeA.points.at(1).y),shapeA.points.at(2).y);
+
+			Min_1x=min(min(shapeA.points.at(0).x,shapeA.points.at(1).x),shapeA.points.at(2).x);
+			Min_1y=min(min(shapeA.points.at(0).y,shapeA.points.at(1).y),shapeA.points.at(2).y);
+		}
+		if(body1size == 4)
+		{
+			Max_1x=max(max(shapeA.points.at(0).x,shapeA.points.at(1).x),max(shapeA.points.at(2).x,shapeA.points.at(3).x));
+			Max_1y=max(max(shapeA.points.at(0).y,shapeA.points.at(1).y),max(shapeA.points.at(2).y,shapeA.points.at(3).y));
+
+			Min_1x=min(min(shapeA.points.at(0).x,shapeA.points.at(1).x),min(shapeA.points.at(2).x,shapeA.points.at(3).x));
+			Min_1y=min(min(shapeA.points.at(0).y,shapeA.points.at(1).y),min(shapeA.points.at(2).y,shapeA.points.at(3).y));
+		}
+
+		if(body2size == 2)
+		{
+			Max_2x=max(shapeB.points.at(0).x,shapeB.points.at(1).x);
+			Max_2y=max(shapeB.points.at(0).y,shapeB.points.at(1).y);
+
+			Min_2x=min(shapeB.points.at(0).x,shapeB.points.at(1).x);
+			Min_2y=min(shapeB.points.at(0).y,shapeB.points.at(1).y);
+		}
+		if(body2size == 3)
+		{
+			Max_2x=max(max(shapeB.points.at(0).x,shapeB.points.at(1).x),shapeB.points.at(2).x);
+			Max_2y=max(max(shapeB.points.at(0).y,shapeB.points.at(1).y),shapeB.points.at(2).y);
+
+			Min_2x=min(min(shapeB.points.at(0).x,shapeB.points.at(1).x),shapeB.points.at(2).x);
+			Min_2y=min(min(shapeB.points.at(0).y,shapeB.points.at(1).y),shapeB.points.at(2).y);
+		}
+		if(body2size == 4)
+		{
+			Max_2x=max(max(shapeB.points.at(0).x,shapeB.points.at(1).x),max(shapeB.points.at(2).x,shapeB.points.at(3).x));
+			Max_2y=max(max(shapeB.points.at(0).y,shapeB.points.at(1).y),max(shapeB.points.at(2).y,shapeB.points.at(3).y));
+
+			Min_2x=min(min(shapeB.points.at(0).x,shapeB.points.at(1).x),min(shapeB.points.at(2).x,shapeB.points.at(3).x));
+			Min_2y=min(min(shapeB.points.at(0).y,shapeB.points.at(1).y),min(shapeB.points.at(2).y,shapeB.points.at(3).y));
+		}
+
+		if(shapeB.middlepoint.x > Max_1x)
+			return true;
+		return false;
+
+	}
+	static bool JudgeBleftA(const Shape &shapeA, const Shape &shapeB)
+	{
+		float Max_1x,Max_1y,Min_1x,Min_1y,Max_2x,Max_2y,Min_2x,Min_2y,a=0,b=0,c=0,d=0;
+		int body1size = shapeA.points.size();
+		int body2size = shapeB.points.size();
+
+		if(body1size == 2)
+		{
+			Max_1x=max(shapeA.points.at(0).x,shapeA.points.at(1).x);
+			Max_1y=max(shapeA.points.at(0).y,shapeA.points.at(1).y);
+
+			Min_1x=min(shapeA.points.at(0).x,shapeA.points.at(1).x);
+			Min_1y=min(shapeA.points.at(0).y,shapeA.points.at(1).y);
+		}
+		if(body1size == 3)
+		{
+			Max_1x=max(max(shapeA.points.at(0).x,shapeA.points.at(1).x),shapeA.points.at(2).x);
+			Max_1y=max(max(shapeA.points.at(0).y,shapeA.points.at(1).y),shapeA.points.at(2).y);
+
+			Min_1x=min(min(shapeA.points.at(0).x,shapeA.points.at(1).x),shapeA.points.at(2).x);
+			Min_1y=min(min(shapeA.points.at(0).y,shapeA.points.at(1).y),shapeA.points.at(2).y);
+		}
+		if(body1size == 4)
+		{
+			Max_1x=max(max(shapeA.points.at(0).x,shapeA.points.at(1).x),max(shapeA.points.at(2).x,shapeA.points.at(3).x));
+			Max_1y=max(max(shapeA.points.at(0).y,shapeA.points.at(1).y),max(shapeA.points.at(2).y,shapeA.points.at(3).y));
+
+			Min_1x=min(min(shapeA.points.at(0).x,shapeA.points.at(1).x),min(shapeA.points.at(2).x,shapeA.points.at(3).x));
+			Min_1y=min(min(shapeA.points.at(0).y,shapeA.points.at(1).y),min(shapeA.points.at(2).y,shapeA.points.at(3).y));
+		}
+
+		if(body2size == 2)
+		{
+			Max_2x=max(shapeB.points.at(0).x,shapeB.points.at(1).x);
+			Max_2y=max(shapeB.points.at(0).y,shapeB.points.at(1).y);
+
+			Min_2x=min(shapeB.points.at(0).x,shapeB.points.at(1).x);
+			Min_2y=min(shapeB.points.at(0).y,shapeB.points.at(1).y);
+		}
+		if(body2size == 3)
+		{
+			Max_2x=max(max(shapeB.points.at(0).x,shapeB.points.at(1).x),shapeB.points.at(2).x);
+			Max_2y=max(max(shapeB.points.at(0).y,shapeB.points.at(1).y),shapeB.points.at(2).y);
+
+			Min_2x=min(min(shapeB.points.at(0).x,shapeB.points.at(1).x),shapeB.points.at(2).x);
+			Min_2y=min(min(shapeB.points.at(0).y,shapeB.points.at(1).y),shapeB.points.at(2).y);
+		}
+		if(body2size == 4)
+		{
+			Max_2x=max(max(shapeB.points.at(0).x,shapeB.points.at(1).x),max(shapeB.points.at(2).x,shapeB.points.at(3).x));
+			Max_2y=max(max(shapeB.points.at(0).y,shapeB.points.at(1).y),max(shapeB.points.at(2).y,shapeB.points.at(3).y));
+
+			Min_2x=min(min(shapeB.points.at(0).x,shapeB.points.at(1).x),min(shapeB.points.at(2).x,shapeB.points.at(3).x));
+			Min_2y=min(min(shapeB.points.at(0).y,shapeB.points.at(1).y),min(shapeB.points.at(2).y,shapeB.points.at(3).y));
+		}
+
+		if(shapeB.middlepoint.x< Min_1x)
+			return true;
+		return false;
+
+	}
+	static bool JudgeBunderA(const Shape &shapeA, const Shape &shapeB)
+	{
+		float Max_1x,Max_1y,Min_1x,Min_1y,Max_2x,Max_2y,Min_2x,Min_2y,a=0,b=0,c=0,d=0;
+		int body1size = shapeA.points.size();
+		int body2size = shapeB.points.size();
+
+		if(body1size == 2)
+		{
+			Max_1x=max(shapeA.points.at(0).x,shapeA.points.at(1).x);
+			Max_1y=max(shapeA.points.at(0).y,shapeA.points.at(1).y);
+
+			Min_1x=min(shapeA.points.at(0).x,shapeA.points.at(1).x);
+			Min_1y=min(shapeA.points.at(0).y,shapeA.points.at(1).y);
+		}
+		if(body1size == 3)
+		{
+			Max_1x=max(max(shapeA.points.at(0).x,shapeA.points.at(1).x),shapeA.points.at(2).x);
+			Max_1y=max(max(shapeA.points.at(0).y,shapeA.points.at(1).y),shapeA.points.at(2).y);
+
+			Min_1x=min(min(shapeA.points.at(0).x,shapeA.points.at(1).x),shapeA.points.at(2).x);
+			Min_1y=min(min(shapeA.points.at(0).y,shapeA.points.at(1).y),shapeA.points.at(2).y);
+		}
+		if(body1size == 4)
+		{
+			Max_1x=max(max(shapeA.points.at(0).x,shapeA.points.at(1).x),max(shapeA.points.at(2).x,shapeA.points.at(3).x));
+			Max_1y=max(max(shapeA.points.at(0).y,shapeA.points.at(1).y),max(shapeA.points.at(2).y,shapeA.points.at(3).y));
+
+			Min_1x=min(min(shapeA.points.at(0).x,shapeA.points.at(1).x),min(shapeA.points.at(2).x,shapeA.points.at(3).x));
+			Min_1y=min(min(shapeA.points.at(0).y,shapeA.points.at(1).y),min(shapeA.points.at(2).y,shapeA.points.at(3).y));
+		}
+
+		if(body2size == 2)
+		{
+			Max_2x=max(shapeB.points.at(0).x,shapeB.points.at(1).x);
+			Max_2y=max(shapeB.points.at(0).y,shapeB.points.at(1).y);
+
+			Min_2x=min(shapeB.points.at(0).x,shapeB.points.at(1).x);
+			Min_2y=min(shapeB.points.at(0).y,shapeB.points.at(1).y);
+		}
+		if(body2size == 3)
+		{
+			Max_2x=max(max(shapeB.points.at(0).x,shapeB.points.at(1).x),shapeB.points.at(2).x);
+			Max_2y=max(max(shapeB.points.at(0).y,shapeB.points.at(1).y),shapeB.points.at(2).y);
+
+			Min_2x=min(min(shapeB.points.at(0).x,shapeB.points.at(1).x),shapeB.points.at(2).x);
+			Min_2y=min(min(shapeB.points.at(0).y,shapeB.points.at(1).y),shapeB.points.at(2).y);
+		}
+		if(body2size == 4)
+		{
+			Max_2x=max(max(shapeB.points.at(0).x,shapeB.points.at(1).x),max(shapeB.points.at(2).x,shapeB.points.at(3).x));
+			Max_2y=max(max(shapeB.points.at(0).y,shapeB.points.at(1).y),max(shapeB.points.at(2).y,shapeB.points.at(3).y));
+
+			Min_2x=min(min(shapeB.points.at(0).x,shapeB.points.at(1).x),min(shapeB.points.at(2).x,shapeB.points.at(3).x));
+			Min_2y=min(min(shapeB.points.at(0).y,shapeB.points.at(1).y),min(shapeB.points.at(2).y,shapeB.points.at(3).y));
+		}
 
 
-	
+		if(shapeB.middlepoint.x>= Min_1x && shapeB.middlepoint.x<=Max_1x && shapeB.middlepoint.y < Min_1y)
+			return true;
+		return false;
+
+
+	}
 	
 	static bool ProjectCollisionDetect(const Shape &body1, const Shape &body2){
 
@@ -158,21 +340,21 @@ public:
 		//test collision
 		if ((a<0)&&(c<0))
 		{
-			return true;//retval=COLLISION;
+			return true;
 		} 
 		else if ((a<0)&&(d<0))
 		{
-			return true;//retval=COLLISION;
+			return true;
 		} 
 		else if((b<0)&&(c<0))
 		{
-			return true;//retval=COLLISION;
+			return true;
 		}
 		else if((b<0)&&(d<0)){
-			return true;//retval=COLLISION;
+			return true;
 		}
 		else{
-			return true;//retval=NOCOLLISION;
+			return true;
 		}
 		return false;
 	}

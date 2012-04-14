@@ -77,36 +77,140 @@ int PhysicsThread::run(){
 void PhysicsThread::CalculatePyhsics3(){
 	//get ground before use 
 	Shape* ground = _shapeShareObject->renderObjects.at(1);
-
-	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
-		ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
-		ite_vec_shape++)
+	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	for(vector<Shape*>::iterator shapeAiterator = _shapeShareObject->renderObjects.begin();   
+		shapeAiterator !=  _shapeShareObject->renderObjects.end();  
+		shapeAiterator++)
 	{
 		//get shape
-		Shape* shape = *ite_vec_shape;
+		Shape* shapeA = *shapeAiterator;
 		//get all points in the shape
-		vector<YPoint>& pa = shape->points;
-
-		
-		//groundline
-// 		bool res = false;
-// 		if(shape->type > 1)
-// 			res = CheckForCollisionP(*shape,*groundline);
-		
-		if(_isspringforcegenerated && shape->type > 1)
-			//spring work and this type is triangle and square
+		vector<YPoint>& pa = shapeA->points;
+		//BBBBBBBBBBBBBBBBBBBB
+		if(shapeA->iscommonshape)
+		for(vector<Shape*>::iterator shapeBiterator = _shapeShareObject->renderObjects.begin();   
+			shapeBiterator !=  _shapeShareObject->renderObjects.end();  
+			shapeBiterator++)
 		{
-			
-
-			if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS))
+			Shape* shapeB = *shapeBiterator;
+			if(!shapeB->isspring){
+			if( shapeA->id != shapeB->id && ProjectCollisionDetect(*shapeA,*shapeB))
 			{
-				cout<<"spring work, length = "<<_springforce.length<<endl;
-				//change the balance of power
+				shapeA->hitsometing = true;
+				if(shapeB->isground)
+				{
+					shapeA->cantransferpower_y = true;
+					shapeA->hitground = true;
+					/*cout<<"ground"<<endl;*/
+				}
+
+				if(shapeB->iscommonshape)
+				{
+					//hit common shape
+					
+					/*cout<<"common"<<endl;*/
+					if(JudgeBunderA(*shapeA,*shapeB))//still need to improve
+					{
+						
+						if(shapeB->hitground == true || shapeB->cantransferpower_y == true)
+						{
+							shapeA->cantransferpower_y = true;
+// 							
+						}
+					}
+					if(JudgeBleftA(*shapeA,*shapeB)||JudgeBrightA(*shapeA,*shapeB))
+					{
+						shapeA->cantransferpower_x = true;
+
+// 						cout<<"common"<<endl;
+// 						shapeA->r = 1.0;
+// 						shapeA->g = 0.0;
+// 						shapeA->b = 0.0;
+					}
+
+				}
 
 
 			}
+			else
+			{
+				if(shapeA->id != shapeB->id)
+				{
+					shapeA->hitsometing = false;
+					shapeA->hitground = false;
+					shapeA->cantransferpower_x = false;
+					shapeA->cantransferpower_y = false;
+				}
+				
+
+			}
+			}
 
 		}
+		//BBBBBBBBBBBBBBBBBBBB
+
+		//float G = shapeA->mass * -5.0f/10000;
+		//add spring force to shape
+		if(_isspringforcegenerated && shapeA->iscommonshape)
+		{
+			if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS))
+			{
+				shapeA->force_in_y = _springforce.force_y;
+// 				lf = _springforce.force_y;
+// 				p = _springforce.force_y + G;
+// 				v =  p/shapeA->mass * _delta_time;
+				/*cout<<"length = "<<_springforce.length<<" f_y = "<<lf<<" G= "<<G<<" sub = "<<p<<"speed = "<<v<<endl;*/
+				//change the balance of power
+				/*shapeA->velocity_y = v;*/
+			}
+		}
+		//calculate shape force
+		if(shapeA->iscommonshape)
+		{
+			float G = shapeA->mass * -5.0f/10000;
+			shapeA->force_out_y = G;
+			float allforce = shapeA->force_in_y + shapeA->force_out_y;
+
+			if(shapeA->cantransferpower_y && allforce>0)
+			{
+				cout<<"force ok"<<endl;
+				shapeA->force_in_y = 0;
+			}
+			else
+			{
+				allforce = 0;
+			}
+		}
+		
+		/**
+		if(shapeA->iscommonshape)
+		{
+			
+			v = shapeA->velocity_y;
+			shapeA->velocity_y = v + G * _delta_time;
+			sy = float(v * _delta_time + 0.5 * G * _delta_time * _delta_time);
+			if(shapeA->cantransferpower_y)
+			{
+				shapeA->velocity_y = 0;
+				sy = 0;
+			}
+			//sy = shapeA->velocity_y * _delta_time;
+
+			int nsize = pa.size();
+			float mxs=0;
+			float mys=0;
+			if(!shapeA->cantransferpower_y)
+			for(int i=0; i<nsize;i++){
+				
+				mxs += pa.at(i).x;
+				//pa.at(i).y = pa.at(i).y + sy;
+				mys += pa.at(i).y;
+			}
+			shapeA->middlepoint.x = mxs/nsize;
+			shapeA->middlepoint.y = mys/nsize;
+		}
+		*/
+		
 
 		
 	}

@@ -12,23 +12,29 @@ public:
 	float mgh_power;
 	float erfenzhiyimvfang_x;
 	float erfenzhiyimvfang_y;
-	float 
+	float mv_x;
+	float mv_y;
+	//mark hit something
+	bool hitsometing;
+	bool hitground;
+	bool cantransferpower_y;
+	bool cantransferpower_x;
 
 	//power
 	//work and receive force on X
-	float work_force_x;
-	float receive_force_x;
-	int work_force_dir_x;
-	int receive_force_dir_x;
+	float force_out_x;
+	float force_in_x;
+	int force_out_dir_x;
+	int force_in_dir_x;
 	float velocity_x;
 	float old_velocity_x;
 	float acceleration_x;
 
 	//work and receive force on Y
-	float work_force_y;
-	float receive_force_y;
-	int work_force_dir_y;
-	int receive_force_dir_y;
+	float force_out_y;
+	float force_in_y;
+	int force_out_dir_y;
+	int force_in_dir_y;
 	float velocity_y;
 	float old_velocity_y;
 	float acceleration_y;
