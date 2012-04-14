@@ -110,10 +110,12 @@ void PhysicsApp::InitializeAllShpes(){
 	springLine->SetData(sp,ep);
 	sid++;
 	springLine->id = sid;
+	springLine->isspring = true;
+	springLine->iscommonshape = false;
 	_shapeShareObject.renderObjects.push_back(springLine);
 
-	//set line
-	Shape* line = new Line();
+	//set ground
+	Shape* ground = new Line();
 	YPoint p1;
 	p1.x = -1.0f;
 	p1.y = -0.9f;
@@ -123,13 +125,14 @@ void PhysicsApp::InitializeAllShpes(){
 	YPoint lmid;
 	lmid.x = (p1.x + p2.x) / 2;
 	lmid.y = (p1.y + p2.y) / 2;
-	line->SetData(p1,p2/*,lmid*/);
+	ground->SetData(p1,p2);
 	sid++;
-	line->id = sid;
-	line->middlepoint = lmid;
-	line->isfixed = true;
+	ground->id = sid;
+	ground->middlepoint = lmid;
+	ground->isground = true;
+	ground->iscommonshape = false;
 	//add
-	_shapeShareObject.renderObjects.push_back(line);
+	_shapeShareObject.renderObjects.push_back(ground);
 	/*_shapeShareObject.SetData(line);*/
 
 
@@ -159,7 +162,7 @@ void PhysicsApp::InitializeAllShpes(){
 			p5.y = (float)(p1.y + p3.y + p2.y + p4.y)/4;
 
 			Shape* square = new Square();
-			square->SetData(p1,p2,p3,p4/*,p5*/);
+			square->SetData(p1,p2,p3,p4);
 			sid++;
 			square->id = sid;
 			square->middlepoint = p5;

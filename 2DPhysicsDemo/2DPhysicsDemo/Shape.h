@@ -5,45 +5,45 @@ using namespace std;
 class Shape
 {
 
-	
-
 public:
+	//store points
 	vector<YPoint>points;
 
-	float velocity_x;
-	float velocity_y;
-	float old_velocity_x;
-	float old_velocity_y;
-	
-	float acceleration_x;
-	float acceleration_y;
+	float mgh_power;
+	float erfenzhiyimvfang_x;
+	float erfenzhiyimvfang_y;
+	float 
 
+	//power
+	//work and receive force on X
 	float work_force_x;
-	float work_force_y;
 	float receive_force_x;
+	int work_force_dir_x;
+	int receive_force_dir_x;
+	float velocity_x;
+	float old_velocity_x;
+	float acceleration_x;
+
+	//work and receive force on Y
+	float work_force_y;
 	float receive_force_y;
-
-
-	bool canmove_x;
-	bool canmove_y;
-
-	bool isfixed;
-
-
-	float velocity;
+	int work_force_dir_y;
+	int receive_force_dir_y;
+	float velocity_y;
+	float old_velocity_y;
+	float acceleration_y;
 	
-
-	YPoint direction;
+	//shape own properties
+	bool isrigibody;
+	bool isground;
+	bool iscommonshape;
+	bool isspring;
+	
 
 	YPoint middlepoint;
 
 	
-	//force
-	float force;
 	
-
-	//acceleration
-	float acceleration;
 	
 	//mass
 	float mass;
@@ -55,7 +55,7 @@ public:
 
 	bool isvisiable;
 
-	bool becontrolled;
+	
 
 	int id;
 

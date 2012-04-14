@@ -73,7 +73,7 @@ void ControllerThread::CheckSpringLineStartPointInShape(){
 
 						if(_shapeShareObject->left_hold){
 
-							shape->becontrolled = true;
+							/*shape->becontrolled = true*/;
 							//change color
 							shape->r = 1.0f;
 							shape->g = 0.0f;
@@ -83,7 +83,7 @@ void ControllerThread::CheckSpringLineStartPointInShape(){
 							shape->g = 1.0f;
 							shape->b = 0.0f;
 
-							shape->becontrolled = false;
+							/*shape->becontrolled = false;*/
 						}
 							
 
@@ -92,7 +92,7 @@ void ControllerThread::CheckSpringLineStartPointInShape(){
 						shape->g = 1.0f;
 						shape->b = 0.0f;
 
-						shape->becontrolled = false;
+						/*shape->becontrolled = false;*/
 					}
 
 				}

@@ -5,7 +5,7 @@ SpringLine::SpringLine(void)
 {
 	type = 0;
 	isvisiable = false;
-	becontrolled = false;
+	
 	//add two empty points
 	
 	r = 0.0f;
@@ -24,8 +24,5 @@ SpringLine::~SpringLine(void)
 
 void SpringLine::Reset(){
 	isvisiable = false;
-	becontrolled = false;
-
 	
-
 }

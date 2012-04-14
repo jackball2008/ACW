@@ -40,10 +40,6 @@ int PhysicsThread::run(){
 						float dd = sqrt(_springforce.dir_x * _springforce.dir_x + _springforce.dir_y * _springforce.dir_y);
 						_springforce.force_x = _springforce.dir_x * allforce / dd;
 						_springforce.force_y = _springforce.dir_y * allforce / dd;
-
-						//get force effect point position
-// 						_springforce.workposition_x = _shapeShareObject->springstartp.x;
-// 						_springforce.workposition_y = _shapeShareObject->springstartp.y;
 						//save the position to a Point, easy to computing later
 						_springforceworkposition.x = _shapeShareObject->springstartp.x;
 						_springforceworkposition.y = _shapeShareObject->springstartp.y;
@@ -79,6 +75,9 @@ int PhysicsThread::run(){
 }
 //only think about the Y axix
 void PhysicsThread::CalculatePyhsics3(){
+	//get ground before use 
+	Shape* ground = _shapeShareObject->renderObjects.at(1);
+
 	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
 		ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
 		ite_vec_shape++)
@@ -88,8 +87,7 @@ void PhysicsThread::CalculatePyhsics3(){
 		//get all points in the shape
 		vector<YPoint>& pa = shape->points;
 
-		//check shape force before use 
-		Shape* groundline = _shapeShareObject->renderObjects.at(1);
+		
 		//groundline
 // 		bool res = false;
 // 		if(shape->type > 1)
@@ -102,7 +100,7 @@ void PhysicsThread::CalculatePyhsics3(){
 
 			if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS))
 			{
-				cout<<"spring work"<<endl;
+				cout<<"spring work, length = "<<_springforce.length<<endl;
 				//change the balance of power
 
 
