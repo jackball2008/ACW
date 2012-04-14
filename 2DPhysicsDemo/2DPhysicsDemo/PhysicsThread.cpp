@@ -113,6 +113,7 @@ void PhysicsThread::CalculatePyhsics3(){
 		
 	}
 }
+/**
 void PhysicsThread::CalculatePyhsics2(){
 	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
 		ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
@@ -196,12 +197,7 @@ void PhysicsThread::CalculatePyhsics2(){
 			if(DectecHit(*shape,*groundline))
 			{
 				shape->work_force_y = -(shape->mass * G_ACCERLATION);
-// 				midllep_y = 0;
-// 				for(int i=0; i<nsize;i++){
-// 					pa.at(i).y = pa.at(i).y - my;
-// 					midllep_y = midllep_y + pa.at(i).y;
-// 				}
-// 				shape->middlepoint.y = midllep_y / nsize;
+
 			}
 			//test hit other shapes
 			
@@ -220,35 +216,22 @@ void PhysicsThread::CalculatePyhsics2(){
 				}
 			}
 			
-			//////////////////////////////////////////////////////////////////////////
+			
 
 		}
 
 	}
 }
+*/
+/**
 bool PhysicsThread::DectecHit(const Shape&s1, const Shape& s2){
-	//JudgePointInPologon
-// 	bool res = false;
-// 	int s1size = s1.points.size();
-// 	int s2size = s2.points.size();
-// 	
-// 	for(int i=0; i<s1size;i++)
-// 	{
-// 		//s1.points.at(i)
-// 		if(JudgePointInPologon( s2,s1.points.at(i),ORIGIN_P_PHYSICS));
-// 
-// 	}
 
-
-
-// 	vector<Point>& s1pa = s1.points;
-// 	vector<Point>& s2pa = s2.points;
 	bool res = false;
 	int s1size = s1.points.size();
 	int s2size = s2.points.size();
 	//JudgeTwoLineAcroess
 	for(int i=0; i<s1size;i++){
-		/*Point* p1 = s1.points.at(i);*/
+		
 		for (int j = 0; j < s2size; j++)
 		{
 			if((i+1)<s1size)
@@ -276,7 +259,8 @@ bool PhysicsThread::DectecHit(const Shape&s1, const Shape& s2){
 	}
 	return false;
 }
-
+*/
+/*
 void PhysicsThread::CalculatePyhsics(){
 	//pass each shape
 	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
@@ -357,7 +341,7 @@ void PhysicsThread::CalculatePyhsics(){
 
 	}
 }
-
+*/
 
 //////////////////////////////////////////////////////////////////////////
 #define DEBUG_DELTATIME1

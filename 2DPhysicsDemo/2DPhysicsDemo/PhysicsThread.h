@@ -30,11 +30,11 @@ private:
 
 	//functions
 	void CalculateDeltaTime();
-	void CalculatePyhsics();
-	void CalculatePyhsics2();
+// 	void CalculatePyhsics();
+// 	void CalculatePyhsics2();
 	void CalculatePyhsics3();
 
-	bool DectecHit(const Shape&s1, const Shape&s2);
+	/*bool DectecHit(const Shape&s1, const Shape&s2);*/
 
 	YPoint _springforceworkposition;
 
@@ -217,10 +217,10 @@ public:
 	}
 	//
 	
-	static bool CheckForCollisionP(const Shape &body1, const Shape &body2){
+	static bool ProjectCollisionDetect(const Shape &body1, const Shape &body2){
 
 		float Max_1x,Max_1y,Min_1x,Min_1y,Max_2x,Max_2y,Min_2x,Min_2y,a=0,b=0,c=0,d=0;
-		int    retval = 0;
+		/*int    retval = 0;*/
 		//body1
 		int body1size = body1.points.size();
 		int body2size = body2.points.size();
@@ -335,6 +335,7 @@ public:
 		}
 		return false;
 	}
+	//////////////////////////////////////////////////////////////////////////
 
 };
 
