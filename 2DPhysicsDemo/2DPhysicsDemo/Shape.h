@@ -8,28 +8,43 @@ class Shape
 	
 
 public:
-	vector<Point>points;
+	vector<YPoint>points;
 
-	float velocity;
 	float velocity_x;
 	float velocity_y;
 	float old_velocity_x;
 	float old_velocity_y;
+	
+	float acceleration_x;
+	float acceleration_y;
 
-	Point direction;
+	float work_force_x;
+	float work_force_y;
+	float receive_force_x;
+	float receive_force_y;
 
-	Point middlepoint;
+
+	bool canmove_x;
+	bool canmove_y;
+
+	bool isfixed;
+
+
+	float velocity;
+	
+
+	YPoint direction;
+
+	YPoint middlepoint;
 
 	
 	//force
 	float force;
-	float force_x;
-	float force_y;
+	
 
 	//acceleration
 	float acceleration;
-	float acceleration_x;
-	float acceleration_y;
+	
 	//mass
 	float mass;
 	float point_mass;
@@ -51,11 +66,11 @@ public:
 	/* notice this must be thread safe                                       */
 	/************************************************************************/
 	//square
-	virtual void SetData(const Point& p1,const Point& p2,const Point& p3,const Point& p4)=0;
+	virtual void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3,const YPoint& p4)=0;
 	//triangle
-	virtual void SetData(const Point& p1,const Point& p2,const Point& p3)=0;
+	virtual void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3)=0;
 	//line
-	virtual void SetData(const Point& p1,const Point& p2)=0;
+	virtual void SetData(const YPoint& p1,const YPoint& p2)=0;
 	/************************************************************************/
 	/* read value, maybe do not need thread safe                             */
 	/************************************************************************/

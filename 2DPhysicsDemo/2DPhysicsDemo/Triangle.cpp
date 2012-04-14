@@ -7,7 +7,7 @@ Triangle::Triangle(void)
 	
 	for(int i=0;i<3;i++)
 	{
-		Point p;
+		YPoint p;
 		points.push_back(p);
 		
 	}
@@ -23,7 +23,7 @@ Triangle::~Triangle(void)
 }
 
 //thread safe, need to be update later
-void Triangle::SetData(const Point& p1,const Point& p2,const Point& p3){
+void Triangle::SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3){
 	//////////////////////////////////////////////////////////////////////////
 	points[0] = p1;
 	points[1] = p2;

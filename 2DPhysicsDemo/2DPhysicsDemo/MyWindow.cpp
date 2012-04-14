@@ -46,7 +46,7 @@ void	MyWindow::OnDisplay(){
 			
 			
 			Shape* shape = *ite_vec_shape;
-			vector<Point>& pa = shape->points;
+			vector<YPoint>& pa = shape->points;
 			/*vector<Point>* pa = &shape->points;*/
 
 			//////////////////////////////////////////////////////////////////////////

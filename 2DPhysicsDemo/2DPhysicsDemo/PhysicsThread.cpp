@@ -83,18 +83,27 @@ void PhysicsThread::CalculatePyhsics3(){
 		ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
 		ite_vec_shape++)
 	{
-		
 		//get shape
 		Shape* shape = *ite_vec_shape;
 		//get all points in the shape
-		vector<Point>& pa = shape->points;
+		vector<YPoint>& pa = shape->points;
+
+		//check shape force before use 
+		Shape* groundline = _shapeShareObject->renderObjects.at(1);
+		//groundline
+// 		bool res = false;
+// 		if(shape->type > 1)
+// 			res = CheckForCollisionP(*shape,*groundline);
+		
 		if(_isspringforcegenerated && shape->type > 1)
-			//spring work and this tye is triangle and square
+			//spring work and this type is triangle and square
 		{
+			
+
 			if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS))
 			{
-				/*cout<<"spring work"<<endl;*/
-				//change the 
+				cout<<"spring work"<<endl;
+				//change the balance of power
 
 
 			}
@@ -112,7 +121,7 @@ void PhysicsThread::CalculatePyhsics2(){
 		//get shape
 		Shape* shape = *ite_vec_shape;
 		//get all points in the shape
-		vector<Point>& pa = shape->points;
+		vector<YPoint>& pa = shape->points;
 		if(shape->type >1)
 		{
 			bool ispushforceony = false;
@@ -126,10 +135,10 @@ void PhysicsThread::CalculatePyhsics2(){
 				shape->direction.y = _springforce.dir_y - shape->direction.y;
 				float dd = sqrt(shape->direction.x * shape->direction.x + shape->direction.y * shape->direction.y);
 				//x force
-				shape->force_x = shape->direction.x * shape->force / dd;
+				shape->work_force_x = shape->direction.x * shape->force / dd;
 				//fy - g  ||||
-				shape->force_y = shape->direction.y * shape->force / dd;
-				shape->force_y = shape->force_y + shape->mass * G_ACCERLATION;
+				shape->work_force_y = shape->direction.y * shape->force / dd;
+				shape->work_force_y = shape->work_force_y + shape->mass * G_ACCERLATION;
 				//////////////////////////////////////////////////////////////////////////
 				//the initialize force only work once, then clear
 				//_checkp reset
@@ -146,18 +155,18 @@ void PhysicsThread::CalculatePyhsics2(){
 			else
 			{
 				//no spring force
-				shape->force_x = 0;
+				shape->work_force_x = 0;
 				//fy = m * g
-				shape->force_y = shape->force_y + shape->mass * G_ACCERLATION; 
+				shape->work_force_y = shape->work_force_y + shape->mass * G_ACCERLATION; 
 				
 			}
 
 			//computing the accerlation
-			shape->acceleration_x = shape->force_x / shape->mass;
-			shape->acceleration_y = shape->force_y / shape->mass;
+			shape->acceleration_x = shape->work_force_x / shape->mass;
+			shape->acceleration_y = shape->work_force_y / shape->mass;
 			//clear force
-			shape->force_x = 0;
-			shape->force_y = 0;
+			shape->work_force_x = 0;
+			shape->work_force_y = 0;
 			//computing the speed
 			shape->old_velocity_x = shape->velocity_x;
 			shape->old_velocity_y = shape->velocity_y;
@@ -186,7 +195,7 @@ void PhysicsThread::CalculatePyhsics2(){
 			Shape* groundline = _shapeShareObject->renderObjects.at(1);
 			if(DectecHit(*shape,*groundline))
 			{
-				shape->force_y = -(shape->mass * G_ACCERLATION);
+				shape->work_force_y = -(shape->mass * G_ACCERLATION);
 // 				midllep_y = 0;
 // 				for(int i=0; i<nsize;i++){
 // 					pa.at(i).y = pa.at(i).y - my;
@@ -217,7 +226,21 @@ void PhysicsThread::CalculatePyhsics2(){
 
 	}
 }
-bool PhysicsThread::DectecHit(const Shape&s1, const Shape&s2){
+bool PhysicsThread::DectecHit(const Shape&s1, const Shape& s2){
+	//JudgePointInPologon
+// 	bool res = false;
+// 	int s1size = s1.points.size();
+// 	int s2size = s2.points.size();
+// 	
+// 	for(int i=0; i<s1size;i++)
+// 	{
+// 		//s1.points.at(i)
+// 		if(JudgePointInPologon( s2,s1.points.at(i),ORIGIN_P_PHYSICS));
+// 
+// 	}
+
+
+
 // 	vector<Point>& s1pa = s1.points;
 // 	vector<Point>& s2pa = s2.points;
 	bool res = false;
@@ -263,7 +286,7 @@ void PhysicsThread::CalculatePyhsics(){
 			//get shape
 			Shape* shape = *ite_vec_shape;
 			//get all points in the shape
-			vector<Point>& pa = shape->points;
+			vector<YPoint>& pa = shape->points;
 			//check the spring start point in or not in the shape's polygon
 			if(shape->type >1)
 			{

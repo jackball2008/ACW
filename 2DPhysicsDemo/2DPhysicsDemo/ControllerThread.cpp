@@ -61,7 +61,7 @@ void ControllerThread::CheckSpringLineStartPointInShape(){
 			ite_vec_shape++){
 
 				Shape* shape = *ite_vec_shape;
-				vector<Point>& pa = shape->points;
+				vector<YPoint>& pa = shape->points;
 
 				//check any pologon besides line
 				if(shape->type >1){

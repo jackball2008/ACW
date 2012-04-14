@@ -18,7 +18,7 @@ private:
 	ShapeShareObject* _shapeShareObject;
 	MouseShareObject* _mouseShareObject;
 
-	Point _currentmouseposition;
+	YPoint _currentmouseposition;
 
 	bool ishold;
 public:

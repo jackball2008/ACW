@@ -101,10 +101,10 @@ void PhysicsApp::InitializeAllShpes(){
 	int sid = 0;
 	//set springline
 	SpringLine *springLine = new SpringLine();
-	Point sp;
+	YPoint sp;
 	sp.x = ORIGIN_SPRING_X;
 	sp.y = ORIGIN_SPRING_Y;
-	Point ep;
+	YPoint ep;
 	ep.x = ORIGIN_SPRING_X;
 	ep.y = ORIGIN_SPRING_Y;
 	springLine->SetData(sp,ep);
@@ -114,19 +114,20 @@ void PhysicsApp::InitializeAllShpes(){
 
 	//set line
 	Shape* line = new Line();
-	Point p1;
+	YPoint p1;
 	p1.x = -1.0f;
 	p1.y = -0.9f;
-	Point p2;
+	YPoint p2;
 	p2.x = 1.0f;
 	p2.y = -0.9f;
-	Point lmid;
+	YPoint lmid;
 	lmid.x = (p1.x + p2.x) / 2;
 	lmid.y = (p1.y + p2.y) / 2;
 	line->SetData(p1,p2/*,lmid*/);
 	sid++;
 	line->id = sid;
 	line->middlepoint = lmid;
+	line->isfixed = true;
 	//add
 	_shapeShareObject.renderObjects.push_back(line);
 	/*_shapeShareObject.SetData(line);*/
@@ -134,26 +135,26 @@ void PhysicsApp::InitializeAllShpes(){
 
 	//set squares
 	//25 * 4
-	Point tristartp;
+	YPoint tristartp;
 	for(int i = 0; i<1 /*4*/; i ++){
 		for( int j =0; j <1 /*25*/ ; j ++){
-			Point p1;
+			YPoint p1;
 			p1.x = -0.5f + j * 0.04f;
 			p1.y = -0.9f + i * 0.04f;
 
-			Point p2;
+			YPoint p2;
 			p2.x = p1.x + 0.04f;
 			p2.y = p1.y;
 
-			Point p3;
+			YPoint p3;
 			p3.x = p2.x;
 			p3.y = p2.y + 0.04f;
 
-			Point p4;
+			YPoint p4;
 			p4.x = p1.x;
 			p4.y = p3.y;
 
-			Point p5;
+			YPoint p5;
 			p5.x = (float)(p1.x + p3.x + p2.x + p4.x)/4;
 			p5.y = (float)(p1.y + p3.y + p2.y + p4.y)/4;
 
@@ -176,23 +177,23 @@ void PhysicsApp::InitializeAllShpes(){
 	/////////////////////////////
 #ifdef DRAWTRIANGLE
 
-	Point nextlevelstartp;
+	YPoint nextlevelstartp;
 	float h = 0.03464101615f;	
 	for(int i=5; i >0; i--){
 		for(int j=0; j<i;j++){
-			Point p1;
+			YPoint p1;
 			p1 = tristartp;
 
-			Point p2;
+			YPoint p2;
 
 			p2.x = p1.x + 0.04f;
 			p2.y = p1.y;
 
-			Point p3;
+			YPoint p3;
 			p3.x = p1.x + (p2.x - p1.x)/2;
 			p3.y = p1.y + h;
 
-			Point mid;
+			YPoint mid;
 			mid.x = (p1.x + p2.x + p3.x)/3;
 			mid.y = (p1.y + p2.y + p3.y)/3;
 
@@ -213,15 +214,15 @@ void PhysicsApp::InitializeAllShpes(){
 			//set the reverse triangle
 			if( (j+1)<i  ){
 				//reverse
-				Point q1;
+				YPoint q1;
 				q1 = p3;
-				Point q2;
+				YPoint q2;
 				q2 = p2;
-				Point q3;
+				YPoint q3;
 				q3.x = q1.x + 0.04f;
 				q3.y = q1.y;
 
-				Point qmid;
+				YPoint qmid;
 				qmid.x = (q1.x + q2.x + q3.x)/3;
 				qmid.y = (q1.y + q2.y + q3.y)/3;
 

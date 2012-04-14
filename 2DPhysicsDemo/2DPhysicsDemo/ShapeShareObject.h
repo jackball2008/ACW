@@ -22,11 +22,11 @@ public:
 
 	bool left_hold;
 
-	Point mouseposition;
+	YPoint mouseposition;
 	/*Point record_mouseposition;*/
 	/*Point old_mouseposition;*/
-	Point springstartp;
-	Point springendp;
+	YPoint springstartp;
+	YPoint springendp;
 
 public:
 	ShapeShareObject(void);

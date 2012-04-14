@@ -22,10 +22,17 @@ Shape::Shape(void)
 	old_velocity_y = 0.0f;
 
 	force = 0.0f;
-	force_x = 0.0f;
-	force_y = 0.0f;
+	work_force_x = 0.0f;
+	work_force_y = 0.0f;
+	receive_force_x = 0.0f;
+	receive_force_y = 0.0f;
 
 	id = 0;
+
+	canmove_x = false;
+	canmove_y = false;
+
+	isfixed = false;
 }
 
 
