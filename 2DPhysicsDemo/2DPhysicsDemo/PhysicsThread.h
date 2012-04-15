@@ -110,7 +110,7 @@ public:
 			Min_2y=min(min(shapeB.points.at(0).y,shapeB.points.at(1).y),min(shapeB.points.at(2).y,shapeB.points.at(3).y));
 		}
 
-		if(shapeB.middlepoint.x > Max_1x)
+		if(shapeB.middlepoint.x > Max_1x && Max_2y>Min_1y)
 			return true;
 		return false;
 
@@ -171,7 +171,7 @@ public:
 			Min_2y=min(min(shapeB.points.at(0).y,shapeB.points.at(1).y),min(shapeB.points.at(2).y,shapeB.points.at(3).y));
 		}
 
-		if(shapeB.middlepoint.x< Min_1x)
+		if(shapeB.middlepoint.x< Min_1x && Max_2y>Min_1y)
 			return true;
 		return false;
 
