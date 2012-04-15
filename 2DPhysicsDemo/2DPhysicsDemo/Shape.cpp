@@ -12,8 +12,9 @@ Shape::Shape(void)
 
 	hitsometing = false;
 	hitground = false;
-	cantransferpower_y = false;
-	cantransferpower_x = false;
+// 	cantransferpower_y = false;
+// 	cantransferpower_x = false;
+	cantransferpower = false;
 	//power
 	force_all_x = 0;
 	force_all_y = 0;

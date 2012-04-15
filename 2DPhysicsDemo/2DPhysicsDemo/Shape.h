@@ -17,8 +17,9 @@ public:
 	//mark hit something
 	bool hitsometing;
 	bool hitground;
-	bool cantransferpower_y;
-	bool cantransferpower_x;
+// 	bool cantransferpower_y;
+// 	bool cantransferpower_x;
+	bool cantransferpower;
 
 	//power
 	float force_all_x;

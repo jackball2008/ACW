@@ -90,14 +90,14 @@ void PhysicsThread::CalculatePyhsics3(){
 			//judge hit with ground
 			if(ProjectCollisionDetect(*shapeA,*ground))
 			{
-				shapeA->cantransferpower_y = true;
+				shapeA->cantransferpower = true;
 				shapeA->hitground = true;
 				shapeA->hitsometing = true;
 				/*cout<<"g"<<shapeA->id<<endl;*/
 			}
 			else
 			{
-				shapeA->cantransferpower_y = false;
+				shapeA->cantransferpower = false;
 				shapeA->hitground = false;
 				shapeA->hitsometing = false;
 			}
@@ -114,22 +114,29 @@ void PhysicsThread::CalculatePyhsics3(){
 					if(ProjectCollisionDetect(*shapeA,*shapeB))
 					{
 						shapeA->hitsometing = true;
+						if(shapeB->hitground || shapeB->cantransferpower)
+						{
+							shapeA->cantransferpower = true;
+							/*cout<<"under"<<shapeA->id<<" + "<<shapeB->id<<endl;*/
+						}
 						/*cout<<shapeA->id<<" hit "<<shapeB->id<<endl;*/
+						/**
 						if(JudgeBunderA(*shapeA,*shapeB))
 						{
 							// B under A
 							if(shapeB->hitground || shapeB->cantransferpower_y)
 							{
 								shapeA->cantransferpower_y = true;
-								/*cout<<"under"<<endl;*/
+								
 							}
 							
 						}
 						if(JudgeBleftA(*shapeA,*shapeB) || JudgeBrightA(*shapeA,*shapeB))
 						{
 							shapeA->cantransferpower_x = true;
-							/*cout<<"near"<<endl;*/
+							
 						}
+						*/
 
 					}
 
@@ -152,7 +159,7 @@ void PhysicsThread::CalculatePyhsics3(){
 			if(shapeA->type>1)
 			{
 				vector<YPoint>& pa = shapeA->points;
-				if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS) && shapeA->cantransferpower_y)
+				if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS) && shapeA->cantransferpower)
 				{
 					//the force only work on static object
 					shapeA->force_in_y = _springforce.force_y;
