@@ -138,98 +138,33 @@ void PhysicsThread::CalculatePyhsics3(){
 			}
 		}
 
-#ifdef TEST
-
-		if(shapeA->iscommonshape && shapeA->type>1)
-		{		
-			for(vector<Shape*>::iterator shapeBiterator = _shapeShareObject->renderObjects.begin();   
-				shapeBiterator !=  _shapeShareObject->renderObjects.end();  
-				shapeBiterator++)
+	}
+	//////////////////////////////////////////////////////////////////////////
+	//computing spring force
+	if(_isspringforcegenerated)
+	{
+		for(vector<Shape*>::iterator shapeAiterator = _shapeShareObject->renderObjects.begin();   
+			shapeAiterator !=  _shapeShareObject->renderObjects.end();  
+			shapeAiterator++)
+		{
+			Shape* shapeA = *shapeAiterator;
+			//get all points in the shape
+			if(shapeA->type>1)
 			{
-				Shape* shapeB = *shapeBiterator;
-
-				if( !shapeB->isspring &&shapeB->type>0 && shapeA->id != shapeB->id )
+				vector<YPoint>& pa = shapeA->points;
+				if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS) && shapeA->cantransferpower_y)
 				{
-					if(ProjectCollisionDetect(*shapeA,*shapeB))
-					{
-						shapeA->hitsometing = true;
-						if(shapeB->isground)
-						{
-							shapeA->cantransferpower_y = true;
-							shapeA->hitground = true;
-							/*cout<<"ground"<<endl;*/
-						}
-						else
-						{
-							/*shapeA->cantransferpower_y = false;*/
-							if(!shapeA->hitground)
-								shapeA->hitground = false;
-						}
-
-						if(shapeB->iscommonshape)
-						{
-							//hit common shape
-					
-							/*cout<<"common"<<endl;*/
-							if(JudgeBunderA(*shapeA,*shapeB))//still need to improve
-							{
-						
-								if(shapeB->hitground == true || shapeB->cantransferpower_y == true)
-								{
-									shapeA->cantransferpower_y = true;
-	 								/*cout<<"common"<<endl;*/
-								}
-							}
-							else
-							{
-								shapeA->cantransferpower_y = false;
-
-							}
-							if(JudgeBleftA(*shapeA,*shapeB))
-							{
-								shapeA->cantransferpower_x = true;
-								shapeA->force_in_dir_x = -1;
-								/*cout<<"common"<<endl;*/
-							}
-							else
-							{
-								shapeA->cantransferpower_x = false;
-								shapeA->force_in_dir_x = 0;
-							}
-							if(JudgeBrightA(*shapeA,*shapeB))
-							{
-								shapeA->cantransferpower_x = true;
-								shapeA->force_in_dir_x = 1;
-							}
-							else
-							{
-								shapeA->cantransferpower_x = false;
-								shapeA->force_in_dir_x = 0;
-							}
-
-						}
-					}
-					else
-					{
-						//now is flying
-						shapeA->hitsometing = false;
-						shapeA->hitground = false;
-						shapeA->cantransferpower_x = false;
-						shapeA->cantransferpower_y = false;
-					}
-
+					//the force only work on static object
+					shapeA->force_in_y = _springforce.force_y;
+					/*cout<<"spring work = "<<shapeA->force_in_y<<endl;*/
+// 					if(shapeA->cantransferpower_y)
+// 						cout<<"gix"<<endl;
 				}
-				
 
 			}
-
-			//BBBBBBBBBBBBBBBBBBBB
-		
 		}
-		
-#endif
-		
 	}
+	
 	//////////////////////////////////////////////////////////////////////////
 	//calculate force and 
 	for(vector<Shape*>::iterator shapeAiterator = _shapeShareObject->renderObjects.begin();   
@@ -238,11 +173,12 @@ void PhysicsThread::CalculatePyhsics3(){
 	{
 		//get shape
 		Shape* shapeA = *shapeAiterator;
-		//get all points in the shape
-		vector<YPoint>& pa = shapeA->points;
-		//BBBBBBBBBBBBBBBBBBBB
-		if(shapeA->iscommonshape && shapeA->type>1)
+		if(shapeA->type>1)
 		{
+
+
+			//get all points in the shape
+			vector<YPoint>& pa = shapeA->points;
 
 		}
 	}
@@ -256,65 +192,13 @@ void PhysicsThread::CalculatePyhsics3(){
 		Shape* shapeA = *shapeAiterator;
 		//get all points in the shape
 		vector<YPoint>& pa = shapeA->points;
-		//BBBBBBBBBBBBBBBBBBBB
+		
 		if(shapeA->iscommonshape && shapeA->type>1)
 		{
 
 		}
 	}
-	/************************************************************************/
-	/* //add spring force to shapeA
-	if(_isspringforcegenerated)
-	{
-	if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS))
-	{
-	cout<<"common"<<endl;
-	shapeA->force_in_y = _springforce.force_y;
-	if(shapeA->force_in_y>0)
-	shapeA->force_in_dir_y = 1;
-	}
-	else{
-
-	}
-	}
-	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-	//calculate A force banlance
-	float G_A = -5.0f/10000;
-	float G = shapeA->mass * G_A;
-	shapeA->force_out_y = shapeA->force_in_y + G;
-	shapeA->force_in_y = 0;
-	if(shapeA->cantransferpower_y)
-	{
-	if(shapeA->force_out_y > 0)
-	{
-	shapeA->acceleration_y = shapeA->force_out_y / shapeA->mass;
-	shapeA->velocity_y = 0;
-	}
-	else
-	{
-	shapeA->acceleration_y = 0;
-	shapeA->velocity_y = 0;
-	}
-
-
-	}
-	else
-	{
-	//flying///
-	shapeA->acceleration_y = G_A;
-	}
-	shapeA->old_velocity_y = shapeA->velocity_y;
-	shapeA->velocity_y = shapeA->velocity_y + shapeA->acceleration_y * _delta_time;
-	float my = float(shapeA->old_velocity_y * _delta_time + 0.5 * shapeA->acceleration_y * _delta_time * _delta_time);
-	int nsize = pa.size();
-
-	for(int i=0; i<nsize;i++){
-	//pa.at(i).x = pa.at(i).x + mx;
-	pa.at(i).y = pa.at(i).y + my;
-	}
-	shapeA->middlepoint.y = shapeA->middlepoint.y + my;                                                                     */
-	/************************************************************************/
-
+	
 }
 /**
 void PhysicsThread::CalculatePyhsics2(){
