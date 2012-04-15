@@ -87,8 +87,8 @@ void PhysicsThread::CalculatePyhsics3(){
 		if(shapeA->type>1)//shape must be common
 		{
 
-			//judge hit with ground
-			if(ProjectCollisionDetect(*shapeA,*ground))
+			//judge hit with ground ProjectCollisionDetect ProjectGroundCollisionDetect
+			if(ProjectCollisionDetect2(*shapeA,*ground))
 			{
 				shapeA->cantransferpower = true;
 				shapeA->hitground = true;
@@ -97,6 +97,7 @@ void PhysicsThread::CalculatePyhsics3(){
 			}
 			else
 			{
+				/*cout<<"g"<<shapeA->id<<endl;*/
 				shapeA->cantransferpower = false;
 				shapeA->hitground = false;
 				shapeA->hitsometing = false;
@@ -110,39 +111,22 @@ void PhysicsThread::CalculatePyhsics3(){
 				Shape* shapeB = *shapeBiterator;
 				if(shapeB->type > 1 && shapeB->id != shapeA->id )
 				{
-					/*cout<<shapeA->id<<" hit "<<shapeB->id<<endl;*/
-					if(ProjectCollisionDetect(*shapeA,*shapeB))
+					
+					if(ProjectCollisionDetect2(*shapeA,*shapeB))
 					{
 						shapeA->hitsometing = true;
 						if(shapeB->hitground || shapeB->cantransferpower)
 						{
 							shapeA->cantransferpower = true;
-							/*cout<<"under"<<shapeA->id<<" + "<<shapeB->id<<endl;*/
 						}
-						/*cout<<shapeA->id<<" hit "<<shapeB->id<<endl;*/
-						/**
-						if(JudgeBunderA(*shapeA,*shapeB))
-						{
-							// B under A
-							if(shapeB->hitground || shapeB->cantransferpower_y)
-							{
-								shapeA->cantransferpower_y = true;
-								
-							}
-							
-						}
-						if(JudgeBleftA(*shapeA,*shapeB) || JudgeBrightA(*shapeA,*shapeB))
-						{
-							shapeA->cantransferpower_x = true;
-							
-						}
-						*/
 
 					}
 
 				}
 
 			}
+
+			
 		}
 
 	}
@@ -161,13 +145,38 @@ void PhysicsThread::CalculatePyhsics3(){
 				vector<YPoint>& pa = shapeA->points;
 				if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS) && shapeA->cantransferpower)
 				{
+					cout<<"spring in "<<shapeA->id<<endl;
 					//the force only work on static object
 					shapeA->force_in_y = _springforce.force_y;
-					/*cout<<"spring work = "<<shapeA->force_in_y<<endl;*/
-// 					if(shapeA->cantransferpower_y)
-// 						cout<<"gix"<<endl;
+					shapeA->force_in_x = _springforce.force_x;
+					
+					/////////////////////////////////////////
+					if(shapeA->force_in_y > 0)
+						shapeA->force_in_dir_y = 1;
+					if(shapeA->force_in_y == 0)
+						shapeA->force_in_dir_y = 0;
+					if(shapeA->force_in_y < 0)
+						shapeA->force_in_dir_y = -1;
+					/////////////////////////////////////////
+					if(shapeA->force_in_x > 0)
+						shapeA->force_in_dir_x = 1;
+					if(shapeA->force_in_x == 0)
+						shapeA->force_in_dir_x = 0;
+					if(shapeA->force_in_x < 0)
+						shapeA->force_in_dir_x = -1;
+					////////////////////////////////////////
+					
 					break;
 				}
+				if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS) && !shapeA->cantransferpower)
+				{
+					cout<<"11111"<<endl;
+				}
+// 				if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS))
+// 				{
+// 					cout<<"22222"<<endl;
+// 				}
+				
 
 			}
 		}
@@ -183,7 +192,6 @@ void PhysicsThread::CalculatePyhsics3(){
 		Shape* shapeA = *shapeAiterator;
 		if(shapeA->type>1)
 		{
-
 
 			//get all points in the shape
 			vector<YPoint>& pa = shapeA->points;
@@ -206,7 +214,6 @@ void PhysicsThread::CalculatePyhsics3(){
 
 		}
 	}
-	
 }
 /**
 void PhysicsThread::CalculatePyhsics2(){

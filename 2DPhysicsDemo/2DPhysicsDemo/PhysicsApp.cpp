@@ -97,6 +97,7 @@ void PhysicsApp::OnDestroy(){
 /* private function                                                                     */
 /************************************************************************/
 #define DRAWTRIANGLE1
+#define ADDTESTSQUARE
 void PhysicsApp::InitializeAllShpes(){
 	int sid = 0;
 	//set springline
@@ -137,11 +138,38 @@ void PhysicsApp::InitializeAllShpes(){
 	/*_shapeShareObject.SetData(line);*/
 
 
+#ifdef ADDTESTSQUARE
+	{
+		YPoint tp1;
+		tp1.x = 0.02f+0.5f;
+		tp1.y = 0.02f;
+		YPoint tp2;
+		tp2.x = -0.02f+0.5f;
+		tp2.y = 0.02f;
+		YPoint tp3;
+		tp3.x = -0.02f+0.5f;
+		tp3.y = -0.02f;
+		YPoint tp4;
+		tp4.x = 0.02f+0.5f;
+		tp4.y = -0.02f;
+		YPoint tpm;
+		tpm.x = 0.0f+0.5f;
+		tpm.y = 0.0f;
+		Shape* tsquare = new Square();
+		tsquare->SetData(tp1,tp2,tp3,tp4);
+		sid++;
+		tsquare->id = sid;
+		tsquare->middlepoint = tpm;
+		_shapeShareObject.renderObjects.push_back(tsquare);
+
+	}
+#endif
+
 	//set squares
 	//25 * 4
 	YPoint tristartp;
-	for(int i = 0; i<2 /*4*/; i ++){
-		for( int j =0; j <1 /*25*/ ; j ++){
+	for(int i = 0; i<3 /*4*/; i ++){
+		for( int j =0; j <3 /*25*/ ; j ++){
 			YPoint p1;
 			p1.x = -0.5f + j * 0.04f;
 			p1.y = -0.9f + i * 0.04f;

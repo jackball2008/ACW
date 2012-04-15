@@ -11,6 +11,9 @@ const float SPRING_FACTOR = 2.5f/1000;
 const YPoint ORIGIN_P_PHYSICS;
 const float G_ACCERLATION = -1.8f/10000000000;
 const float GROUND_Y = -0.9f;
+
+const float skin = 0.000001f;
+
 class PhysicsThread :
 	public MyThread
 {
@@ -240,6 +243,243 @@ public:
 
 	}
 	
+	static bool ProjectGroundCollisionDetect(const Shape &body1, const Shape &body2)
+	{
+		float Max_1x,Max_1y,Min_1x,Min_1y,Max_2x,Max_2y,Min_2x,Min_2y,a=0,b=0,c=0,d=0;
+		/*int    retval = 0;*/
+		//body1
+		int body1size = body1.points.size();
+		int body2size = body2.points.size();
+
+
+
+		if(body1size == 2)
+		{
+			Max_1x=max(body1.points.at(0).x,body1.points.at(1).x);
+			Max_1y=max(body1.points.at(0).y,body1.points.at(1).y);
+
+			Min_1x=min(body1.points.at(0).x,body1.points.at(1).x);
+			Min_1y=min(body1.points.at(0).y,body1.points.at(1).y);
+		}
+		if(body1size == 3)
+		{
+			Max_1x=max(max(body1.points.at(0).x,body1.points.at(1).x),body1.points.at(2).x);
+			Max_1y=max(max(body1.points.at(0).y,body1.points.at(1).y),body1.points.at(2).y);
+
+			Min_1x=min(min(body1.points.at(0).x,body1.points.at(1).x),body1.points.at(2).x);
+			Min_1y=min(min(body1.points.at(0).y,body1.points.at(1).y),body1.points.at(2).y);
+		}
+		if(body1size == 4)
+		{
+			Max_1x=max(max(body1.points.at(0).x,body1.points.at(1).x),max(body1.points.at(2).x,body1.points.at(3).x));
+			Max_1y=max(max(body1.points.at(0).y,body1.points.at(1).y),max(body1.points.at(2).y,body1.points.at(3).y));
+
+			Min_1x=min(min(body1.points.at(0).x,body1.points.at(1).x),min(body1.points.at(2).x,body1.points.at(3).x));
+			Min_1y=min(min(body1.points.at(0).y,body1.points.at(1).y),min(body1.points.at(2).y,body1.points.at(3).y));
+		}
+
+		if(body2size == 2)
+		{
+			Max_2x=max(body2.points.at(0).x,body2.points.at(1).x);
+			Max_2y=max(body2.points.at(0).y,body2.points.at(1).y);
+
+			Min_2x=min(body2.points.at(0).x,body2.points.at(1).x);
+			Min_2y=min(body2.points.at(0).y,body2.points.at(1).y);
+		}
+		if(body2size == 3)
+		{
+			Max_2x=max(max(body2.points.at(0).x,body2.points.at(1).x),body2.points.at(2).x);
+			Max_2y=max(max(body2.points.at(0).y,body2.points.at(1).y),body2.points.at(2).y);
+
+			Min_2x=min(min(body2.points.at(0).x,body2.points.at(1).x),body2.points.at(2).x);
+			Min_2y=min(min(body2.points.at(0).y,body2.points.at(1).y),body2.points.at(2).y);
+		}
+		if(body2size == 4)
+		{
+			Max_2x=max(max(body2.points.at(0).x,body2.points.at(1).x),max(body2.points.at(2).x,body2.points.at(3).x));
+			Max_2y=max(max(body2.points.at(0).y,body2.points.at(1).y),max(body2.points.at(2).y,body2.points.at(3).y));
+
+			Min_2x=min(min(body2.points.at(0).x,body2.points.at(1).x),min(body2.points.at(2).x,body2.points.at(3).x));
+			Min_2y=min(min(body2.points.at(0).y,body2.points.at(1).y),min(body2.points.at(2).y,body2.points.at(3).y));
+		}
+
+
+		if(Min_1y <= Max_2y || Min_1y <= Min_2y)
+			return true;
+		else
+			return false;
+
+	
+		if (Min_1x<Min_2x)
+		{
+			a=Min_2x-Max_1x;
+
+		} 
+		else
+		{
+			b=Min_1x-Max_2x;
+		}
+
+		//compare projection from y axis
+		if (Min_1y<Min_2y)
+		{
+			c=Min_2y-Max_1y;
+		}
+		else
+		{
+			d=Min_1y-Max_2y;
+		}
+
+
+		//test collision
+		bool res;
+		if ((a<0)&&(c<=0))
+		{
+			/*return true;*/
+			res = true;
+		} 
+		else if ((a<0)&&(d<=0))
+		{
+			/*return true;*/
+			res = true;
+		} 
+		else if((b<0)&&(c<=0))
+		{
+			/*return true;*/
+			res = true;
+		}
+		else if((b<0)&&(d<=0)){
+			/*return true;*/
+			res = true;
+		}
+		else{
+			/*return false;*/
+			res = false;
+		}
+		return res;
+	}
+	static bool ProjectCollisionDetect2(const Shape &body1, const Shape &body2){
+
+		float Max_1x,Max_1y,Min_1x,Min_1y,Max_2x,Max_2y,Min_2x,Min_2y,a=0,b=0,c=0,d=0;
+		/*int    retval = 0;*/
+		//body1
+		int body1size = body1.points.size();
+		int body2size = body2.points.size();
+
+
+
+		if(body1size == 2)
+		{
+			Max_1x=max(body1.points.at(0).x,body1.points.at(1).x);
+			Max_1y=max(body1.points.at(0).y,body1.points.at(1).y);
+
+			Min_1x=min(body1.points.at(0).x,body1.points.at(1).x);
+			Min_1y=min(body1.points.at(0).y,body1.points.at(1).y);
+		}
+		if(body1size == 3)
+		{
+			Max_1x=max(max(body1.points.at(0).x,body1.points.at(1).x),body1.points.at(2).x);
+			Max_1y=max(max(body1.points.at(0).y,body1.points.at(1).y),body1.points.at(2).y);
+
+			Min_1x=min(min(body1.points.at(0).x,body1.points.at(1).x),body1.points.at(2).x);
+			Min_1y=min(min(body1.points.at(0).y,body1.points.at(1).y),body1.points.at(2).y);
+		}
+		if(body1size == 4)
+		{
+			Max_1x=max(max(body1.points.at(0).x,body1.points.at(1).x),max(body1.points.at(2).x,body1.points.at(3).x));
+			Max_1y=max(max(body1.points.at(0).y,body1.points.at(1).y),max(body1.points.at(2).y,body1.points.at(3).y));
+
+			Min_1x=min(min(body1.points.at(0).x,body1.points.at(1).x),min(body1.points.at(2).x,body1.points.at(3).x));
+			Min_1y=min(min(body1.points.at(0).y,body1.points.at(1).y),min(body1.points.at(2).y,body1.points.at(3).y));
+		}
+
+		if(body2size == 2)
+		{
+			Max_2x=max(body2.points.at(0).x,body2.points.at(1).x);
+			Max_2y=max(body2.points.at(0).y,body2.points.at(1).y);
+
+			Min_2x=min(body2.points.at(0).x,body2.points.at(1).x);
+			Min_2y=min(body2.points.at(0).y,body2.points.at(1).y);
+		}
+		if(body2size == 3)
+		{
+			Max_2x=max(max(body2.points.at(0).x,body2.points.at(1).x),body2.points.at(2).x);
+			Max_2y=max(max(body2.points.at(0).y,body2.points.at(1).y),body2.points.at(2).y);
+
+			Min_2x=min(min(body2.points.at(0).x,body2.points.at(1).x),body2.points.at(2).x);
+			Min_2y=min(min(body2.points.at(0).y,body2.points.at(1).y),body2.points.at(2).y);
+		}
+		if(body2size == 4)
+		{
+			Max_2x=max(max(body2.points.at(0).x,body2.points.at(1).x),max(body2.points.at(2).x,body2.points.at(3).x));
+			Max_2y=max(max(body2.points.at(0).y,body2.points.at(1).y),max(body2.points.at(2).y,body2.points.at(3).y));
+
+			Min_2x=min(min(body2.points.at(0).x,body2.points.at(1).x),min(body2.points.at(2).x,body2.points.at(3).x));
+			Min_2y=min(min(body2.points.at(0).y,body2.points.at(1).y),min(body2.points.at(2).y,body2.points.at(3).y));
+		}
+		//Max_1x Max_1y Min_1x  Min_1y
+		//Max_2x  Max_2y Min_2x  Min_2y
+		
+		Max_1x = Max_1x + skin;
+		Max_1y = Max_1y + skin;
+		Min_1x = Min_1x - skin;
+		Min_1y = Min_1y - skin;
+		Max_2x = Max_2x + skin;
+		Max_2y = Max_2y + skin;
+		Min_2x = Min_2x - skin;
+		Min_2y = Min_2y - skin;
+
+		
+
+		// compare projection from x axis
+		if (Min_1x<Min_2x)
+		{
+			a=Min_2x-Max_1x;
+
+		} 
+		else
+		{
+			b=Min_1x-Max_2x;
+		}
+
+		//compare projection from y axis
+		if (Min_1y<Min_2y)
+		{
+			c=Min_2y-Max_1y;
+		}
+		else
+		{
+			d=Min_1y-Max_2y;
+		}
+
+
+		//test collision
+		bool res;
+		if ((a<0)&&(c<0))
+		{
+			/*return true;*/
+			res = true;
+		} 
+		else if ((a<0)&&(d<0))
+		{
+			/*return true;*/
+			res = true;
+		} 
+		else if((b<0)&&(c<0))
+		{
+			/*return true;*/
+			res = true;
+		}
+		else if((b<0)&&(d<0)){
+			/*return true;*/
+			res = true;
+		}
+		else{
+			/*return false;*/
+			res = false;
+		}
+		return res;
+	}
 	static bool ProjectCollisionDetect(const Shape &body1, const Shape &body2){
 
 		float Max_1x,Max_1y,Min_1x,Min_1y,Max_2x,Max_2y,Min_2x,Min_2y,a=0,b=0,c=0,d=0;
@@ -338,25 +578,31 @@ public:
 
 
 		//test collision
+		bool res;
 		if ((a<0)&&(c<0))
 		{
-			return true;
+			/*return true;*/
+			res = true;
 		} 
 		else if ((a<0)&&(d<0))
 		{
-			return true;
+			/*return true;*/
+			res = true;
 		} 
 		else if((b<0)&&(c<0))
 		{
-			return true;
+			/*return true;*/
+			res = true;
 		}
 		else if((b<0)&&(d<0)){
-			return true;
+			/*return true;*/
+			res = true;
 		}
 		else{
-			return true;
+			/*return false;*/
+			res = false;
 		}
-		return false;
+		return res;
 	}
 	//////////////////////////////////////////////////////////////////////////
 	static bool JudgePointInTriangle(const vector<YPoint>& pa,const YPoint& mp,const YPoint& ori){
