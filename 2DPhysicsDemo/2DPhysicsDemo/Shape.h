@@ -21,6 +21,8 @@ public:
 	bool cantransferpower_x;
 
 	//power
+	float force_all_x;
+	float force_all_y;
 	//work and receive force on X
 	float force_out_x;
 	float force_in_x;
@@ -40,10 +42,12 @@ public:
 	float acceleration_y;
 	
 	//shape own properties
+	int type;
+
 	bool isrigibody;
-	bool isground;
-	bool iscommonshape;
-	bool isspring;
+// 	bool isground;
+// 	bool iscommonshape;
+// 	bool isspring;
 	
 
 	YPoint middlepoint;
@@ -56,8 +60,7 @@ public:
 	float point_mass;
 	//color
 	float r,g,b;
-	//mark
-	int type;
+	
 
 	bool isvisiable;
 

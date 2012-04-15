@@ -110,8 +110,8 @@ void PhysicsApp::InitializeAllShpes(){
 	springLine->SetData(sp,ep);
 	sid++;
 	springLine->id = sid;
-	springLine->isspring = true;
-	springLine->iscommonshape = false;
+// 	springLine->isspring = true;
+// 	springLine->iscommonshape = false;
 	_shapeShareObject.renderObjects.push_back(springLine);
 
 	//set ground
@@ -129,9 +129,9 @@ void PhysicsApp::InitializeAllShpes(){
 	sid++;
 	ground->id = sid;
 	ground->middlepoint = lmid;
-	ground->isground = true;
-	ground->iscommonshape = false;
-	ground->isspring = false;
+// 	ground->isground = true;
+// 	ground->iscommonshape = false;
+// 	ground->isspring = false;
 	//add
 	_shapeShareObject.renderObjects.push_back(ground);
 	/*_shapeShareObject.SetData(line);*/

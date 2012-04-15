@@ -159,6 +159,7 @@ void PhysicsThread::CalculatePyhsics3(){
 					/*cout<<"spring work = "<<shapeA->force_in_y<<endl;*/
 // 					if(shapeA->cantransferpower_y)
 // 						cout<<"gix"<<endl;
+					break;
 				}
 
 			}
@@ -193,7 +194,7 @@ void PhysicsThread::CalculatePyhsics3(){
 		//get all points in the shape
 		vector<YPoint>& pa = shapeA->points;
 		
-		if(shapeA->iscommonshape && shapeA->type>1)
+		if(/*shapeA->iscommonshape &&*/ shapeA->type>1)
 		{
 
 		}

@@ -15,6 +15,8 @@ Shape::Shape(void)
 	cantransferpower_y = false;
 	cantransferpower_x = false;
 	//power
+	force_all_x = 0;
+	force_all_y = 0;
 	//work and receive force on X
 	force_out_x = 0.0f;
 	force_in_x = 0.0f;
@@ -34,9 +36,9 @@ Shape::Shape(void)
 	acceleration_y = 0.0f;
 	//
 	isrigibody = true;
-	isground = false;
-	iscommonshape = true;
-	isspring = false;
+// 	isground = false;
+// 	iscommonshape = true;
+// 	isspring = false;
 
 	r=1.0f;
 	g=1.0f;
