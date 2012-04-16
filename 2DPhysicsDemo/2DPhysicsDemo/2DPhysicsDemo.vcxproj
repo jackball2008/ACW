@@ -81,6 +81,7 @@
     <ClInclude Include="Force.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="MouseShareObject.h" />
+    <ClInclude Include="Mmath.h" />
     <ClInclude Include="MyThread.h" />
     <ClInclude Include="MyWindow.h" />
     <ClInclude Include="NetReceiveThread.h" />

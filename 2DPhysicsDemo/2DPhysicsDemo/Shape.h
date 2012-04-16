@@ -1,6 +1,7 @@
 #pragma once
 #include "Point.h"
 #include <vector>
+#include "Mmath.h"
 using namespace std;
 class Shape
 {
@@ -8,6 +9,9 @@ class Shape
 public:
 	//store points
 	vector<YPoint>points;
+
+	Vector velocity;
+
 
 	float mgh_power;
 	float erfenzhiyimvfang_x;

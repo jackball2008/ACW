@@ -59,7 +59,7 @@ int PhysicsThread::run(){
 					}
 					//////////////////////////////////////////
 					//start to compute the physics
-					CalculatePyhsics3();
+					CalculatePyhsics4();
 					
 				}
 
@@ -73,9 +73,57 @@ int PhysicsThread::run(){
 	}
 	return 0;
 }
-void PhysicsThread::CalculatePyhsics3()
+void PhysicsThread::CalculatePyhsics4()
 {
+	//get ground before use 
+	Shape* ground = _shapeShareObject->renderObjects.at(1);
+	for(vector<Shape*>::iterator shapeAiterator = _shapeShareObject->renderObjects.begin();   
+		shapeAiterator !=  _shapeShareObject->renderObjects.end();  
+		shapeAiterator++)
+	{
+		Shape* shapeA = *shapeAiterator;
+		if(shapeA->type>1)//shape must be common
+		{
+			for(vector<Shape*>::iterator shapeBiterator = _shapeShareObject->renderObjects.begin();   
+				shapeBiterator !=  _shapeShareObject->renderObjects.end();  
+				shapeBiterator++)
+			{
+				Shape* shapeB = *shapeBiterator;
+				if(shapeB->type > 0 && shapeB->id != shapeA->id )
+				{
+					shapeA->hitsometing = true;
+					//hit ground
+					if(shapeB->type == 1)
+					{
+						shapeA->hitground = true;
+						shapeA->cantransferpower = true;
+						//do some response
+						if(shapeA->velocity_y <= 0)
+							shapeA->velocity_y = 0;
+					}
+					else
+					{
+						shapeA->hitground = false;
+						shapeA->cantransferpower = false;
+					}
+					//hit common
+					if(shapeB->type > 1)
+					{
+						//do some response
 
+
+
+
+
+					}
+
+				}
+
+			}
+
+
+		}
+	}
 }
 //only think about the Y axix
 void PhysicsThread::CalculatePyhsics3(){
@@ -193,7 +241,7 @@ void PhysicsThread::CalculatePyhsics3(){
 	
 	//////////////////////////////////////////////////////////////////////////
 	//calculate force and a move
-	const float ga = -0.000001;
+	const float ga = -0.000001f;
 	for(vector<Shape*>::iterator shapeAiterator = _shapeShareObject->renderObjects.begin();   
 		shapeAiterator !=  _shapeShareObject->renderObjects.end();  
 		shapeAiterator++)
@@ -223,8 +271,8 @@ void PhysicsThread::CalculatePyhsics3(){
 			shapeA->velocity_x = shapeA->old_velocity_x + shapeA->acceleration_x * _delta_time;
 			shapeA->velocity_y = shapeA->old_velocity_y + shapeA->acceleration_y * _delta_time;
 
-			float mx = shapeA->old_velocity_x * _delta_time + 0.5 * shapeA->acceleration_x * _delta_time * _delta_time;
-			float my = shapeA->old_velocity_y * _delta_time + 0.5 * shapeA->acceleration_y * _delta_time * _delta_time;
+			float mx = float(shapeA->old_velocity_x * _delta_time + 0.5 * shapeA->acceleration_x * _delta_time * _delta_time);
+			float my = float(shapeA->old_velocity_y * _delta_time + 0.5 * shapeA->acceleration_y * _delta_time * _delta_time);
 
 			shapeA->acceleration_x = 0;
 			shapeA->acceleration_y = 0;

@@ -20,3 +20,14 @@ struct   YLineSeg{
 	YPoint   a,b;   
 }; 
 
+struct Velocity{
+	float Vx;
+	float Vy;
+public:
+	Velocity()
+	{
+		Vx = 0;
+		Vy = 0;
+	}
+};
+
