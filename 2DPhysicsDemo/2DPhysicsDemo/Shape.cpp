@@ -16,8 +16,8 @@ Shape::Shape(void)
 // 	cantransferpower_x = false;
 	cantransferpower = false;
 	//power
-	force_all_x = 0;
-	force_all_y = 0;
+	force_all_x = 0.0f;
+	force_all_y = 0.0f;
 	//work and receive force on X
 	force_out_x = 0.0f;
 	force_in_x = 0.0f;

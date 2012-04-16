@@ -126,6 +126,20 @@ void PhysicsThread::CalculatePyhsics3(){
 
 			}
 
+
+			if(shapeA->hitground)
+			{
+
+				shapeA->r = 1.0;
+				shapeA->g = 1,0;
+				shapeA->b = 0.0;
+			}
+			else
+			{
+				shapeA->r = 1.0;
+				shapeA->g = 0,0;
+				shapeA->b = 0.0;
+			}
 			
 		}
 
@@ -167,23 +181,15 @@ void PhysicsThread::CalculatePyhsics3(){
 					////////////////////////////////////////
 					
 					break;
-				}
-				if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS) && !shapeA->cantransferpower)
-				{
-					cout<<"11111"<<endl;
-				}
-// 				if(JudgePointInPologon(pa,_springforceworkposition,ORIGIN_P_PHYSICS))
-// 				{
-// 					cout<<"22222"<<endl;
-// 				}
-				
+				}				
 
 			}
 		}
 	}
 	
 	//////////////////////////////////////////////////////////////////////////
-	//calculate force and 
+	//calculate force and a move
+	const float ga = -0.000001;
 	for(vector<Shape*>::iterator shapeAiterator = _shapeShareObject->renderObjects.begin();   
 		shapeAiterator !=  _shapeShareObject->renderObjects.end();  
 		shapeAiterator++)
@@ -192,28 +198,60 @@ void PhysicsThread::CalculatePyhsics3(){
 		Shape* shapeA = *shapeAiterator;
 		if(shapeA->type>1)
 		{
+			shapeA->force_all_x = shapeA->force_in_x;
+			shapeA->force_in_x = 0;
+			shapeA->force_all_y = shapeA->force_in_y + shapeA->mass * ga;
+			shapeA->force_in_y = 0;
+
+			//x a
+			shapeA->acceleration_x = shapeA->force_all_x / shapeA->mass;
+			shapeA->force_all_x = 0;
+
+			//y a
+			shapeA->acceleration_y = shapeA->force_all_y / shapeA->mass;
+			shapeA->force_all_y = 0;
+
+
+			//v x y
+			shapeA->old_velocity_x = shapeA->velocity_x;
+			shapeA->old_velocity_y = shapeA->velocity_y;
+
+			shapeA->velocity_x = shapeA->old_velocity_x + shapeA->acceleration_x * _delta_time;
+			shapeA->velocity_y = shapeA->old_velocity_y + shapeA->acceleration_y * _delta_time;
+
+			float mx = shapeA->old_velocity_x * _delta_time + 0.5 * shapeA->acceleration_x * _delta_time * _delta_time;
+			float my = shapeA->old_velocity_y * _delta_time + 0.5 * shapeA->acceleration_y * _delta_time * _delta_time;
+
+			shapeA->acceleration_x = 0;
+			shapeA->acceleration_y = 0;
+
+			if(shapeA->hitground || shapeA->cantransferpower)
+			{
+				if(my<0)
+				{
+					my = 0;
+					shapeA->velocity_y = 0;
+
+					mx = 0;
+					shapeA->velocity_x = 0;
+				}
+				
+			}
 
 			//get all points in the shape
 			vector<YPoint>& pa = shapeA->points;
+			int size = pa.size();
+			for(int i = 0; i< size; i++)
+			{
+				pa.at(i).x = pa.at(i).x + mx;
+				pa.at(i).y = pa.at(i).y + my;
+			}
+			shapeA->middlepoint.y = shapeA->middlepoint.y + my;
+			shapeA->middlepoint.x = shapeA->middlepoint.x + mx;
 
 		}
 	}
-	//////////////////////////////////////////////////////////////////////////
-	//computing the movement
-	for(vector<Shape*>::iterator shapeAiterator = _shapeShareObject->renderObjects.begin();   
-		shapeAiterator !=  _shapeShareObject->renderObjects.end();  
-		shapeAiterator++)
-	{
-		//get shape
-		Shape* shapeA = *shapeAiterator;
-		//get all points in the shape
-		vector<YPoint>& pa = shapeA->points;
-		
-		if(/*shapeA->iscommonshape &&*/ shapeA->type>1)
-		{
-
-		}
-	}
+	
 }
 /**
 void PhysicsThread::CalculatePyhsics2(){

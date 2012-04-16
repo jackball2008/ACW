@@ -454,31 +454,32 @@ public:
 
 
 		//test collision
-		bool res;
+		/*bool res;*/
 		if ((a<0)&&(c<0))
 		{
-			/*return true;*/
-			res = true;
+			return true;
+			/*res = true;*/
 		} 
 		else if ((a<0)&&(d<0))
 		{
-			/*return true;*/
-			res = true;
+			return true;
+			/*res = true;*/
 		} 
 		else if((b<0)&&(c<0))
 		{
-			/*return true;*/
-			res = true;
+			return true;
+			/*res = true;*/
 		}
 		else if((b<0)&&(d<0)){
-			/*return true;*/
-			res = true;
+			return true;
+			/*res = true;*/
 		}
 		else{
-			/*return false;*/
-			res = false;
+			return false;
+			/*res = false;*/
 		}
-		return res;
+		/*return res;*/
+		return false;
 	}
 	static bool ProjectCollisionDetect(const Shape &body1, const Shape &body2){
 
