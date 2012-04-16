@@ -36,6 +36,7 @@ private:
 // 	void CalculatePyhsics();
 // 	void CalculatePyhsics2();
 	void CalculatePyhsics3();
+	void CalculatePyhsics4();
 
 	/*bool DectecHit(const Shape&s1, const Shape&s2);*/
 

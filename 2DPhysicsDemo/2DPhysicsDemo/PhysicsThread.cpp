@@ -73,6 +73,10 @@ int PhysicsThread::run(){
 	}
 	return 0;
 }
+void PhysicsThread::CalculatePyhsics3()
+{
+
+}
 //only think about the Y axix
 void PhysicsThread::CalculatePyhsics3(){
 	//get ground before use 
