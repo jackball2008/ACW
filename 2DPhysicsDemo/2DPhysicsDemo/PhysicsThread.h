@@ -38,8 +38,8 @@ private:
 	void CalculateDeltaTime();
 // 	void CalculatePyhsics();
 // 	void CalculatePyhsics2();
-	void CalculatePyhsics3();
-	void CalculatePyhsics4();
+// 	void CalculatePyhsics3();
+// 	void CalculatePyhsics4();
 	void CalculatePyhsics5();
 
 	void CheckHitGround(Shape* p);

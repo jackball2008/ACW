@@ -1,20 +1,46 @@
 #include <GXBase.h>
+#include <math.h>
 using namespace gxbase;
-#include <vector>
-using namespace std;
+// #include <vector>
+// using namespace std;
+
+const float ptol = 0.00000001f;
 
 struct YPoint{
+public:
 	float x;
 	float y;
-public:
+
 	YPoint(){
-		x=0;y=0;
+		x=0;
+		y=0;
 	};
 
 	YPoint(const float& _x, const float& _y){
 		x = _x;
 		y = _y;
 	};
+
+
+	inline float Magnitude()
+	{
+		return (float)sqrt(x*x+y*y);
+	}
+
+	inline void Normalize(){
+		float m = (float)sqrt(x*x+y*y);
+		if(m<= ptol)m =1;
+		x/= m;
+		y/= m;
+		
+		if (fabs(x) < ptol) x =0.0f;
+		if (fabs(x) < ptol) y =0.0f;
+	}
+	inline void Reverse(){
+		x =-x;
+		y =-y;
+	}
+	
 };
 struct   YLineSeg{   
 	YPoint   a,b;   

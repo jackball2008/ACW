@@ -57,30 +57,26 @@ void	MyWindow::OnDisplay(){
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	if(_shapeShareObject->ground->isvisiable){
+	
 		//draw line
 
-		glColor3f(_shapeShareObject->ground->r,_shapeShareObject->ground->g,_shapeShareObject->ground->b);
+	glColor3f(_shapeShareObject->ground->r,_shapeShareObject->ground->g,_shapeShareObject->ground->b);
 
-		glBegin(GL_LINES);
-		glVertex2f(_shapeShareObject->ground->points.at(0).x, _shapeShareObject->ground->points.at(0).y);
-		glVertex2f(_shapeShareObject->ground->points.at(1).x, _shapeShareObject->ground->points.at(1).y);
+	glBegin(GL_LINES);
+	glVertex2f(_shapeShareObject->ground->points.at(0).x, _shapeShareObject->ground->points.at(0).y);
+	glVertex2f(_shapeShareObject->ground->points.at(1).x, _shapeShareObject->ground->points.at(1).y);
 
-		glEnd();
-
-	}
+	glEnd();
+	//////////////////////////////////////////////////////////////////////////
 	
-	/*vector<Shape*> plist = _shapeShareObject->GetData();*/
+	
+	//Draw squares and triangles
 	for(vector<Shape*>::iterator ite_vec_shape = _shapeShareObject->renderObjects.begin();   
 		ite_vec_shape !=  _shapeShareObject->renderObjects.end();  
 		ite_vec_shape++){  
 			
-			
 			Shape* shape = *ite_vec_shape;
 			vector<YPoint>& pa = shape->points;
-			/*vector<Point>* pa = &shape->points;*/
-
-			
 			
 			if(shape->type == 2 && shape->isvisiable){
 				//draw triangles

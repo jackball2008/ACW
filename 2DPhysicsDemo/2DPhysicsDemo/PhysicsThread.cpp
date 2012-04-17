@@ -35,24 +35,24 @@ int PhysicsThread::run(){
 					if(!_shapeShareObject->left_hold && _springforce.length >0){
 						/*cout<<"L = "<<springlength<<endl;*/
 						//get spring force
-						float allforce = SPRING_FACTOR * _springforce.length;
+						_springforce.allforce = SPRING_FACTOR * _springforce.length;
 						//get force direction
 						_springforce.dir_x = _shapeShareObject->springendp.x - _shapeShareObject->springstartp.x;
 						_springforce.dir_y = _shapeShareObject->springendp.y - _shapeShareObject->springstartp.y;
 						//computing force x y
 						float dd = sqrt(_springforce.dir_x * _springforce.dir_x + _springforce.dir_y * _springforce.dir_y);
-						_springforce.force_x = _springforce.dir_x * allforce / dd;
-						_springforce.force_y = _springforce.dir_y * allforce / dd;
+						_springforce.force_x = _springforce.dir_x * _springforce.allforce / dd;
+						_springforce.force_y = _springforce.dir_y * _springforce.allforce / dd;
 						//save the position to a Point, easy to computing later
 						_springforceworkposition.x = _shapeShareObject->springstartp.x;
 						_springforceworkposition.y = _shapeShareObject->springstartp.y;
 						/*cout<<"clear spring"<<endl;*/
 						//after save the current spring variables, clear the variables in shareobject
-						_shapeShareObject->springstartp.x = 0;
-						_shapeShareObject->springstartp.y = 0;
-						_shapeShareObject->springendp.x = 0;
-						_shapeShareObject->springendp.y = 0;
-
+						_shapeShareObject->springstartp.x = 10;
+						_shapeShareObject->springstartp.y = 10;
+						_shapeShareObject->springendp.x = 10;
+						_shapeShareObject->springendp.y = 10;
+						_springforce.allforce = 0;
 						//mark
 						_isspringforcegenerated = true;
 					}
@@ -82,6 +82,7 @@ void PhysicsThread::CalculatePyhsics5()
 	int objnum = _shapeShareObject->renderObjects.size();
 	if(_isspringforcegenerated)
 	{
+		
 		for(int i = 0; i< objnum;i++)
 		{
 			Shape* shape = _shapeShareObject->renderObjects.at(i);
@@ -89,7 +90,8 @@ void PhysicsThread::CalculatePyhsics5()
 			vector<YPoint>& pa = shape->points;
 			if(JudgePointInPologon(pa,_springforceworkposition,measureP))
 			{
-				cout<<"s in id = "<<shape->id<<endl;
+				cout<<"s in id = "<<shape->id<<"x = "<<_springforce.force_x<<"y = "<<_springforce.force_y<<endl;
+
 				//add spring force
 			}
 		}
@@ -109,6 +111,7 @@ void PhysicsThread::CalculatePyhsics5()
 		{
 			p->x += shape->velocity.x;
 			p->y += shape->velocity.y;
+
 
 			shape->middlepoint.x += p->x;
 			shape->middlepoint.y += p->y;
@@ -130,7 +133,7 @@ void PhysicsThread::CalculatePyhsics5()
 		{
 			Shape* B = _shapeShareObject->renderObjects.at(j);
 
-			CheckCollision(A,B);
+			//CheckCollision(A,B);
 		}
 
 	}
@@ -225,9 +228,9 @@ void PhysicsThread::CheckHitGround(Shape* shape)
 		//make v = 0
 		shape->velocity.y = 0;
 
-		/*shape->r = 1.0;*/
+		
 		shape->g = 0.0;
-		/*shape->b = 0.0;*/
+		
 	}else
 	{
 		shape->g = 1.0;
@@ -235,7 +238,7 @@ void PhysicsThread::CheckHitGround(Shape* shape)
 
 }
 
-
+/**
 void PhysicsThread::CalculatePyhsics4()
 {
 	//get ground before use 
@@ -308,11 +311,11 @@ void PhysicsThread::CalculatePyhsics3(){
 				shapeA->cantransferpower = true;
 				shapeA->hitground = true;
 				shapeA->hitsometing = true;
-				/*cout<<"g"<<shapeA->id<<endl;*/
+				
 			}
 			else
 			{
-				/*cout<<"g"<<shapeA->id<<endl;*/
+				
 				shapeA->cantransferpower = false;
 				shapeA->hitground = false;
 				shapeA->hitsometing = false;
@@ -472,7 +475,7 @@ void PhysicsThread::CalculatePyhsics3(){
 	}
 	
 }
-
+*/
 void PhysicsThread::CalculateDeltaTime(){
 	//Ensure QueryPerformance is called on a specific core
 	SetThreadAffinityMask(thread, 0x1);
