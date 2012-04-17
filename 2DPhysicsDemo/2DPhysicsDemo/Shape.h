@@ -11,7 +11,11 @@ public:
 	vector<YPoint>points;
 	YPoint middlepoint;
 	//velocity
-	Vector velocity;
+	YPoint velocity;
+	//==================================
+	//used in checkCollision
+	YPoint pos;
+	//==================================
 	//mass
 	float mass;
 

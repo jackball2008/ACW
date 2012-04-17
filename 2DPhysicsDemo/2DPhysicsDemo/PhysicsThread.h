@@ -44,6 +44,7 @@ private:
 
 	void CheckHitGround(Shape* p);
 	void CheckCollision(Shape* A, Shape* B);
+	void Rotate(const float&x, const float&y, const float&sinv, const float&cosv, const bool&reserve , YPoint&p);
 
 	/*bool DectecHit(const Shape&s1, const Shape&s2);*/
 

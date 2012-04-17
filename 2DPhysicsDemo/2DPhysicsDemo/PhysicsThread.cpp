@@ -142,8 +142,6 @@ void PhysicsThread::CheckCollision(Shape* shapeA, Shape* shapeB)
 	float dy = shapeB->middlepoint.y - shapeA->middlepoint.y;
 	float dist = sqrt(dx*dx + dy*dy);
 
-	YPoint pos0;
-	YPoint pos1;
 	if(ProjectCollisionDetect2(*shapeA,*shapeB))
 	{
 		// 计算角度和正余弦值
@@ -151,12 +149,43 @@ void PhysicsThread::CheckCollision(Shape* shapeA, Shape* shapeB)
 		float sinv = sin(angle);
 		float cosv = cos(angle);
 		// 旋转 A 的位置 pos0
+		shapeA->pos.x = 0.0f;
+		shapeA->pos.y = 0.0f;
 		//旋转 B 的位置 pos1
+		Rotate(dx,dy,sinv,cosv,true,shapeB->pos);
+		//
+		YPoint velA;
+		Rotate(shapeA->velocity.x,shapeA->velocity.y,sinv,cosv,true,velA);
+		YPoint velB;
+		Rotate(shapeB->velocity.x,shapeB->velocity.y,sinv,cosv,true,velB);
+		//
+		float vxTotal = velA.x - velB.x;
+		velA.x = ((shapeA->mass - shapeB->mass)* velA.x + 2* shapeB->mass * velB.x)/(shapeA->mass + shapeB->mass);
+		velB.x = vxTotal + velA.x;
+		//
+		float absV = abs(velA.x)+abs(velB.x);
+		float overlap = ()
+
 
 
 
 
 	}
+}
+void PhysicsThread::Rotate(const float&x, const float&y, const float&sinv, const float&cosv, const bool&reserve, YPoint&p)
+{
+	/*YPoint res;*/
+	if(reserve)
+	{
+		p.x = x * cosv + y * sinv;
+		p.y = y * cosv - x * sinv;
+	}
+	else
+	{
+		p.x = x * cosv - y * sinv;
+		p.y = y * cosv + x * sinv;
+	}
+	/*return res;*/
 }
 void PhysicsThread::CheckHitGround(Shape* shape)
 {
@@ -175,6 +204,8 @@ void PhysicsThread::CheckHitGround(Shape* shape)
 	}
 
 }
+
+
 void PhysicsThread::CalculatePyhsics4()
 {
 	//get ground before use 
