@@ -166,13 +166,16 @@ void MyPhysics::InitializeElement(vector<_RigidBody>&squarel){
 
 }
 
+
+// set position
+
 void MyPhysics::SetPosititon(_RigidBody *body1,_RigidBody *body2){
 	_RigidBody *square1,*square2;
 	square1=body1;
 	square2=body2;
 
 	square1->vPosition.x= -0.5f;
-	square1->vPosition.y= 0.9f;
+	square1->vPosition.y= -0.9f;
 
 	square1->vFirstpoint.x= square1->vPosition.x-0.02f;
 	square1->vFirstpoint.y= square1->vPosition.y+0.02f;
@@ -255,6 +258,7 @@ void MyPhysics::SetPosititon(_RigidBody square[][20]){
 	}*/
 }
 
+//update position
 void MyPhysics::UpdatePosition(_RigidBody *square1,_RigidBody *square2){
 
 
@@ -316,6 +320,8 @@ void MyPhysics::UpdatePosition(_RigidBody square[][20]){
 	}
 }
 
+
+//update body
 void MyPhysics::UpdateBody(_RigidBody *body, float dtime){
 	Vector Ae;            //accelerate
 	float  Aa;
@@ -368,6 +374,7 @@ void MyPhysics::UpdateBody(_RigidBody square[][20],float dtime){
 
 }
 
+//check collision
 int MyPhysics::CheckForCollisionSimple(_RigidBody *body1, _RigidBody *body2){
 
 	Vector d;
@@ -649,6 +656,9 @@ int MyPhysics::CheckForCollision(_RigidBody *body1, _RigidBody *body2){
 
 }
 
+
+//apply impulse
+
 void MyPhysics::ApplyImpulse(_RigidBody *body1,_RigidBody *body2){
 	
 	double j,Vrt;
@@ -764,8 +774,7 @@ void MyPhysics::StepSimulation(float dt,_RigidBody square[][20]){
 	UpdatePosition(square);
 
 	for(int i = 0; i< 40; i ++){
-		for( int j =0; j < 20 ; j ++){
-
+		for( int j =0; j < 40 ; j ++){
 			check = CheckForCollisionP(square[i],square[j]);
 			if(check == COLLISION)
 		{
@@ -773,20 +782,22 @@ void MyPhysics::StepSimulation(float dt,_RigidBody square[][20]){
 			ApplyImpulseP(square[i], square[j]);
 		}
 	/*}*/
-			}
 		}
+	}
+	
 }
 
 void MyPhysics::Initialize(void){
 	
 	 InitializeElement(square);
-	 square[0][0].vVelocity.x=0.2f;
-	 square[0][0].vVelocity.y=0.2f;
+	 square[0][0].vVelocity.x=2.0f;
+	 square[1][1].vVelocity.x=2.0f;
+	/* square[0][0].vVelocity.y=2.0f;*/
 	 //InitializeElement(&_rigidbody1);
 	 //InitializeElement(&_rigidbody2);
 	 //_rigidbody1.vVelocity.x=0.2f;
 	 /*_rigidbody1.vVelocity.y=0.2f;*/
-	 /*SetPosititon(&_rigidbody1,&_rigidbody2);*/
+	/* SetPosititon(&_rigidbody1,&_rigidbody2);*/
 	 SetPosititon(square);
 
 }

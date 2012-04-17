@@ -13,15 +13,19 @@
   <ItemGroup>
     <ClInclude Include="mymath.h" />
     <ClInclude Include="MyPhysics.h" />
+    <ClInclude Include="MyThread.h" />
     <ClInclude Include="MyWindow.h" />
     <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="ShareMem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mymath.cpp" />
     <ClCompile Include="MyPhysics.cpp" />
+    <ClCompile Include="MyThread.cpp" />
     <ClCompile Include="MyWindow.cpp" />
     <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="ShareMem.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2D078577-5B15-41F7-A752-22092DC489D5}</ProjectGuid>
@@ -32,7 +36,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
