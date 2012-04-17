@@ -136,19 +136,22 @@ void PhysicsThread::CalculatePyhsics5()
 	}
 
 }
-void PhysicsThread::CheckCollision(Shape* A, Shape* B)
+void PhysicsThread::CheckCollision(Shape* shapeA, Shape* shapeB)
 {
-	float dx = B->middlepoint.x - A->middlepoint.x;
-	float dy = B->middlepoint.y - A->middlepoint.y;
+	float dx = shapeB->middlepoint.x - shapeA->middlepoint.x;
+	float dy = shapeB->middlepoint.y - shapeA->middlepoint.y;
 	float dist = sqrt(dx*dx + dy*dy);
 
-	if(ProjectCollisionDetect2(*A,*B))
+	YPoint pos0;
+	YPoint pos1;
+	if(ProjectCollisionDetect2(*shapeA,*shapeB))
 	{
 		// 计算角度和正余弦值
 		float angle = atan2(dy,dx);
 		float sinv = sin(angle);
 		float cosv = cos(angle);
-		// 旋转 A 的位置
+		// 旋转 A 的位置 pos0
+		//旋转 B 的位置 pos1
 
 
 
