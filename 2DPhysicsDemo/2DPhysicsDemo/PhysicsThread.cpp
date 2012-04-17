@@ -5,6 +5,9 @@ PhysicsThread::PhysicsThread(void)
 {
 	_delta_time  = 0.0f;
 	_isspringforcegenerated = false;
+
+	measureP.x = -10;
+	measureP.y = 0;
 }
 
 
@@ -59,7 +62,7 @@ int PhysicsThread::run(){
 					}
 					//////////////////////////////////////////
 					//start to compute the physics
-					CalculatePyhsics4();
+					CalculatePyhsics5();
 					
 				}
 
@@ -72,6 +75,102 @@ int PhysicsThread::run(){
 
 	}
 	return 0;
+}
+void PhysicsThread::CalculatePyhsics5()
+{
+	//change position
+	int objnum = _shapeShareObject->renderObjects.size();
+	if(_isspringforcegenerated)
+	{
+		for(int i = 0; i< objnum;i++)
+		{
+			Shape* shape = _shapeShareObject->renderObjects.at(i);
+
+			vector<YPoint>& pa = shape->points;
+			if(JudgePointInPologon(pa,_springforceworkposition,measureP))
+			{
+				cout<<"s in id = "<<shape->id<<endl;
+				//add spring force
+			}
+		}
+	}
+	
+
+	for(int i = 0; i< objnum;i++)
+	{
+		Shape* shape = _shapeShareObject->renderObjects.at(i);
+		
+		//change position by speed
+		shape->middlepoint.x = 0;
+		shape->middlepoint.y = 0;
+		for(vector<YPoint>::iterator p = shape->points.begin();   
+			p !=  shape->points.end();  
+			p++)
+		{
+			p->x += shape->velocity.x;
+			p->y += shape->velocity.y;
+
+			shape->middlepoint.x += p->x;
+			shape->middlepoint.y += p->y;
+		}
+
+		shape->middlepoint.x = shape->middlepoint.x / shape->points.size();
+		shape->middlepoint.y = shape->middlepoint.y / shape->points.size();
+
+		//checkground
+		CheckHitGround(shape);
+		
+	}
+
+	for(int i = 0; i <(objnum - 1);i++)
+	{
+		Shape* A = _shapeShareObject->renderObjects.at(i);
+		
+		for(int j = i+1; j < objnum; j++  )
+		{
+			Shape* B = _shapeShareObject->renderObjects.at(j);
+
+			CheckCollision(A,B);
+		}
+
+	}
+
+}
+void PhysicsThread::CheckCollision(Shape* A, Shape* B)
+{
+	float dx = B->middlepoint.x - A->middlepoint.x;
+	float dy = B->middlepoint.y - A->middlepoint.y;
+	float dist = sqrt(dx*dx + dy*dy);
+
+	if(ProjectCollisionDetect2(*A,*B))
+	{
+		// 计算角度和正余弦值
+		float angle = atan2(dy,dx);
+		float sinv = sin(angle);
+		float cosv = cos(angle);
+		// 旋转 A 的位置
+
+
+
+
+	}
+}
+void PhysicsThread::CheckHitGround(Shape* shape)
+{
+	
+	if(ProjectCollisionDetect2(*shape,*(_shapeShareObject->ground)))
+	{
+		//make v = 0
+		shape->velocity.y = 0;
+
+		/*shape->r = 1.0;*/
+		shape->g = 0.0;
+		/*shape->b = 0.0;*/
+	}else
+	{
+		shape->g = 1.0;
+	}
+
 }
 void PhysicsThread::CalculatePyhsics4()
 {

@@ -21,6 +21,8 @@ class PhysicsThread :
 private:
 	ShapeShareObject* _shapeShareObject;
 
+	YPoint measureP;
+
 	//ms
 	float _delta_time;
 
@@ -38,6 +40,10 @@ private:
 // 	void CalculatePyhsics2();
 	void CalculatePyhsics3();
 	void CalculatePyhsics4();
+	void CalculatePyhsics5();
+
+	void CheckHitGround(Shape* p);
+	void CheckCollision(Shape* A, Shape* B);
 
 	/*bool DectecHit(const Shape&s1, const Shape&s2);*/
 

@@ -97,11 +97,12 @@ void PhysicsApp::OnDestroy(){
 /************************************************************************/
 /* private function                                                                     */
 /************************************************************************/
-#define DRAWTRIANGLE1
+#define DRAWTRIANGLE
 #define ADDTESTSQUARE1
 void PhysicsApp::InitializeAllShpes(){
 	int sid = 0;
 	//set springline
+	/**
 	SpringLine *springLine = new SpringLine();
 	YPoint sp;
 	sp.x = ORIGIN_SPRING_X;
@@ -112,11 +113,11 @@ void PhysicsApp::InitializeAllShpes(){
 	springLine->SetData(sp,ep);
 	sid++;
 	springLine->id = sid;
-// 	springLine->isspring = true;
-// 	springLine->iscommonshape = false;
-	_shapeShareObject.renderObjects.push_back(springLine);
 
+	_shapeShareObject.renderObjects.push_back(springLine);
+	*/
 	//set ground
+	/**
 	Shape* ground = new Line();
 	YPoint p1;
 	p1.x = -1.0f;
@@ -131,12 +132,9 @@ void PhysicsApp::InitializeAllShpes(){
 	sid++;
 	ground->id = sid;
 	ground->middlepoint = lmid;
-// 	ground->isground = true;
-// 	ground->iscommonshape = false;
-// 	ground->isspring = false;
-	//add
+
 	_shapeShareObject.renderObjects.push_back(ground);
-	/*_shapeShareObject.SetData(line);*/
+	*/
 
 
 #ifdef ADDTESTSQUARE
@@ -169,8 +167,8 @@ void PhysicsApp::InitializeAllShpes(){
 	//set squares
 	//25 * 4
 	YPoint tristartp;
-	for(int i = 0; i<3 /*4*/; i ++){
-		for( int j =0; j <3 /*25*/ ; j ++){
+	for(int i = 0; i<4 /*4*/; i ++){
+		for( int j =0; j <25 /*25*/ ; j ++){
 			YPoint p1;
 			p1.x = -0.5f + j * 0.04f;
 			p1.y = -0.9f + i * 0.04f;

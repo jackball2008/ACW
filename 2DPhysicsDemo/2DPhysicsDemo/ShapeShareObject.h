@@ -3,6 +3,7 @@
 #include "Triangle.h"
 #include "Square.h"
 #include "Line.h"
+#include "SpringLine.h"
 #include <Windows.h>
 
 class ShapeShareObject
@@ -27,6 +28,12 @@ public:
 	/*Point old_mouseposition;*/
 	YPoint springstartp;
 	YPoint springendp;
+
+
+	//spring
+	SpringLine *springLine;
+	//ground
+	Shape* ground;
 
 public:
 	ShapeShareObject(void);

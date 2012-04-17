@@ -9,8 +9,11 @@ class Shape
 public:
 	//store points
 	vector<YPoint>points;
-
+	YPoint middlepoint;
+	//velocity
 	Vector velocity;
+	//mass
+	float mass;
 
 
 	float mgh_power;
@@ -55,13 +58,12 @@ public:
 // 	bool isspring;
 	
 
-	YPoint middlepoint;
+	
 
 	
 	
 	
-	//mass
-	float mass;
+	
 	float point_mass;
 	//color
 	float r,g,b;
