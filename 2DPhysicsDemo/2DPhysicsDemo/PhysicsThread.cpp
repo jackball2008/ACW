@@ -162,13 +162,43 @@ void PhysicsThread::CheckCollision(Shape* shapeA, Shape* shapeB)
 		float vxTotal = velA.x - velB.x;
 		velA.x = ((shapeA->mass - shapeB->mass)* velA.x + 2* shapeB->mass * velB.x)/(shapeA->mass + shapeB->mass);
 		velB.x = vxTotal + velA.x;
-		//
+		//*************************** overlap
 		float absV = abs(velA.x)+abs(velB.x);
-		float overlap = ()
+		float overlap = float((0.02) - abs(shapeA->pos.x - shapeB->pos.x));
+		shapeA->pos.x += velA.x / absV * overlap;
+		shapeB->pos.x += velB.x / absV * overlap;
+		//
+		YPoint posAF;
+		Rotate(shapeA->pos.x, shapeA->pos.y, sinv,cosv,false,posAF);
+		YPoint posBF;
+		Rotate(shapeB->pos.x, shapeB->pos.y, sinv,cosv,false,posBF);
+		//
+		int asize = shapeA->points.size();
+		for(int i = 0;i < asize; i++)
+		{
+			shapeA->points.at(i).x =  shapeA->points.at(i).x + posAF.x;
+			shapeA->points.at(i).y =  shapeA->points.at(i).y + posAF.y;
+		}
+		shapeA->middlepoint.x = shapeA->middlepoint.x + posAF.x;
+		shapeA->middlepoint.y = shapeA->middlepoint.y + posAF.y;
 
-
-
-
+		int bsize = shapeB->points.size();
+		for(int i = 0;i < bsize; i++)
+		{
+			shapeB->points.at(i).x =  shapeB->points.at(i).x + posBF.x;
+			shapeB->points.at(i).y =  shapeB->points.at(i).y + posBF.y;
+		}
+		shapeB->middlepoint.x = shapeB->middlepoint.x + posBF.x;
+		shapeB->middlepoint.y = shapeB->middlepoint.y + posBF.y;
+		//
+		YPoint velAF;
+		Rotate(velA.x, velA.y, sinv, cosv, false, velAF);
+		YPoint velBF;
+		Rotate(velB.x, velB.y, sinv, cosv, false, velBF);
+		shapeA->velocity.x = velAF.x;
+		shapeA->velocity.y = velAF.y;
+		shapeB->velocity.x = velBF.x;
+		shapeB->velocity.y = velBF.y;
 
 	}
 }
