@@ -6,6 +6,9 @@ PhysicsThread::PhysicsThread(void)
 	_delta_time  = 0.0f;
 	_isspringforcegenerated = false;
 
+	ORIGIN_P_PHYSICS.x = 0;
+	ORIGIN_P_PHYSICS.y = 0;
+
 	measureP.x = -10;
 	measureP.y = 0;
 }

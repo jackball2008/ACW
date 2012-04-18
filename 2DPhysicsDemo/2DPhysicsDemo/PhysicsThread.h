@@ -9,7 +9,7 @@ using namespace std;
 
 
 const float SPRING_FACTOR = 2.5f/100000;
-const YPoint ORIGIN_P_PHYSICS;
+/*const YPoint ORIGIN_P_PHYSICS;*/
 const float G_ACCERLATION = -1.8f/1000000000;
 const float GROUND_Y = -0.9f;
 
@@ -20,6 +20,8 @@ class PhysicsThread :
 {
 private:
 	ShapeShareObject* _shapeShareObject;
+
+	vec2f ORIGIN_P_PHYSICS;
 
 	YPoint measureP;
 

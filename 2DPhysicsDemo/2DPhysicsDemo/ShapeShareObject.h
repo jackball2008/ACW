@@ -23,11 +23,11 @@ public:
 
 	bool left_hold;
 
-	YPoint mouseposition;
+	vec2f mouseposition;
 	/*Point record_mouseposition;*/
 	/*Point old_mouseposition;*/
-	YPoint springstartp;
-	YPoint springendp;
+	vec2f springstartp;
+	vec2f springendp;
 
 
 	//spring

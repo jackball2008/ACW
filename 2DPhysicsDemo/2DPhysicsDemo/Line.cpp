@@ -8,7 +8,7 @@ Line::Line(void)
 
 	for(int i=0;i<2;i++)
 	{
-		YPoint p;
+		vec2f p;
 		points.push_back(p);
 	}
 	type = 1;
@@ -34,7 +34,7 @@ Line::~Line(void)
 // 	
 // }
 
-void Line::SetData(const YPoint& p1,const YPoint& p2){
+void Line::SetData(const vec2f& p1,const vec2f& p2){
 	points[0] = p1;
 	points[1] = p2;
 }
