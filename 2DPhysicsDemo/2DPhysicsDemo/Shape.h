@@ -10,8 +10,14 @@ public:
 	//store points
 	vector<YPoint>points;
 	YPoint middlepoint;
+	YPoint force;
+	YPoint springforce;
+	YPoint acceleration;
 	//velocity
 	YPoint velocity;
+	YPoint old_velocity;
+	YPoint movement;
+	int sizeofpoints;
 	//==================================
 	//used in checkCollision
 	YPoint pos;
@@ -99,6 +105,24 @@ public:
 // 	};
 
 	/*const int& GetType(){ return type;};*/
+
+	void UpdatePosition()
+	{
+		float mix = 0;
+		float miy = 0;
+		for(int i = 0; i<sizeofpoints;i++)
+		{
+			points.at(i).x = points.at(i).x+ movement.x;
+			mix = mix + points.at(i).x;
+			points.at(i).y = points.at(i).y+ movement.y;
+			miy = miy + points.at(i).y;
+		}
+		movement.x = 0;
+		movement.y = 0;
+		middlepoint.x = mix / sizeofpoints;
+		middlepoint.y = miy / sizeofpoints;
+
+	}
 
 
 };

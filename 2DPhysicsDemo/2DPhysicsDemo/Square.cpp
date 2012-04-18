@@ -14,6 +14,9 @@ Square::Square(void)
 
 	mass = 1.0f;
 	point_mass = mass/4;
+
+	sizeofpoints = 4;
+
 }
 
 
