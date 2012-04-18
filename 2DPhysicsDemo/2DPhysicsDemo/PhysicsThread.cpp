@@ -81,60 +81,23 @@ int PhysicsThread::run(){
 }
 void PhysicsThread::CalculatePyhsics5()
 {
-	//
+	//change position
 	int objnum = _shapeShareObject->renderObjects.size();
-	//add spring
 	if(_isspringforcegenerated)
 	{
 		
 		for(int i = 0; i< objnum;i++)
 		{
 			Shape* shape = _shapeShareObject->renderObjects.at(i);
-			/*vector<YPoint>& pa = shape->points;*/
-			if(JudgePointInPologon(shape->points,_springforceworkposition,measureP))
+
+			vector<YPoint>& pa = shape->points;
+			if(JudgePointInPologon(pa,_springforceworkposition,measureP))
 			{
-				//cout<<"s in id = "<<shape->id<<" x = "<<_springforce.force_x<<"y = "<<_springforce.force_y<<endl;
+				cout<<"s in id = "<<shape->id<<"x = "<<_springforce.force_x<<"y = "<<_springforce.force_y<<endl;
+
 				//add spring force
-				shape->springforce.x = _springforce.force_x;
-				shape->springforce.y = _springforce.force_y;
-
-				
-
-				break;
 			}
 		}
-	}
-	//computing all force
-	for(int i = 0; i< objnum;i++)
-	{
-		Shape* shape = _shapeShareObject->renderObjects.at(i);
-		shape->force.x = shape->force.x + shape->springforce.x;
-		shape->force.y = shape->mass * G_ACCERLATION + shape->springforce.y;
-
-		shape->springforce.x = 0;
-		shape->springforce.y = 0;
-		//a
-		shape->acceleration.x = shape->force.x / shape->mass;
-		shape->acceleration.y = shape->force.y / shape->mass;
-		//clear force for used in the next run
-		shape->force.x = 0;
-		shape->force.y = 0;
-		//save old v
-		shape->old_velocity.x = shape->velocity.x;
-		shape->old_velocity.y = shape->velocity.y;
-		//get new v
-		shape->velocity.x = shape->old_velocity.x + shape->acceleration.x * (_delta_time );
-		shape->velocity.y = shape->old_velocity.y + shape->acceleration.y * (_delta_time );
-
-		//get movement
-		shape->movement.x = float(shape->old_velocity.x * _delta_time + 0.5 * shape->acceleration.x * _delta_time * _delta_time);
-		shape->movement.y = float(shape->old_velocity.y * _delta_time + 0.5 * shape->acceleration.y * _delta_time * _delta_time);
-		//clear accleration
-		shape->acceleration.x = 0;
-		shape->acceleration.y = 0;
-		//computing new position
-		shape->UpdatePosition();
-
 	}
 	
 
@@ -142,6 +105,24 @@ void PhysicsThread::CalculatePyhsics5()
 	{
 		Shape* shape = _shapeShareObject->renderObjects.at(i);
 		
+		//change position by speed
+		shape->middlepoint.x = 0;
+		shape->middlepoint.y = 0;
+		for(vector<YPoint>::iterator p = shape->points.begin();   
+			p !=  shape->points.end();  
+			p++)
+		{
+			p->x += shape->velocity.x;
+			p->y += shape->velocity.y;
+
+
+			shape->middlepoint.x += p->x;
+			shape->middlepoint.y += p->y;
+		}
+
+		shape->middlepoint.x = shape->middlepoint.x / shape->points.size();
+		shape->middlepoint.y = shape->middlepoint.y / shape->points.size();
+
 		//checkground
 		CheckHitGround(shape);
 		
@@ -155,7 +136,7 @@ void PhysicsThread::CalculatePyhsics5()
 		{
 			Shape* B = _shapeShareObject->renderObjects.at(j);
 
-			CheckCollision(A,B);
+			//CheckCollision(A,B);
 		}
 
 	}
@@ -163,35 +144,67 @@ void PhysicsThread::CalculatePyhsics5()
 }
 void PhysicsThread::CheckCollision(Shape* shapeA, Shape* shapeB)
 {
-	float dy = shapeB->middlepoint.y - shapeA->middlepoint.y;
 	float dx = shapeB->middlepoint.x - shapeA->middlepoint.x;
+	float dy = shapeB->middlepoint.y - shapeA->middlepoint.y;
 	float dist = sqrt(dx*dx + dy*dy);
 
 	if(ProjectCollisionDetect2(*shapeA,*shapeB))
 	{
-		///x
-		shapeA->velocity.x = ((shapeA->mass - shapeB->mass) * shapeA->velocity.x + 2 * shapeB->mass * shapeB->velocity.x ) / (shapeA->mass + shapeB->mass);
-		shapeB->velocity.x = ((shapeB->mass - shapeA->mass) * shapeA->velocity.x + 2 * shapeA->mass * shapeA->velocity.x ) / (shapeA->mass + shapeB->mass);
-		
+		// 计算角度和正余弦值
+		float angle = atan2(dy,dx);
+		float sinv = sin(angle);
+		float cosv = cos(angle);
+		// 旋转 A 的位置 pos0
+		shapeA->pos.x = 0.0f;
+		shapeA->pos.y = 0.0f;
+		//旋转 B 的位置 pos1
+		Rotate(dx,dy,sinv,cosv,true,shapeB->pos);
+		//
+		YPoint velA;
+		Rotate(shapeA->velocity.x,shapeA->velocity.y,sinv,cosv,true,velA);
+		YPoint velB;
+		Rotate(shapeB->velocity.x,shapeB->velocity.y,sinv,cosv,true,velB);
+		//
+		float vxTotal = velA.x - velB.x;
+		velA.x = ((shapeA->mass - shapeB->mass)* velA.x + 2* shapeB->mass * velB.x)/(shapeA->mass + shapeB->mass);
+		velB.x = vxTotal + velA.x;
+		//*************************** overlap
+		float absV = abs(velA.x)+abs(velB.x);
+		float overlap = float((0.02) - abs(shapeA->pos.x - shapeB->pos.x));
+		shapeA->pos.x += velA.x / absV * overlap;
+		shapeB->pos.x += velB.x / absV * overlap;
+		//
+		YPoint posAF;
+		Rotate(shapeA->pos.x, shapeA->pos.y, sinv,cosv,false,posAF);
+		YPoint posBF;
+		Rotate(shapeB->pos.x, shapeB->pos.y, sinv,cosv,false,posBF);
+		//
+		int asize = shapeA->points.size();
+		for(int i = 0;i < asize; i++)
+		{
+			shapeA->points.at(i).x =  shapeA->points.at(i).x + posAF.x;
+			shapeA->points.at(i).y =  shapeA->points.at(i).y + posAF.y;
+		}
+		shapeA->middlepoint.x = shapeA->middlepoint.x + posAF.x;
+		shapeA->middlepoint.y = shapeA->middlepoint.y + posAF.y;
 
-// 		float absVx = abs(shapeA->velocity.x) + abs(shapeB->velocity.x);
-// 		float overlapx = (0.04f) - abs(shapeA->middlepoint.x - shapeB->middlepoint.x);
-// 		shapeA->movement.x += shapeA->velocity.x / absVx * overlapx;
-// 		shapeB->movement.x += shapeB->velocity.x / absVx * overlapx;
-
-		
-		//y
-		shapeA->velocity.y = ((shapeA->mass - shapeB->mass) * shapeA->velocity.y + 2 * shapeB->mass * shapeB->velocity.y ) / (shapeA->mass + shapeB->mass);
-		shapeB->velocity.y = ((shapeB->mass - shapeA->mass) * shapeA->velocity.y + 2 * shapeA->mass * shapeA->velocity.y ) / (shapeA->mass + shapeB->mass);
-
-// 		float absVy = abs(shapeA->velocity.y) + abs(shapeB->velocity.y);
-// 		float overlapy = (0.04f) - abs(shapeA->middlepoint.y - shapeB->middlepoint.y);
-// 		shapeA->movement.y += shapeA->velocity.y / absVy * overlapy;
-// 		shapeB->movement.y += shapeB->velocity.y / absVy * overlapy;
-
-
-		//shapeA->UpdatePosition();
-		//shapeB->UpdatePosition();
+		int bsize = shapeB->points.size();
+		for(int i = 0;i < bsize; i++)
+		{
+			shapeB->points.at(i).x =  shapeB->points.at(i).x + posBF.x;
+			shapeB->points.at(i).y =  shapeB->points.at(i).y + posBF.y;
+		}
+		shapeB->middlepoint.x = shapeB->middlepoint.x + posBF.x;
+		shapeB->middlepoint.y = shapeB->middlepoint.y + posBF.y;
+		//
+		YPoint velAF;
+		Rotate(velA.x, velA.y, sinv, cosv, false, velAF);
+		YPoint velBF;
+		Rotate(velB.x, velB.y, sinv, cosv, false, velBF);
+		shapeA->velocity.x = velAF.x;
+		shapeA->velocity.y = velAF.y;
+		shapeB->velocity.x = velBF.x;
+		shapeB->velocity.y = velBF.y;
 
 	}
 }
@@ -217,14 +230,12 @@ void PhysicsThread::CheckHitGround(Shape* shape)
 	{
 		//make v = 0
 		shape->velocity.y = 0;
-		shape->old_velocity.y = 0;
-		shape->movement.y = 0;
-		//color
+
+		
 		shape->g = 0.0;
 		
 	}else
 	{
-		//color
 		shape->g = 1.0;
 	}
 

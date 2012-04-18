@@ -97,7 +97,7 @@ void PhysicsApp::OnDestroy(){
 /************************************************************************/
 /* private function                                                                     */
 /************************************************************************/
-#define DRAWTRIANGLE1
+#define DRAWTRIANGLE
 #define ADDTESTSQUARE1
 void PhysicsApp::InitializeAllShpes(){
 	int sid = 0;

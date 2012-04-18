@@ -3,7 +3,7 @@
 
 Shape::Shape(void)
 {
-	sizeofpoints = 0;
+
 	mgh_power = 0;
 	erfenzhiyimvfang_x = 0;
 	erfenzhiyimvfang_y = 0;

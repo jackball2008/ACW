@@ -8,9 +8,9 @@ using namespace std;
 #include "Force.h"
 #include "Point.h"
 
-const float SPRING_FACTOR = 2.5f/100000;
+const float SPRING_FACTOR = 2.5f/1000;
 const YPoint ORIGIN_P_PHYSICS;
-const float G_ACCERLATION = -1.8f/1000000000;
+const float G_ACCERLATION = -1.8f/10000000000;
 const float GROUND_Y = -0.9f;
 
 const float skin = 0.000001f;
@@ -407,7 +407,6 @@ public:
 		}
 		return res;
 	}
-	
 	static bool ProjectCollisionDetect2(const Shape &body1, const Shape &body2){
 
 		float Max_1x,Max_1y,Min_1x,Min_1y,Max_2x,Max_2y,Min_2x,Min_2y,a=0,b=0,c=0,d=0;
@@ -469,9 +468,7 @@ public:
 		}
 		//Max_1x Max_1y Min_1x  Min_1y
 		//Max_2x  Max_2y Min_2x  Min_2y
-#define ADDSKIN1
-#ifdef ADDSKIN
-
+		
 		Max_1x = Max_1x + skin;
 		Max_1y = Max_1y + skin;
 		Min_1x = Min_1x - skin;
@@ -480,7 +477,7 @@ public:
 		Max_2y = Max_2y + skin;
 		Min_2x = Min_2x - skin;
 		Min_2y = Min_2y - skin;
-#endif
+
 		
 
 		// compare projection from x axis

@@ -84,15 +84,6 @@
     <ClInclude Include="Mmath.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="mxyMath.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="mxyMatrix.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="mxyVector.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PhysicsApp.cpp">
