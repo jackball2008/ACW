@@ -14,30 +14,12 @@ MyWindow::~MyWindow(void)
 void	MyWindow::OnCreate(){
 	GLWindowEx::OnCreate();
 }
-#define _DRAWMOUSELINE
-#define _DRAWMOUSEPOINT
+
 void	MyWindow::OnDisplay(){
 	
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	/************************************************************************/
-	/* draw mouse points                                                     */
-	/************************************************************************/
-#ifdef DRAWMOUSEPOINT
-	glColor3f(1.0f,1.0f,0.0f);
-	glPointSize(5);
-	glBegin(GL_POINTS);
-	glVertex2f(_shapeShareObject->mouseposition.x, _shapeShareObject->mouseposition.y);
-	glEnd();
-#endif
-	//draw line
-#ifdef DRAWMOUSELINE
-	glColor3f(1.0f,1.0f,0.0f);
-	glBegin(GL_LINES);
-	glVertex2f(0.0f,0.0f);
-	glVertex2f(_shapeShareObject->mouseposition.x, _shapeShareObject->mouseposition.y);
-	glEnd();
-#endif
+	  
 
 	//////////////////////////////////////////////////////////////////////////
 	if(_shapeShareObject->springLine->isvisiable){
