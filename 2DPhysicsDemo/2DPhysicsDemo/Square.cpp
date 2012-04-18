@@ -7,7 +7,7 @@ Square::Square(void)
 	
 	for(int i=0;i<4;i++)
 	{
-		vec2f p;
+		YPoint p;
 		points.push_back(p);
 	}
 	type = 3;
@@ -25,7 +25,7 @@ Square::~Square(void)
 }
 
 //thread safe, need to be update later
-void Square::SetData(const vec2f& p1,const vec2f& p2,const vec2f& p3,const vec2f& p4){
+void Square::SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3,const YPoint& p4){
 	//////////////////////////////////////////////////////////////////////////
 	points[0] = p1;
 	points[1] = p2;

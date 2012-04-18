@@ -2,6 +2,7 @@
 #include "mythread.h"
 #include <math.h>
 #include <iostream>
+#include "Point.h"
 /*#include "Utiles.h"*/
 using namespace std;
 

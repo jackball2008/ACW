@@ -77,7 +77,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ControllerThread.h" />
     <ClInclude Include="Force.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="MouseShareObject.h" />
@@ -100,7 +99,6 @@
     <ClInclude Include="Utiles.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ControllerThread.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="MouseShareObject.cpp" />
     <ClCompile Include="MyThread.cpp" />

@@ -4,7 +4,7 @@ using namespace gxbase;
 // #include <vector>
 // using namespace std;
 
-const float ptol = 0.00000001f;
+/*const float ptol = 0.00000001f;*/
 
 struct YPoint{
 public:
@@ -29,12 +29,12 @@ public:
 
 	inline void Normalize(){
 		float m = (float)sqrt(x*x+y*y);
-		if(m<= ptol)m =1;
+		if(m<= 0.00000001f)m =1;
 		x/= m;
 		y/= m;
 		
-		if (fabs(x) < ptol) x =0.0f;
-		if (fabs(x) < ptol) y =0.0f;
+		if (fabs(x) < 0.00000001f) x =0.0f;
+		if (fabs(x) < 0.00000001f) y =0.0f;
 	}
 	inline void Reverse(){
 		x =-x;

@@ -1,15 +1,15 @@
 #pragma once
 #include "mythread.h"
 #include <iostream>
-/*#include <math.h>*/
+#include <math.h>
 #include "ShapeShareObject.h"
 using namespace std;
 #include <Windows.h>
 #include "Force.h"
-
+#include "Point.h"
 
 const float SPRING_FACTOR = 2.5f/100000;
-/*const YPoint ORIGIN_P_PHYSICS;*/
+const YPoint ORIGIN_P_PHYSICS;
 const float G_ACCERLATION = -1.8f/1000000000;
 const float GROUND_Y = -0.9f;
 
@@ -21,7 +21,7 @@ class PhysicsThread :
 private:
 	ShapeShareObject* _shapeShareObject;
 
-	vec2f ORIGIN_P_PHYSICS;
+	/*vec2f ORIGIN_P_PHYSICS;*/
 
 	YPoint measureP;
 
@@ -38,10 +38,7 @@ private:
 
 	//functions
 	void CalculateDeltaTime();
-// 	void CalculatePyhsics();
-// 	void CalculatePyhsics2();
-// 	void CalculatePyhsics3();
-// 	void CalculatePyhsics4();
+
 	void CalculatePyhsics5();
 
 	void CheckHitGround(Shape* p);
@@ -54,10 +51,6 @@ private:
 
 	bool _isspringforcegenerated;
 
-// 	Vector      vCollisionNormal;           // the collision normal returned by our collision detection routine
-// 	Vector		vCollisionTangent;			// the collision tangent returned by our collision detection routine
-// 	Vector		vCollisionPoint;			// the world space point of collision
-// 	Vector		vRelativeVelocity;			// the world space relative velocity of the two bodies at the point of collision
 
 
 public:

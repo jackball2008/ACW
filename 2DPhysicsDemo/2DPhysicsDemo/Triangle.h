@@ -10,11 +10,11 @@ public:
 	Triangle(void);
 	~Triangle(void);
 
-	void SetData(const vec2f& p1,const vec2f& p2,const vec2f& p3,const vec2f& p4){};
+	void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3,const YPoint& p4){};
 
-	void SetData(const vec2f& p1,const vec2f& p2,const vec2f& p3);
+	void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3);
 	//line
-	void SetData(const vec2f& p1,const vec2f& p2){};
+	void SetData(const YPoint& p1,const YPoint& p2){};
 	/*vector<Point>* GetData();*/
 };
 

@@ -42,9 +42,6 @@
     <ClInclude Include="MyThread.h">
       <Filter>Header Files\Threads</Filter>
     </ClInclude>
-    <ClInclude Include="ControllerThread.h">
-      <Filter>Header Files\Threads</Filter>
-    </ClInclude>
     <ClInclude Include="NetReceiveThread.h">
       <Filter>Header Files\Threads</Filter>
     </ClInclude>
@@ -105,9 +102,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MyThread.cpp">
-      <Filter>Source Files\Threads</Filter>
-    </ClCompile>
-    <ClCompile Include="ControllerThread.cpp">
       <Filter>Source Files\Threads</Filter>
     </ClCompile>
     <ClCompile Include="NetReceiveThread.cpp">
