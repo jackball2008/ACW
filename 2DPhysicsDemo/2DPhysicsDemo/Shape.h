@@ -1,7 +1,9 @@
 #pragma once
 #include "Point.h"
 #include <vector>
-#include "Mmath.h"
+/*#include "Mmath.h"*/
+#include "mxyMath.h"
+using namespace mxy;
 using namespace std;
 class Shape
 {
@@ -10,20 +12,25 @@ public:
 	//store points
 	vector<YPoint>points;
 	YPoint middlepoint;
+
 	YPoint force;
+	float mass;
+
 	YPoint springforce;
 	YPoint acceleration;
 	//velocity
 	YPoint velocity;
 	YPoint old_velocity;
 	YPoint movement;
+	//direction
+	YPoint orientation;
 	int sizeofpoints;
 	//==================================
 	//used in checkCollision
 	YPoint pos;
 	//==================================
 	//mass
-	float mass;
+	
 
 
 	float mgh_power;
@@ -34,8 +41,7 @@ public:
 	//mark hit something
 	bool hitsometing;
 	bool hitground;
-// 	bool cantransferpower_y;
-// 	bool cantransferpower_x;
+
 	bool cantransferpower;
 
 	//power
@@ -62,19 +68,7 @@ public:
 	//shape own properties
 	int type;
 
-	bool isrigibody;
-// 	bool isground;
-// 	bool iscommonshape;
-// 	bool isspring;
-	
 
-	
-
-	
-	
-	
-	
-	float point_mass;
 	//color
 	float r,g,b;
 	

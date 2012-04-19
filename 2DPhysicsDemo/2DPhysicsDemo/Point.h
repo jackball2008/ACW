@@ -40,6 +40,44 @@ public:
 		x =-x;
 		y =-y;
 	}
+
+	friend YPoint & operator += ( YPoint &lhs, const YPoint & rhs ) {
+		lhs.x += rhs.x;
+		lhs.y += rhs.y;
+		return lhs;
+	}
+
+	friend YPoint & operator -= ( YPoint &lhs, const YPoint & rhs ) {
+		lhs.x -= rhs.x;
+		lhs.y -= rhs.y;
+		return lhs;
+	}
+
+	//dot
+	friend YPoint & operator *= ( YPoint &lhs, const YPoint & rhs ) {
+		lhs.x *= rhs.x;
+		lhs.y *= rhs.y;
+		return lhs;
+	}
+
+	friend YPoint & operator *= ( YPoint &lhs, const float & rhs ) {
+		lhs.x *= rhs;
+		lhs.y *= rhs;
+		return lhs;
+	}
+
+	friend YPoint & operator /= ( YPoint &lhs, const YPoint & rhs ) {
+		lhs.x /= rhs.x;
+		lhs.y /= rhs.y;
+		return lhs;
+	}
+
+	friend YPoint & operator /= ( YPoint &lhs, const float & d ) {
+		if(d == 0) return lhs;
+		lhs.x /= d;
+		lhs.y /= d;
+		return lhs;
+	}
 	
 };
 struct   YLineSeg{   

@@ -13,7 +13,7 @@ SpringLine::SpringLine(void)
 	b = 0.0f;
 
 	mass = 0.0f;
-	point_mass = 0.0f;
+	
 }
 
 

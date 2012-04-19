@@ -672,6 +672,7 @@ inline T normalize( const T & vec) {
 }
 
 // In VC8 : min and max are already defined by a #define...
+/**
 #ifdef min
 #undef min
 #endif
@@ -693,7 +694,7 @@ inline T max( const T & lhs, const T & rhs ) {
     for (int i = 0; i < lhs.size(); i++) rt._array[i] = std::max( lhs._array[i], rhs._array[i]);
     return rt;
 }
-
+*/
 
 };
 

@@ -14,7 +14,7 @@ Line::Line(void)
 	type = 1;
 	
 	mass = 0.0f;
-	point_mass = 0.0f;
+	
 
 }
 

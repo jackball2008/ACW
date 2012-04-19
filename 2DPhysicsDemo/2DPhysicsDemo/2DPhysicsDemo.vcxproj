@@ -77,10 +77,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ControllerThread.h" />
     <ClInclude Include="Force.h" />
     <ClInclude Include="Line.h" />
-    <ClInclude Include="MouseShareObject.h" />
     <ClInclude Include="Mmath.h" />
     <ClInclude Include="mxyMath.h" />
     <ClInclude Include="mxyMatrix.h" />
@@ -100,9 +98,7 @@
     <ClInclude Include="Utiles.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ControllerThread.cpp" />
     <ClCompile Include="Line.cpp" />
-    <ClCompile Include="MouseShareObject.cpp" />
     <ClCompile Include="MyThread.cpp" />
     <ClCompile Include="MyWindow.cpp" />
     <ClCompile Include="NetReceiveThread.cpp" />

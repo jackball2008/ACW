@@ -1,9 +1,8 @@
 #pragma once
-#include <GXBase.h>
-#include <math.h>
+
 #include "mxyVector.h"
 #include "mxyMatrix.h"
-//#include <nvQuaternion.h>
+
 
 #define PI   float(3.1415926535897932384626433832795)
 
@@ -19,7 +18,7 @@ namespace mxy {
 	typedef vec4<int> vec4i;
 	typedef vec4<unsigned int> vec4ui;
 	typedef matrix4<float> matrix4f;
-	//typedef quaternion<float> quaternionf;
+	
 
 };
 

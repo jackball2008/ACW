@@ -14,7 +14,7 @@ Triangle::Triangle(void)
 	type = 2;
 
 	mass = 0.4330127019f;
-	point_mass = mass/3;
+	
 	sizeofpoints = 3;
 }
 

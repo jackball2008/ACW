@@ -36,10 +36,7 @@ Shape::Shape(void)
 	old_velocity_y = 0.0f;
 	acceleration_y = 0.0f;
 	//
-	isrigibody = true;
-// 	isground = false;
-// 	iscommonshape = true;
-// 	isspring = false;
+
 
 	r=1.0f;
 	g=1.0f;

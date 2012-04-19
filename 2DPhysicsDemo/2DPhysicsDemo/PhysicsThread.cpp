@@ -90,12 +90,10 @@ void PhysicsThread::CalculatePyhsics5()
 			/*vector<YPoint>& pa = shape->points;*/
 			if(JudgePointInPologon(shape->points,_springforceworkposition,measureP))
 			{
-				//cout<<"s in id = "<<shape->id<<" x = "<<_springforce.force_x<<"y = "<<_springforce.force_y<<endl;
+				cout<<"s in id = "<<shape->id<<" x = "<<_springforce.force_x<<"y = "<<_springforce.force_y<<endl;
 				//add spring force
 				shape->springforce.x = _springforce.force_x;
 				shape->springforce.y = _springforce.force_y;
-
-				
 
 				break;
 			}
@@ -104,18 +102,25 @@ void PhysicsThread::CalculatePyhsics5()
 	//computing all force
 	for(int i = 0; i< objnum;i++)
 	{
+
+
 		Shape* shape = _shapeShareObject->renderObjects.at(i);
+		//////////////////////////////////////////////////////////////////////////
+		shape->force.x = 0;
+		shape->force.y = 0;
 		shape->force.x = shape->force.x + shape->springforce.x;
 		shape->force.y = shape->mass * G_ACCERLATION + shape->springforce.y;
 
 		shape->springforce.x = 0;
 		shape->springforce.y = 0;
+		//////////////////////////////////////////////////////////////////////////
 		//a
 		shape->acceleration.x = shape->force.x / shape->mass;
 		shape->acceleration.y = shape->force.y / shape->mass;
 		//clear force for used in the next run
 		shape->force.x = 0;
 		shape->force.y = 0;
+		//////////////////////////////////////////////////////////////////////////
 		//save old v
 		shape->old_velocity.x = shape->velocity.x;
 		shape->old_velocity.y = shape->velocity.y;
@@ -130,7 +135,7 @@ void PhysicsThread::CalculatePyhsics5()
 		shape->acceleration.x = 0;
 		shape->acceleration.y = 0;
 		//computing new position
-		shape->UpdatePosition();
+		//shape->UpdatePosition();
 
 	}
 	
@@ -171,24 +176,15 @@ void PhysicsThread::CheckCollision(Shape* shapeA, Shape* shapeB)
 		shapeB->velocity.x = ((shapeB->mass - shapeA->mass) * shapeA->velocity.x + 2 * shapeA->mass * shapeA->velocity.x ) / (shapeA->mass + shapeB->mass);
 		
 
-// 		float absVx = abs(shapeA->velocity.x) + abs(shapeB->velocity.x);
-// 		float overlapx = (0.04f) - abs(shapeA->middlepoint.x - shapeB->middlepoint.x);
-// 		shapeA->movement.x += shapeA->velocity.x / absVx * overlapx;
-// 		shapeB->movement.x += shapeB->velocity.x / absVx * overlapx;
+
 
 		
 		//y
 		shapeA->velocity.y = ((shapeA->mass - shapeB->mass) * shapeA->velocity.y + 2 * shapeB->mass * shapeB->velocity.y ) / (shapeA->mass + shapeB->mass);
 		shapeB->velocity.y = ((shapeB->mass - shapeA->mass) * shapeA->velocity.y + 2 * shapeA->mass * shapeA->velocity.y ) / (shapeA->mass + shapeB->mass);
 
-// 		float absVy = abs(shapeA->velocity.y) + abs(shapeB->velocity.y);
-// 		float overlapy = (0.04f) - abs(shapeA->middlepoint.y - shapeB->middlepoint.y);
-// 		shapeA->movement.y += shapeA->velocity.y / absVy * overlapy;
-// 		shapeB->movement.y += shapeB->velocity.y / absVy * overlapy;
 
 
-		//shapeA->UpdatePosition();
-		//shapeB->UpdatePosition();
 
 	}
 }
@@ -226,7 +222,21 @@ void PhysicsThread::CheckHitGround(Shape* shape)
 	}
 
 }
+void PhysicsThread::CalculateDeltaTime(){
+	//Ensure QueryPerformance is called on a specific core
+	SetThreadAffinityMask(thread, 0x1);
+	QueryPerformanceFrequency(&_ticksPerSecond);
+	QueryPerformanceCounter(&_currentCount);
+	SetThreadAffinityMask(thread, procMask);
 
+	_consumedCount.QuadPart = _currentCount.QuadPart - _lastCount.QuadPart;  
+	_lastCount = _currentCount;
+	_delta_time = float(_consumedCount.QuadPart/(_ticksPerSecond.QuadPart/1000));
+#ifdef DEBUG_DELTATIME
+	cout<<"ms = "<<_delta_time<<endl;
+#endif
+
+}
 /**
 void PhysicsThread::CalculatePyhsics4()
 {
@@ -465,18 +475,4 @@ void PhysicsThread::CalculatePyhsics3(){
 	
 }
 */
-void PhysicsThread::CalculateDeltaTime(){
-	//Ensure QueryPerformance is called on a specific core
-	SetThreadAffinityMask(thread, 0x1);
-	QueryPerformanceFrequency(&_ticksPerSecond);
-	QueryPerformanceCounter(&_currentCount);
-	SetThreadAffinityMask(thread, procMask);
 
-	_consumedCount.QuadPart = _currentCount.QuadPart - _lastCount.QuadPart;  
-	_lastCount = _currentCount;
-	_delta_time = float(_consumedCount.QuadPart/(_ticksPerSecond.QuadPart/1000));
-#ifdef DEBUG_DELTATIME
-	cout<<"ms = "<<_delta_time<<endl;
-#endif
-
-}
