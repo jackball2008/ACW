@@ -13,7 +13,15 @@ PhysicsThread::PhysicsThread(void)
 
 PhysicsThread::~PhysicsThread(void)
 {
+
 }
+
+bool PhysicsThread::CollisionDectect()
+{
+	return false;
+
+}
+
 
 int PhysicsThread::run(){
 	//get sticks per second

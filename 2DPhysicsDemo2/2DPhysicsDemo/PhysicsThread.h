@@ -36,26 +36,21 @@ private:
 
 	//functions
 	void CalculateDeltaTime();
-// 	void CalculatePyhsics();
-// 	void CalculatePyhsics2();
-// 	void CalculatePyhsics3();
-// 	void CalculatePyhsics4();
+
 	void CalculatePyhsics5();
 
 	void CheckHitGround(Shape* p);
 	void CheckCollision(Shape* A, Shape* B);
 	void Rotate(const float&x, const float&y, const float&sinv, const float&cosv, const bool&reserve , YPoint&p);
 
-	/*bool DectecHit(const Shape&s1, const Shape&s2);*/
+	bool CollisionDectect();
+
+	
 
 	YPoint _springforceworkposition;
 
 	bool _isspringforcegenerated;
 
-// 	Vector      vCollisionNormal;           // the collision normal returned by our collision detection routine
-// 	Vector		vCollisionTangent;			// the collision tangent returned by our collision detection routine
-// 	Vector		vCollisionPoint;			// the world space point of collision
-// 	Vector		vRelativeVelocity;			// the world space relative velocity of the two bodies at the point of collision
 
 
 public:
@@ -72,44 +67,7 @@ public:
 
 	int run();
 
-	/**
-	void ApplyImpulseP(_RigidBody *body1,_RigidBody *body2){
-
-		Vector d;
-		float  r;
-		int    retval = 0;
-		float  s;
-		Vector v1,v2;
-		float  Vrn;
-		double j,Vrt;
-		// calculate distance
-		r= 0.04f;
-		d= body1->vPosition-body2->vPosition;
-		s =d.Magnitude()-r;
-
-		// get collision normal vector
-		d.Normalize();
-		vCollisionNormal =d;
-
-		//calculate relative normal velocity:
-		v1 = body1->vVelocity;
-		v2 = body2->vVelocity;
-
-		vRelativeVelocity =v1 -v2;
-
-		Vrn = vRelativeVelocity*vCollisionNormal;
-
-		// calculate the impulse:
-		j = (-(1+fCr) * (vRelativeVelocity*vCollisionNormal)) /
-			((1/body1->fMass + 1/body2->fMass));
-
-		Impulse = j;
-
-		// calculate the new velocity after impact
-		body1->vVelocity += (j * vCollisionNormal) / body1->fMass;	
-		body2->vVelocity -= (j * vCollisionNormal) / body2->fMass;
-	}
-	*/
+	
 
 	static bool JudgeBrightA(const Shape &shapeA, const Shape &shapeB)
 	{
