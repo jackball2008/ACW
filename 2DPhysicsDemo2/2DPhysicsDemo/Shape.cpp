@@ -3,6 +3,9 @@
 
 Shape::Shape(void)
 {
+	xw = 0;
+	yw = 0;
+
 	sizeofpoints = 0;
 	mgh_power = 0;
 	erfenzhiyimvfang_x = 0;

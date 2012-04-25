@@ -45,6 +45,16 @@ private:
 
 	bool CollisionDectect();
 
+
+	/**
+	special functions
+	*/
+	void ProjectBox(float&bsize, const Shape* shape, const float&ax,const float&ay);
+
+
+
+
+
 	
 
 	YPoint _springforceworkposition;

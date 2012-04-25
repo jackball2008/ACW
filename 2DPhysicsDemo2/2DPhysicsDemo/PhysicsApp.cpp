@@ -182,6 +182,8 @@ void PhysicsApp::InitializeAllShpes(){
 			p5.y = (float)(p1.y + p3.y + p2.y + p4.y)/4;
 
 			Shape* square = new Square();
+			square->xw = 0.02;
+			square->yw = 0.02;
 			square->SetData(p1,p2,p3,p4);
 			sid++;
 			square->id = sid;

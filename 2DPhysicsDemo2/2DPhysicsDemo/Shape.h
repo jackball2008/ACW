@@ -9,6 +9,8 @@ class Shape
 {
 
 public:
+	//
+	float xw,yw;
 	//store points
 	vector<YPoint>points;
 	YPoint middlepoint;
