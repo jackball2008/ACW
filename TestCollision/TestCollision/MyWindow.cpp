@@ -3,7 +3,7 @@
 
 MyWindow::MyWindow()
 {
-	SetSize(700,700);
+	SetSize(400,200);
 }
 
 

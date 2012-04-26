@@ -13,8 +13,11 @@
   <ItemGroup>
     <ClInclude Include="mymath.h" />
     <ClInclude Include="MyPhysics.h" />
+    <ClInclude Include="MySquare.h" />
     <ClInclude Include="MyThread.h" />
+    <ClInclude Include="MyTriangle.h" />
     <ClInclude Include="MyWindow.h" />
+    <ClInclude Include="PhysicThread.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="ShareMem.h" />
   </ItemGroup>
@@ -22,8 +25,11 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mymath.cpp" />
     <ClCompile Include="MyPhysics.cpp" />
+    <ClCompile Include="MySquare.cpp" />
     <ClCompile Include="MyThread.cpp" />
+    <ClCompile Include="MyTriangle.cpp" />
     <ClCompile Include="MyWindow.cpp" />
+    <ClCompile Include="PhysicThread.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="ShareMem.cpp" />
   </ItemGroup>

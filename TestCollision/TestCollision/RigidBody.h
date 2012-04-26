@@ -17,7 +17,7 @@
 // 2D rigid body
 //------------------------------------------------------------------------//
 
-struct _RigidBody{
+class _RigidBody{
 public:
 	float     fMass;                // total mass (constant)
 	float     fInertia;             // mass moment of inertia in body coordinates (constant)
