@@ -182,8 +182,20 @@ void PhysicsApp::InitializeAllShpes(){
 			p5.y = (float)(p1.y + p3.y + p2.y + p4.y)/4;
 
 			Shape* square = new Square();
-			square->xw = 0.02;
-			square->yw = 0.02;
+			//////////////////////////////////////////////////////////////////////////
+			square->xw = 0.02f;
+			square->yw = 0.02f;
+			float x1 = (p3.x - p2.x)/2;
+			float y1 = (p3.y - p2.y)/2;
+			x1 = x1 - p5.x;
+			y1 = y1 - p5.y;
+			float len = sqrt(x1*x1 + y1*y1);
+			//unit direction vector
+			square->dx = x1/len;
+			square->dy = y1/len;
+			square->px = p5.x;
+			square->py = p5.y;
+			//////////////////////////////////////////////////////////////////////////
 			square->SetData(p1,p2,p3,p4);
 			sid++;
 			square->id = sid;

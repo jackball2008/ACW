@@ -16,18 +16,67 @@ PhysicsThread::~PhysicsThread(void)
 
 }
 
-bool PhysicsThread::CollisionDectect()
+
+
+void PhysicsThread::ProjectBox(float&bsize, const Shape& box, const float&ax,const float&ay)
 {
+	//ax ay is unit vector or direction vector
+	float ix = box.xw * box.dx;
+	float iy = box.xw * box.dy;
+
+	float jx = box.yw * -box.dy;
+	float jy = box.yw * box.dx;
+	//x project to the axis
+	float dpi = ix*ax + iy*ay;
+	//y project to the axis
+	float dpj = jx*ax + jy*ay;
+
+	bsize = abs(dpi) + abs(dpj);
+
+}
+
+bool PhysicsThread::CollisionDectect(const Shape& boxA, const Shape&boxB)
+{
+	bool res = false;
+	//fix
+	float deltax = boxA.px - boxB.px;
+	float deltay = boxA.py - boxB.py;
+
+	//
+	float axis_x = boxA.dx;
+	float axis_y = boxA.dy;
+
+	float asize = boxA.xw;
+	float bsize = 0;
+	ProjectBox(bsize,boxB,axis_x,axis_y);
+	float dsize = abs(deltax*axis_x + deltay*axis_y);
+
+	float penAx = (asize + bsize) - dsize;
+	if(penAx > 0)
+	{
+		//boxes overlap along axis; check next axis
+		axis_x = boxB.dx;
+
+
+
+
+	}
+	else
+	{
+		res = false;
+	}
+
+
+
 	return false;
 
 }
 
-void PhysicsThread::ProjectBox(float&bsize, const Shape* shape, const float&ax,const float&ay)
+void PhysicsThread::CalculatePyhsics6()
 {
-	//ax ay is unit vector or direction vector
-	
 
 }
+
 int PhysicsThread::run(){
 	//get sticks per second
 	GetProcessAffinityMask(GetCurrentProcess(), &procMask, &sysMask);
@@ -75,7 +124,7 @@ int PhysicsThread::run(){
 					}
 					//////////////////////////////////////////
 					//start to compute the physics
-					CalculatePyhsics5();
+					CalculatePyhsics6();
 					
 				}
 

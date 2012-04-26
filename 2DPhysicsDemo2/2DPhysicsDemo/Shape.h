@@ -9,8 +9,9 @@ class Shape
 {
 
 public:
-	//
-	float xw,yw;
+	//width for x ,y; direction vector for 
+	float xw,yw,dx,dy;
+	float px,py;
 	//store points
 	vector<YPoint>points;
 	YPoint middlepoint;
