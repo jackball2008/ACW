@@ -48,11 +48,11 @@
     <ClInclude Include="MySquare.h">
       <Filter>Header Files\basic</Filter>
     </ClInclude>
-    <ClInclude Include="MyTriangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicThread.h">
       <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTriangle.h">
+      <Filter>Header Files\basic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -80,11 +80,11 @@
     <ClCompile Include="MySquare.cpp">
       <Filter>Source Files\basic</Filter>
     </ClCompile>
-    <ClCompile Include="MyTriangle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PhysicThread.cpp">
       <Filter>Source Files\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTriangle.cpp">
+      <Filter>Source Files\basic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
