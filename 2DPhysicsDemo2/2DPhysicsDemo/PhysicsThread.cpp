@@ -237,16 +237,9 @@ void PhysicsThread::CheckCollision(Shape* shapeA, Shape* shapeB)
 		shapeA->velocity.x = ((shapeA->mass - shapeB->mass) * shapeA->velocity.x + 2 * shapeB->mass * shapeB->velocity.x ) / (shapeA->mass + shapeB->mass);
 		shapeB->velocity.x = ((shapeB->mass - shapeA->mass) * shapeA->velocity.x + 2 * shapeA->mass * shapeA->velocity.x ) / (shapeA->mass + shapeB->mass);
 		
-
-
-
-		
 		//y
 		shapeA->velocity.y = ((shapeA->mass - shapeB->mass) * shapeA->velocity.y + 2 * shapeB->mass * shapeB->velocity.y ) / (shapeA->mass + shapeB->mass);
 		shapeB->velocity.y = ((shapeB->mass - shapeA->mass) * shapeA->velocity.y + 2 * shapeA->mass * shapeA->velocity.y ) / (shapeA->mass + shapeB->mass);
-
-
-
 
 	}
 }
