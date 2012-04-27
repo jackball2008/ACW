@@ -20,6 +20,7 @@ ShapeShareObject::ShapeShareObject(void)
 	springLine->SetData(sp,ep);
 
 	//ground
+	/**
 	ground = new Line();
 	YPoint p1;
 	p1.x = -1.0f;
@@ -32,6 +33,7 @@ ShapeShareObject::ShapeShareObject(void)
 	lmid.y = (p1.y + p2.y) / 2;
 	ground->SetData(p1,p2);
 	ground->middlepoint = lmid;
+	*/
 }
 
 

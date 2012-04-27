@@ -50,6 +50,10 @@ private:
 	special functions
 	*/
 	void ProjectBox(float&bsize, const Shape& shape, const float&ax,const float&ay);
+	bool CollisionDectectShapeAndGround(const Shape&);
+	bool CollisionDectectBoxAndBox(const Shape&,const Shape&);
+	bool CollisionDectectBoxAndTriangle(const Shape&box, const Shape&tri);
+	bool CollisionDectectTriangleAndTriangle(const Shape&tria, const Shape&trib);
 	bool CollisionDectect(const Shape&, const Shape&);
 	void CalculatePyhsics6();
 

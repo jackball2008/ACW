@@ -34,31 +34,100 @@ void PhysicsThread::ProjectBox(float&bsize, const Shape& box, const float&ax,con
 	bsize = abs(dpi) + abs(dpj);
 
 }
+bool PhysicsThread::CollisionDectectShapeAndGround(const Shape&shape)
+{
+	int numofsize = shape.sizeofpoints;
+	for(int i = 0; i< numofsize; i ++)
+	{
+		if(shape.points.at(i).y < GROUND_Y)
+			return true;
+	}
+	return false;
+}
 
-bool PhysicsThread::CollisionDectect(const Shape& boxA, const Shape&boxB)
+bool PhysicsThread::CollisionDectectBoxAndTriangle(const Shape&box, const Shape&tri)
+{
+	return false;
+}
+bool PhysicsThread::CollisionDectectTriangleAndTriangle(const Shape&tria, const Shape&trib)
+{
+	return false;
+}
+
+bool PhysicsThread::CollisionDectectBoxAndBox(const Shape&boxA,const Shape&boxB)
 {
 	bool res = false;
-	//fix
+	//////////////////////////////////////////////////////////////////////////
+	//fix function
 	float deltax = boxA.px - boxB.px;
 	float deltay = boxA.py - boxB.py;
-
 	//
 	float axis_x = boxA.dx;
 	float axis_y = boxA.dy;
 
+	//get boxA.yw project to axis  = 0, so here just only need boxA.xw projected to axis = boxA.xw
 	float asize = boxA.xw;
+
+	//get boxB proejct to axis
 	float bsize = 0;
 	ProjectBox(bsize,boxB,axis_x,axis_y);
+
+	//get delta project to axis
 	float dsize = abs(deltax*axis_x + deltay*axis_y);
 
+
+	//rA + rB  -  dis
 	float penAx = (asize + bsize) - dsize;
+	//if > 0 ; there is overlap
 	if(penAx > 0)
 	{
 		//boxes overlap along axis; check next axis
 		axis_x = boxB.dx;
+		axis_y = boxB.dy;
 
+		asize = boxB.xw;
+		bsize = 0;
+		ProjectBox(bsize,boxA,axis_x,axis_y);
+		dsize = abs(deltax*axis_x + deltay*axis_y);
+		penAx = (asize + bsize) - dsize;
 
+		if(penAx > 0)
+		{
+			axis_x = -boxA.dy;
+			axis_y = boxA.dx;
+			asize = boxA.yw;
+			bsize = 0;
+			ProjectBox(bsize,boxB,axis_x,axis_y);
+			dsize = abs(deltax*axis_x + deltay*axis_y);
+			penAx = (asize + bsize) - dsize;
 
+			if(penAx > 0)
+			{
+				axis_x = -boxB.dy;
+				axis_y = boxB.dx;
+				asize = boxB.yw;
+				bsize = 0;
+				ProjectBox(bsize,boxA,axis_x,axis_y);
+				dsize = abs(deltax*axis_x + deltay*axis_y);
+				penAx = (asize + bsize) - dsize;
+				if(penAx > 0)
+				{
+					res = true;
+				}
+				else
+				{
+					res = false;
+				}
+
+			}
+			else
+			{
+				res = false;
+			}
+		}
+		else{
+			res = false;
+		}
 
 	}
 	else
@@ -67,15 +136,103 @@ bool PhysicsThread::CollisionDectect(const Shape& boxA, const Shape&boxB)
 	}
 
 
-
-	return false;
-
+	//////////////////////////////////////////////////////////////////////////
+	return res;
 }
 
 void PhysicsThread::CalculatePyhsics6()
 {
+	int objnum = _shapeShareObject->renderObjects.size();
+
+	for(int i = 0; i< objnum;i++)
+	{
+		bool hitsomething = false;
+		Shape* shapeA = _shapeShareObject->renderObjects.at(i);
+		if(shapeA->type ==1)
+			continue;
+
+		//////////////////////////////////////////////////////////////////////////
+		//checkground
+		if(CollisionDectectShapeAndGround(*shapeA))
+		{
+			//calculate hit ground
+			cout<<"hit ground"<<endl;
+			hitsomething = true;
+			//do next
+		}
+		else
+		{
+			for(int j = 0; j < objnum; j++  )
+			{
+				Shape* shapeB = _shapeShareObject->renderObjects.at(j);
+				if(shapeA->id != shapeB->id)
+				{
+					//do Collision dectect
+					if(shapeA->type == 2 && shapeB->type == 2)
+					{
+						// triangle hit triangle
+						hitsomething = true;
+					}
+					if(shapeA->type == 2 && shapeB->type == 3)
+					{
+						//triangle hit box
+						hitsomething = true;
+					}
+					if(shapeA->type == 3 && shapeB->type == 2)
+					{
+						//box hit triangle
+						hitsomething = true;
+					}
+					if(shapeA->type == 3 && shapeB->type == 3 && CollisionDectectBoxAndBox(*shapeA,*shapeB))
+					{
+						//box hit box
+						hitsomething = true;
+					}
+
+				}
+			}
+
+		}
+		//////////////////////////////////////////////////////////////////////////
+		//add spring force
+
+		//////////////////////////////////////////////////////////////////////////
+		if(!hitsomething)
+		{
+			//remove foece shake
+			if(shapeA->force.x < 0.00001)
+			{
+				shapeA->force.x = 0;
+			}
+			if(shapeA->force.y < 0.00001)
+			{
+				shapeA->force.y = 0;
+			}
+			//no hit, do the work free fly
+			shapeA->acceleration.x = shapeA->force.x / shapeA->mass; 
+			shapeA->acceleration.y = shapeA->force.y / shapeA->mass;
+			//
+		}
+
+		//////////////////////////////////////////////////////////////////////////
+
+
+
+		//////////////////////////////////////////////////////////////////////////
+
+	}
+
 
 }
+
+
+
+bool PhysicsThread::CollisionDectect(const Shape& boxA, const Shape&boxB)
+{
+	return false;
+
+}
+
 
 int PhysicsThread::run(){
 	//get sticks per second

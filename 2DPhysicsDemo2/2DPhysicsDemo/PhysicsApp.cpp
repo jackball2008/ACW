@@ -109,7 +109,7 @@ void PhysicsApp::InitializeAllShpes(){
 	_shapeShareObject.renderObjects.push_back(springLine);
 	*/
 	//set ground
-	/**
+	/***/
 	Shape* ground = new Line();
 	YPoint p1;
 	p1.x = -1.0f;
@@ -124,9 +124,8 @@ void PhysicsApp::InitializeAllShpes(){
 	sid++;
 	ground->id = sid;
 	ground->middlepoint = lmid;
-
 	_shapeShareObject.renderObjects.push_back(ground);
-	*/
+	
 
 
 #ifdef ADDTESTSQUARE
@@ -159,7 +158,7 @@ void PhysicsApp::InitializeAllShpes(){
 	//set squares
 	//25 * 4
 	YPoint tristartp;
-	for(int i = 0; i<2 /*4*/; i ++){
+	for(int i = 0; i<1 /*4*/; i ++){
 		for( int j =0; j <1 /*25*/ ; j ++){
 			YPoint p1;
 			p1.x = -0.5f + j * 0.04f;
