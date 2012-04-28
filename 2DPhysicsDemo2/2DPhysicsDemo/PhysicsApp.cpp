@@ -53,9 +53,9 @@ void PhysicsApp::OnCreate(){
 	/* window thread start                                                                     */
 	/************************************************************************/
 	_mywindow.Show();
-	//_mywindow.SetSize(768,768);
-	_mywindow.SetSize(480,480);
-	_mywindow.SetPosition(1024,0);
+	_mywindow.SetSize(768,768);
+	//_mywindow.SetSize(480,480);
+	_mywindow.SetPosition(512,0);
 
 	
 	_physicsThread->start();
@@ -159,7 +159,7 @@ void PhysicsApp::InitializeAllShpes(){
 			
 			x1 = x1 - square->pos.x;
 			y1 = y1 - square->pos.y;
-			/*float len = sqrt(x1*x1 + y1*y1);//z*/
+			
 			ax.x = x1;
 			ax.y = y1;
 			ax.Normalize();

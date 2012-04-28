@@ -45,8 +45,9 @@ private:
 	bool CollisionDectectBoxAndBox(const Shape&,const Shape&);
 	bool CollisionDectectBoxAndTriangle(const Shape&box, const Shape&tri);
 	bool CollisionDectectTriangleAndTriangle(const Shape&tria, const Shape&trib);
-	bool CollisionDectect(const Shape&, const Shape&);
+	void CollisionDectect(const Shape&, const Shape&);
 	void CalculatePyhsics6();
+	void CalculatePyhsics7();
 
 public:
 	PhysicsThread(void);

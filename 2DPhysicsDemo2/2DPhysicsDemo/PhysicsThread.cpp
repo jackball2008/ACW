@@ -242,11 +242,38 @@ void PhysicsThread::CalculatePyhsics6()
 
 }
 
-
-
-bool PhysicsThread::CollisionDectect(const Shape& boxA, const Shape&boxB)
+void PhysicsThread::CalculatePyhsics7()
 {
-	return false;
+	//A is host b is guest
+	int objnum = _shapeShareObject->renderObjects.size();
+	for(int i=0;i<objnum;i++)
+	{
+		Shape* shapeA = _shapeShareObject->renderObjects.at(i);
+
+		for(int j = 0; j<objnum;j++)
+		{
+			Shape* shapeB = _shapeShareObject->renderObjects.at(j);
+
+			if(shapeA->id != shapeB->id)
+			{
+				CollisionDectect(*shapeA,*shapeB);
+
+			}
+			else
+			{
+				continue;
+			}
+
+
+		}
+
+
+	}
+}
+
+void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
+{
+	//check collision and response
 
 }
 
@@ -298,7 +325,7 @@ int PhysicsThread::run(){
 					}
 					//////////////////////////////////////////
 					//start to compute the physics
-					CalculatePyhsics6();
+					CalculatePyhsics7();
 					
 				}
 
