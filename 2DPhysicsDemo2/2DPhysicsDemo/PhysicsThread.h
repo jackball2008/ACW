@@ -32,17 +32,11 @@ private:
 
 	//Force
 	Force _springforce;
+	YPoint _springforceworkposition;
+	bool _isspringforcegenerated;
 
 	//functions
 	void CalculateDeltaTime();
-	/**
-	void CalculatePyhsics5();
-
-	void CheckHitGround(Shape* p);
-	void CheckCollision(Shape* A, Shape* B);
-	void Rotate(const float&x, const float&y, const float&sinv, const float&cosv, const bool&reserve , YPoint&p);
-	*/
-
 	/**
 	special functions
 	*/
@@ -53,14 +47,6 @@ private:
 	bool CollisionDectectTriangleAndTriangle(const Shape&tria, const Shape&trib);
 	bool CollisionDectect(const Shape&, const Shape&);
 	void CalculatePyhsics6();
-
-	
-
-	YPoint _springforceworkposition;
-
-	bool _isspringforcegenerated;
-
-
 
 public:
 	PhysicsThread(void);
