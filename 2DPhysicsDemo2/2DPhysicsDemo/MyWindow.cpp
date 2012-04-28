@@ -60,6 +60,7 @@ void	MyWindow::OnDisplay(){
 			
 			Shape* shape = *ite_vec_shape;
 			vector<YPoint>& pa = shape->points;
+			//draw line
 			if(shape->type == 1)
 			{
 				glColor3f(shape->r,shape->g,shape->b);
@@ -82,7 +83,7 @@ void	MyWindow::OnDisplay(){
 
 				glPointSize(1);
 				glBegin(GL_POINTS);
-				glVertex2f(shape->middlepoint.x, shape->middlepoint.y);
+				glVertex2f(shape->pos.x, shape->pos.y);
 				glEnd();
 			}
 			if(shape->type == 3 && shape->isvisiable){
@@ -99,7 +100,7 @@ void	MyWindow::OnDisplay(){
 
 				glPointSize(1);
 				glBegin(GL_POINTS);
-				glVertex2f(shape->middlepoint.x, shape->middlepoint.y);
+				glVertex2f(shape->pos.x, shape->pos.y);
 				glEnd();
 			}
 

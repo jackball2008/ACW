@@ -123,7 +123,7 @@ void PhysicsApp::InitializeAllShpes(){
 	ground->SetData(p1,p2);
 	sid++;
 	ground->id = sid;
-	ground->middlepoint = lmid;
+	ground->pos = lmid;
 	_shapeShareObject.renderObjects.push_back(ground);
 	
 
@@ -149,7 +149,7 @@ void PhysicsApp::InitializeAllShpes(){
 		tsquare->SetData(tp1,tp2,tp3,tp4);
 		sid++;
 		tsquare->id = sid;
-		tsquare->middlepoint = tpm;
+		tsquare->pos = tpm;
 		_shapeShareObject.renderObjects.push_back(tsquare);
 
 	}
@@ -198,7 +198,7 @@ void PhysicsApp::InitializeAllShpes(){
 			square->SetData(p1,p2,p3,p4);
 			sid++;
 			square->id = sid;
-			square->middlepoint = p5;
+			square->pos = p5;
 			/*_shapeShareObject.SetData(square);*/
 			_shapeShareObject.renderObjects.push_back(square);
 			if(i==3 && j==6){
@@ -238,7 +238,7 @@ void PhysicsApp::InitializeAllShpes(){
 			triangle->SetData(p1,p2,p3);
 			sid++;
 			triangle->id = sid;
-			triangle->middlepoint = mid;
+			triangle->pos = mid;
 			
 			_shapeShareObject.renderObjects.push_back(triangle);
 			if(j==0){
@@ -266,7 +266,7 @@ void PhysicsApp::InitializeAllShpes(){
 				triangle->SetData(q1,q2,q3);
 				sid++;
 				triangle->id = sid;
-				triangle->middlepoint = qmid;
+				triangle->pos = qmid;
 				
 				_shapeShareObject.renderObjects.push_back(triangle);
 			}

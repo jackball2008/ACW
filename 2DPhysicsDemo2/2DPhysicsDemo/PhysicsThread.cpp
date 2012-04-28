@@ -17,7 +17,21 @@ PhysicsThread::~PhysicsThread(void)
 }
 
 
+void PhysicsThread::CalculateDeltaTime(){
+	//Ensure QueryPerformance is called on a specific core
+	SetThreadAffinityMask(thread, 0x1);
+	QueryPerformanceFrequency(&_ticksPerSecond);
+	QueryPerformanceCounter(&_currentCount);
+	SetThreadAffinityMask(thread, procMask);
 
+	_consumedCount.QuadPart = _currentCount.QuadPart - _lastCount.QuadPart;  
+	_lastCount = _currentCount;
+	_delta_time = float(_consumedCount.QuadPart/(_ticksPerSecond.QuadPart/1000));
+#ifdef DEBUG_DELTATIME
+	cout<<"ms = "<<_delta_time<<endl;
+#endif
+
+}
 void PhysicsThread::ProjectBox(float&bsize, const Shape& box, const float&ax,const float&ay)
 {
 	//ax ay is unit vector or direction vector
@@ -296,6 +310,7 @@ int PhysicsThread::run(){
 	}
 	return 0;
 }
+/**
 void PhysicsThread::CalculatePyhsics5()
 {
 	//
@@ -307,7 +322,7 @@ void PhysicsThread::CalculatePyhsics5()
 		for(int i = 0; i< objnum;i++)
 		{
 			Shape* shape = _shapeShareObject->renderObjects.at(i);
-			/*vector<YPoint>& pa = shape->points;*/
+			
 			if(JudgePointInPologon(shape->points,_springforceworkposition,measureP))
 			{
 				cout<<"s in id = "<<shape->id<<" x = "<<_springforce.force_x<<"y = "<<_springforce.force_y<<endl;
@@ -403,7 +418,7 @@ void PhysicsThread::CheckCollision(Shape* shapeA, Shape* shapeB)
 }
 void PhysicsThread::Rotate(const float&x, const float&y, const float&sinv, const float&cosv, const bool&reserve, YPoint&p)
 {
-	/*YPoint res;*/
+	
 	if(reserve)
 	{
 		p.x = x * cosv + y * sinv;
@@ -414,7 +429,7 @@ void PhysicsThread::Rotate(const float&x, const float&y, const float&sinv, const
 		p.x = x * cosv - y * sinv;
 		p.y = y * cosv + x * sinv;
 	}
-	/*return res;*/
+	
 }
 void PhysicsThread::CheckHitGround(Shape* shape)
 {
@@ -435,18 +450,5 @@ void PhysicsThread::CheckHitGround(Shape* shape)
 	}
 
 }
-void PhysicsThread::CalculateDeltaTime(){
-	//Ensure QueryPerformance is called on a specific core
-	SetThreadAffinityMask(thread, 0x1);
-	QueryPerformanceFrequency(&_ticksPerSecond);
-	QueryPerformanceCounter(&_currentCount);
-	SetThreadAffinityMask(thread, procMask);
+*/
 
-	_consumedCount.QuadPart = _currentCount.QuadPart - _lastCount.QuadPart;  
-	_lastCount = _currentCount;
-	_delta_time = float(_consumedCount.QuadPart/(_ticksPerSecond.QuadPart/1000));
-#ifdef DEBUG_DELTATIME
-	cout<<"ms = "<<_delta_time<<endl;
-#endif
-
-}
