@@ -109,7 +109,7 @@ void	MyWindow::OnMouseMove(int x, int y){
 				
 				_currentmouseposition.x =  2.0f * (float)x / (float)Width() - 1.0f;
 				_shapeShareObject->mouseposition.x = _currentmouseposition.x;
-				
+
 				if(ishold){
 					_shapeShareObject->springLine->points.at(1).x = _currentmouseposition.x;
 					

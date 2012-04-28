@@ -11,9 +11,7 @@ PhysicsApp::PhysicsApp(void)
 	/************************************************************************/
 	_netReceiveThread = new NetReceiveThread();
 	_netSendThread = new NetSendThread();
-	/*_controllerThread = new ControllerThread();*/
 	_physicsThread = new PhysicsThread();
-	/*_renderThread = new RenderThread();*/
 }
 
 
@@ -25,9 +23,7 @@ PhysicsApp::~PhysicsApp(void)
 	/************************************************************************/
 	delete _netReceiveThread;
 	delete _netSendThread;
-	/*delete _controllerThread;*/
 	delete _physicsThread;
-	/*delete _renderThread;*/
 }
 
 
@@ -37,17 +33,12 @@ void PhysicsApp::OnCreate(){
 	/* before all thread start, finish the initialize shape position                                                           */
 	/************************************************************************/
 	InitializeAllShpes();
-
 	/************************************************************************/
 	/* bound share objects                                                                     */
 	/************************************************************************/
 	//main thread
 	_mywindow.SetShapeShareObject(&_shapeShareObject);
 	
-
-	//controller thread
-	
-	/*_controllerThread->SetShapeShareObject(&_shapeShareObject);*/
 	_physicsThread->SetShapeShareObject(&_shapeShareObject);
 	/************************************************************************/
 	/* window thread start                                                                     */
@@ -76,14 +67,12 @@ void PhysicsApp::OnDestroy(){
 	_netSendThread->terminate();
 	_netSendThread->waitForTermination();
 
-// 	_controllerThread->terminate();
-// 	_controllerThread->waitForTermination();
+
 
 	_physicsThread->terminate();
 	_physicsThread->waitForTermination();
 
-// 	_renderThread->terminate();
-// 	_renderThread->waitForTermination();
+
 }
 
 /************************************************************************/
@@ -97,10 +86,10 @@ void PhysicsApp::InitializeAllShpes(){
 	Shape* ground = new Line();
 	YPoint p1;
 	p1.x = -1.0f;
-	p1.y = -0.9f;
+	p1.y = -0.89f;
 	YPoint p2;
 	p2.x = 1.0f;
-	p2.y = -0.9f;
+	p2.y = -0.89f;
 	ground->SetData(p1,p2);
 	//set position
 	ground->pos.x = (p1.x + p2.x) / 2;

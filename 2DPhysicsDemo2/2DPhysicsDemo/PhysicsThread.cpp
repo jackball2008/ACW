@@ -32,23 +32,7 @@ void PhysicsThread::CalculateDeltaTime(){
 #endif
 
 }
-void PhysicsThread::ProjectBox(float&bsize, const Shape& box, const float&ax,const float&ay)
-{
-	/**
-	//ax ay is unit vector or direction vector
-	float ix = box.xw * box.dx;
-	float iy = box.xw * box.dy;
 
-	float jx = box.yw * -box.dy;
-	float jy = box.yw * box.dx;
-	//x project to the axis
-	float dpi = ix*ax + iy*ay;
-	//y project to the axis
-	float dpj = jx*ax + jy*ay;
-
-	bsize = abs(dpi) + abs(dpj);
-	*/
-}
 bool PhysicsThread::CollisionDectectShapeAndGround(const Shape&shape)
 {
 	int numofsize = shape.sizeofpoints;
@@ -249,32 +233,175 @@ void PhysicsThread::CalculatePyhsics7()
 	for(int i=0;i<objnum;i++)
 	{
 		Shape* shapeA = _shapeShareObject->renderObjects.at(i);
-
-		for(int j = 0; j<objnum;j++)
+		if (shapeA->type != 1)
 		{
-			Shape* shapeB = _shapeShareObject->renderObjects.at(j);
+			//make sure A is not ground
 
-			if(shapeA->id != shapeB->id)
+			for(int j = 0; j<objnum;j++)
 			{
-				CollisionDectect(*shapeA,*shapeB);
+				Shape* shapeB = _shapeShareObject->renderObjects.at(j);
+				//shapeB maybe ground
+				if(shapeA->id != shapeB->id)
+				{
+					CollisionDectect(*shapeA,*shapeB);
+
+				}
+				else
+				{
+					continue;
+				}
 
 			}
-			else
-			{
-				continue;
-			}
-
-
 		}
-
-
+		else
+		{
+			continue;
+		}
+		
 	}
 }
 
 void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
 {
-	//check collision and response
+	bool iscollision = false;
 
+	//check collision and response
+	//get num of shapeA's axis
+	int numofaxisA = shapeA.project_axis.size();
+	int numofaxisB = shapeB.project_axis.size();
+	//
+	//fix function, get delta
+	float deltax = shapeA.pos.x - shapeB.pos.x;
+	float deltay = shapeA.pos.y - shapeB.pos.y;
+	if(shapeB.type != 1)
+	{
+		//
+		for(int i = 0;i< numofaxisA; i++)
+		{
+			float Adx = shapeA.project_axis.at(i).x;
+			float Ady = shapeA.project_axis.at(i).y;
+			float Alen = shapeA.project_axis.at(i).z;
+
+			float asize = Alen;
+			float bsize = 0;
+			ProjectShape(bsize,shapeB,Adx,Ady);
+
+			//get delta project to axis
+			float dsize = abs(deltax*Adx + deltay*Ady);
+			//rA + rB  -  dis
+			float penAx = (asize + bsize) - dsize;
+
+			if(penAx>0)
+			{
+				//over lap
+				iscollision = true;
+			}
+			else
+			{
+				iscollision = false;
+				break;
+			}
+
+		}
+		if(iscollision)
+		{
+			//check B axis
+			for(int i = 0;i< numofaxisB; i++)
+			{
+				float Bdx = shapeB.project_axis.at(i).x;
+				float Bdy = shapeB.project_axis.at(i).y;
+				float Blen = shapeB.project_axis.at(i).z;
+
+				float asize = Blen;
+				float bsize = 0;
+				ProjectShape(bsize,shapeA,Bdx,Bdy);
+
+				//get delta project to axis
+				float dsize = abs(deltax*Bdx + deltay*Bdy);
+
+				//rA + rB  -  dis
+				float penAx = (asize + bsize) - dsize;
+
+				if(penAx>0)
+				{
+					//over lap
+					iscollision = true;
+				}
+				else
+				{
+					iscollision = false;
+					break;
+				}
+
+			}
+		}
+	}
+	else
+	{
+		//shapeB is ground
+		float Bdx = shapeB.project_axis.at(0).x;
+		float Bdy = shapeB.project_axis.at(0).y;
+
+		float bsize = 0;
+		ProjectShape(bsize,shapeA,Bdx,Bdy);
+		//deltay
+		float asize = 0;
+
+
+
+
+
+
+
+
+	}
+	
+
+
+	if(iscollision)
+	{
+		//do response
+		cout<<"hit"<<endl;
+	}
+	else
+	{
+		//continue to work
+	}
+
+
+
+}
+void PhysicsThread::ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay)
+{
+	int numofaxis = shape.project_axis.size();
+	bsize = 0;
+	for(int i = 0;i<numofaxis;i++)
+	{
+		float dx = shape.project_axis.at(i).x;
+		float dy = shape.project_axis.at(i).y;
+		float len = shape.project_axis.at(i).z;
+		//
+		float ix = len*dx;
+		float iy = len*dy;
+
+		float dpi = ix * ax + iy * ay;
+
+		bsize = bsize + abs(dpi);
+	}
+	/**
+	//ax ay is unit vector or direction vector
+	float ix = box.xw * box.dx;
+	float iy = box.xw * box.dy;
+
+	float jx = box.yw * -box.dy;
+	float jy = box.yw * box.dx;
+	//x project to the axis
+	float dpi = ix*ax + iy*ay;
+	//y project to the axis
+	float dpj = jx*ax + jy*ay;
+
+	bsize = abs(dpi) + abs(dpj);
+	*/
 }
 
 

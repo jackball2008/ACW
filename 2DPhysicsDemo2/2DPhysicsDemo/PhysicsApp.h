@@ -21,7 +21,7 @@
 /* share objects                                                                     */
 /************************************************************************/
 #include "ShapeShareObject.h"
-/*#include "MouseShareObject.h"*/
+
 
 
 using namespace gxbase;
@@ -35,15 +35,13 @@ private:
 	//real work thread
 	NetReceiveThread* _netReceiveThread;
 	NetSendThread* _netSendThread;
-	/*ControllerThread* _controllerThread;*/
 	PhysicsThread* _physicsThread;
-	/*RenderThread* _renderThread;*/
+	
 
 	/************************************************************************/
 	/* share object                                                                     */
 	/************************************************************************/
 	ShapeShareObject _shapeShareObject;
-	/*MouseShareObject _mouseShareObject;*/
 	/************************************************************************/
 	/* functions                                                                     */
 	/************************************************************************/
@@ -56,8 +54,6 @@ public:
 
 	void OnCreate();
 	void OnDestroy();
-
-
 
 };
 
