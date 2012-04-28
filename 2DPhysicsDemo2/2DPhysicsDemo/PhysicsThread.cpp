@@ -347,12 +347,18 @@ void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
 		//deltay
 		float asize = 0;
 
+		float dsize = abs(deltay);
 
+		float penAx = (asize + bsize)-dsize;
 
-
-
-
-
+		if(penAx>0)
+		{
+			iscollision = true;
+		}
+		else
+		{
+			iscollision = false;
+		}
 
 	}
 	
