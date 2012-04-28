@@ -41,7 +41,7 @@ void	MyWindow::OnDisplay(){
 	//////////////////////////////////////////////////////////////////////////
 	
 		//draw line
-
+	/**
 	glColor3f(_shapeShareObject->ground->r,_shapeShareObject->ground->g,_shapeShareObject->ground->b);
 
 	glBegin(GL_LINES);
@@ -49,6 +49,7 @@ void	MyWindow::OnDisplay(){
 	glVertex2f(_shapeShareObject->ground->points.at(1).x, _shapeShareObject->ground->points.at(1).y);
 
 	glEnd();
+	*/
 	//////////////////////////////////////////////////////////////////////////
 	
 	
@@ -59,6 +60,15 @@ void	MyWindow::OnDisplay(){
 			
 			Shape* shape = *ite_vec_shape;
 			vector<YPoint>& pa = shape->points;
+			if(shape->type == 1)
+			{
+				glColor3f(shape->r,shape->g,shape->b);
+				glBegin(GL_LINES);
+				glVertex2f(pa.at(0).x, pa.at(0).y);
+				glVertex2f(pa.at(1).x, pa.at(1).y);
+				glEnd();
+			}
+
 			
 			if(shape->type == 2 && shape->isvisiable){
 				//draw triangles

@@ -11,10 +11,24 @@ Shape::Shape(void)
 	//position = middle point
 	px = 0;
 	py = 0;
+	//
+	sizeofpoints = 0;
+	//spring force
+	springforce.x = 0;
+	springforce.y = 0;
+	//
+	acceleration.x = 0;
+	acceleration.y = 0;
+	//force
+	force.x = 0;
+	force.y = 0;
+	//
+	velocity.x = 0;
+	velocity.y = 0;
 
 	/////////////////////////////////////////////////////////////////////////
 
-	sizeofpoints = 0;
+	
 	mgh_power = 0;
 	erfenzhiyimvfang_x = 0;
 	erfenzhiyimvfang_y = 0;
@@ -23,8 +37,7 @@ Shape::Shape(void)
 
 	hitsometing = false;
 	hitground = false;
-// 	cantransferpower_y = false;
-// 	cantransferpower_x = false;
+
 	cantransferpower = false;
 	//power
 	force_all_x = 0.0f;

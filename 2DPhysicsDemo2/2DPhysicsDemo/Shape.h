@@ -12,22 +12,27 @@ public:
 	//width for x ,y; direction vector for 
 	float xw,yw,dx,dy;
 	float px,py;
+	int sizeofpoints;
+	YPoint springforce;
+	YPoint acceleration;
+	YPoint force;
+	YPoint velocity;
 	//store points
 	vector<YPoint>points;
 	YPoint middlepoint;
 
-	YPoint force;
+	
 	float mass;
-
-	YPoint springforce;
-	YPoint acceleration;
+	//////////////////////////////////////////////////////////////////////////
+	
+	
 	//velocity
-	YPoint velocity;
+	
 	YPoint old_velocity;
 	YPoint movement;
 	//direction
 	YPoint orientation;
-	int sizeofpoints;
+	
 	//==================================
 	//used in checkCollision
 	YPoint pos;
