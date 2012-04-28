@@ -1,8 +1,6 @@
-#include <GXBase.h>
 #include <math.h>
-using namespace gxbase;
-// #include <vector>
-// using namespace std;
+
+
 
 const float ptol = 0.00000001f;
 //save 
@@ -10,46 +8,54 @@ struct YPoint{
 public:
 	float x;
 	float y;
+	float z;
 
 	YPoint(){
 		x=0;
 		y=0;
+		z=0;
 	};
 
-	YPoint(const float& _x, const float& _y){
+	YPoint(const float& _x, const float& _y,const float& _z){
 		x = _x;
 		y = _y;
+		z = _z;
 	};
 
 
 	inline float Magnitude()
 	{
-		return (float)sqrt(x*x+y*y);
+		return (float)sqrt(x*x+y*y + z*z);
 	}
 
 	inline void Normalize(){
-		float m = (float)sqrt(x*x+y*y);
+		float m = (float)sqrt(x*x+y*y+z*z);
 		if(m<= ptol)m =1;
 		x/= m;
 		y/= m;
+		z/= m;
 		
 		if (fabs(x) < ptol) x =0.0f;
 		if (fabs(x) < ptol) y =0.0f;
+		if (fabs(x) < ptol) z =0.0f;
 	}
 	inline void Reverse(){
 		x =-x;
 		y =-y;
+		z = -z;
 	}
 
 	friend YPoint & operator += ( YPoint &lhs, const YPoint & rhs ) {
 		lhs.x += rhs.x;
 		lhs.y += rhs.y;
+		lhs.z += rhs.z;
 		return lhs;
 	}
 
 	friend YPoint & operator -= ( YPoint &lhs, const YPoint & rhs ) {
 		lhs.x -= rhs.x;
 		lhs.y -= rhs.y;
+		lhs.z -= rhs.z;
 		return lhs;
 	}
 
@@ -57,18 +63,21 @@ public:
 	friend YPoint & operator *= ( YPoint &lhs, const YPoint & rhs ) {
 		lhs.x *= rhs.x;
 		lhs.y *= rhs.y;
+		lhs.z *= rhs.z;
 		return lhs;
 	}
 
 	friend YPoint & operator *= ( YPoint &lhs, const float & rhs ) {
 		lhs.x *= rhs;
 		lhs.y *= rhs;
+		lhs.z *= rhs;
 		return lhs;
 	}
 
 	friend YPoint & operator /= ( YPoint &lhs, const YPoint & rhs ) {
 		lhs.x /= rhs.x;
 		lhs.y /= rhs.y;
+		lhs.z /= rhs.z;
 		return lhs;
 	}
 
@@ -76,6 +85,7 @@ public:
 		if(d == 0) return lhs;
 		lhs.x /= d;
 		lhs.y /= d;
+		lhs.z /= d;
 		return lhs;
 	}
 	

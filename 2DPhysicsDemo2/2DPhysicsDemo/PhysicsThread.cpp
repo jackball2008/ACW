@@ -148,6 +148,7 @@ void PhysicsThread::CalculatePyhsics6()
 	{
 		bool hitsomething = false;
 		Shape* shapeA = _shapeShareObject->renderObjects.at(i);
+		//if the shape is ground
 		if(shapeA->type ==1)
 			continue;
 
@@ -341,15 +342,15 @@ void PhysicsThread::CalculatePyhsics5()
 		shape->force.y = 0;
 		//////////////////////////////////////////////////////////////////////////
 		//save old v
-		shape->old_velocity.x = shape->velocity.x;
-		shape->old_velocity.y = shape->velocity.y;
+		//shape->old_velocity.x = shape->velocity.x;
+		//shape->old_velocity.y = shape->velocity.y;
 		//get new v
-		shape->velocity.x = shape->old_velocity.x + shape->acceleration.x * (_delta_time );
-		shape->velocity.y = shape->old_velocity.y + shape->acceleration.y * (_delta_time );
+		//shape->velocity.x = shape->old_velocity.x + shape->acceleration.x * (_delta_time );
+		//shape->velocity.y = shape->old_velocity.y + shape->acceleration.y * (_delta_time );
 
 		//get movement
-		shape->movement.x = float(shape->old_velocity.x * _delta_time + 0.5 * shape->acceleration.x * _delta_time * _delta_time);
-		shape->movement.y = float(shape->old_velocity.y * _delta_time + 0.5 * shape->acceleration.y * _delta_time * _delta_time);
+		//shape->movement.x = float(shape->old_velocity.x * _delta_time + 0.5 * shape->acceleration.x * _delta_time * _delta_time);
+		//shape->movement.y = float(shape->old_velocity.y * _delta_time + 0.5 * shape->acceleration.y * _delta_time * _delta_time);
 		//clear accleration
 		shape->acceleration.x = 0;
 		shape->acceleration.y = 0;
@@ -422,8 +423,8 @@ void PhysicsThread::CheckHitGround(Shape* shape)
 	{
 		//make v = 0
 		shape->velocity.y = 0;
-		shape->old_velocity.y = 0;
-		shape->movement.y = 0;
+		//shape->old_velocity.y = 0;
+		//shape->movement.y = 0;
 		//color
 		shape->g = 0.0;
 		

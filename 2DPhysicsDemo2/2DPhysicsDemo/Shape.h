@@ -2,13 +2,20 @@
 #include "Point.h"
 #include <vector>
 /*#include "Mmath.h"*/
-#include "mxyMath.h"
-using namespace mxy;
+//#include "mxyMath.h"
+//using namespace mxy;
 using namespace std;
 class Shape
 {
 
 public:
+	//color
+	float r,g,b;
+	int type;
+	bool isvisiable;
+	int id;
+
+	//////////////////////////////////////////////////////////////////////////
 	//width for x ,y; direction vector for 
 	float xw,yw,dx,dy;
 	float px,py;
@@ -19,13 +26,14 @@ public:
 	YPoint velocity;
 	//store points
 	vector<YPoint>points;
+	vector<YPoint>axis;
 	YPoint middlepoint;
 
 	
 	float mass;
 	//////////////////////////////////////////////////////////////////////////
 	
-	
+	/**
 	//velocity
 	
 	YPoint old_velocity;
@@ -72,20 +80,20 @@ public:
 	float velocity_y;
 	float old_velocity_y;
 	float acceleration_y;
-	
+	*/
 	//shape own properties
-	int type;
-
-
-	//color
-	float r,g,b;
 	
 
-	bool isvisiable;
+
+	
+	
+	
 
 	
 
-	int id;
+	
+
+	
 
 public:
 	Shape(void);
@@ -110,6 +118,7 @@ public:
 
 	void UpdatePosition()
 	{
+		/**
 		float mix = 0;
 		float miy = 0;
 		for(int i = 0; i<sizeofpoints;i++)
@@ -123,6 +132,7 @@ public:
 		movement.y = 0;
 		middlepoint.x = mix / sizeofpoints;
 		middlepoint.y = miy / sizeofpoints;
+		*/
 
 	}
 

@@ -3,6 +3,11 @@
 
 Shape::Shape(void)
 {
+	r=1.0f;
+	g=1.0f;
+	b=0.0f;
+	isvisiable = true;
+	id = 0;
 	//////////////////////////////////////////////////////////////////////////
 	xw = 0;
 	yw = 0;
@@ -28,7 +33,7 @@ Shape::Shape(void)
 
 	/////////////////////////////////////////////////////////////////////////
 
-	
+	/**
 	mgh_power = 0;
 	erfenzhiyimvfang_x = 0;
 	erfenzhiyimvfang_y = 0;
@@ -60,16 +65,9 @@ Shape::Shape(void)
 	old_velocity_y = 0.0f;
 	acceleration_y = 0.0f;
 	//
+	*/
 
-
-	r=1.0f;
-	g=1.0f;
-	b=0.0f;
-
-	isvisiable = true;
 	
-	
-	id = 0;
 
 	
 }
