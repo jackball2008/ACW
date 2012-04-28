@@ -3,7 +3,6 @@
 #include <iostream>
 #include "ShareMem.h"
 #include <Windows.h>
-#include "RigidBody.h"
 using std::iostream;
 
 class PhysicThread :
@@ -20,7 +19,9 @@ public:
 	Vector		vCollisionPoint;			// the world space point of collision
 	Vector		vRelativeVelocity;			// the world space relative velocity of the two bodies at the point of collision
 
-	
+	void Updateposition ();
+	void Updatebody();
+
 private:
 
 
