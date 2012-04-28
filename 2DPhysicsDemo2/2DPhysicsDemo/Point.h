@@ -44,6 +44,29 @@ public:
 		y =-y;
 		z = -z;
 	}
+	inline void Left2D(){
+		float _x = y;
+		float _y = -x;
+		x =_x;
+		y =_y;
+
+	}
+	inline void Right2D(){
+		float _x = -y;
+		float _y = x;
+		x =_x;
+		y =_y;
+
+	}
+	inline void Right2D( YPoint &lhs){
+		float _x = -y;
+		float _y = x;
+		lhs.x =_x;
+		lhs.y =_y;
+
+	}
+
+
 
 	friend YPoint & operator += ( YPoint &lhs, const YPoint & rhs ) {
 		lhs.x += rhs.x;

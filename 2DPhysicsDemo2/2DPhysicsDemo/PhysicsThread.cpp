@@ -34,6 +34,7 @@ void PhysicsThread::CalculateDeltaTime(){
 }
 void PhysicsThread::ProjectBox(float&bsize, const Shape& box, const float&ax,const float&ay)
 {
+	/**
 	//ax ay is unit vector or direction vector
 	float ix = box.xw * box.dx;
 	float iy = box.xw * box.dy;
@@ -46,7 +47,7 @@ void PhysicsThread::ProjectBox(float&bsize, const Shape& box, const float&ax,con
 	float dpj = jx*ax + jy*ay;
 
 	bsize = abs(dpi) + abs(dpj);
-
+	*/
 }
 bool PhysicsThread::CollisionDectectShapeAndGround(const Shape&shape)
 {
@@ -72,6 +73,7 @@ bool PhysicsThread::CollisionDectectBoxAndBox(const Shape&boxA,const Shape&boxB)
 {
 	bool res = false;
 	//////////////////////////////////////////////////////////////////////////
+	/**
 	//fix function
 	float deltax = boxA.px - boxB.px;
 	float deltay = boxA.py - boxB.py;
@@ -149,7 +151,7 @@ bool PhysicsThread::CollisionDectectBoxAndBox(const Shape&boxA,const Shape&boxB)
 		res = false;
 	}
 
-
+	*/
 	//////////////////////////////////////////////////////////////////////////
 	return res;
 }

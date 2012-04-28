@@ -9,20 +9,16 @@ Shape::Shape(void)
 	isvisiable = true;
 	id = 0;
 	//////////////////////////////////////////////////////////////////////////
-	xw = 0;
-	yw = 0;
-	dx = 0;
-	dy = 0;
+// 	xw = 0;
+// 	yw = 0;
+// 	dx = 0;
+// 	dy = 0;
 	//position = middle point
-	px = 0;
-	py = 0;
+// 	px = 0;
+// 	py = 0;
 	//
 	sizeofpoints = 0;
-	//spring force
 	
-	//force
-	
-	//
 	
 
 	

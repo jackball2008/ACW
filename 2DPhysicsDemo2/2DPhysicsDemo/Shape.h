@@ -15,23 +15,22 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////
 	//width for x ,y; direction vector for 
-	float xw,yw,dx,dy;
-	float px,py;
-	YPoint pos;
-	int sizeofpoints;
+	//float xw,yw,dx,dy;==> store to axis
+	//float px,py;
+
+
+	YPoint pos;//position
 	YPoint springforce;
 	YPoint acceleration;
-	YPoint force;
+	YPoint force;// x y
 	YPoint velocity;
 	//store points
 	vector<YPoint>points;
 	//dx dy len=z
-	vector<YPoint>axis;
-	
-
+	vector<YPoint>project_axis;
 	
 	float mass;
-	
+	int sizeofpoints;
 
 public:
 	Shape(void);

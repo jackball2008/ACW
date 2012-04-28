@@ -93,23 +93,7 @@ void PhysicsApp::OnDestroy(){
 #define ADDTESTSQUARE1
 void PhysicsApp::InitializeAllShpes(){
 	int sid = 0;
-	//set springline
-	/**
-	SpringLine *springLine = new SpringLine();
-	YPoint sp;
-	sp.x = ORIGIN_SPRING_X;
-	sp.y = ORIGIN_SPRING_Y;
-	YPoint ep;
-	ep.x = ORIGIN_SPRING_X;
-	ep.y = ORIGIN_SPRING_Y;
-	springLine->SetData(sp,ep);
-	sid++;
-	springLine->id = sid;
-
-	_shapeShareObject.renderObjects.push_back(springLine);
-	*/
-	//set ground
-	/***/
+	
 	Shape* ground = new Line();
 	YPoint p1;
 	p1.x = -1.0f;
@@ -117,49 +101,31 @@ void PhysicsApp::InitializeAllShpes(){
 	YPoint p2;
 	p2.x = 1.0f;
 	p2.y = -0.9f;
-	YPoint lmid;
-	lmid.x = (p1.x + p2.x) / 2;
-	lmid.y = (p1.y + p2.y) / 2;
 	ground->SetData(p1,p2);
+	//set position
+	ground->pos.x = (p1.x + p2.x) / 2;
+	ground->pos.y = (p1.y + p2.y) / 2;
 	sid++;
 	ground->id = sid;
-	ground->pos = lmid;
+	//set axis, ground only have one axis
+	YPoint ax;
+	ax.x = p1.x - p2.x;
+	ax.y = p1.y - p2.y;
+	ax.Normalize();
+	ax.Left2D();
+	//ax.z = 0 = len;
+	ground->project_axis.push_back(ax);
+	//set 
 	_shapeShareObject.renderObjects.push_back(ground);
 	
-
-
-#ifdef ADDTESTSQUARE
-	{
-		YPoint tp1;
-		tp1.x = 0.02f+0.5f;
-		tp1.y = 0.02f;
-		YPoint tp2;
-		tp2.x = -0.02f+0.5f;
-		tp2.y = 0.02f;
-		YPoint tp3;
-		tp3.x = -0.02f+0.5f;
-		tp3.y = -0.02f;
-		YPoint tp4;
-		tp4.x = 0.02f+0.5f;
-		tp4.y = -0.02f;
-		YPoint tpm;
-		tpm.x = 0.0f+0.5f;
-		tpm.y = 0.0f;
-		Shape* tsquare = new Square();
-		tsquare->SetData(tp1,tp2,tp3,tp4);
-		sid++;
-		tsquare->id = sid;
-		tsquare->pos = tpm;
-		_shapeShareObject.renderObjects.push_back(tsquare);
-
-	}
-#endif
 
 	//set squares
 	//25 * 4
 	YPoint tristartp;
 	for(int i = 0; i<1 /*4*/; i ++){
 		for( int j =0; j <1 /*25*/ ; j ++){
+			Shape* square = new Square();
+			//set points
 			YPoint p1;
 			p1.x = -0.5f + j * 0.04f;
 			p1.y = -0.9f + i * 0.04f;
@@ -175,31 +141,37 @@ void PhysicsApp::InitializeAllShpes(){
 			YPoint p4;
 			p4.x = p1.x;
 			p4.y = p3.y;
+			square->SetData(p1,p2,p3,p4);
+			
+			//set position
+			
+			square->pos.x = (float)(p1.x + p3.x + p2.x + p4.x)/4;
+			square->pos.y = (float)(p1.y + p3.y + p2.y + p4.y)/4;
 
-			YPoint p5;
-			p5.x = (float)(p1.x + p3.x + p2.x + p4.x)/4;
-			p5.y = (float)(p1.y + p3.y + p2.y + p4.y)/4;
-
-			Shape* square = new Square();
+			
 			//////////////////////////////////////////////////////////////////////////
-			square->xw = 0.02f;
-			square->yw = 0.02f;
+			//square have two axises
+			//set x axis
+			YPoint ax;
 			float x1 = (p3.x - p2.x)/2;
 			float y1 = (p3.y - p2.y)/2;
-			x1 = x1 - p5.x;
-			y1 = y1 - p5.y;
-			float len = sqrt(x1*x1 + y1*y1);
-			//unit direction vector
-			square->dx = x1/len;
-			square->dy = y1/len;
-			square->px = p5.x;
-			square->py = p5.y;
+			x1 = x1 - square->pos.x;
+			y1 = y1 - square->pos.y;
+			float len = sqrt(x1*x1 + y1*y1);//z
+			ax.x = x1;
+			ax.y = y1;
+			ax.Normalize();
+			ax.z = 0.02f;
+			//set y axis
+			YPoint yx;
+			ax.Right2D(yx);
+			yx.z = 0.02f;
+			
+			square->project_axis.push_back(ax);
+			square->project_axis.push_back(yx);
 			//////////////////////////////////////////////////////////////////////////
-			square->SetData(p1,p2,p3,p4);
 			sid++;
 			square->id = sid;
-			square->pos = p5;
-			/*_shapeShareObject.SetData(square);*/
 			_shapeShareObject.renderObjects.push_back(square);
 			if(i==3 && j==6){
 				//setting triangle start position
