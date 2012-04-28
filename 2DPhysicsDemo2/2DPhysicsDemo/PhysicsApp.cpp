@@ -153,11 +153,13 @@ void PhysicsApp::InitializeAllShpes(){
 			//square have two axises
 			//set x axis
 			YPoint ax;
-			float x1 = (p3.x - p2.x)/2;
-			float y1 = (p3.y - p2.y)/2;
+			float x1 = (p3.x + p2.x)/2;
+			
+			float y1 = (p3.y + p2.y)/2;
+			
 			x1 = x1 - square->pos.x;
 			y1 = y1 - square->pos.y;
-			float len = sqrt(x1*x1 + y1*y1);//z
+			/*float len = sqrt(x1*x1 + y1*y1);//z*/
 			ax.x = x1;
 			ax.y = y1;
 			ax.Normalize();
