@@ -20,6 +20,8 @@ using std::vector;
 
 class _RigidBody{
 public:
+
+	_RigidBody(void);
 	float     fMass;                // total mass (constant)
 	float     fInertia;             // mass moment of inertia in body coordinates (constant)
 	float     fInertiaInverse;      // inverse of mass moment of inertia (constant)

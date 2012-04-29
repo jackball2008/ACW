@@ -4,7 +4,7 @@
 ShareMem::ShareMem()
 {
 	mutex=CreateMutex(NULL,FALSE,"mymutex");
-	assert(mutex!=NULL);
+	/*assert(mutex!=NULL);*/
 }
 
 

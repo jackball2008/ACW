@@ -17,7 +17,7 @@ protected:
 		return ((MyThread*)param)->run();
 		return 1;
 	}
-private:
+
 
 public: 
 	MyThread() : _hThread(0),_terminate(false){}

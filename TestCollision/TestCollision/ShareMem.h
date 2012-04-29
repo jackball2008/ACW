@@ -1,8 +1,8 @@
 #pragma once
 #include "RigidBody.h"
 #include <Windows.h>
-#include "GXBase.h"
-using namespace gxbase;
+//#include "GXBase.h"
+//using namespace gxbase;
 #include <vector>
 using std::vector;
 
