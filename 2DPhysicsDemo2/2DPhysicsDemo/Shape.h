@@ -17,12 +17,17 @@ public:
 	//width for x ,y; direction vector for 
 	//float xw,yw,dx,dy;==> store to axis
 	//float px,py;
+	YPoint old_movement;
 	YPoint movement;
+	YPoint temp_movement;
+	
 	YPoint penmove;
 	YPoint pos;//position
 	YPoint springforce;
 	YPoint acceleration;
 	YPoint force;// x y
+
+	YPoint old_velocity;
 	YPoint velocity;
 	//store points
 	vector<YPoint>points;

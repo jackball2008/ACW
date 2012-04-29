@@ -4,6 +4,7 @@
 PhysicsThread::PhysicsThread(void)
 {
 	_delta_time  = 0.0f;
+	_old_delta_time = 0.0f;
 	_isspringforcegenerated = false;
 
 	measureP.x = -10;
@@ -26,6 +27,7 @@ void PhysicsThread::CalculateDeltaTime(){
 
 	_consumedCount.QuadPart = _currentCount.QuadPart - _lastCount.QuadPart;  
 	_lastCount = _currentCount;
+	_old_delta_time = _delta_time;
 	_delta_time = float(_consumedCount.QuadPart/(_ticksPerSecond.QuadPart/1000));
 #ifdef DEBUG_DELTATIME
 	cout<<"ms = "<<_delta_time<<endl;
@@ -33,16 +35,7 @@ void PhysicsThread::CalculateDeltaTime(){
 
 }
 
-bool PhysicsThread::CollisionDectectShapeAndGround(const Shape&shape)
-{
-	int numofsize = shape.sizeofpoints;
-	for(int i = 0; i< numofsize; i ++)
-	{
-		if(shape.points.at(i).y < GROUND_Y)
-			return true;
-	}
-	return false;
-}
+
 
 bool PhysicsThread::CollisionDectectBoxAndTriangle(const Shape&box, const Shape&tri)
 {
@@ -154,6 +147,7 @@ void PhysicsThread::CalculatePyhsics6()
 
 		//////////////////////////////////////////////////////////////////////////
 		//checkground
+		/**
 		if(CollisionDectectShapeAndGround(*shapeA))
 		{
 			//calculate hit ground
@@ -194,6 +188,7 @@ void PhysicsThread::CalculatePyhsics6()
 			}
 
 		}
+		*/
 		//////////////////////////////////////////////////////////////////////////
 		//add spring force
 
@@ -344,6 +339,7 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, const Shape& shapeB)
 	else
 	{
 		//shapeB is ground
+		/**
 		float Bdx = shapeB.project_axis.at(0).x;
 		float Bdy = shapeB.project_axis.at(0).y;
 
@@ -353,7 +349,7 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, const Shape& shapeB)
 		
 		float bsize = 0;
 
-		float dsize = abs(deltay);//float dsize = abs(deltax*Adx + deltay*Ady);
+		float dsize = abs(deltay);
 		
 		float penAx = (asize + bsize)-dsize;
 
@@ -371,6 +367,15 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, const Shape& shapeB)
 		{
 			iscollision = false;
 		}
+		*/
+		if(CollisionDectectShapeAndGround(shapeA,shapeB))
+		{
+			iscollision = true;
+		}
+		else
+		{
+			iscollision = false;
+		}
 
 	}
 	//////////////////////////////////////////////////////////////////////////
@@ -383,32 +388,125 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, const Shape& shapeB)
 		if(shapeB.type != 1)
 		{
 			//common hit
-			cout<<"common hit"<<endl;
+			ResponseCollisionWithShape(shapeA,shapeB);
 		}
 		else
 		{
 			//ground hit
-			cout<<"ground hit"<<endl;
-			//test here
-			shapeA.velocity.Clear();
-
-			shapeA.Move(shapeA.penmove);
-
+			ResponseCollisionWithGround(shapeA,shapeB);
 		}
-
-
 	}
 	else
 	{
 		//continue to work, free down
-
 		FreeMoveShape(shapeA);
+	}
+
+}
+void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,const Shape&shapeB)
+{
+	cout<<"common hit"<<endl;
+}
+void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground)
+{
+	//return the start pos
+	//shapeA.old_movement.Reverse();
+	//shapeA.Move(shapeA.old_movement);
+	//////////////////////////////////////////////////////////////////////////
+	//for t/2
+	//get used t
+	/**
+	float t = _old_delta_time;
+	YPoint tempmovement;
+	bool findCollisionTime = false;
+	while(!findCollisionTime)
+	{
+		t = t /2;
+
+		shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
+		shapeA.acceleration.y = shapeA.force.y / shapeA.mass + G_ACCERLATION;
+		///
+		//YPoint movement;
+		tempmovement.x = float(shapeA.old_velocity.x * t + 0.5 * shapeA.acceleration.x * t * t);
+		tempmovement.y = float(shapeA.old_velocity.y * t + 0.5 * shapeA.acceleration.y * t * t);
+		tempmovement.z = 0.0f;
+		///
+		//shape.velocity.x = shape.velocity.x + shape.acceleration.x * t;
+		//shape.velocity.y = shape.velocity.y + shape.acceleration.y * t;
+		//////////////////////////////////////////////////////////////////////////
+		shapeA.Move(tempmovement);
+		//shape.movement.Clear();
+		if(CollisionDectectShapeAndGround(shapeA,ground))
+		{
+			tempmovement.Reverse();
+			shapeA.Move(tempmovement);
+		}
+		else
+		{
+			//find the colosed t to the time for collision happen
+			findCollisionTime = true;//jump out of loop
+		}
 
 	}
 
+	float left_t = _old_delta_time - t;
+	YPoint speed_collision;
+	speed_collision.x = shapeA.old_velocity.x + shapeA.acceleration.x * t;
+	speed_collision.y = shapeA.old_velocity.y + shapeA.acceleration.y * t;
+	speed_collision.z = 0;
+	//y  = -y
+	speed_collision.y = -speed_collision.y;
+	//get new movement
+	tempmovement.x = float(speed_collision.x * left_t + 0.5 * shapeA.acceleration.x * left_t * left_t);
+	tempmovement.y = float(speed_collision.y * left_t + 0.5 * shapeA.acceleration.y * left_t * left_t);
+	tempmovement.z = 0.0f;
+
+	//get end speed
+	shapeA.velocity.x = speed_collision.x + shapeA.acceleration.x * left_t;
+	shapeA.velocity.y = speed_collision.y + shapeA.acceleration.y * left_t;
+	shapeA.velocity.z = 0;
+
+	shapeA.Move(tempmovement);
 
 
+
+	*/
+	cout<<"ground hit"<<endl;
+	//test here
+	shapeA.velocity.Clear();
+	shapeA.Move(shapeA.penmove);
 }
+
+bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape,const Shape&ground)
+{
+	float Bdx = ground.project_axis.at(0).x;
+	float Bdy = ground.project_axis.at(0).y;
+	float deltay = shape.pos.y - ground.pos.y;
+	float asize = 0;
+	ProjectShape(asize,shape,Bdx,Bdy);
+
+
+	float bsize = 0;
+
+	float dsize = abs(deltay);//float dsize = abs(deltax*Adx + deltay*Ady);
+
+	float penAx = (asize + bsize)-dsize;
+
+	//reduce mistake made by calculation /////////////////////////////////////
+	ReduceDisMistake(penAx);
+	//////////////////////////////////////////////////////////////////////////
+	if(penAx>0)
+	{
+		//get penmove value
+		shape.penmove.y = penAx;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void PhysicsThread::FreeMoveShape(Shape&shape)
 {
 	float t = _delta_time/1000;//ms -> s
@@ -417,18 +515,17 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 	shape.acceleration.y = shape.force.y / shape.mass + G_ACCERLATION;
 	///
 	//YPoint movement;
+	shape.old_movement = shape.movement;
 	shape.movement.x = float(shape.velocity.x * t + 0.5 * shape.acceleration.x * t * t);
 	shape.movement.y = float(shape.velocity.y * t + 0.5 * shape.acceleration.y * t * t);
 	shape.movement.z = 0.0f;
 	///
+	shape.old_velocity = shape.velocity;
 	shape.velocity.x = shape.velocity.x + shape.acceleration.x * t;
 	shape.velocity.y = shape.velocity.y + shape.acceleration.y * t;
 	//////////////////////////////////////////////////////////////////////////
 	shape.Move(shape.movement);
 	shape.movement.Clear();
-
-
-
 
 }
 

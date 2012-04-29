@@ -29,6 +29,7 @@ private:
 	LARGE_INTEGER _ticksPerSecond, _consumedCount, _currentCount, _lastCount;
 	//ms
 	float _delta_time;
+	float _old_delta_time;
 	//thread
 	HANDLE thread;
 
@@ -43,7 +44,7 @@ private:
 	special functions
 	*/
 	
-	bool CollisionDectectShapeAndGround(const Shape&);
+	
 	bool CollisionDectectBoxAndBox(const Shape&,const Shape&);
 	bool CollisionDectectBoxAndTriangle(const Shape&box, const Shape&tri);
 	bool CollisionDectectTriangleAndTriangle(const Shape&tria, const Shape&trib);
@@ -56,6 +57,9 @@ private:
 	void CollisionDectect(Shape&, const Shape&);
 	void ReduceDisMistake(float&dis);
 	void FreeMoveShape(Shape&shape);
+	bool CollisionDectectShapeAndGround(Shape&shape,const Shape&ground);
+	void ResponseCollisionWithShape(Shape&shapeA,const Shape&shapeB);
+	void ResponseCollisionWithGround(Shape&shapeA, const Shape&ground);
 	//////////////////////////////////////////////////////////////////////////
 
 
