@@ -414,23 +414,17 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 	shape.acceleration.x = shape.force.x / shape.mass;
 	shape.acceleration.y = shape.force.y / shape.mass + G_ACCERLATION;
 	///
-	YPoint movement;
-	movement.x = float(shape.velocity.x * t + 0.5 * shape.acceleration.x * t * t);
-	movement.y = float(shape.velocity.y * t + 0.5 * shape.acceleration.y * t * t);
-	movement.z = 0.0f;
+	//YPoint movement;
+	shape.movement.x = float(shape.velocity.x * t + 0.5 * shape.acceleration.x * t * t);
+	shape.movement.y = float(shape.velocity.y * t + 0.5 * shape.acceleration.y * t * t);
+	shape.movement.z = 0.0f;
 	///
 	shape.velocity.x = shape.velocity.x + shape.acceleration.x * t;
 	shape.velocity.y = shape.velocity.y + shape.acceleration.y * t;
 	//////////////////////////////////////////////////////////////////////////
-	shape.Move(movement);
-// 	shape.pos.Clear();
-// 	for(int i = 0; i<shape.sizeofpoints; i++)
-// 	{
-// 		shape.points.at(i) += movement;
-// 		shape.pos += shape.points.at(i);
-// 	}
-// 	
-// 	shape.pos /= 4;
+	shape.Move(shape.movement);
+	shape.movement.Clear();
+
 
 
 
