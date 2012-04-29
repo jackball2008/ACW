@@ -6,11 +6,13 @@
 using std::iostream;
 
 class PhysicThread :
-	MyThread
+	public MyThread
 {
 public:
 	PhysicThread(void);
 	~PhysicThread(void);
+
+	int run();
 	ShareMem* _shareobject;
 
 
@@ -19,11 +21,15 @@ public:
 	Vector		vCollisionPoint;			// the world space point of collision
 	Vector		vRelativeVelocity;			// the world space relative velocity of the two bodies at the point of collision
 
-	void Updateposition ();
-	void Updatebody();
+
+
 
 private:
+		
+	
+	int CheckforCollision(_RigidBody *body1, _RigidBody *body2);
 
+	void ApplyImpulseP(_RigidBody *body1,_RigidBody *body2);
 
 	HANDLE thread;
 };
