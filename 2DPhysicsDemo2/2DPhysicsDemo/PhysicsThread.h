@@ -15,6 +15,10 @@ const float GROUND_Y = -0.9f;
 
 const float skin = 0.000001f;
 
+const float NUM_RANGE_HIGH = 0.0000001f;
+const float NUM_RANGE_LOW = -0.0000001f;
+
+
 class PhysicsThread :
 	public MyThread
 {
@@ -40,14 +44,21 @@ private:
 	/**
 	special functions
 	*/
-	void ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay);
+	
 	bool CollisionDectectShapeAndGround(const Shape&);
 	bool CollisionDectectBoxAndBox(const Shape&,const Shape&);
 	bool CollisionDectectBoxAndTriangle(const Shape&box, const Shape&tri);
 	bool CollisionDectectTriangleAndTriangle(const Shape&tria, const Shape&trib);
-	void CollisionDectect(const Shape&, const Shape&);
+	
 	void CalculatePyhsics6();
+
+	//////////////////////////////////////////////////////////////////////////
 	void CalculatePyhsics7();
+	void ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay);
+	void CollisionDectect(const Shape&, const Shape&);
+	void ReduceDisMistake(float&dis);
+	//////////////////////////////////////////////////////////////////////////
+
 
 public:
 	PhysicsThread(void);

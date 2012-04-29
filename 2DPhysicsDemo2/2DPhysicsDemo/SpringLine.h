@@ -11,8 +11,6 @@ public:
 	SpringLine(void);
 	~SpringLine(void);
 
-	
-
 	void Reset();
 };
 

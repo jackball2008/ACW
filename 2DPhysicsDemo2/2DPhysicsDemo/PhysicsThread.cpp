@@ -290,7 +290,9 @@ void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
 			float dsize = abs(deltax*Adx + deltay*Ady);
 			//rA + rB  -  dis
 			float penAx = (asize + bsize) - dsize;
-
+			//////////////////////////////////////////////////////////////////////////
+			ReduceDisMistake(penAx);
+			//////////////////////////////////////////////////////////////////////////
 			if(penAx>0)
 			{
 				//over lap
@@ -321,7 +323,9 @@ void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
 
 				//rA + rB  -  dis
 				float penAx = (asize + bsize) - dsize;
-
+				//////////////////////////////////////////////////////////////////////////
+				ReduceDisMistake(penAx);
+				//////////////////////////////////////////////////////////////////////////
 				if(penAx>0)
 				{
 					//over lap
@@ -351,6 +355,10 @@ void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
 
 		float penAx = (asize + bsize)-dsize;
 
+		//reduce mistake made by calculation /////////////////////////////////////
+		ReduceDisMistake(penAx);
+		//////////////////////////////////////////////////////////////////////////
+
 		if(penAx>0)
 		{
 			iscollision = true;
@@ -361,20 +369,30 @@ void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
 		}
 
 	}
-	
-
-
+	//////////////////////////////////////////////////////////////////////////
+	//do response
+	//////////////////////////////////////////////////////////////////////////
 	if(iscollision)
 	{
-		//do response
+		//do response, change shapeA position velocity acceleration
 		cout<<"hit"<<endl;
 	}
 	else
 	{
-		//continue to work
+		//continue to work, free down
+
+
+
 	}
 
 
+
+}
+
+void PhysicsThread::ReduceDisMistake(float&dis)
+{
+	if(abs(dis) < NUM_RANGE_HIGH)
+		dis = 0;
 
 }
 void PhysicsThread::ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay)

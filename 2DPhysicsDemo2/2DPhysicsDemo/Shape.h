@@ -39,12 +39,14 @@ public:
 	/* notice this must be thread safe                                       */
 	/************************************************************************/
 	//square
-	virtual void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3,const YPoint& p4)=0;
+	//virtual void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3,const YPoint& p4)=0;
 	//triangle
-	virtual void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3)=0;
+	//virtual void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3)=0;
 	//line
-	virtual void SetData(const YPoint& p1,const YPoint& p2)=0;
+	//virtual void SetData(const YPoint& p1,const YPoint& p2)=0;
 
+
+	
 
 	void UpdatePosition()
 	{

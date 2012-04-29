@@ -17,7 +17,9 @@ ShapeShareObject::ShapeShareObject(void)
 	YPoint ep;
 	ep.x = 2.0f;
 	ep.y = 2.0f;
-	springLine->SetData(sp,ep);
+	springLine->points.push_back(sp);
+	springLine->points.push_back(ep);
+	//springLine->SetData(sp,ep);
 
 	//ground
 	/**

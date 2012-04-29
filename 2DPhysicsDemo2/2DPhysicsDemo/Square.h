@@ -7,10 +7,10 @@ public:
 	Square(void);
 	~Square(void);
 
-	void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3,const YPoint& p4);
+	//void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3,const YPoint& p4);
 
-	void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3){};
+	//void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3){};
 	//line
-	void SetData(const YPoint& p1,const YPoint& p2){};
+	//void SetData(const YPoint& p1,const YPoint& p2){};
 };
 
