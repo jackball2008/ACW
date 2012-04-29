@@ -28,6 +28,13 @@ public:
 		return (float)sqrt(x*x+y*y + z*z);
 	}
 
+	inline void Clear()
+	{
+		x = 0.0f;
+		y = 0.0f;
+		z = 0.0f;
+	}
+
 	inline void Normalize(){
 		float m = (float)sqrt(x*x+y*y+z*z);
 		if(m<= ptol)m =1;
@@ -111,6 +118,7 @@ public:
 		lhs.z /= d;
 		return lhs;
 	}
+
 	
 };
 struct   YLineSeg{   

@@ -114,7 +114,7 @@ void PhysicsApp::InitializeAllShpes(){
 	//25 * 4
 	YPoint tristartp;
 	for(int i = 0; i<1 /*4*/; i ++){
-		for( int j =0; j <1 /*25*/ ; j ++){
+		for( int j =0; j <2 /*25*/ ; j ++){
 			Shape* square = new Square();
 			//set points
 			YPoint p1;
@@ -158,11 +158,11 @@ void PhysicsApp::InitializeAllShpes(){
 			ax.x = x1;
 			ax.y = y1;
 			ax.Normalize();
-			ax.z = 0.02f;
+			ax.z = EDGE_LENGTH/2;
 			//set y axis
 			YPoint yx;
 			ax.Right2D(yx);
-			yx.z = 0.02f;
+			yx.z = EDGE_LENGTH/2;
 			
 			square->project_axis.push_back(ax);
 			square->project_axis.push_back(yx);

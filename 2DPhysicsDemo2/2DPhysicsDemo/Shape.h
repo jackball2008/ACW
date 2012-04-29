@@ -18,7 +18,7 @@ public:
 	//float xw,yw,dx,dy;==> store to axis
 	//float px,py;
 
-
+	YPoint penmove;
 	YPoint pos;//position
 	YPoint springforce;
 	YPoint acceleration;
@@ -38,36 +38,7 @@ public:
 	/************************************************************************/
 	/* notice this must be thread safe                                       */
 	/************************************************************************/
-	//square
-	//virtual void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3,const YPoint& p4)=0;
-	//triangle
-	//virtual void SetData(const YPoint& p1,const YPoint& p2,const YPoint& p3)=0;
-	//line
-	//virtual void SetData(const YPoint& p1,const YPoint& p2)=0;
-
-
+	void Move(const YPoint&dis);
 	
-
-	void UpdatePosition()
-	{
-		/**
-		float mix = 0;
-		float miy = 0;
-		for(int i = 0; i<sizeofpoints;i++)
-		{
-			points.at(i).x = points.at(i).x+ movement.x;
-			mix = mix + points.at(i).x;
-			points.at(i).y = points.at(i).y+ movement.y;
-			miy = miy + points.at(i).y;
-		}
-		movement.x = 0;
-		movement.y = 0;
-		middlepoint.x = mix / sizeofpoints;
-		middlepoint.y = miy / sizeofpoints;
-		*/
-
-	}
-
-
 };
 

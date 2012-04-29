@@ -261,7 +261,7 @@ void PhysicsThread::CalculatePyhsics7()
 	}
 }
 
-void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
+void PhysicsThread::CollisionDectect(Shape& shapeA, const Shape& shapeB)
 {
 	bool iscollision = false;
 
@@ -275,7 +275,7 @@ void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
 	float deltay = shapeA.pos.y - shapeB.pos.y;
 	if(shapeB.type != 1)
 	{
-		//
+		//shapeA hit common shape
 		for(int i = 0;i< numofaxisA; i++)
 		{
 			float Adx = shapeA.project_axis.at(i).x;
@@ -307,7 +307,7 @@ void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
 		}
 		if(iscollision)
 		{
-			//check B axis
+			//if all A axis hit, then check all B axis
 			for(int i = 0;i< numofaxisB; i++)
 			{
 				float Bdx = shapeB.project_axis.at(i).x;
@@ -346,13 +346,14 @@ void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
 		float Bdx = shapeB.project_axis.at(0).x;
 		float Bdy = shapeB.project_axis.at(0).y;
 
-		float bsize = 0;
-		ProjectShape(bsize,shapeA,Bdx,Bdy);
-		//deltay
 		float asize = 0;
+		ProjectShape(asize,shapeA,Bdx,Bdy);
+		
+		
+		float bsize = 0;
 
-		float dsize = abs(deltay);
-
+		float dsize = abs(deltay);//float dsize = abs(deltax*Adx + deltay*Ady);
+		
 		float penAx = (asize + bsize)-dsize;
 
 		//reduce mistake made by calculation /////////////////////////////////////
@@ -362,6 +363,7 @@ void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
 		if(penAx>0)
 		{
 			iscollision = true;
+			shapeA.penmove.y = penAx;
 		}
 		else
 		{
@@ -375,15 +377,60 @@ void PhysicsThread::CollisionDectect(const Shape& shapeA, const Shape& shapeB)
 	if(iscollision)
 	{
 		//do response, change shapeA position velocity acceleration
-		cout<<"hit"<<endl;
+		
+		if(shapeB.type != 1)
+		{
+			//common hit
+			cout<<"common hit"<<endl;
+		}
+		else
+		{
+			//ground hit
+			cout<<"ground hit"<<endl;
+			//test here
+			shapeA.velocity.Clear();
+
+			shapeA.Move(shapeA.penmove);
+
+		}
+
+
 	}
 	else
 	{
 		//continue to work, free down
 
-
+		FreeMoveShape(shapeA);
 
 	}
+
+
+
+}
+void PhysicsThread::FreeMoveShape(Shape&shape)
+{
+	float t = _delta_time/1000;
+	///
+	shape.acceleration.x = shape.force.x / shape.mass;
+	shape.acceleration.y = shape.force.y / shape.mass + G_ACCERLATION;
+	///
+	YPoint movement;
+	movement.x = float(shape.velocity.x * t + 0.5 * shape.acceleration.x * t * t);
+	movement.y = float(shape.velocity.y * t + 0.5 * shape.acceleration.y * t * t);
+	movement.z = 0.0f;
+	///
+	shape.velocity.x = shape.velocity.x + shape.acceleration.x * t;
+	shape.velocity.y = shape.velocity.y + shape.acceleration.y * t;
+	//////////////////////////////////////////////////////////////////////////
+	shape.Move(movement);
+// 	shape.pos.Clear();
+// 	for(int i = 0; i<shape.sizeofpoints; i++)
+// 	{
+// 		shape.points.at(i) += movement;
+// 		shape.pos += shape.points.at(i);
+// 	}
+// 	
+// 	shape.pos /= 4;
 
 
 
@@ -393,7 +440,6 @@ void PhysicsThread::ReduceDisMistake(float&dis)
 {
 	if(abs(dis) < NUM_RANGE_HIGH)
 		dis = 0;
-
 }
 void PhysicsThread::ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay)
 {
@@ -412,20 +458,7 @@ void PhysicsThread::ProjectShape(float&bsize, const Shape& shape, const float&ax
 
 		bsize = bsize + abs(dpi);
 	}
-	/**
-	//ax ay is unit vector or direction vector
-	float ix = box.xw * box.dx;
-	float iy = box.xw * box.dy;
-
-	float jx = box.yw * -box.dy;
-	float jy = box.yw * box.dx;
-	//x project to the axis
-	float dpi = ix*ax + iy*ay;
-	//y project to the axis
-	float dpj = jx*ax + jy*ay;
-
-	bsize = abs(dpi) + abs(dpj);
-	*/
+	
 }
 
 

@@ -16,3 +16,17 @@ Shape::Shape(void)
 Shape::~Shape(void)
 {
 }
+
+
+void Shape::Move(const YPoint&dis)
+{
+	pos.Clear();
+	for(int i = 0; i< sizeofpoints;i++)
+	{
+		points.at(i) += dis;
+		pos += points.at(i);
+	}
+
+	pos /= 4;
+
+}

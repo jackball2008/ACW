@@ -10,13 +10,11 @@ using namespace std;
 
 const float SPRING_FACTOR = 2.5f/100000;
 const YPoint ORIGIN_P_PHYSICS;
-const float G_ACCERLATION = -1.8f/1000000000;
+///////////////////////////////////////////////
 const float GROUND_Y = -0.9f;
-
-const float skin = 0.000001f;
-
 const float NUM_RANGE_HIGH = 0.0000001f;
 const float NUM_RANGE_LOW = -0.0000001f;
+const float G_ACCERLATION = -9.8f;
 
 
 class PhysicsThread :
@@ -55,8 +53,9 @@ private:
 	//////////////////////////////////////////////////////////////////////////
 	void CalculatePyhsics7();
 	void ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay);
-	void CollisionDectect(const Shape&, const Shape&);
+	void CollisionDectect(Shape&, const Shape&);
 	void ReduceDisMistake(float&dis);
+	void FreeMoveShape(Shape&shape);
 	//////////////////////////////////////////////////////////////////////////
 
 
