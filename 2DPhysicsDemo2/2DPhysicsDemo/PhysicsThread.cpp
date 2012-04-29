@@ -297,6 +297,7 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, const Shape& shapeB)
 			{
 				//over lap
 				iscollision = true;
+				//save the last penmove value
 			}
 			else
 			{
@@ -363,6 +364,7 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, const Shape& shapeB)
 		if(penAx>0)
 		{
 			iscollision = true;
+			//get penmove value
 			shapeA.penmove.y = penAx;
 		}
 		else
@@ -409,7 +411,7 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, const Shape& shapeB)
 }
 void PhysicsThread::FreeMoveShape(Shape&shape)
 {
-	float t = _delta_time/1000;
+	float t = _delta_time/1000;//ms -> s
 	///
 	shape.acceleration.x = shape.force.x / shape.mass;
 	shape.acceleration.y = shape.force.y / shape.mass + G_ACCERLATION;
