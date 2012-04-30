@@ -49,7 +49,7 @@ bool PhysicsThread::CollisionDectectTriangleAndTriangle(const Shape&tria, const 
 
 bool PhysicsThread::CollisionDectectBoxAndBox(const Shape&boxA,const Shape&boxB)
 {
-	bool res = false;
+	bool res = false;  
 	//////////////////////////////////////////////////////////////////////////
 	/**
 	//fix function
