@@ -409,6 +409,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,const Shape&shapeB)
 }
 void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground)
 {
+	/**
 	//return the start pos
 	shapeA.old_movement.Reverse();
 	shapeA.Move(shapeA.old_movement);
@@ -416,40 +417,64 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground
 	//for t/2
 	//get used t
 	
-	float t = _old_delta_time;
+	float t = _old_delta_time/2;
 	YPoint tempmovement;
 	bool findCollisionTime = false;
+
+	float acceleration_x = 0;
+	float acceleration_y = 0;
+
 	while(!findCollisionTime)
 	{
-		t = t /2;
-
-		shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
-		shapeA.acceleration.y = shapeA.force.y / shapeA.mass + G_ACCERLATION;
+		
+		acceleration_x = shapeA.old_force.x / shapeA.mass;
+		acceleration_y = shapeA.old_force.y / shapeA.mass + G_ACCERLATION;
 		///
 		//YPoint movement;
-		tempmovement.x = float(shapeA.old_velocity.x * t + 0.5 * shapeA.acceleration.x * t * t);
-		tempmovement.y = float(shapeA.old_velocity.y * t + 0.5 * shapeA.acceleration.y * t * t);
+		tempmovement.x = float(shapeA.old_velocity.x * t + 0.5 * acceleration_x * t * t);
+		tempmovement.y = float(shapeA.old_velocity.y * t + 0.5 * acceleration_y * t * t);
 		tempmovement.z = 0.0f;
 		///
-		//shape.velocity.x = shape.velocity.x + shape.acceleration.x * t;
-		//shape.velocity.y = shape.velocity.y + shape.acceleration.y * t;
 		//////////////////////////////////////////////////////////////////////////
 		shapeA.Move(tempmovement);
 		//shape.movement.Clear();
 		if(CollisionDectectShapeAndGround(shapeA,ground))
 		{
-			tempmovement.Reverse();
-			shapeA.Move(tempmovement);
+			if(shapeA.penmove.y <= EDGE_WIDTH)
+			{
+				//find the t
+				findCollisionTime = true;
+				//save the movement
+				shapeA.movement.x = tempmovement.x;
+				shapeA.movement.y = tempmovement.y;
+				shapeA.movement.z = 0;
+			}
+			else
+			{
+				//
+				t = t/2;
+				//return to the start position
+				tempmovement.Reverse();
+				shapeA.Move(tempmovement);
+			}
+			
 		}
 		else
 		{
+			t = t + t/2;
+			if(t >= _old_delta_time)
+			{
+				t = _old_delta_time;
+				findCollisionTime = true;
+			}
 			//find the colosed t to the time for collision happen
-			findCollisionTime = true;//jump out of loop
+			//findCollisionTime = true;//jump out of loop
 		}
 
 	}
 
 	float left_t = _old_delta_time - t;
+	
 	YPoint speed_collision;
 	speed_collision.x = shapeA.old_velocity.x + shapeA.acceleration.x * t;
 	speed_collision.y = shapeA.old_velocity.y + shapeA.acceleration.y * t;
@@ -467,14 +492,14 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground
 	shapeA.velocity.z = 0;
 
 	shapeA.Move(tempmovement);
-
+	*/
 
 
 	
 	cout<<"ground hit"<<endl;
 	//test here
-	//shapeA.velocity.Clear();
-	//shapeA.Move(shapeA.penmove);
+	shapeA.velocity.Clear();
+	shapeA.Move(shapeA.penmove);
 }
 
 bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape,const Shape&ground)
@@ -495,6 +520,20 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape,const Shape&groun
 	//reduce mistake made by calculation /////////////////////////////////////
 	ReduceDisMistake(penAx);
 	//////////////////////////////////////////////////////////////////////////
+	//if low ground
+	bool shapealldownground = false;
+	int numofhighg = 0;
+	for(int i = 0; i< shape.sizeofpoints;i++)
+	{
+		if(shape.points.at(i).y> GROUND_Y)
+			numofhighg++;
+	}
+	if(numofhighg=0)
+		shapealldownground = true;
+	if(shapealldownground)
+		penAx = asize + abs(deltay);
+	//////////////////////////////////////////////////////////////////////////
+
 	if(penAx>0)
 	{
 		//get penmove value
@@ -511,8 +550,10 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 {
 	float t = _delta_time/1000;//ms -> s
 	///
+	shape.old_force = shape.force;
 	shape.acceleration.x = shape.force.x / shape.mass;
 	shape.acceleration.y = shape.force.y / shape.mass + G_ACCERLATION;
+	shape.force.Clear();
 	///
 	//YPoint movement;
 	shape.old_movement = shape.movement;

@@ -19,23 +19,26 @@ public:
 	//float px,py;
 	YPoint old_movement;
 	YPoint movement;
-	YPoint temp_movement;
+	
 	
 	YPoint penmove;
 	YPoint pos;//position
 	YPoint springforce;
 	YPoint acceleration;
+	
+	YPoint old_force;
 	YPoint force;// x y
 
 	YPoint old_velocity;
 	YPoint velocity;
 	//store points
 	vector<YPoint>points;
+	int sizeofpoints;//points num
 	//dx dy len=z
 	vector<YPoint>project_axis;
 	
 	float mass;
-	int sizeofpoints;
+	
 
 public:
 	Shape(void);
