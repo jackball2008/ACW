@@ -410,12 +410,12 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,const Shape&shapeB)
 void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground)
 {
 	//return the start pos
-	//shapeA.old_movement.Reverse();
-	//shapeA.Move(shapeA.old_movement);
+	shapeA.old_movement.Reverse();
+	shapeA.Move(shapeA.old_movement);
 	//////////////////////////////////////////////////////////////////////////
 	//for t/2
 	//get used t
-	/**
+	
 	float t = _old_delta_time;
 	YPoint tempmovement;
 	bool findCollisionTime = false;
@@ -470,11 +470,11 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground
 
 
 
-	*/
+	
 	cout<<"ground hit"<<endl;
 	//test here
-	shapeA.velocity.Clear();
-	shapeA.Move(shapeA.penmove);
+	//shapeA.velocity.Clear();
+	//shapeA.Move(shapeA.penmove);
 }
 
 bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape,const Shape&ground)
