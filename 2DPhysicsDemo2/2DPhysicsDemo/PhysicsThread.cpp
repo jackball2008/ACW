@@ -29,6 +29,7 @@ void PhysicsThread::CalculateDeltaTime(){
 	_lastCount = _currentCount;
 	_old_delta_time = _delta_time;
 	_delta_time = float(_consumedCount.QuadPart/(_ticksPerSecond.QuadPart/1000));
+	
 #ifdef DEBUG_DELTATIME
 	cout<<"ms = "<<_delta_time<<endl;
 #endif
@@ -504,6 +505,9 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground
 	//test here
 	shapeA.velocity.Clear();
 	shapeA.Move(shapeA.penmove);
+	shapeA.force.y += (shapeA.mass*G_ACCERLATION*-1);
+
+	//cout<<shapeA.movement.y + shapeA.penmove.y<<endl;
 	//YPoint downmovement;
 	//downmovement.x = shapeA.movement.x - shapeA.penmove.x;
 	//downmovement.y = shapeA.movement.y + shapeA.penmove.y;
@@ -514,48 +518,56 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground
 
 bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape,const Shape&ground)
 {
-	float Bdx = ground.project_axis.at(0).x;
-	float Bdy = ground.project_axis.at(0).y;
-	float deltay = shape.pos.y - ground.pos.y;
+	//float Bdx = ground.project_axis.at(0).x;
+	//float Bdy = ground.project_axis.at(0).y;
+	float deltay = shape.pos.y - GROUND_Y;
 	float asize = 0;
-	ProjectShape(asize,shape,Bdx,Bdy);
-
-
-	float bsize = 0;
-
-	float dsize = abs(deltay);//float dsize = abs(deltax*Adx + deltay*Ady);
-
-	float penAx = (asize + bsize)-dsize;
-
+	ProjectShape(asize,shape,0,1);
+	//float dsize = abs(deltay);//float dsize = abs(deltax*Adx + deltay*Ady);
+	float penAx = asize - abs(deltay);
 	//reduce mistake made by calculation /////////////////////////////////////
 	ReduceDisMistake(penAx);
 	//////////////////////////////////////////////////////////////////////////
-	//if low ground
-	
-	bool shapealldownground = false;
-	int numofhighg = 0;
-	for(int i = 0; i< shape.sizeofpoints;i++)
-	{
-		if(shape.points.at(i).y>= GROUND_Y)
-			numofhighg++;
-	}
-	if(numofhighg=0)
-		shapealldownground = true;
-	if(shapealldownground)
-		penAx = asize + abs(deltay);
-	
-	//////////////////////////////////////////////////////////////////////////
+	bool overlap = false;
 
 	if(penAx>0)
 	{
+		overlap = true;	
+	}
+	else
+	{
+		overlap = false;
+	}
+
+	if(overlap)
+	{
 		//get penmove value
-		shape.penmove.y = penAx;
+		if(shape.pos.y > GROUND_Y)
+		{
+			shape.penmove.y = penAx;
+		}
+		if(shape.pos.y < GROUND_Y)
+		{
+			shape.penmove.y = asize*2-penAx;
+		}
 		return true;
 	}
 	else
 	{
-		return false;
+		//no overlap
+		if(shape.pos.y > GROUND_Y)
+		{
+			return false;
+		}
+		if(shape.pos.y < GROUND_Y)
+		{
+			shape.penmove.y =  asize*2 + abs(penAx);
+			return true;
+		}
 	}
+
+	return false;
+	
 }
 
 void PhysicsThread::FreeMoveShape(Shape&shape)
@@ -578,7 +590,7 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 	shape.velocity.y = shape.velocity.y + shape.acceleration.y * t;
 	//////////////////////////////////////////////////////////////////////////
 	shape.Move(shape.movement);
-	shape.movement.Clear();
+	//shape.movement.Clear();
 
 }
 
