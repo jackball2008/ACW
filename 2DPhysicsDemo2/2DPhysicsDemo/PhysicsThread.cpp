@@ -409,14 +409,18 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,const Shape&shapeB)
 }
 void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground)
 {
+	//shapeA.old_movement.Reverse();
+	//shapeA.Move(shapeA.old_movement);
+	//shapeA.velocity.Clear();
 	/**
 	//return the start pos
 	shapeA.old_movement.Reverse();
 	shapeA.Move(shapeA.old_movement);
+	
 	//////////////////////////////////////////////////////////////////////////
 	//for t/2
 	//get used t
-	
+
 	float t = _old_delta_time/2;
 	YPoint tempmovement;
 	bool findCollisionTime = false;
@@ -496,10 +500,16 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground
 
 
 	
-	cout<<"ground hit"<<endl;
+	//cout<<"ground hit"<<endl;
 	//test here
 	shapeA.velocity.Clear();
 	shapeA.Move(shapeA.penmove);
+	//YPoint downmovement;
+	//downmovement.x = shapeA.movement.x - shapeA.penmove.x;
+	//downmovement.y = shapeA.movement.y + shapeA.penmove.y;
+	//downmovement.z = 0;
+
+
 }
 
 bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape,const Shape&ground)
@@ -521,17 +531,19 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape,const Shape&groun
 	ReduceDisMistake(penAx);
 	//////////////////////////////////////////////////////////////////////////
 	//if low ground
+	
 	bool shapealldownground = false;
 	int numofhighg = 0;
 	for(int i = 0; i< shape.sizeofpoints;i++)
 	{
-		if(shape.points.at(i).y> GROUND_Y)
+		if(shape.points.at(i).y>= GROUND_Y)
 			numofhighg++;
 	}
 	if(numofhighg=0)
 		shapealldownground = true;
 	if(shapealldownground)
 		penAx = asize + abs(deltay);
+	
 	//////////////////////////////////////////////////////////////////////////
 
 	if(penAx>0)

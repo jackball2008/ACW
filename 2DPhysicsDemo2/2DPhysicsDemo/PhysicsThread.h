@@ -12,8 +12,8 @@ const float SPRING_FACTOR = 2.5f/100000;
 const YPoint ORIGIN_P_PHYSICS;
 ///////////////////////////////////////////////
 const float GROUND_Y = -0.9f;
-const float NUM_RANGE_HIGH = 0.0000001f;
-const float NUM_RANGE_LOW = -0.0000001f;
+const float NUM_RANGE_HIGH = 0.0001f;
+const float NUM_RANGE_LOW = -0.0001f;
 const float G_ACCERLATION = -9.8f;
 const float EDGE_WIDTH = 0.0001f;
 
