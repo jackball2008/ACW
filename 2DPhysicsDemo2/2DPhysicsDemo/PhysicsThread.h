@@ -43,13 +43,7 @@ private:
 	/**
 	special functions
 	*/
-	
-// 	
-// 	bool CollisionDectectBoxAndBox(const Shape&,const Shape&);
-// 	bool CollisionDectectBoxAndTriangle(const Shape&box, const Shape&tri);
-// 	bool CollisionDectectTriangleAndTriangle(const Shape&tria, const Shape&trib);
-// 	
-// 	void CalculatePyhsics6();
+
 
 	//////////////////////////////////////////////////////////////////////////
 	void CalculatePyhsics7();
@@ -57,7 +51,7 @@ private:
 	void CollisionDectect(Shape&, const Shape&);
 	void ReduceDisMistake(float&dis);
 	void FreeMoveShape(Shape&shape);
-	bool CollisionDectectShapeAndGround(Shape&shape,const Shape&ground);
+	bool CollisionDectectShapeAndGround(Shape&shape);
 	void ResponseCollisionWithShape(Shape&shapeA,const Shape&shapeB);
 	void ResponseCollisionWithGround(Shape&shapeA, const Shape&ground);
 	//////////////////////////////////////////////////////////////////////////
