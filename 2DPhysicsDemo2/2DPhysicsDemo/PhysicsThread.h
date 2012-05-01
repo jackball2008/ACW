@@ -44,12 +44,12 @@ private:
 	special functions
 	*/
 	
-	
-	bool CollisionDectectBoxAndBox(const Shape&,const Shape&);
-	bool CollisionDectectBoxAndTriangle(const Shape&box, const Shape&tri);
-	bool CollisionDectectTriangleAndTriangle(const Shape&tria, const Shape&trib);
-	
-	void CalculatePyhsics6();
+// 	
+// 	bool CollisionDectectBoxAndBox(const Shape&,const Shape&);
+// 	bool CollisionDectectBoxAndTriangle(const Shape&box, const Shape&tri);
+// 	bool CollisionDectectTriangleAndTriangle(const Shape&tria, const Shape&trib);
+// 	
+// 	void CalculatePyhsics6();
 
 	//////////////////////////////////////////////////////////////////////////
 	void CalculatePyhsics7();

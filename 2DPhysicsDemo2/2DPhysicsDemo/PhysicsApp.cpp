@@ -114,7 +114,7 @@ void PhysicsApp::InitializeAllShpes(){
 	//25 * 4
 	YPoint tristartp;
 	for(int i = 0; i<1 /*4*/; i ++){
-		for( int j =0; j <20 /*25*/ ; j ++){
+		for( int j =0; j <1 /*25*/ ; j ++){
 			Shape* square = new Square();
 			//set points
 			YPoint p1;
@@ -136,7 +136,7 @@ void PhysicsApp::InitializeAllShpes(){
 			square->points.push_back(p2);
 			square->points.push_back(p3);
 			square->points.push_back(p4);
-			//square->SetData(p1,p2,p3,p4);
+			
 			
 			//set position
 			
