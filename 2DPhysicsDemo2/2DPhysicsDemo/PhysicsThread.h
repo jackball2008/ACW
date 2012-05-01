@@ -13,9 +13,11 @@ const YPoint ORIGIN_P_PHYSICS;
 ///////////////////////////////////////////////
 const float GROUND_Y = -0.9f;
 const float NUM_RANGE_HIGH = 0.0000001f;
-//const float NUM_RANGE_LOW = -0.000000001f;
+
 const float G_ACCERLATION = -9.8f/10;
-//const float EDGE_WIDTH = 0.0001f;
+
+const float FANTAN_XISHU = 0.25f;
+
 
 class PhysicsThread :
 	public MyThread
@@ -43,19 +45,17 @@ private:
 	/**
 	special functions
 	*/
-
-
 	//////////////////////////////////////////////////////////////////////////
 	void CalculatePyhsics7();
 	void ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay);
 	void CollisionDectect(Shape&, const Shape&);
 	void ReduceDisMistake(float&dis);
+	void ReduceDisMistake(float&dis,const float&range);
 	void FreeMoveShape(Shape&shape);
 	bool CollisionDectectShapeAndGround(Shape&shape);
 	void ResponseCollisionWithShape(Shape&shapeA,const Shape&shapeB);
 	void ResponseCollisionWithGround(Shape&shapeA, const Shape&ground);
 	//////////////////////////////////////////////////////////////////////////
-
 
 public:
 	PhysicsThread(void);
@@ -63,8 +63,6 @@ public:
 
 	void SetShapeShareObject(ShapeShareObject* p){ _shapeShareObject = p; };
 
-	
-	
 
 	int run();
 
@@ -107,10 +105,6 @@ public:
 		} 
 		return true; 
 	}
-
-	
-
-	
 
 };
 

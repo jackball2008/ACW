@@ -227,11 +227,46 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,const Shape&shapeB)
 }
 void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground)
 {
-	
-	
 	shapeA.Move(shapeA.penmove);
 	shapeA.velocity.Clear();
 	shapeA.force.y += shapeA.mass * G_ACCERLATION * -1;
+
+	float blankdis = abs(abs(shapeA.movement.y)-abs(shapeA.penmove.y));
+	//
+	ReduceDisMistake(blankdis,0.005f);
+	//
+	float v_g = 0;
+	float t_g = 0;
+	float t_left = 0;
+	if(blankdis!=0)
+	{
+		//this blankdis is big, need do some thing
+		cout<<"big hit"<<endl;
+		//v2 = sqrt(2gh + v1*v1);
+		v_g = sqrt(2*G_ACCERLATION*blankdis + shapeA.old_velocity.y * shapeA.old_velocity.y);
+		//v2 = v1+gt  t_g < 0
+		if(shapeA.old_velocity.y<0) shapeA.old_velocity.y *= -1;
+		t_g = (v_g - shapeA.old_velocity.y)/(G_ACCERLATION * -1);
+		t_left = _delta_time/1000 - t_g;//ms/1000->s
+		cout<<t_left<<endl;
+		//
+		shapeA.velocity.y = v_g * FANTAN_XISHU;
+
+		shapeA.force.x = shapeA.force.x;
+		shapeA.force.y = shapeA.mass* G_ACCERLATION;
+
+		shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
+		shapeA.acceleration.y = shapeA.force.y / shapeA.mass;
+
+		float x_m = float(shapeA.velocity.x * t_left + 0.5 * shapeA.acceleration.x * t_left * t_left);
+		float y_m = float(shapeA.velocity.y * t_left + 0.5 * shapeA.acceleration.y * t_left * t_left);
+
+		shapeA.movement.x = x_m;
+		shapeA.movement.y = y_m;
+
+		shapeA.Move(shapeA.movement);
+	}
+
 	
 }
 
@@ -324,6 +359,11 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 void PhysicsThread::ReduceDisMistake(float&dis)
 {
 	if(abs(dis) < NUM_RANGE_HIGH)
+		dis = 0;
+}
+void PhysicsThread::ReduceDisMistake(float&dis,const float&range)
+{
+	if(abs(dis) < range)
 		dis = 0;
 }
 void PhysicsThread::ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay)
