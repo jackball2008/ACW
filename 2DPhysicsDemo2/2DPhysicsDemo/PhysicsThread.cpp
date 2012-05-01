@@ -328,8 +328,9 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground
 	//cout<<allmy<<endl;
 
 	
-	float s_h = (shapeA.movement.y) - abs(shapeA.penmove.y);
-	cout<<s_h<<endl;
+	//float s_h = (shapeA.movement.y) - abs(shapeA.penmove.y);
+	//shapeA.Move(shapeA.penmove);
+	//cout<<s_h<<endl;
 	//YPoint downmovement;
 	//downmovement.x = shapeA.movement.x - shapeA.penmove.x;
 	//downmovement.y = shapeA.movement.y + shapeA.penmove.y;
