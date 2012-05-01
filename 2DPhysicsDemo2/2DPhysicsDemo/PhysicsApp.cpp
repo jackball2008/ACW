@@ -119,7 +119,7 @@ void PhysicsApp::InitializeAllShpes(){
 			//set points
 			YPoint p1;
 			p1.x = -0.5f + j * EDGE_LENGTH;
-			p1.y = -0.9f + i * EDGE_LENGTH;
+			p1.y = 0.9f + i * EDGE_LENGTH;
 
 			YPoint p2;
 			p2.x = p1.x + EDGE_LENGTH;

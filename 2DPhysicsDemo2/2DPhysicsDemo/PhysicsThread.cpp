@@ -329,12 +329,17 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground
 
 	
 	//float s_h = (shapeA.movement.y) - abs(shapeA.penmove.y);
-	//shapeA.Move(shapeA.penmove);
-	//cout<<s_h<<endl;
+	
+	shapeA.Move(shapeA.penmove);
+	shapeA.velocity.Clear();
+	shapeA.force.y += shapeA.mass * G_ACCERLATION * -1;
+	//float k  = abs(shapeA.movement.y) - abs(shapeA.penmove.y);
+	//ReduceDisMistake(k);
+	//cout<<shapeA.movement.y<<" | "<<shapeA.penmove.y<<" | "<<k<<endl;
+
 	//YPoint downmovement;
-	//downmovement.x = shapeA.movement.x - shapeA.penmove.x;
-	//downmovement.y = shapeA.movement.y + shapeA.penmove.y;
-	//downmovement.z = 0;
+	
+
 
 
 }
@@ -401,20 +406,20 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 	shape.old_force = shape.force;
 	shape.acceleration.x = shape.force.x / shape.mass;
 	shape.acceleration.y = shape.force.y / shape.mass + G_ACCERLATION;
-	shape.force.Clear();
+	shape.force.Clear();//once the force worked, it just work on this moment, so after it works, clear it
 	///
 	//YPoint movement;
-	shape.old_movement = shape.movement;
+	shape.old_movement = shape.movement;//maybe not useful
 	shape.movement.x = float(shape.velocity.x * t + 0.5 * shape.acceleration.x * t * t);
 	shape.movement.y = float(shape.velocity.y * t + 0.5 * shape.acceleration.y * t * t);
 	shape.movement.z = 0.0f;
-	///
+	///get the new speed
 	shape.old_velocity = shape.velocity;
 	shape.velocity.x = shape.velocity.x + shape.acceleration.x * t;
 	shape.velocity.y = shape.velocity.y + shape.acceleration.y * t;
 	//////////////////////////////////////////////////////////////////////////
 	shape.Move(shape.movement);
-	//shape.movement.Clear();
+
 
 }
 
