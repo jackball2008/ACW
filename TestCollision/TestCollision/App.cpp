@@ -18,6 +18,7 @@ void MyApp::OnCreate(){
 	Initializeposition();
 	
 	_mywindow.SetShapeObject(&_shapeobject);
+	_physicsThread->SetShapeObject(&_shapeobject);
 	_physicsThread->start();
 	
 
@@ -28,6 +29,8 @@ void MyApp::OnDestroy(){
 	_physicsThread->terminate();
 	_physicsThread->waitForTermination();
 }
+
+
 
 void MyApp::Initializeposition(){
 
@@ -50,7 +53,11 @@ void MyApp::Initializeposition(){
 			p4.x=p0.x-0.02f;
 			p4.y=p0.y-0.02f;
 
-			square->SetData(p0,p1,p2,p3,p4);
+			square->PiontPostion.push_back(p0);
+			square->PiontPostion.push_back(p1);
+			square->PiontPostion.push_back(p2);
+			square->PiontPostion.push_back(p3);
+			square->PiontPostion.push_back(p4);
 			_shapeobject.renderObjects.push_back(square);
 		}
 	}

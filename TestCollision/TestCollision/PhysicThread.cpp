@@ -1,6 +1,6 @@
 #include "PhysicThread.h"
-
-
+#include <iostream>
+using namespace std;
 PhysicThread::PhysicThread(void)
 {
 }
@@ -17,7 +17,7 @@ int PhysicThread::run(){
 		Sleep(2);
 		if (_shareobject->Acquire())
 		{ __try{
-
+			cout<<"1";
 
 		}__finally{
 			_shareobject->Release();

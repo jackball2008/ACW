@@ -2,7 +2,7 @@
 //#include "MyPhysics.h"
 #include <GXBase.h>
 using namespace gxbase;
-
+#include "ShareMem.h"
 
 
 
