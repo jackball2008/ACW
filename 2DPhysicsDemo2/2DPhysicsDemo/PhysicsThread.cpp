@@ -247,6 +247,14 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 	//reduce mistake made by calculation /////////////////////////////////////
 	ReduceDisMistake(penAx);
 	//////////////////////////////////////////////////////////////////////////
+	/************************************************************************/
+	/* there are four situation for collision with ground
+	1. absolute high
+	2. overlap high
+	3. overlap low
+	4. absolute low
+	*/
+	/************************************************************************/
 	bool overlap = false;
 
 	if(penAx>0)
@@ -310,7 +318,6 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 	shape.velocity.y = shape.velocity.y + shape.acceleration.y * t;
 	//////////////////////////////////////////////////////////////////////////
 	shape.Move(shape.movement);
-
 
 }
 
