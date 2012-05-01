@@ -1,5 +1,6 @@
 #include "MyWindow.h"
-
+#include <iostream>
+using namespace std;
 
 MyWindow::MyWindow()
 {
@@ -19,14 +20,24 @@ void MyWindow::OnCreate(){
 void  MyWindow::OnDisplay(){
 
 	//float delta_t;
-
+	cout<<"2";
 
 	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(1.0f,0.0f,0.0f);
-	glBegin(GL_LINE_LOOP);
-		glVertex2f(0.5f,0.0f);
-	    glVertex2f(0.0f,0.5f);
-		glEnd();
+	
+	for(vector<_RigidBody*>::iterator ite_vec_shape = _shapeobject->renderObjects.begin();
+		ite_vec_shape != _shapeobject->renderObjects.end();ite_vec_shape++
+		){
+			
+			_RigidBody * rigidbody = *ite_vec_shape;
+			vector<Vector> &Pa = rigidbody->PiontPostion;
+			glColor3f(1.0f,0.0f,0.0f);
+			glBegin(GL_LINE_LOOP);
+			glVertex2f(Pa.at(1).x,Pa.at(1).y);
+			glVertex2f(Pa.at(2).x,Pa.at(2).y);
+			glVertex2f(Pa.at(3).x,Pa.at(3).y);
+			glVertex2f(Pa.at(4).x,Pa.at(4).y);
+			glEnd();
+	}
 	//for(int i = 0; i< 40; i ++){
 	//	for( int j =0; j < 20 ; j ++){
 	//glBegin(GL_LINE_LOOP);
@@ -62,4 +73,8 @@ void  MyWindow::OnDisplay(){
 
 void	MyWindow::OnIdle(){
 	Redraw();
+}
+
+void MyWindow::SetShapeObject(ShareMem *s){
+	_shapeobject=s;
 }

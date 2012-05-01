@@ -11,7 +11,7 @@ class PhysicThread :
 public:
 	PhysicThread(void);
 	~PhysicThread(void);
-
+	void SetShapeObject(ShareMem *p){_shareobject=p;};
 	int run();
 	ShareMem* _shareobject;
 

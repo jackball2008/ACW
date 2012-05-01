@@ -54,5 +54,6 @@ void _RigidBody::SetData(const Vector &p0,const Vector &p1,const Vector &p2,cons
    PiontPostion[1]=p1;
    PiontPostion[2]=p2;
    PiontPostion[3]=p3;
-
+   
+ 
 }
