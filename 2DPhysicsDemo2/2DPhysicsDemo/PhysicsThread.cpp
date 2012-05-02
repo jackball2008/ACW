@@ -207,17 +207,13 @@ bool PhysicsThread::CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB)
 void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 {
 	//cout<<"common hit"<<endl;
-	float ax = 0;
-	float ay = 0;
-	float bx = 0;
-	float by = 0;
 	//velocity  +/-
-	ax = 2*shapeB.mass*shapeB.velocity.x/(shapeA.mass + shapeB.mass);
-	ay = 2*shapeB.mass*shapeB.velocity.y/(shapeA.mass + shapeB.mass);
+	float ax = 2*shapeB.mass*shapeB.velocity.x/(shapeA.mass + shapeB.mass);
+	float ay = 2*shapeB.mass*shapeB.velocity.y/(shapeA.mass + shapeB.mass);
 	
-	bx = 2*shapeA.mass*shapeA.velocity.x/(shapeA.mass + shapeB.mass);
-	by = 2*shapeA.mass*shapeA.velocity.y/(shapeA.mass + shapeB.mass);
-	
+	float bx = 2*shapeA.mass*shapeA.velocity.x/(shapeA.mass + shapeB.mass);
+	float by = 2*shapeA.mass*shapeA.velocity.y/(shapeA.mass + shapeB.mass);
+	//velocity after collision
 
 	/**
 	shapeA.velocity.x = ax;
@@ -225,7 +221,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 
 	shapeB.velocity.x = bx;
 	shapeB.velocity.y = by;
-	*/
+	
 	//
 	float dir = ax*bx + ay*by;
 	//float dir = shapeA.velocity.x*shapeB.velocity.x + shapeA.velocity.y * shapeB.velocity.y;
@@ -241,13 +237,72 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	{
 		cout<<"s"<<endl;
 	}
+	*/
 	//get num of axis
 	int numofaxisA = shapeA.project_axis.size();
 
 	//fix function, get delta
-	float deltax = shapeA.pos.x - shapeB.pos.x;
-	float deltay = shapeA.pos.y - shapeB.pos.y;
+	float delta_x = shapeA.pos.x - shapeB.pos.x;
+	float delta_y = shapeA.pos.y - shapeB.pos.y;
 
+	//get the size in Y,because A and B is Collision, so ,they are must be overlap on Y and X axis
+
+	//shapeA Y axis  (0,1)
+	float A_size_y = 0;
+	ProjectShape(A_size_y,shapeA,0,1);
+	//shapeA X axis (1,0)
+	float A_size_x = 0;
+	ProjectShape(A_size_x,shapeA,1,0);
+	//shapeB Y axis (0,1)
+	float B_size_y = 0;
+	ProjectShape(B_size_y,shapeB,0,1);
+	//shapeB X axis (1,0)
+	float B_size_x = 0;
+	ProjectShape(B_size_x,shapeB,1,0);
+
+	//overlap value on X axis
+	float overlap_x = A_size_x + B_size_x - abs(delta_x);
+	//overlap value on Y axis
+	float overlap_y = A_size_y + B_size_y - abs(delta_y);
+
+	cout<<"overlap x = "<<overlap_x<<"  y = "<<overlap_y<<endl;
+
+	if(overlap_y<overlap_x)
+	{
+		//move on Y axis
+
+
+		//judge who is at high position
+		if(shapeA.pos.y > shapeB.pos.y)
+		{
+			//shapeA high
+			//shapeA + up G
+
+			//shapeB + down G
+		}
+		else
+		{
+			//shape B high
+			//shapeB + up G
+
+
+			//shapeA + down G
+
+		}
+
+
+
+	}
+	else
+	{
+		//move on X
+
+
+	}
+
+
+
+	/**
 	for(int i = 0;i< numofaxisA; i++)
 	{
 		float Adx = shapeA.project_axis.at(i).x;
@@ -267,6 +322,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 		//////////////////////////////////////////////////////////////////////////
 		shapeA.forceanalyze[i] = penAx;
 	}
+	*/
 
 }
 
