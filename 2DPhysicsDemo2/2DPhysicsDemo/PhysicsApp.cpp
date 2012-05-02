@@ -166,6 +166,11 @@ void PhysicsApp::InitializeAllShpes(){
 			
 			square->project_axis.push_back(ax);
 			square->project_axis.push_back(yx);
+			//push penax
+			//float penAx = 0;
+			//float penAy = 0;
+			//square->project_axis_penAx.push_back(penAx);
+			//square->project_axis_penAx.push_back(penAy);
 			//////////////////////////////////////////////////////////////////////////
 			sid++;
 			square->id = sid;
