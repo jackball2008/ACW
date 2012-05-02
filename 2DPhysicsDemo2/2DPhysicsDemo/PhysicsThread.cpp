@@ -270,12 +270,13 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	if(overlap_y<overlap_x)
 	{
 		//move on Y axis
-
+		//move shapeA or shapeB, a problem : answer: who is higher, move who
 
 		//judge who is at high position
 		if(shapeA.pos.y > shapeB.pos.y)
 		{
 			//shapeA high
+			//
 			//shapeA + up G
 
 			//shapeB + down G
@@ -438,9 +439,13 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 {
 	float t = _delta_time/1000;//ms -> s
 	///
+	//force x = 0; y = G*mass
 	shape.old_force = shape.force;
+	//x = x or change
+	shape.force.y = shape.mass * G_ACCERLATION;
+
 	shape.acceleration.x = shape.force.x / shape.mass;
-	shape.acceleration.y = shape.force.y / shape.mass + G_ACCERLATION;
+	shape.acceleration.y = /*shape.force.y / shape.mass;*/ G_ACCERLATION;
 	shape.force.Clear();//once the force worked, it just work on this moment, so after it works, clear it
 	///
 	//YPoint movement;
