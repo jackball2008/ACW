@@ -290,20 +290,10 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 	4. absolute low
 	*/
 	/************************************************************************/
-	bool overlap = false;
-
+	
 	if(penAx>0)
 	{
-		overlap = true;	
-	}
-	else
-	{
-		overlap = false;
-	}
-
-	if(overlap)
-	{
-		//get penmove value
+		//overlap
 		if(shape.pos.y > GROUND_Y)
 		{
 			shape.penmove.y = penAx;
@@ -316,6 +306,7 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 	}
 	else
 	{
+		
 		//no overlap
 		if(shape.pos.y > GROUND_Y)
 		{
@@ -328,6 +319,8 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 			return true;
 		}
 	}
+
+
 
 	return false;
 	
