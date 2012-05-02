@@ -24,20 +24,34 @@ void  MyWindow::OnDisplay(){
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	for(vector<_RigidBody*>::iterator ite_vec_shape = _shapeobject->renderObjects.begin();
-		ite_vec_shape != _shapeobject->renderObjects.end();ite_vec_shape++
-		){
-			
-			_RigidBody * rigidbody = *ite_vec_shape;
-			vector<Vector> &Pa = rigidbody->PiontPostion;
+	int num =_shapeobject->renderObjects.size();
+	for (int i=0;i<num;i++)
+	{
+		_RigidBody* RID = _shapeobject->renderObjects.at(i);
+
 			glColor3f(1.0f,0.0f,0.0f);
-			glBegin(GL_LINE_LOOP);
-			glVertex2f(Pa.at(1).x,Pa.at(1).y);
-			glVertex2f(Pa.at(2).x,Pa.at(2).y);
-			glVertex2f(Pa.at(3).x,Pa.at(3).y);
-			glVertex2f(Pa.at(4).x,Pa.at(4).y);
+		    glBegin(GL_LINE_LOOP);
+			glVertex2f(RID->vFirstpoint.x,RID->vFirstpoint.y);
+			glVertex2f(RID->vSecondpoint.x,RID->vSecondpoint.y);
+			glVertex2f(RID->vThirdpoint.x,RID->vThirdpoint.y);
+			glVertex2f(RID->vFourthpoint.x,RID->vFourthpoint.y);
 			glEnd();
+
 	}
+	//for(vector<_RigidBody*>::iterator ite_vec_shape = _shapeobject->renderObjects.begin();
+	//	ite_vec_shape != _shapeobject->renderObjects.end();ite_vec_shape++
+	//	){
+	//		
+	//		_RigidBody * rigidbody = *ite_vec_shape;
+	//		vector<Vector> &Pa = rigidbody->PiontPostion;
+	//		glColor3f(1.0f,0.0f,0.0f);
+	//		glBegin(GL_LINE_LOOP);
+	//		glVertex2f(Pa.at(1).x,Pa.at(1).y);
+	//		glVertex2f(Pa.at(2).x,Pa.at(2).y);
+	//		glVertex2f(Pa.at(3).x,Pa.at(3).y);
+	//		glVertex2f(Pa.at(4).x,Pa.at(4).y);
+	//		glEnd();
+	//}
 	//for(int i = 0; i< 40; i ++){
 	//	for( int j =0; j < 20 ; j ++){
 	//glBegin(GL_LINE_LOOP);
