@@ -111,10 +111,12 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 				//over lap
 				iscollision = true;
 				//save the last penmove value
+				//shapeA.project_axis_penAx.at(i) = penAx;
 			}
 			else
 			{
 				iscollision = false;
+				//shapeA.project_axis_penAx.at(i) = 0;
 				break;
 			}
 
@@ -223,7 +225,8 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 }
 void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 {
-	cout<<"common hit"<<endl;
+	//cout<<"common hit"<<endl;
+	/**
 	float ax = 0;
 	float ay = 0;
 	float bx = 0;
@@ -240,6 +243,48 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 
 	shapeB.velocity.x = bx;
 	shapeB.velocity.y = by;
+	*/
+	//
+	float dir = shapeA.velocity.x*shapeB.velocity.x + shapeA.velocity.y * shapeB.velocity.y;
+	if(dir>0)
+	{
+		cout<<"t"<<endl;
+	}
+	else if(dir<0)
+	{
+		cout<<"o"<<endl;
+	}
+	else if (dir == 0)
+	{
+		cout<<"s"<<endl;
+	}
+	//get num of axis
+	int numofaxisA = shapeA.project_axis.size();
+
+	//fix function, get delta
+	float deltax = shapeA.pos.x - shapeB.pos.x;
+	float deltay = shapeA.pos.y - shapeB.pos.y;
+
+	for(int i = 0;i< numofaxisA; i++)
+	{
+		float Adx = shapeA.project_axis.at(i).x;
+		float Ady = shapeA.project_axis.at(i).y;
+		float Alen = shapeA.project_axis.at(i).z;
+
+		float asize = Alen;
+		float bsize = 0;
+		ProjectShape(bsize,shapeB,Adx,Ady);
+
+		//get delta project to axis
+		float dsize = abs(deltax*Adx + deltay*Ady);
+		//rA + rB  -  dis
+		float penAx = (asize + bsize) - dsize;//amount on the current axis
+		//////////////////////////////////////////////////////////////////////////
+		ReduceDisMistake(penAx);
+		//////////////////////////////////////////////////////////////////////////
+	}
+
+
 
 
 }
