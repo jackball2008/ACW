@@ -52,9 +52,12 @@ private:
 	void ReduceDisMistake(float&dis);
 	void ReduceDisMistake(float&dis,const float&range);
 	void FreeMoveShape(Shape&shape);
-	bool CollisionDectectShapeAndGround(Shape&shape);
+
+	
 	bool CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB);
 	void ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB);
+
+	bool CollisionDectectShapeAndGround(Shape&shape);
 	void ResponseCollisionWithGround(Shape&shapeA, const Shape&ground);
 	//////////////////////////////////////////////////////////////////////////
 

@@ -78,138 +78,15 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 {
 	bool iscollision = false;
 
-	//check collision and response
-	//get num of shapeA's axis
-	/**
-	int numofaxisA = shapeA.project_axis.size();
-	int numofaxisB = shapeB.project_axis.size();
-	//
-	//fix function, get delta
-	float deltax = shapeA.pos.x - shapeB.pos.x;
-	float deltay = shapeA.pos.y - shapeB.pos.y;
-	*/
-
 	if(shapeB.type != 1)
 	{
 		//shapeA hit common shape
-
 		iscollision = CollisionDectectShapeAndShape(shapeA,shapeB);
-
-		/**
-		for(int i = 0;i< numofaxisA; i++)
-		{
-			float Adx = shapeA.project_axis.at(i).x;
-			float Ady = shapeA.project_axis.at(i).y;
-			float Alen = shapeA.project_axis.at(i).z;
-
-			float asize = Alen;
-			float bsize = 0;
-			ProjectShape(bsize,shapeB,Adx,Ady);
-
-			//get delta project to axis
-			float dsize = abs(deltax*Adx + deltay*Ady);
-			//rA + rB  -  dis
-			float penAx = (asize + bsize) - dsize;
-			//////////////////////////////////////////////////////////////////////////
-			ReduceDisMistake(penAx);
-			//////////////////////////////////////////////////////////////////////////
-			if(penAx>0)
-			{
-				//over lap
-				iscollision = true;
-				//save the last penmove value
-				//shapeA.project_axis_penAx.at(i) = penAx;
-			}
-			else
-			{
-				iscollision = false;
-				//shapeA.project_axis_penAx.at(i) = 0;
-				break;
-			}
-
-		}
-		if(iscollision)
-		{
-			//if all A axis hit, then check all B axis
-			for(int i = 0;i< numofaxisB; i++)
-			{
-				float Bdx = shapeB.project_axis.at(i).x;
-				float Bdy = shapeB.project_axis.at(i).y;
-				float Blen = shapeB.project_axis.at(i).z;
-
-				float asize = Blen;
-				float bsize = 0;
-				ProjectShape(bsize,shapeA,Bdx,Bdy);
-
-				//get delta project to axis
-				float dsize = abs(deltax*Bdx + deltay*Bdy);
-
-				//rA + rB  -  dis
-				float penAx = (asize + bsize) - dsize;
-				//////////////////////////////////////////////////////////////////////////
-				ReduceDisMistake(penAx);
-				//////////////////////////////////////////////////////////////////////////
-				if(penAx>0)
-				{
-					//over lap
-					iscollision = true;
-				}
-				else
-				{
-					iscollision = false;
-					break;
-				}
-
-			}
-		}
-		*/
 	}
 	else
 	{
 		//shapeB is ground
-		/**
-		float Bdx = shapeB.project_axis.at(0).x;
-		float Bdy = shapeB.project_axis.at(0).y;
-
-		float asize = 0;
-		ProjectShape(asize,shapeA,Bdx,Bdy);
-		
-		
-		float bsize = 0;
-
-		float dsize = abs(deltay);
-		
-		float penAx = (asize + bsize)-dsize;
-
-		//reduce mistake made by calculation /////////////////////////////////////
-		ReduceDisMistake(penAx);
-		//////////////////////////////////////////////////////////////////////////
-
-		if(penAx>0)
-		{
-			iscollision = true;
-			//get penmove value
-			shapeA.penmove.y = penAx;
-		}
-		else
-		{
-			iscollision = false;
-		}
-		*/
-
 		iscollision = CollisionDectectShapeAndGround(shapeA);
-
-		/**
-		if(CollisionDectectShapeAndGround(shapeA))
-		{
-			iscollision = true;
-		}
-		else
-		{
-			iscollision = false;
-		}
-		*/
-
 	}
 	//////////////////////////////////////////////////////////////////////////
 	//do response
@@ -236,122 +113,8 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 	}
 
 }
-/************************************************************************/
-/* do collision response with common shape                                                                     */
-/************************************************************************/
-void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
-{
-	//cout<<"common hit"<<endl;
-	float ax = 0;
-	float ay = 0;
-	float bx = 0;
-	float by = 0;
-	
-	ay = 2*shapeB.mass*shapeB.velocity.y/(shapeA.mass + shapeB.mass);
-	ax = 2*shapeB.mass*shapeB.velocity.x/(shapeA.mass + shapeB.mass);
 
-	by = 2*shapeA.mass*shapeA.velocity.y/(shapeA.mass + shapeB.mass);
-	bx = 2*shapeA.mass*shapeA.velocity.x/(shapeA.mass + shapeB.mass);
-
-	/**
-	shapeA.velocity.x = ax;
-	shapeA.velocity.y = ay;
-
-	shapeB.velocity.x = bx;
-	shapeB.velocity.y = by;
-	*/
-	//
-	float dir = ax*bx + ay*by;
-	//float dir = shapeA.velocity.x*shapeB.velocity.x + shapeA.velocity.y * shapeB.velocity.y;
-	if(dir>0)
-	{
-		cout<<"t"<<endl;
-	}
-	else if(dir<0)
-	{
-		cout<<"o"<<endl;
-	}
-	else if (dir == 0)
-	{
-		cout<<"s"<<endl;
-	}
-	//get num of axis
-	int numofaxisA = shapeA.project_axis.size();
-
-	//fix function, get delta
-	float deltax = shapeA.pos.x - shapeB.pos.x;
-	float deltay = shapeA.pos.y - shapeB.pos.y;
-
-	for(int i = 0;i< numofaxisA; i++)
-	{
-		float Adx = shapeA.project_axis.at(i).x;
-		float Ady = shapeA.project_axis.at(i).y;
-		float Alen = shapeA.project_axis.at(i).z;
-
-		float asize = Alen;
-		float bsize = 0;
-		ProjectShape(bsize,shapeB,Adx,Ady);
-
-		//get delta project to axis
-		float dsize = abs(deltax*Adx + deltay*Ady);
-		//rA + rB  -  dis
-		float penAx = (asize + bsize) - dsize;//amount on the current axis
-		//////////////////////////////////////////////////////////////////////////
-		ReduceDisMistake(penAx);
-		//////////////////////////////////////////////////////////////////////////
-	}
-
-}
-/************************************************************************/
-/* do collision response with ground                                                                     */
-/************************************************************************/
-void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground)
-{
-	//pull back to the ground surface
-	shapeA.Move(shapeA.penmove);
-	//clear speed, because the speed is changed
-	shapeA.velocity.Clear();
-	//give it a opposite force
-	shapeA.force.y += shapeA.mass * G_ACCERLATION * -1;
-	//get the dis between start position and the hit position
-	float blankdis = abs(abs(shapeA.movement.y)-abs(shapeA.penmove.y));
-	//reduce the dis to save computing
-	ReduceDisMistake(blankdis,0.005f);
-	//
-	//do the bound operation
-	if(blankdis!=0)
-	{
-		float v_g = 0;
-		float t_g = 0;
-		float t_left = 0;
-		//this blankdis is big, need do some thing
-		/*cout<<"big hit"<<endl;*/
-		//v2 = sqrt(2gh + v1*v1);
-		v_g = sqrt(2*G_ACCERLATION*blankdis + shapeA.old_velocity.y * shapeA.old_velocity.y);
-		//v2 = v1+gt  t_g < 0
-		if(shapeA.old_velocity.y<0) shapeA.old_velocity.y *= -1;
-		t_g = (v_g - shapeA.old_velocity.y)/(G_ACCERLATION * -1);
-		t_left = _delta_time/1000 - t_g;//ms/1000->s
-		/*cout<<t_left<<endl;*/
-		//
-		shapeA.velocity.y = v_g * FANTAN_XISHU;
-
-		shapeA.force.x = shapeA.force.x;
-		shapeA.force.y = shapeA.mass* G_ACCERLATION;
-
-		shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
-		shapeA.acceleration.y = shapeA.force.y / shapeA.mass;
-
-		float x_m = float(shapeA.velocity.x * t_left + 0.5 * shapeA.acceleration.x * t_left * t_left);
-		float y_m = float(shapeA.velocity.y * t_left + 0.5 * shapeA.acceleration.y * t_left * t_left);
-
-		shapeA.movement.x = x_m;
-		shapeA.movement.y = y_m;
-
-		shapeA.Move(shapeA.movement);
-	}
-
-}
+//////////////////////////////////////////////////////////////////////////
 /************************************************************************/
 /* collision detect with common shape                                                                     */
 /************************************************************************/
@@ -439,6 +202,76 @@ bool PhysicsThread::CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB)
 
 }
 /************************************************************************/
+/* do collision response with common shape                                                                     */
+/************************************************************************/
+void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
+{
+	//cout<<"common hit"<<endl;
+	float ax = 0;
+	float ay = 0;
+	float bx = 0;
+	float by = 0;
+	//velocity  +/-
+	ax = 2*shapeB.mass*shapeB.velocity.x/(shapeA.mass + shapeB.mass);
+	ay = 2*shapeB.mass*shapeB.velocity.y/(shapeA.mass + shapeB.mass);
+	
+	bx = 2*shapeA.mass*shapeA.velocity.x/(shapeA.mass + shapeB.mass);
+	by = 2*shapeA.mass*shapeA.velocity.y/(shapeA.mass + shapeB.mass);
+	
+
+	/**
+	shapeA.velocity.x = ax;
+	shapeA.velocity.y = ay;
+
+	shapeB.velocity.x = bx;
+	shapeB.velocity.y = by;
+	*/
+	//
+	float dir = ax*bx + ay*by;
+	//float dir = shapeA.velocity.x*shapeB.velocity.x + shapeA.velocity.y * shapeB.velocity.y;
+	if(dir>0)
+	{
+		cout<<"t"<<endl;
+	}
+	else if(dir<0)
+	{
+		cout<<"o"<<endl;
+	}
+	else if (dir == 0)
+	{
+		cout<<"s"<<endl;
+	}
+	//get num of axis
+	int numofaxisA = shapeA.project_axis.size();
+
+	//fix function, get delta
+	float deltax = shapeA.pos.x - shapeB.pos.x;
+	float deltay = shapeA.pos.y - shapeB.pos.y;
+
+	for(int i = 0;i< numofaxisA; i++)
+	{
+		float Adx = shapeA.project_axis.at(i).x;
+		float Ady = shapeA.project_axis.at(i).y;
+		float Alen = shapeA.project_axis.at(i).z;
+
+		float asize = Alen;
+		float bsize = 0;
+		ProjectShape(bsize,shapeB,Adx,Ady);
+
+		//get delta project to axis
+		float dsize = abs(deltax*Adx + deltay*Ady);
+		//rA + rB  -  dis
+		float penAx = (asize + bsize) - dsize;//amount on the current axis
+		//////////////////////////////////////////////////////////////////////////
+		ReduceDisMistake(penAx);
+		//////////////////////////////////////////////////////////////////////////
+		shapeA.forceanalyze[i] = penAx;
+	}
+
+}
+
+//////////////////////////////////////////////////////////////////////////
+/************************************************************************/
 /* collision detect with ground                                                                     */
 /************************************************************************/
 bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
@@ -461,7 +294,6 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 	4. absolute low
 	*/
 	/************************************************************************/
-	
 	if(penAx>0)
 	{
 		//overlap
@@ -492,9 +324,59 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 
 		return false;
 	}
-
-	
 }
+/************************************************************************/
+/* do collision response with ground                                                                     */
+/************************************************************************/
+void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground)
+{
+	//pull back to the ground surface
+	shapeA.Move(shapeA.penmove);
+	//clear speed, because the speed is changed
+	shapeA.velocity.Clear();
+	//give it a opposite force
+	shapeA.force.y += shapeA.mass * G_ACCERLATION * -1;
+	//get the dis between start position and the hit position
+	float blankdis = abs(abs(shapeA.movement.y)-abs(shapeA.penmove.y));
+	//reduce the dis to save computing
+	ReduceDisMistake(blankdis,0.005f);
+	//
+	//do the bound operation
+	if(blankdis!=0)
+	{
+		float v_g = 0;
+		float t_g = 0;
+		float t_left = 0;
+		//this blankdis is big, need do some thing
+		/*cout<<"big hit"<<endl;*/
+		//v2 = sqrt(2gh + v1*v1);
+		v_g = sqrt(2*G_ACCERLATION*blankdis + shapeA.old_velocity.y * shapeA.old_velocity.y);
+		//v2 = v1+gt  t_g < 0
+		if(shapeA.old_velocity.y<0) shapeA.old_velocity.y *= -1;
+		t_g = (v_g - shapeA.old_velocity.y)/(G_ACCERLATION * -1);
+		t_left = _delta_time/1000 - t_g;//ms/1000->s
+		/*cout<<t_left<<endl;*/
+		//
+		shapeA.velocity.y = v_g * FANTAN_XISHU;
+
+		shapeA.force.x = shapeA.force.x;
+		shapeA.force.y = shapeA.mass* G_ACCERLATION;
+
+		shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
+		shapeA.acceleration.y = shapeA.force.y / shapeA.mass;
+
+		float x_m = float(shapeA.velocity.x * t_left + 0.5 * shapeA.acceleration.x * t_left * t_left);
+		float y_m = float(shapeA.velocity.y * t_left + 0.5 * shapeA.acceleration.y * t_left * t_left);
+
+		shapeA.movement.x = x_m;
+		shapeA.movement.y = y_m;
+
+		shapeA.Move(shapeA.movement);
+	}
+
+}
+
+
 
 void PhysicsThread::FreeMoveShape(Shape&shape)
 {
@@ -605,8 +487,6 @@ int PhysicsThread::run(){
 				_shapeShareObject->Release();
 			}
 		}
-
-
 
 	}
 	return 0;

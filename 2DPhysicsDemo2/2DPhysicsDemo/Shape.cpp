@@ -9,6 +9,10 @@ Shape::Shape(void)
 	isvisiable = true;
 	id = 0;
 	sizeofpoints = 0;
+
+	forceanalyze[0] = 0;
+	forceanalyze[1] = 0;
+	forceanalyze[2] = 0;
 	
 }
 

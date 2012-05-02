@@ -41,6 +41,7 @@ public:
 	
 	float mass;
 	
+	float forceanalyze[3];
 
 public:
 	Shape(void);
