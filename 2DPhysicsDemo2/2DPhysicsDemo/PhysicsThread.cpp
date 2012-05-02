@@ -74,7 +74,7 @@ void PhysicsThread::CalculatePyhsics7()
 	}
 }
 
-void PhysicsThread::CollisionDectect(Shape& shapeA, const Shape& shapeB)
+void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 {
 	bool iscollision = false;
 
@@ -221,9 +221,27 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, const Shape& shapeB)
 	}
 
 }
-void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,const Shape&shapeB)
+void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 {
 	cout<<"common hit"<<endl;
+	float ax = 0;
+	float ay = 0;
+	float bx = 0;
+	float by = 0;
+	
+	ay = 2*shapeB.mass*shapeB.velocity.y/(shapeA.mass + shapeB.mass);
+	ax = 2*shapeB.mass*shapeB.velocity.x/(shapeA.mass + shapeB.mass);
+
+	by = 2*shapeA.mass*shapeA.velocity.y/(shapeA.mass + shapeB.mass);
+	bx = 2*shapeA.mass*shapeA.velocity.x/(shapeA.mass + shapeB.mass);
+
+	shapeA.velocity.x = ax;
+	shapeA.velocity.y = ay;
+
+	shapeB.velocity.x = bx;
+	shapeB.velocity.y = by;
+
+
 }
 void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground)
 {

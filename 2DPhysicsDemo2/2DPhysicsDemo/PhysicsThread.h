@@ -48,12 +48,12 @@ private:
 	//////////////////////////////////////////////////////////////////////////
 	void CalculatePyhsics7();
 	void ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay);
-	void CollisionDectect(Shape&, const Shape&);
+	void CollisionDectect(Shape&, Shape&);
 	void ReduceDisMistake(float&dis);
 	void ReduceDisMistake(float&dis,const float&range);
 	void FreeMoveShape(Shape&shape);
 	bool CollisionDectectShapeAndGround(Shape&shape);
-	void ResponseCollisionWithShape(Shape&shapeA,const Shape&shapeB);
+	void ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB);
 	void ResponseCollisionWithGround(Shape&shapeA, const Shape&ground);
 	//////////////////////////////////////////////////////////////////////////
 
