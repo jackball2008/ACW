@@ -61,4 +61,7 @@ void MyApp::Initializeposition(){
 			_shapeobject.renderObjects.push_back(square);
 		}
 	}
+	_RigidBody *s;
+	 s=_shapeobject.renderObjects.at(0);
+	 s->vVelocity.x=0.1f;
 }
