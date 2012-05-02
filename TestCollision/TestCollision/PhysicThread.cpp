@@ -23,7 +23,8 @@ int PhysicThread::run(){
 		Sleep(2);
 		if (_shareobject->Acquire())
 		{ __try{
-			cout<<"1";
+			StepSimulation();
+			
 
 		}__finally{
 			_shareobject->Release();
@@ -156,4 +157,30 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 
 	body->vFourthpoint.x= body->vPosition.x-0.02f;
 	body->vFourthpoint.y= body->vPosition.y-0.02f;
+}
+
+void PhysicThread::StepSimulation(){
+	int        check = 0;
+	int objnum = _shareobject->renderObjects.size();
+	for (int a=0; a<objnum;a++)
+	{
+		_RigidBody * Rigidsquare =_shareobject->renderObjects.at(a);
+		Updateposition(Rigidsquare,0.01);
+	}
+	for (int i=0;i<objnum;i++)
+	{
+		_RigidBody* Rigidsquare1 =_shareobject->renderObjects.at(i);
+		for (int j=0; j<objnum;j++)
+		{
+			_RigidBody *Rigidsquare2 = _shareobject->renderObjects.at(j);
+
+			check=CheckforCollision(Rigidsquare1,Rigidsquare2);
+			if (check==COLLISION)
+			{
+				ApplyImpulseP(Rigidsquare1,Rigidsquare2);
+
+			}
+		}
+	}
+
 }

@@ -32,6 +32,8 @@ private:
 	void ApplyImpulseP(_RigidBody *body1,_RigidBody *body2);
 
 	void Updateposition(_RigidBody *body, float dtime);
+	
+	void  StepSimulation();
 
 	HANDLE thread;
 };

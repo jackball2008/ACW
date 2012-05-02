@@ -4,7 +4,7 @@ using namespace std;
 
 MyWindow::MyWindow()
 {
-	SetSize(400,200);
+	SetSize(600,600);
 }
 
 
@@ -20,7 +20,7 @@ void MyWindow::OnCreate(){
 void  MyWindow::OnDisplay(){
 
 	//float delta_t;
-	cout<<"2";
+	
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	
