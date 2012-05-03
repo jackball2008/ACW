@@ -36,12 +36,10 @@ public:
 	int sizeofpoints;//points num
 	//dx dy len=z
 	vector<YPoint>project_axis;
-	//vector<float>project_axis_penAx;
-	
 	
 	float mass;
 	
-	float forceanalyze[3];
+	
 
 public:
 	Shape(void);
