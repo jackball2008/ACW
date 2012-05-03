@@ -113,8 +113,8 @@ void PhysicsApp::InitializeAllShpes(){
 	//set squares
 	//25 * 4
 	YPoint tristartp;
-	for(int i = 0; i<1 /*4*/; i ++){
-		for( int j =0; j <1 /*25*/ ; j ++){
+	for(int i = 0; i<3 /*4*/; i ++){
+		for( int j =0; j <3 /*25*/ ; j ++){
 			Shape* square = new Square();
 			//set points
 			YPoint p1;
