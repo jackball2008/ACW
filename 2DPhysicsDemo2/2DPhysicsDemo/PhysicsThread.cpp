@@ -208,6 +208,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 {
 	//cout<<"common hit"<<endl;
 	//velocity  +/-
+	
 	float ax = 2*shapeB.mass*shapeB.velocity.x/(shapeA.mass + shapeB.mass);
 	float ay = 2*shapeB.mass*shapeB.velocity.y/(shapeA.mass + shapeB.mass);
 	
@@ -215,14 +216,19 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	float by = 2*shapeA.mass*shapeA.velocity.y/(shapeA.mass + shapeB.mass);
 	//velocity after collision
 
-	/**
+	ReduceDisMistake(ax,0.0001f);
+	ReduceDisMistake(ay,0.0001f);
+	ReduceDisMistake(bx,0.0001f);
+	ReduceDisMistake(by,0.0001f);
+
+	
 	shapeA.velocity.x = ax;
 	shapeA.velocity.y = ay;
 
 	shapeB.velocity.x = bx;
 	shapeB.velocity.y = by;
 	
-	//
+	/**
 	float dir = ax*bx + ay*by;
 	//float dir = shapeA.velocity.x*shapeB.velocity.x + shapeA.velocity.y * shapeB.velocity.y;
 	if(dir>0)
@@ -265,65 +271,67 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	//overlap value on Y axis
 	float overlap_y = A_size_y + B_size_y - abs(delta_y);
 
-	cout<<"overlap x = "<<overlap_x<<"  y = "<<overlap_y<<endl;
+	ReduceDisMistake(overlap_x,0.005);
+	ReduceDisMistake(overlap_y,0.005);
 
+	//cout<<"overlap x = "<<overlap_x<<"  y = "<<overlap_y<<endl;
+
+	
 	if(overlap_y<overlap_x)
 	{
-		//move on Y axis
-		//move shapeA or shapeB, a problem : answer: who is higher, move who
-
-		//judge who is at high position
-		if(shapeA.pos.y > shapeB.pos.y)
+		if(overlap_y>0)
 		{
-			//shapeA high
-			//
-			//shapeA + up G
+			//move on Y axis
+			//move shapeA or shapeB, a problem : answer: who is higher, move who
 
-			//shapeB + down G
+			//judge who is at high position
+			if(shapeA.pos.y > shapeB.pos.y)
+			{
+				//shapeA high
+				shapeA.penmove.x = 0;
+				shapeA.penmove.y = overlap_y;
+				shapeA.Move(shapeA.penmove);
+				//shapeA.velocity.Clear();
+				//shapeA + up G
+				shapeA.force.y += shapeA.mass*G_ACCERLATION*-1;
+
+				//shapeB + down G
+				//shapeB.force.y += shapeA.mass*G_ACCERLATION;
+			}
+			else
+			{
+				//shape B high
+				shapeB.penmove.x = 0;
+				shapeB.penmove.y = overlap_y;
+				shapeB.Move(shapeB.penmove);
+				//shapeB.velocity.Clear();
+				//shapeB + up G
+				//shapeB.force.y += shapeB.mass*G_ACCERLATION*-1;
+
+				//shapeA + down G
+				shapeA.force.y += shapeB.mass*G_ACCERLATION;
+
+			}
 		}
 		else
 		{
-			//shape B high
-			//shapeB + up G
-
-
-			//shapeA + down G
-
+			//past together on Y axis
 		}
-
-
-
+		
 	}
 	else
 	{
 		//move on X
+		if(overlap_x>0)
+		{
 
+		}
+		else
+		{
+			//past together on X axis
+		}
 
 	}
-
-
-
-	/**
-	for(int i = 0;i< numofaxisA; i++)
-	{
-		float Adx = shapeA.project_axis.at(i).x;
-		float Ady = shapeA.project_axis.at(i).y;
-		float Alen = shapeA.project_axis.at(i).z;
-
-		float asize = Alen;
-		float bsize = 0;
-		ProjectShape(bsize,shapeB,Adx,Ady);
-
-		//get delta project to axis
-		float dsize = abs(deltax*Adx + deltay*Ady);
-		//rA + rB  -  dis
-		float penAx = (asize + bsize) - dsize;//amount on the current axis
-		//////////////////////////////////////////////////////////////////////////
-		ReduceDisMistake(penAx);
-		//////////////////////////////////////////////////////////////////////////
-		shapeA.forceanalyze[i] = penAx;
-	}
-	*/
 
 }
 
@@ -442,7 +450,7 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 	//force x = 0; y = G*mass
 	shape.old_force = shape.force;
 	//x = x or change
-	shape.force.y = shape.mass * G_ACCERLATION;
+	shape.force.y += shape.mass * G_ACCERLATION;
 
 	shape.acceleration.x = shape.force.x / shape.mass;
 	shape.acceleration.y = /*shape.force.y / shape.mass;*/ G_ACCERLATION;
