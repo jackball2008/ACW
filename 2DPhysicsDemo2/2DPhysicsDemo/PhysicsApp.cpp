@@ -1,7 +1,7 @@
 #include "PhysicsApp.h"
 #include <math.h>
 
-const float EDGE_LENGTH = 0.1f;
+const float EDGE_LENGTH = 0.04f;
 static PhysicsApp theApp;
 PhysicsApp::PhysicsApp(void)
 {
@@ -113,8 +113,8 @@ void PhysicsApp::InitializeAllShpes(){
 	//set squares
 	//25 * 4
 	YPoint tristartp;
-	for(int i = 0; i<3 /*4*/; i ++){
-		for( int j =0; j <3 /*25*/ ; j ++){
+	for(int i = 0; i<4 /*4*/; i ++){
+		for( int j =0; j <25 /*25*/ ; j ++){
 			Shape* square = new Square();
 			//set points
 			YPoint p1;

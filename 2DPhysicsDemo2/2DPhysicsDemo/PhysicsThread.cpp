@@ -270,7 +270,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	float overlap_x = A_size_x + B_size_x - abs(delta_x);
 	//overlap value on Y axis
 	float overlap_y = A_size_y + B_size_y - abs(delta_y);
-	//reduce overlap
+	//reduce overlap if overlap < 0.005f, overlap = 0
 	ReduceDisMistake(overlap_x,0.005f);
 	ReduceDisMistake(overlap_y,0.005f);
 
@@ -296,11 +296,12 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 			else
 			{
 				//shapeB high, shapeA low
+				/**
 				shapeB.penmove.x = 0;
 				shapeB.penmove.y = overlap_y;
 				shapeB.Move(shapeB.penmove);
 				shapeB.velocity.Clear();
-
+				*/
 				//shapeA + down G
 				//shapeA.force.y += shapeB.mass*G_ACCERLATION;
 			}
