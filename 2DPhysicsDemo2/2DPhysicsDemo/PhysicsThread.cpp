@@ -290,6 +290,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 				shapeA.Move(shapeA.penmove);
 				shapeA.velocity.Clear();
 				//shapeA + up G
+				//shapeA.force.y = 0;
 				shapeA.force.y += shapeA.mass*G_ACCERLATION*-1;
 
 			}
