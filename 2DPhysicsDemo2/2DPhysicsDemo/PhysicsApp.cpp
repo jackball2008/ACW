@@ -44,6 +44,7 @@ void PhysicsApp::OnCreate(){
 	/* window thread start                                                                     */
 	/************************************************************************/
 	_mywindow.Show();
+	//_mywindow.SetSize(1024,768);
 	_mywindow.SetSize(768,768);
 	//_mywindow.SetSize(480,480);
 	_mywindow.SetPosition(512,0);

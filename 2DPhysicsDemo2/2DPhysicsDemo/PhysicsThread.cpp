@@ -271,8 +271,8 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	//overlap value on Y axis
 	float overlap_y = A_size_y + B_size_y - abs(delta_y);
 	//reduce overlap if overlap < 0.005f, overlap = 0
-	ReduceDisMistake(overlap_x,0.005f);
-	ReduceDisMistake(overlap_y,0.005f);
+	ReduceDisMistake(overlap_x,OVERLAP_MIN);
+	ReduceDisMistake(overlap_y,OVERLAP_MIN);
 
 	
 	if(overlap_y<overlap_x)
@@ -290,21 +290,10 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 				shapeA.Move(shapeA.penmove);
 				shapeA.velocity.Clear();
 				//shapeA + up G
-				//shapeA.force.y += shapeA.mass*G_ACCERLATION*-1;
+				shapeA.force.y += shapeA.mass*G_ACCERLATION*-1;
 
 			}
-			else
-			{
-				//shapeB high, shapeA low
-				/**
-				shapeB.penmove.x = 0;
-				shapeB.penmove.y = overlap_y;
-				shapeB.Move(shapeB.penmove);
-				shapeB.velocity.Clear();
-				*/
-				//shapeA + down G
-				//shapeA.force.y += shapeB.mass*G_ACCERLATION;
-			}
+			
 		}
 		else
 		{
@@ -335,8 +324,6 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 /************************************************************************/
 bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 {
-	//float Bdx = ground.project_axis.at(0).x;
-	//float Bdy = ground.project_axis.at(0).y;
 	float deltay = shape.pos.y - GROUND_Y;
 	float asize = 0;
 	ProjectShape(asize,shape,0,1);
@@ -553,4 +540,46 @@ int PhysicsThread::run(){
 
 	}
 	return 0;
+}
+
+/************************************************************************/
+/* static functions                                                                     */
+/************************************************************************/
+float PhysicsThread::Dis(const YPoint& p1, const YPoint& p2){
+	float dx = p1.x - p2.x;
+	float dy = p1.y - p2.y;
+	float dz = p1.z - p2.z;
+	return sqrt(dx*dx+dy*dy+dz*dz);
+};
+
+bool PhysicsThread::JudgePointInPologon(const vector<YPoint>& pa,const YPoint& mp,const YPoint& ori){
+	int numofacroess = 0;
+	int nsize = pa.size();
+	for(int i=0; i<nsize;i++){
+		if((i+1)<nsize){
+			if(JudgeTwoLineAcroess(ori,mp,pa.at(i),pa.at(i+1)))
+				numofacroess++;
+		}else{
+			if(JudgeTwoLineAcroess(ori,mp,pa.at(i),pa.at(0)))
+				numofacroess++;
+		}
+	}
+	if(!(numofacroess%2==0))
+		return true;
+	else
+		return false;
+}
+
+bool PhysicsThread::JudgeTwoLineAcroess(const YPoint&L1p1, const YPoint&L1p2,const YPoint&L2p1, const YPoint&L2p2){
+	float v1 = (L1p2.x - L1p1.x)*(L2p2.y-L1p1.y) - (L1p2.y-L1p1.y)*(L2p2.x-L1p1.x);
+	float v2 = (L1p2.x-L1p1.x)*(L2p1.y-L1p1.y)-(L1p2.y-L1p1.y)*(L2p1.x-L1p1.x);
+	if(v1*v2 >= 0) { 
+		return false; 
+	}
+	float v3 = (L2p2.x-L2p1.x)*(L1p2.y-L2p1.y)-(L2p2.y-L2p1.y)*(L1p2.x-L2p1.x);
+	float v4 = (L2p2.x-L2p1.x)*(L1p1.y-L2p1.y)-(L2p2.y-L2p1.y)*(L1p1.x-L2p1.x);
+	if(v3*v4 >= 0) { 
+		return false; 
+	} 
+	return true; 
 }
