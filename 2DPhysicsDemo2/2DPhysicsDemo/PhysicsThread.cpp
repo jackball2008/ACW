@@ -378,7 +378,7 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 	//get the dis between start position and the hit position
 	float blankdis = abs(abs(shapeA.movement.y)-abs(shapeA.penmove.y));
 	//reduce the dis to save computing
-	ReduceDisMistake(blankdis,0.005f);
+	ReduceDisMistake(blankdis,0.001f);
 	//
 	//do the bound operation
 	if(blankdis!=0)
