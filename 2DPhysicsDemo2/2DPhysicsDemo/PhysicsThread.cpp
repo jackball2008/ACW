@@ -39,7 +39,7 @@ void PhysicsThread::CalculateDeltaTime(){
 
 
 
-void PhysicsThread::CalculatePyhsics7()
+void PhysicsThread::CalculatePyhsics()
 {
 	//A is host b is guest
 	int objnum = _shapeShareObject->renderObjects.size();
@@ -96,7 +96,7 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 		//shapeB is ground
 		if(CollisionDectectShapeAndGround(shapeA))
 		{
-			ResponseCollisionWithGround(shapeA,shapeB);
+			ResponseCollisionWithGround(shapeA);
 		}
 		else
 		{
@@ -367,7 +367,7 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 /************************************************************************/
 /* do collision response with ground                                                                     */
 /************************************************************************/
-void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA, const Shape&ground)
+void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 {
 	//pull back to the ground surface
 	shapeA.Move(shapeA.penmove);
@@ -522,7 +522,7 @@ int PhysicsThread::run(){
 					}
 					//////////////////////////////////////////
 					//start to compute the physics
-					CalculatePyhsics7();
+					CalculatePyhsics();
 					
 				}
 

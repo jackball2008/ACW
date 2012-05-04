@@ -45,19 +45,21 @@ private:
 	special functions
 	*/
 	//////////////////////////////////////////////////////////////////////////
-	void CalculatePyhsics7();
+	void CalculatePyhsics();
 	void ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay);
 	void CollisionDectect(Shape&, Shape&);
-	void ReduceDisMistake(float&dis);
-	void ReduceDisMistake(float&dis,const float&range);
-	void FreeMoveShape(Shape&shape);
-
 	
+	//collision with shape
 	bool CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB);
 	void ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB);
-
+	//collision with ground
 	bool CollisionDectectShapeAndGround(Shape&shape);
-	void ResponseCollisionWithGround(Shape&shapeA, const Shape&ground);
+	void ResponseCollisionWithGround(Shape&shapeA);
+
+	void FreeMoveShape(Shape&shape);
+
+	void ReduceDisMistake(float&dis);
+	void ReduceDisMistake(float&dis,const float&range);
 	//////////////////////////////////////////////////////////////////////////
 
 public:
