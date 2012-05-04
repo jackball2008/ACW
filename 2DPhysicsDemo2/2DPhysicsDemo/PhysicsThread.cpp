@@ -56,8 +56,10 @@ void PhysicsThread::CalculatePyhsics7()
 				//shapeB maybe ground
 				if(shapeA->id != shapeB->id)
 				{
+					/************************************************************************/
+					/* do collision detect and response, and free down movement                                                                    */
+					/************************************************************************/
 					CollisionDectect(*shapeA,*shapeB);
-
 				}
 				else
 				{
@@ -76,40 +78,30 @@ void PhysicsThread::CalculatePyhsics7()
 
 void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 {
-	bool iscollision = false;
-
+	
 	if(shapeB.type != 1)
 	{
 		//shapeA hit common shape
-		iscollision = CollisionDectectShapeAndShape(shapeA,shapeB);
-	}
-	else
-	{
-		//shapeB is ground
-		iscollision = CollisionDectectShapeAndGround(shapeA);
-	}
-	//////////////////////////////////////////////////////////////////////////
-	//do response
-	//////////////////////////////////////////////////////////////////////////
-	if(iscollision)
-	{
-		//do response, change shapeA position velocity acceleration
-		
-		if(shapeB.type != 1)
+		if(CollisionDectectShapeAndShape(shapeA,shapeB))
 		{
-			//common hit
 			ResponseCollisionWithShape(shapeA,shapeB);
 		}
 		else
 		{
-			//ground hit
-			ResponseCollisionWithGround(shapeA,shapeB);
+			FreeMoveShape(shapeA);
 		}
 	}
 	else
 	{
-		//continue to work, free down
-		FreeMoveShape(shapeA);
+		//shapeB is ground
+		if(CollisionDectectShapeAndGround(shapeA))
+		{
+			ResponseCollisionWithGround(shapeA,shapeB);
+		}
+		else
+		{
+			FreeMoveShape(shapeA);
+		}
 	}
 
 }
@@ -274,7 +266,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	ReduceDisMistake(overlap_x,OVERLAP_MIN);
 	ReduceDisMistake(overlap_y,OVERLAP_MIN);
 
-	
+
 	if(overlap_y<overlap_x)
 	{
 		//move on Y axis
