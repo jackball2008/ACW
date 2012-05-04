@@ -50,6 +50,10 @@ void PhysicsThread::CalculatePyhsics()
 		{
 			//make sure A is not ground
 
+			//cout<<shapeA->id<<" x= "<<shapeA->pos.x<<" y= "<<shapeA->pos.y<<endl;
+
+			
+
 			for(int j = 0; j<objnum;j++)
 			{
 				Shape* shapeB = _shapeShareObject->renderObjects.at(j);
@@ -82,6 +86,7 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 	if(shapeB.type != 1)
 	{
 		//shapeA hit common shape
+		/***/
 		if(CollisionDectectShapeAndShape(shapeA,shapeB))
 		{
 			ResponseCollisionWithShape(shapeA,shapeB);
@@ -90,6 +95,7 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 		{
 			FreeMoveShape(shapeA);
 		}
+		
 	}
 	else
 	{
@@ -263,14 +269,22 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	//overlap value on Y axis
 	float overlap_y = A_size_y + B_size_y - abs(delta_y);
 	//reduce overlap if overlap < 0.005f, overlap = 0
-	ReduceDisMistake(overlap_x,OVERLAP_MIN);
-	ReduceDisMistake(overlap_y,OVERLAP_MIN);
+	//////////////////////////////////////////////////////////
+	float t_overlap_x = abs(overlap_x);
+	float t_overlap_y = abs(overlap_y);
+
+	ReduceDisMistake(t_overlap_x,OVERLAP_MIN);
+	ReduceDisMistake(t_overlap_y,OVERLAP_MIN);
+
+	if(t_overlap_x == 0) overlap_x = 0;
+	if(t_overlap_y == 0) overlap_y = 0;
+	//////////////////////////////////////////////////////////
 
 
 	if(overlap_y<overlap_x)
 	{
 		//move on Y axis
-		if(overlap_y>0)
+		if(overlap_y>0)//because shapeA and shapeB collision, so they are overlap at any axises
 		{
 			
 			//judge who is at higher position
@@ -280,10 +294,11 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 				shapeA.penmove.x = 0;
 				shapeA.penmove.y = overlap_y;
 				shapeA.Move(shapeA.penmove);
-				shapeA.velocity.Clear();
+				shapeA.velocity.y = 0;
+				//shapeA.velocity.Clear();
 				//shapeA + up G
 				//shapeA.force.y = 0;
-				shapeA.force.y += shapeA.mass*G_ACCERLATION*-1;
+				shapeA.force.y = shapeA.mass*G_ACCERLATION*-1;
 
 			}
 			
@@ -297,6 +312,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	}
 	else
 	{
+		//even if overlapx == overlapy, only move on X axis
 		//move on X axis
 		if(overlap_x>0)
 		{
@@ -317,13 +333,17 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 /************************************************************************/
 bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 {
+	//get the gap between ground and shape
 	float deltay = shape.pos.y - GROUND_Y;
+	//get the shape projected on (0,1)
 	float asize = 0;
 	ProjectShape(asize,shape,0,1);
 	//float dsize = abs(deltay);//float dsize = abs(deltax*Adx + deltay*Ady);
 	float penAx = asize - abs(deltay);
 	//reduce mistake made by calculation /////////////////////////////////////
-	ReduceDisMistake(penAx);
+	float testvalue = abs(penAx);
+	ReduceDisMistake(testvalue,OVERLAP_MIN);
+	if(testvalue == 0) penAx = 0;
 	//////////////////////////////////////////////////////////////////////////
 	/************************************************************************/
 	/* there are four situation for collision with ground
@@ -333,16 +353,19 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 	4. absolute low
 	*/
 	/************************************************************************/
-	if(penAx>0)
+	if(penAx>=0)
 	{
 		//overlap
-		if(shape.pos.y > GROUND_Y)
+		if(shape.pos.y >= GROUND_Y)
 		{
+			//the low part overlap with ground
 			shape.penmove.y = penAx;
 		}
 		if(shape.pos.y < GROUND_Y)
 		{
-			shape.penmove.y = asize + penAx;
+
+			//shape.penmove.y = asize + penAx;
+			shape.penmove.y = asize + abs(deltay);
 		}
 		return true;
 	}
@@ -350,7 +373,7 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 	{
 		
 		//no overlap
-		if(shape.pos.y > GROUND_Y)
+		if(shape.pos.y >= GROUND_Y)
 		{
 			shape.penmove.y = 0;
 			return false;
@@ -372,13 +395,14 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 	//pull back to the ground surface
 	shapeA.Move(shapeA.penmove);
 	//clear speed, because the speed is changed
-	shapeA.velocity.Clear();
+	//shapeA.velocity.Clear();
+	shapeA.velocity.y = 0;//only clear velocity on Y axis
 	//give it a opposite force
-	shapeA.force.y += shapeA.mass * G_ACCERLATION * -1;
+	shapeA.force.y = shapeA.mass * G_ACCERLATION * -1;
 	//get the dis between start position and the hit position
 	float blankdis = abs(abs(shapeA.movement.y)-abs(shapeA.penmove.y));
 	//reduce the dis to save computing
-	ReduceDisMistake(blankdis,0.001f);
+	ReduceDisMistake(blankdis,OVERLAP_MIN);//0.001f
 	//
 	//do the bound operation
 	if(blankdis!=0)
@@ -391,15 +415,15 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 		//v2 = sqrt(2gh + v1*v1);
 		v_g = sqrt(2*G_ACCERLATION*blankdis + shapeA.old_velocity.y * shapeA.old_velocity.y);
 		//v2 = v1+gt  t_g < 0
-		if(shapeA.old_velocity.y<0) shapeA.old_velocity.y *= -1;
-		t_g = (v_g - shapeA.old_velocity.y)/(G_ACCERLATION * -1);
+		//if(shapeA.old_velocity.y<0) shapeA.old_velocity.y *= -1;
+		t_g = (v_g - abs(shapeA.old_velocity.y))/(abs(G_ACCERLATION));
 		t_left = _delta_time/1000 - t_g;//ms/1000->s
 		/*cout<<t_left<<endl;*/
 		//
 		shapeA.velocity.y = v_g * FANTAN_XISHU;
 
 		shapeA.force.x = shapeA.force.x;
-		shapeA.force.y = shapeA.mass* G_ACCERLATION;
+		shapeA.force.y += shapeA.mass* G_ACCERLATION;
 
 		shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
 		shapeA.acceleration.y = shapeA.force.y / shapeA.mass;
@@ -412,7 +436,12 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 
 		shapeA.Move(shapeA.movement);
 	}
-
+	else
+	{
+		shapeA.force.y = 0;
+		shapeA.movement.y = 0;
+		shapeA.velocity.y = 0;
+	}
 }
 
 

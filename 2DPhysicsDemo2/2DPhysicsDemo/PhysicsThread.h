@@ -13,7 +13,7 @@ const YPoint ORIGIN_P_PHYSICS;
 ///////////////////////////////////////////////
 const float GROUND_Y = -0.9f;
 const float NUM_RANGE_HIGH = 0.0000001f;
-const float G_ACCERLATION = -9.8f/100000;
+const float G_ACCERLATION = -9.8f/100;
 const float FANTAN_XISHU = 0.25f;
 const float OVERLAP_MIN = 0.0001f;
 
