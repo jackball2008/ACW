@@ -443,13 +443,13 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 	//clear speed, because the speed is changed
 	shapeA.velocity.y = 0;//only clear velocity on Y axis
 	//give it a opposite force
-	shapeA.force.y = shapeA.mass * G_ACCERLATION * -1;
+	//shapeA.force.y = shapeA.mass * G_ACCERLATION * -1;
 	//get the dis between start position and the hit position
 	float blankdis = abs(abs(shapeA.movement.y)-abs(shapeA.penmove.y));
 	//reduce the dis to save computing
-	ReduceDisMistake(blankdis,OVERLAP_MIN);//0.001f
+	ReduceDisMistake(blankdis,OVERLAP_MIN);
 	
-	//
+	
 	//do the bound operation
 	if(blankdis!=0)
 	{
@@ -458,20 +458,15 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 		float t_left = 0;
 		//this blankdis is big, need do some thing
 		/*cout<<"big hit"<<endl;*/
-		//v2 = sqrt(2gh + v1*v1);
+		//v2 = sqrt(2gh + v1*v1); mgh+0.5mvv = 0.5mvv;
 		v_g = sqrt(2*G_ACCERLATION*blankdis + shapeA.old_velocity.y * shapeA.old_velocity.y);
 		//v2 = v1+gt  t_g < 0
-		//if(shapeA.old_velocity.y<0) shapeA.old_velocity.y *= -1;
-		//float temp_t_g = v_g - abs(shapeA.old_velocity.y);
-		
 		t_g = (v_g - abs(shapeA.old_velocity.y))/(abs(G_ACCERLATION));
 		t_left = _delta_time/1000 - t_g;//ms/1000->s
-		/*cout<<t_left<<endl;*/
 		//
 		shapeA.velocity.y = v_g * FANTAN_XISHU;
-
 		shapeA.force.x = shapeA.force.x;
-		shapeA.force.y += shapeA.mass* G_ACCERLATION;
+		//shapeA.force.y += shapeA.mass* G_ACCERLATION;
 
 		if( shapeA.force.x == 0)
 		{
@@ -481,25 +476,24 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 		{
 			shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
 		}
-		if( shapeA.force.y == 0)
-		{
-			shapeA.acceleration.y = 0;
-		}
-		else
-		{
-			shapeA.acceleration.y = shapeA.force.y / shapeA.mass;
-		}
+// 		if( shapeA.force.y == 0)
+// 		{
+// 			shapeA.acceleration.y = 0;
+// 		}
+// 		else
+// 		{
+// 			shapeA.acceleration.y = shapeA.force.y / shapeA.mass;
+// 		}
+
+		shapeA.acceleration.y = G_ACCERLATION;
 		
-		float x_m = float(shapeA.velocity.x * t_left + 0.5 * shapeA.acceleration.x * t_left * t_left);
-		float y_m = float(shapeA.velocity.y * t_left + 0.5 * shapeA.acceleration.y * t_left * t_left);
-
-		shapeA.movement.x = x_m;
-		shapeA.movement.y = y_m;
-
+		shapeA.movement.x = float(shapeA.velocity.x * t_left + 0.5 * shapeA.acceleration.x * t_left * t_left);
+		shapeA.movement.y = float(shapeA.velocity.y * t_left + 0.5 * shapeA.acceleration.y * t_left * t_left);
 		shapeA.Move(shapeA.movement);
 	}
 	else
 	{
+		//don't do bound operation
 		shapeA.force.y = 0;
 		shapeA.movement.y = 0;
 		shapeA.velocity.y = 0;
@@ -515,9 +509,9 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 	//force x = 0; y = G*mass
 	shape.old_force = shape.force;
 	//x = x or change
-	shape.force.y += shape.mass * G_ACCERLATION;
+	shape.force.y = shape.mass * G_ACCERLATION;
 
-	shape.acceleration.x = shape.force.x / shape.mass;
+	shape.acceleration.x = shape.force.x / shape.mass;//wrong,only friction work here
 	shape.acceleration.y = /*shape.force.y / shape.mass;*/ G_ACCERLATION;
 	shape.force.Clear();//once the force worked, it just work on this moment, so after it works, clear it
 	///
