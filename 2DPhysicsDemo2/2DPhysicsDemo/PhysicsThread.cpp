@@ -9,6 +9,9 @@ PhysicsThread::PhysicsThread(void)
 
 	measureP.x = -10;
 	measureP.y = 0;
+
+
+	
 }
 
 
@@ -19,6 +22,18 @@ PhysicsThread::~PhysicsThread(void)
 
 
 void PhysicsThread::CalculateDeltaTime(){
+
+// 	cout << "The quiet NaN for type float is:  "
+// 		<< numeric_limits<float>::quiet_NaN( )
+// 		<< endl;
+// 	cout << "The quiet NaN for type int is:  "
+// 		<< numeric_limits<int>::quiet_NaN( )
+// 		<< endl;
+// 	cout << "The quiet NaN for type long double is:  "
+// 		<< numeric_limits<long double>::quiet_NaN( )
+// 		<< endl;
+
+
 	//Ensure QueryPerformance is called on a specific core
 	SetThreadAffinityMask(thread, 0x1);
 	QueryPerformanceFrequency(&_ticksPerSecond);
@@ -52,8 +67,7 @@ void PhysicsThread::CalculatePyhsics()
 
 			//cout<<shapeA->id<<" x= "<<shapeA->pos.x<<" y= "<<shapeA->pos.y<<endl;
 
-			
-
+			//do collision detect and response
 			for(int j = 0; j<objnum;j++)
 			{
 				Shape* shapeB = _shapeShareObject->renderObjects.at(j);
@@ -71,6 +85,10 @@ void PhysicsThread::CalculatePyhsics()
 				}
 
 			}
+
+			//do free move
+			FreeMoveShape(*shapeA);
+
 		}
 		else
 		{
@@ -79,9 +97,74 @@ void PhysicsThread::CalculatePyhsics()
 		
 	}
 }
-
+#define METHOD
+#define NEWLOGIC
 void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 {
+
+#ifdef NEWLOGIC
+	if(shapeB.type != 1)
+	{
+		//shapeA hit common shape
+		/**
+		if(CollisionDectectShapeAndShape(shapeA,shapeB))
+		{
+			ResponseCollisionWithShape(shapeA,shapeB);
+		}
+		*/
+	}
+	else
+	{
+		//shapeB is ground
+		if(CollisionDectectShapeAndGround(shapeA))
+		{
+			ResponseCollisionWithGround(shapeA);
+		}
+	}
+
+#endif
+
+#ifdef METHOD1
+
+	
+	bool iscollision = false;
+
+	if(shapeB.type != 1)
+	{
+		//shapeA hit common shape
+		iscollision = CollisionDectectShapeAndShape(shapeA,shapeB);
+	}
+	else
+	{
+		//shapeB is ground
+		iscollision = CollisionDectectShapeAndGround(shapeA);
+	}
+	
+	if(iscollision)
+	{
+		//do response, change shapeA position velocity acceleration
+
+		if(shapeB.type != 1)
+		{
+			//common hit
+			ResponseCollisionWithShape(shapeA,shapeB);
+		}
+		else
+		{
+			//ground hit
+			ResponseCollisionWithGround(shapeA);
+		}
+	}
+	else
+	{
+		//continue to work, free down
+		FreeMoveShape(shapeA);
+	}
+	
+#endif
+
+#ifdef METHOD2
+
 	
 	if(shapeB.type != 1)
 	{
@@ -109,7 +192,7 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 			FreeMoveShape(shapeA);
 		}
 	}
-
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -270,14 +353,8 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	float overlap_y = A_size_y + B_size_y - abs(delta_y);
 	//reduce overlap if overlap < 0.005f, overlap = 0
 	//////////////////////////////////////////////////////////
-	float t_overlap_x = abs(overlap_x);
-	float t_overlap_y = abs(overlap_y);
-
-	ReduceDisMistake(t_overlap_x,OVERLAP_MIN);
-	ReduceDisMistake(t_overlap_y,OVERLAP_MIN);
-
-	if(t_overlap_x == 0) overlap_x = 0;
-	if(t_overlap_y == 0) overlap_y = 0;
+	ReduceDisMistake(overlap_x,OVERLAP_MIN);
+	ReduceDisMistake(overlap_y,OVERLAP_MIN);
 	//////////////////////////////////////////////////////////
 
 
@@ -298,7 +375,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 				//shapeA.velocity.Clear();
 				//shapeA + up G
 				//shapeA.force.y = 0;
-				shapeA.force.y = shapeA.mass*G_ACCERLATION*-1;
+				//shapeA.force.y = shapeA.mass*G_ACCERLATION*-1;
 
 			}
 			
@@ -335,15 +412,17 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 {
 	//get the gap between ground and shape
 	float deltay = shape.pos.y - GROUND_Y;
+	
 	//get the shape projected on (0,1)
 	float asize = 0;
 	ProjectShape(asize,shape,0,1);
+	
 	//float dsize = abs(deltay);//float dsize = abs(deltax*Adx + deltay*Ady);
 	float penAx = asize - abs(deltay);
+	cout<<penAx<<"  "<<asize<<"  "<<abs(deltay)<<endl;
 	//reduce mistake made by calculation /////////////////////////////////////
-	float testvalue = abs(penAx);
-	ReduceDisMistake(testvalue,OVERLAP_MIN);
-	if(testvalue == 0) penAx = 0;
+	ReduceDisMistake(penAx,OVERLAP_MIN);
+	
 	//////////////////////////////////////////////////////////////////////////
 	/************************************************************************/
 	/* there are four situation for collision with ground
@@ -403,6 +482,7 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 	float blankdis = abs(abs(shapeA.movement.y)-abs(shapeA.penmove.y));
 	//reduce the dis to save computing
 	ReduceDisMistake(blankdis,OVERLAP_MIN);//0.001f
+	
 	//
 	//do the bound operation
 	if(blankdis!=0)
@@ -416,6 +496,8 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 		v_g = sqrt(2*G_ACCERLATION*blankdis + shapeA.old_velocity.y * shapeA.old_velocity.y);
 		//v2 = v1+gt  t_g < 0
 		//if(shapeA.old_velocity.y<0) shapeA.old_velocity.y *= -1;
+		//float temp_t_g = v_g - abs(shapeA.old_velocity.y);
+		
 		t_g = (v_g - abs(shapeA.old_velocity.y))/(abs(G_ACCERLATION));
 		t_left = _delta_time/1000 - t_g;//ms/1000->s
 		/*cout<<t_left<<endl;*/
@@ -425,9 +507,23 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 		shapeA.force.x = shapeA.force.x;
 		shapeA.force.y += shapeA.mass* G_ACCERLATION;
 
-		shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
-		shapeA.acceleration.y = shapeA.force.y / shapeA.mass;
-
+		if( shapeA.force.x == 0)
+		{
+			shapeA.acceleration.x = 0;
+		}
+		else
+		{
+			shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
+		}
+		if( shapeA.force.y == 0)
+		{
+			shapeA.acceleration.y = 0;
+		}
+		else
+		{
+			shapeA.acceleration.y = shapeA.force.y / shapeA.mass;
+		}
+		
 		float x_m = float(shapeA.velocity.x * t_left + 0.5 * shapeA.acceleration.x * t_left * t_left);
 		float y_m = float(shapeA.velocity.y * t_left + 0.5 * shapeA.acceleration.y * t_left * t_left);
 

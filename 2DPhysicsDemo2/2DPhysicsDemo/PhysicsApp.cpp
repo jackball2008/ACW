@@ -29,6 +29,9 @@ PhysicsApp::~PhysicsApp(void)
 
 
 void PhysicsApp::OnCreate(){
+
+	
+
 	/************************************************************************/
 	/* before all thread start, finish the initialize shape position                                                           */
 	/************************************************************************/

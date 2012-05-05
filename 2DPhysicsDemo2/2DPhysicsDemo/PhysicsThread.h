@@ -6,7 +6,9 @@
 using namespace std;
 #include <Windows.h>
 #include "Force.h"
+#include <limits>
 
+using namespace std;
 
 const float SPRING_FACTOR = 2.5f/100000;
 const YPoint ORIGIN_P_PHYSICS;

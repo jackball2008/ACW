@@ -45,6 +45,8 @@ void	MyWindow::OnDisplay(){
 		ite_vec_shape++){  
 			
 			Shape* shape = *ite_vec_shape;
+			if(shape == NULL) 
+				cout<<"error"<<endl;
 			vector<YPoint>& pa = shape->points;
 			//draw line
 			if(shape->type == 1)
