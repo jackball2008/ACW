@@ -408,154 +408,30 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 /************************************************************************/
 /* collision detect with ground                                                                     */
 /************************************************************************/
+#define DEBUGV1
 bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 {
+	
 	float asize = 0;
 	ProjectShape(asize,shape,0,1);
-	float penAx = 0;
-
+	
 	float low_point_y = shape.pos.y - asize;
-	float high_point_y = shape.pos.y + asize;
 
-	
-	
-	if(shape.pos.y > GROUND_Y)
+	if(low_point_y*100 < GROUND_Y*100)
 	{
-		
-
-		if(low_point_y >= GROUND_Y)
-		{
-			//shape is high no overlape, no collision
-			return false;
-		}
-		else
-		{
-			//be careful, maybe low_point very closed to GROUND
-			//must overlap
-			if(low_point_y >= (GROUND_Y - OVERLAP_MIN2))
-			{
-				penAx = 0.002f;
-			}
-			else
-			{
-				penAx = GROUND_Y - low_point_y;
-			}
-
-			return true;
-		}
-		
-	}
-	else if(shape.pos.y == GROUND_Y)
-	{
-		penAx = asize;
-		return true;
-	}
-	else if(shape.pos.y < GROUND_Y)
-	{
-		if(shape.pos.y >= (GROUND_Y - OVERLAP_MIN2))
-		{
-			penAx = asize + 0.002f;
-			return true;
-		}
-		
-		if(high_point_y >= GROUND_Y)
-		{
-			penAx = GROUND_Y - low_point_y;
-			return true;
-		}
-		
-		else if(high_point_y >= (GROUND_Y - OVERLAP_MIN2))
-		{
-			penAx = GROUND_Y - low_point_y;
-			return true;
-		}
-		else if(high_point_y < (GROUND_Y - OVERLAP_MIN2))
-		{
-			penAx = GROUND_Y - low_point_y;
-			return true;
-		}
-
-	}
-
-	/**
-	bool iscollision = false;
-	//get the gap between ground and shape
-	float deltay = shape.pos.y - GROUND_Y;
-	
-	//get the shape projected on (0,1)
-	
-	
-	//float dsize = abs(deltay);//float dsize = abs(deltax*Adx + deltay*Ady);
-	
-	//float penAx = asize - abs(deltay);
-	
-	//cout<<penAx<<"  "<<asize<<"  "<<abs(deltay)<<endl;
-	//reduce mistake made by calculation /////////////////////////////////////
-	//ReduceDisMistake(penAx,OVERLAP_MIN2);
-	
-	//////////////////////////////////////////////////////////////////////////
-	
-	float deltay_value = 0;
-	if(deltay>0) 
-		deltay_value = deltay;
-	else
-		deltay_value = deltay*-1;
-
-	if(asize>deltay_value)
-	{
-		//overlap
-		if(deltay_value>0.019f)
-		{
-			penAx = 0.001f;
-		}
-		else
-		{
-			penAx = asize - deltay_value;
-		}
-	}
-	cout<<penAx<<"  "<<asize<<"  "<<deltay_value<<endl;
-
-	
-// 	 there are four situation for collision with ground
-// 	1. absolute high
-// 	2. overlap high
-// 	3. overlap low
-// 	4. absolute low
-	
-	if(penAx>0)
-	{
-		//overlap
-		if(shape.pos.y >= GROUND_Y)
-		{
-			//the low part overlap with ground
-			shape.penmove.y = penAx;
-		}
-		if(shape.pos.y < GROUND_Y)
-		{
-
-			//shape.penmove.y = asize + penAx;
-			shape.penmove.y = asize + abs(deltay);
-		}
+		shape.penmove.y = (GROUND_Y*100 - low_point_y*100)/100;
+#ifdef DEBUGV
+		cout<<"++ "<<penAx<<endl;
+#endif
 		return true;
 	}
 	else
 	{
-		
-		//no overlap
-		if(shape.pos.y >= GROUND_Y)
-		{
-			shape.penmove.y = 0;
-			return false;
-		}
-		if(shape.pos.y < GROUND_Y)
-		{
-			shape.penmove.y =  asize + abs(deltay);
-			return true;
-		}
-
+#ifdef DEBUGV
+		cout<<"-- "<<penAx<<endl;
+#endif
 		return false;
 	}
-	*/
 }
 /************************************************************************/
 /* do collision response with ground                                                                     */
@@ -565,7 +441,6 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 	//pull back to the ground surface
 	shapeA.Move(shapeA.penmove);
 	//clear speed, because the speed is changed
-	//shapeA.velocity.Clear();
 	shapeA.velocity.y = 0;//only clear velocity on Y axis
 	//give it a opposite force
 	shapeA.force.y = shapeA.mass * G_ACCERLATION * -1;
