@@ -18,6 +18,7 @@ const float NUM_RANGE_HIGH = 0.0000001f;
 const float G_ACCERLATION = -9.8f/100;
 const float FANTAN_XISHU = 0.25f;
 const float OVERLAP_MIN = 0.0001f;
+const float OVERLAP_MIN2 = 0.002f;
 
 
 class PhysicsThread :
@@ -62,6 +63,7 @@ private:
 
 	void ReduceDisMistake(float&dis);
 	void ReduceDisMistake(float&dis,const float&range);
+	void ReduceDisMistake(double&dis,const float&range);
 	//////////////////////////////////////////////////////////////////////////
 
 public:
