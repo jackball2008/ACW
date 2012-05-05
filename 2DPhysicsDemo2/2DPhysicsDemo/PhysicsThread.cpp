@@ -65,8 +65,6 @@ void PhysicsThread::CalculatePyhsics()
 		{
 			//make sure A is not ground
 
-			//cout<<shapeA->id<<" x= "<<shapeA->pos.x<<" y= "<<shapeA->pos.y<<endl;
-
 			//do collision detect and response
 			for(int j = 0; j<objnum;j++)
 			{
@@ -106,12 +104,13 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 	if(shapeB.type != 1)
 	{
 		//shapeA hit common shape
-		/**
+		/***/
 		if(CollisionDectectShapeAndShape(shapeA,shapeB))
 		{
 			ResponseCollisionWithShape(shapeA,shapeB);
 		}
-		*/
+		
+		
 	}
 	else
 	{
@@ -227,20 +226,17 @@ bool PhysicsThread::CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB)
 		//rA + rB  -  dis
 		float penAx = (asize + bsize) - dsize;
 		//////////////////////////////////////////////////////////////////////////
-		ReduceDisMistake(penAx);
+		ReduceDisMistake(penAx,OVERLAP_MIN);
 		//////////////////////////////////////////////////////////////////////////
 		if(penAx>0)
 		{
 			//over lap
 			iscollision = true;
-			//save the last penmove value
-			//shapeA.project_axis_penAx.at(i) = penAx;
 		}
 		else
 		{
-			iscollision = false;
-			//shapeA.project_axis_penAx.at(i) = 0;
-			break;
+			//iscollision = false;
+			return false;
 		}
 
 	}
@@ -263,23 +259,24 @@ bool PhysicsThread::CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB)
 			//rA + rB  -  dis
 			float penAx = (asize + bsize) - dsize;
 			//////////////////////////////////////////////////////////////////////////
-			ReduceDisMistake(penAx);
+			ReduceDisMistake(penAx,OVERLAP_MIN);
 			//////////////////////////////////////////////////////////////////////////
 			if(penAx>0)
 			{
-				//over lap
-				iscollision = true;
+				//over lap on shapeB's axis
+				//iscollision = true;
 			}
 			else
 			{
-				iscollision = false;
-				break;
+// 				iscollision = false;
+// 				break;
+				return false;
 			}
 
 		}
 	}
 
-	return iscollision;
+	return true;
 
 }
 /************************************************************************/
@@ -347,17 +344,97 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	float B_size_x = 0;
 	ProjectShape(B_size_x,shapeB,1,0);
 
-	//overlap value on X axis
-	float overlap_x = A_size_x + B_size_x - abs(delta_x);
+// 	//get A value
+// 	float A_high = shapeA.pos.y + A_size_y;
+// 	float A_low	 = shapeA.pos.y - A_size_y;
+// 	float A_right = shapeA.pos.x + A_size_x;
+// 	float A_left = shapeA.pos.x - A_size_x;
+// 
+// 	//get B value
+// 	float B_high = shapeB.pos.y + B_size_y;
+// 	float B_low = shapeB.pos.y - B_size_y;
+// 	float B_right = shapeB.pos.y + B_size_x;
+// 	float B_left = shapeB.pos.x - B_size_x;
+
+
+
+	//overlap value on X axis  *100/100 avoid IND
+	float overlap_x = (A_size_x*100 + B_size_x*100 - abs(delta_x)*100)/100;
 	//overlap value on Y axis
-	float overlap_y = A_size_y + B_size_y - abs(delta_y);
+	float overlap_y = (A_size_y*100 + B_size_y*100 - abs(delta_y)*100)/100;
 	//reduce overlap if overlap < 0.005f, overlap = 0
+	//cout<<overlap_x<<"  "<<overlap_y<<endl;
 	//////////////////////////////////////////////////////////
 	ReduceDisMistake(overlap_x,OVERLAP_MIN);
 	ReduceDisMistake(overlap_y,OVERLAP_MIN);
 	//////////////////////////////////////////////////////////
+// 	bool moveonX = false;
+// 	bool moveonY = false;
+// 
+// 	if(overlap_x>0) moveonX = true;
+// 	if(overlap_y>0) moveonY = true;
+
+	float ax = 2*shapeB.mass*shapeB.velocity.x/(shapeA.mass + shapeB.mass);
+	float ay = 2*shapeB.mass*shapeB.velocity.y/(shapeA.mass + shapeB.mass);
+
+	float bx = 2*shapeA.mass*shapeA.velocity.x/(shapeA.mass + shapeB.mass);
+	float by = 2*shapeA.mass*shapeA.velocity.y/(shapeA.mass + shapeB.mass);
+
+	ReduceDisMistake(ax,SPEED_RESCRIT);
+	ReduceDisMistake(ay,SPEED_RESCRIT);
+	ReduceDisMistake(bx,SPEED_RESCRIT);
+	ReduceDisMistake(by,SPEED_RESCRIT);
+
+	
+	shapeA.movement.Clear();
+
+	if((overlap_y>0) && (overlap_y<overlap_x))
+	{
+		//do y
+		if(shapeA.pos.y>shapeB.pos.y)
+		{
+			if(ay!=0)
+				shapeA.velocity.y = ay;
+			if(by!=0)
+				shapeB.velocity.y = by;
+			
+			shapeA.movement.y = overlap_y;
+
+		}
+		else
+		{
+			shapeA.movement.y = 0;
+		}
+	}
+	else
+	{
+		
+		if(overlap_x>0)
+		{
+			//do x
+			if(shapeA.pos.x>shapeB.pos.x)
+			{
+				if(ax!=0)
+					shapeA.velocity.x = ax;
+
+				if(bx!=0)
+					shapeB.velocity.x = bx;
+
+				shapeA.movement.x = overlap_x;
+			}
+			else
+			{
+				shapeA.movement.x = 0;
+			}
+
+		}
+		
+	}
+	shapeA.Move(shapeA.movement);
+	shapeA.movement.Clear();
 
 
+	/**
 	if(overlap_y<overlap_x)
 	{
 		//move on Y axis
@@ -382,8 +459,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 		}
 		else
 		{
-			//past together on Y axis = 0
-
+			
 		}
 		
 	}
@@ -399,9 +475,8 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 		{
 			//past together on X axis
 		}
-
 	}
-
+	*/
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -421,14 +496,14 @@ bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
 	{
 		shape.penmove.y = (GROUND_Y*100 - low_point_y*100)/100;
 #ifdef DEBUGV
-		cout<<"++ "<<penAx<<endl;
+		cout<<"++ "<<shape.penmove.y<<endl;
 #endif
 		return true;
 	}
 	else
 	{
 #ifdef DEBUGV
-		cout<<"-- "<<penAx<<endl;
+		cout<<"-- "<<shape.penmove.y<<"  "<<shape.pos.y<<endl;
 #endif
 		return false;
 	}
@@ -443,13 +518,12 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 	//clear speed, because the speed is changed
 	shapeA.velocity.y = 0;//only clear velocity on Y axis
 	//give it a opposite force
-	//shapeA.force.y = shapeA.mass * G_ACCERLATION * -1;
+	//shapeA.force.y += shapeA.mass * G_ACCERLATION * -1;
 	//get the dis between start position and the hit position
-	float blankdis = abs(abs(shapeA.movement.y)-abs(shapeA.penmove.y));
+	float blankdis = ((abs(abs(shapeA.movement.y))*100-(abs(shapeA.penmove.y)))*100)/100;
+	//cout<<"++ "<<blankdis<<"  "<<shapeA.pos.y<<endl;
 	//reduce the dis to save computing
 	ReduceDisMistake(blankdis,OVERLAP_MIN);
-	
-	
 	//do the bound operation
 	if(blankdis!=0)
 	{
@@ -457,14 +531,20 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 		float t_g = 0;
 		float t_left = 0;
 		//this blankdis is big, need do some thing
-		/*cout<<"big hit"<<endl;*/
 		//v2 = sqrt(2gh + v1*v1); mgh+0.5mvv = 0.5mvv;
 		v_g = sqrt(2*G_ACCERLATION*blankdis + shapeA.old_velocity.y * shapeA.old_velocity.y);
 		//v2 = v1+gt  t_g < 0
 		t_g = (v_g - abs(shapeA.old_velocity.y))/(abs(G_ACCERLATION));
-		t_left = _delta_time/1000 - t_g;//ms/1000->s
+
+
+		float tc = (_old_delta_time/1000)*1000 - t_g*1000;
+		if(tc<10) tc = 0;
+		t_left = tc/1000;//ms/1000->s
+
+		//cout<<"-- "<<t_left<<"  "<<shapeA.pos.y<<endl;
 		//
 		shapeA.velocity.y = v_g * FANTAN_XISHU;
+
 		shapeA.force.x = shapeA.force.x;
 		//shapeA.force.y += shapeA.mass* G_ACCERLATION;
 
@@ -484,9 +564,8 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 // 		{
 // 			shapeA.acceleration.y = shapeA.force.y / shapeA.mass;
 // 		}
+		shapeA.acceleration.y = 0;
 
-		shapeA.acceleration.y = G_ACCERLATION;
-		
 		shapeA.movement.x = float(shapeA.velocity.x * t_left + 0.5 * shapeA.acceleration.x * t_left * t_left);
 		shapeA.movement.y = float(shapeA.velocity.y * t_left + 0.5 * shapeA.acceleration.y * t_left * t_left);
 		shapeA.Move(shapeA.movement);
@@ -498,6 +577,10 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 		shapeA.movement.y = 0;
 		shapeA.velocity.y = 0;
 	}
+
+	//clear force
+	shapeA.force.Clear();
+	shapeA.movement.Clear();
 }
 
 
@@ -512,7 +595,7 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 	shape.force.y = shape.mass * G_ACCERLATION;
 
 	shape.acceleration.x = shape.force.x / shape.mass;//wrong,only friction work here
-	shape.acceleration.y = /*shape.force.y / shape.mass;*/ G_ACCERLATION;
+	shape.acceleration.y = G_ACCERLATION;
 	shape.force.Clear();//once the force worked, it just work on this moment, so after it works, clear it
 	///
 	//YPoint movement;
@@ -526,7 +609,7 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 	shape.velocity.y = shape.velocity.y + shape.acceleration.y * t;
 	//////////////////////////////////////////////////////////////////////////
 	shape.Move(shape.movement);
-
+	shape.movement.Clear();
 }
 
 void PhysicsThread::ReduceDisMistake(float&dis)

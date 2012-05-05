@@ -19,6 +19,7 @@ const float G_ACCERLATION = -9.8f/100;
 const float FANTAN_XISHU = 0.25f;
 const float OVERLAP_MIN = 0.0001f;
 const float OVERLAP_MIN2 = 0.002f;
+const float SPEED_RESCRIT = 0.0001f;
 
 
 class PhysicsThread :

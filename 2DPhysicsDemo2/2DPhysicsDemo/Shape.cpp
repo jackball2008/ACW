@@ -22,6 +22,7 @@ Shape::~Shape(void)
 
 void Shape::Move(const YPoint&dis)
 {
+	
 	pos.Clear();
 	for(int i = 0; i< sizeofpoints;i++)
 	{
