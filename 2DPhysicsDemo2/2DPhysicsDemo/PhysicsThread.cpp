@@ -388,16 +388,27 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 		//v2 = v1+gt  t_g < 0
 		t_g = (v_g - abs(shapeA.old_velocity.y))/(abs(G_ACCERLATION));
 
-
+		/************************************************************************/
+		/* if tc is very small,when tc/1000, maybe get IND, so do a check                                                                     */
+		/************************************************************************/
 		float tc = (_old_delta_time/1000)*1000 - t_g*1000;
 		if(tc<10) tc = 0;
-		t_left = tc/1000;//ms/1000->s
+		t_left = tc/1000;
+		/************************************************************************/
+		/* check over                                                                     */
+		/************************************************************************/
 
-		//cout<<"-- "<<t_left<<"  "<<shapeA.pos.y<<endl;
-		//
+		//get bound velocity
 		shapeA.velocity.y = v_g * FANTAN_XISHU;
 
+		/************************************************************************/
+		/* need to be updated to adapt friction *******                                                         */
+		/************************************************************************/
 		shapeA.force.x = shapeA.force.x;
+
+		/************************************************************************/
+		/* Y force is 0                                                                     */
+		/************************************************************************/
 		//shapeA.force.y += shapeA.mass* G_ACCERLATION;
 
 		if( shapeA.force.x == 0)
@@ -408,23 +419,16 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 		{
 			shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
 		}
-// 		if( shapeA.force.y == 0)
-// 		{
-// 			shapeA.acceleration.y = 0;
-// 		}
-// 		else
-// 		{
-// 			shapeA.acceleration.y = shapeA.force.y / shapeA.mass;
-// 		}
+
 		shapeA.acceleration.y = 0;
 
 		shapeA.movement.x = float(shapeA.velocity.x * t_left + 0.5 * shapeA.acceleration.x * t_left * t_left);
-		shapeA.movement.y = float(shapeA.velocity.y * t_left + 0.5 * shapeA.acceleration.y * t_left * t_left);
+		shapeA.movement.y = float(shapeA.velocity.y * t_left);
 		shapeA.Move(shapeA.movement);
 	}
 	else
 	{
-		//don't do bound operation
+		//don't do bound operation, because the dis is very small
 		shapeA.force.y = 0;
 		shapeA.movement.y = 0;
 		shapeA.velocity.y = 0;
