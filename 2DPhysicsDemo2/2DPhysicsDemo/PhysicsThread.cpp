@@ -266,11 +266,11 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	/************************************************************************/
 
 	//A new speed
-	float ax = 2*shapeB.mass*shapeB.velocity.x/(shapeA.mass + shapeB.mass);
-	float ay = 2*shapeB.mass*shapeB.velocity.y/(shapeA.mass + shapeB.mass);
+	float ax = ((shapeA.mass - shapeB.mass)*shapeA.velocity.x +  2*shapeB.mass*shapeB.velocity.x)/(shapeA.mass + shapeB.mass);
+	float ay = ((shapeA.mass - shapeB.mass)*shapeA.velocity.y +  2*shapeB.mass*shapeB.velocity.y)/(shapeA.mass + shapeB.mass);
 	//B new speed
-	float bx = 2*shapeA.mass*shapeA.velocity.x/(shapeA.mass + shapeB.mass);
-	float by = 2*shapeA.mass*shapeA.velocity.y/(shapeA.mass + shapeB.mass);
+	float bx = ((shapeB.mass - shapeA.mass)*shapeA.velocity.x +  2*shapeA.mass*shapeA.velocity.x)/(shapeA.mass + shapeB.mass);
+	float by = ((shapeB.mass - shapeA.mass)*shapeA.velocity.y +  2*shapeA.mass*shapeA.velocity.y)/(shapeA.mass + shapeB.mass);
 
 	//reduce speed, clear smallest speed, not worth to move
 	ReduceDisMistake(ax,SPEED_RESCRIT);
@@ -289,16 +289,20 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 		//do y
 		if(shapeA.pos.y>shapeB.pos.y)
 		{
-			//if(ay!=0)
-				shapeA.velocity.y = ay;
-			//if(by!=0)
-				shapeB.velocity.y = by;
+			/************************************************************************/
+			/* change speed and move A up                                                                     */
+			/************************************************************************/
+			shapeA.velocity.y = ay;
+			shapeB.velocity.y = by;
 			
 			shapeA.movement.y = overlap_y;
 
 		}
 		else
 		{
+			/************************************************************************/
+			/* A do nothing, wait for B to change everything                                                                     */
+			/************************************************************************/
 			shapeA.movement.y = 0;
 		}
 	}
@@ -310,23 +314,33 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 			//do x
 			if(shapeA.pos.x>shapeB.pos.x)
 			{
-				//if(ax!=0)
-					shapeA.velocity.x = ax;
-
-				//if(bx!=0)
-					shapeB.velocity.x = bx;
+				/************************************************************************/
+				/* change speed and move A right                                                                     */
+				/************************************************************************/
+				shapeA.velocity.x = ax;
+				shapeB.velocity.x = bx;
 
 				shapeA.movement.x = overlap_x;
 			}
 			else
 			{
+				/************************************************************************/
+				/* if A is left, waiting for B do everything                                                                     */
+				/************************************************************************/
 				shapeA.movement.x = 0;
 			}
 
 		}
 		
 	}
+
+	/************************************************************************/
+	/* move A, maybe movement x y = 0, A will be stand on original position                                                                     */
+	/************************************************************************/
 	shapeA.Move(shapeA.movement);
+	/************************************************************************/
+	/* after move, clear the movement value                                                                     */
+	/************************************************************************/
 	shapeA.movement.Clear();
 
 }
