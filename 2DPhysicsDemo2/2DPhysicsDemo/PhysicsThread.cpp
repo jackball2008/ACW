@@ -10,8 +10,6 @@ PhysicsThread::PhysicsThread(void)
 	measureP.x = -10;
 	measureP.y = 0;
 
-
-	
 }
 
 
@@ -21,18 +19,8 @@ PhysicsThread::~PhysicsThread(void)
 }
 
 
-void PhysicsThread::CalculateDeltaTime(){
-
-// 	cout << "The quiet NaN for type float is:  "
-// 		<< numeric_limits<float>::quiet_NaN( )
-// 		<< endl;
-// 	cout << "The quiet NaN for type int is:  "
-// 		<< numeric_limits<int>::quiet_NaN( )
-// 		<< endl;
-// 	cout << "The quiet NaN for type long double is:  "
-// 		<< numeric_limits<long double>::quiet_NaN( )
-// 		<< endl;
-
+void PhysicsThread::CalculateDeltaTime()
+{
 
 	//Ensure QueryPerformance is called on a specific core
 	SetThreadAffinityMask(thread, 0x1);
@@ -42,6 +30,7 @@ void PhysicsThread::CalculateDeltaTime(){
 
 	_consumedCount.QuadPart = _currentCount.QuadPart - _lastCount.QuadPart;  
 	_lastCount = _currentCount;
+	//save last delta time
 	_old_delta_time = _delta_time;
 	_delta_time = float(_consumedCount.QuadPart/(_ticksPerSecond.QuadPart/1000));
 	
@@ -50,9 +39,6 @@ void PhysicsThread::CalculateDeltaTime(){
 #endif
 
 }
-
-
-
 
 void PhysicsThread::CalculatePyhsics()
 {
@@ -64,18 +50,23 @@ void PhysicsThread::CalculatePyhsics()
 		if (shapeA->type != 1)
 		{
 			//make sure A is not ground
-
 			//do collision detect and response
 			for(int j = 0; j<objnum;j++)
 			{
 				Shape* shapeB = _shapeShareObject->renderObjects.at(j);
-				//shapeB maybe ground
+				//shapeB maybe ground, maybe common shape
 				if(shapeA->id != shapeB->id)
 				{
 					/************************************************************************/
-					/* do collision detect and response, and free down movement                                                                    */
+					/* a necessary condition is A is not B, because A can not hit its self                                                                     */
+					/************************************************************************/
+					/************************************************************************/
+					/* do collision detect and response, and free down movement     
+					 * in this area code, the logic will do collision detect with A and B
+					 * and do the response after collision */
 					/************************************************************************/
 					CollisionDectect(*shapeA,*shapeB);
+
 				}
 				else
 				{
@@ -83,14 +74,23 @@ void PhysicsThread::CalculatePyhsics()
 				}
 
 			}
-
+			/************************************************************************/
+			/* here only gravity can work                                                                     */
+			/************************************************************************/
 			//do free move
 			FreeMoveShape(*shapeA);
+			/************************************************************************/
+			/* graviry work end                                                                     */
+			/************************************************************************/
 
 		}
 		else
 		{
+			/************************************************************************/
+			/* if A is ground, jump over this circle                                                                     */
+			/************************************************************************/
 			continue;
+
 		}
 		
 	}
