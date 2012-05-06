@@ -1,7 +1,6 @@
 #pragma once
 #include "RigidBody.h"
-#include <vector>
-using std::vector;
+
 
 class MyPhysics
 {

@@ -1,10 +1,8 @@
 #pragma once
-#include "MyPhysics.h"
+//#include "MyPhysics.h"
 #include <GXBase.h>
-using gxbase::GLWindowEx;
-using gxbase::App;
-#include <vector>
-using std::vector;
+using namespace gxbase;
+#include "ShareMem.h"
 
 
 
@@ -19,10 +17,11 @@ public:
 	void  OnDisplay();
 	void  OnIdle();
 	/*void OnResize(int w, int h);*/
-	MyPhysics _myphysics;
-	
+	/*MyPhysics _myphysics;*/
+	void SetShapeObject(ShareMem*);
 
 private:
 	float current_time;
 
+	ShareMem*_shapeobject;
 };

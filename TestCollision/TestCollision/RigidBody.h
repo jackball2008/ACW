@@ -1,5 +1,6 @@
 #include "mymath.h"
-
+#include <vector>
+using std::vector;
 //------------------------------------------------------------------------//
 // Notes:
 //------------------------------------------------------------------------//
@@ -17,8 +18,10 @@
 // 2D rigid body
 //------------------------------------------------------------------------//
 
-struct _RigidBody{
+class _RigidBody{
 public:
+
+	_RigidBody(void);
 	float     fMass;                // total mass (constant)
 	float     fInertia;             // mass moment of inertia in body coordinates (constant)
 	float     fInertiaInverse;      // inverse of mass moment of inertia (constant)
@@ -49,6 +52,11 @@ public:
 	Vector    vSupport;             // support force
 
 	Vector    vCollisionPoint;       // point of impact in local coordinates
+
+	vector<Vector>PiontPostion;
+
+	void SetData(const Vector &p0,const Vector &p1,const Vector &p2,const Vector &p3,const Vector &p4);
+	void SetData(const Vector &p0,const Vector &p1,const Vector &p2,const Vector &p3);
 };
 
 #define	ANGULARDRAGCOEFFICIENT	100.25f
