@@ -95,12 +95,11 @@ void PhysicsThread::CalculatePyhsics()
 		
 	}
 }
-#define METHOD
-#define NEWLOGIC
+
 void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 {
 
-#ifdef NEWLOGIC
+
 	if(shapeB.type != 1)
 	{
 		//shapeA hit common shape
@@ -109,7 +108,6 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 		{
 			ResponseCollisionWithShape(shapeA,shapeB);
 		}
-		
 		
 	}
 	else
@@ -121,77 +119,8 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 		}
 	}
 
-#endif
 
-#ifdef METHOD1
 
-	
-	bool iscollision = false;
-
-	if(shapeB.type != 1)
-	{
-		//shapeA hit common shape
-		iscollision = CollisionDectectShapeAndShape(shapeA,shapeB);
-	}
-	else
-	{
-		//shapeB is ground
-		iscollision = CollisionDectectShapeAndGround(shapeA);
-	}
-	
-	if(iscollision)
-	{
-		//do response, change shapeA position velocity acceleration
-
-		if(shapeB.type != 1)
-		{
-			//common hit
-			ResponseCollisionWithShape(shapeA,shapeB);
-		}
-		else
-		{
-			//ground hit
-			ResponseCollisionWithGround(shapeA);
-		}
-	}
-	else
-	{
-		//continue to work, free down
-		FreeMoveShape(shapeA);
-	}
-	
-#endif
-
-#ifdef METHOD2
-
-	
-	if(shapeB.type != 1)
-	{
-		//shapeA hit common shape
-		/***/
-		if(CollisionDectectShapeAndShape(shapeA,shapeB))
-		{
-			ResponseCollisionWithShape(shapeA,shapeB);
-		}
-		else
-		{
-			FreeMoveShape(shapeA);
-		}
-		
-	}
-	else
-	{
-		//shapeB is ground
-		if(CollisionDectectShapeAndGround(shapeA))
-		{
-			ResponseCollisionWithGround(shapeA);
-		}
-		else
-		{
-			FreeMoveShape(shapeA);
-		}
-	}
-#endif
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -201,16 +130,16 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 bool PhysicsThread::CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB)
 {
 	bool iscollision = false;
-
+	/************************************************************************/
+	/* get num of seaprated axis on shapeA and shapeB                                                                     */
+	/************************************************************************/
 	int numofaxisA = shapeA.project_axis.size();
 	int numofaxisB = shapeB.project_axis.size();
 	//
 	//fix function, get delta
 	float deltax = shapeA.pos.x - shapeB.pos.x;
 	float deltay = shapeA.pos.y - shapeB.pos.y;
-
-
-	//shapeA hit common shape
+	//check each axis on A
 	for(int i = 0;i< numofaxisA; i++)
 	{
 		float Adx = shapeA.project_axis.at(i).x;
@@ -224,7 +153,12 @@ bool PhysicsThread::CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB)
 		//get delta project to axis
 		float dsize = abs(deltax*Adx + deltay*Ady);
 		//rA + rB  -  dis
-		float penAx = (asize + bsize) - dsize;
+		/************************************************************************/
+		/*    *100 /100 avoid IND error, when too shape closed the result 
+		 *    for computing will be IND, once happened, everything will die
+		 *    */
+		/************************************************************************/
+		float penAx = ((asize*100 + bsize*100) - dsize*100)/100;
 		//////////////////////////////////////////////////////////////////////////
 		ReduceDisMistake(penAx,OVERLAP_MIN);
 		//////////////////////////////////////////////////////////////////////////
@@ -235,7 +169,6 @@ bool PhysicsThread::CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB)
 		}
 		else
 		{
-			//iscollision = false;
 			return false;
 		}
 
@@ -257,19 +190,21 @@ bool PhysicsThread::CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB)
 			float dsize = abs(deltax*Bdx + deltay*Bdy);
 
 			//rA + rB  -  dis
-			float penAx = (asize + bsize) - dsize;
+			/************************************************************************/
+			/* the same reason                                                                     */
+			/************************************************************************/
+			float penAx = ((asize*100 + bsize*100) - dsize*100)/100;
 			//////////////////////////////////////////////////////////////////////////
 			ReduceDisMistake(penAx,OVERLAP_MIN);
 			//////////////////////////////////////////////////////////////////////////
 			if(penAx>0)
 			{
-				//over lap on shapeB's axis
-				//iscollision = true;
+				//jump out quickly
+				if(i == (numofaxisB-1))
+					return true;
 			}
 			else
 			{
-// 				iscollision = false;
-// 				break;
 				return false;
 			}
 
@@ -284,53 +219,21 @@ bool PhysicsThread::CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB)
 /************************************************************************/
 void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 {
-	//cout<<"common hit"<<endl;
-	//velocity  +/-
-	/**
-	float ax = 2*shapeB.mass*shapeB.velocity.x/(shapeA.mass + shapeB.mass);
-	float ay = 2*shapeB.mass*shapeB.velocity.y/(shapeA.mass + shapeB.mass);
-	
-	float bx = 2*shapeA.mass*shapeA.velocity.x/(shapeA.mass + shapeB.mass);
-	float by = 2*shapeA.mass*shapeA.velocity.y/(shapeA.mass + shapeB.mass);
-	//velocity after collision
-
-	ReduceDisMistake(ax,0.0001f);
-	ReduceDisMistake(ay,0.0001f);
-	ReduceDisMistake(bx,0.0001f);
-	ReduceDisMistake(by,0.0001f);
-
-	
-	shapeA.velocity.x = ax;
-	shapeA.velocity.y = ay;
-
-	shapeB.velocity.x = bx;
-	shapeB.velocity.y = by;
-	
-	
-	float dir = ax*bx + ay*by;
-	//float dir = shapeA.velocity.x*shapeB.velocity.x + shapeA.velocity.y * shapeB.velocity.y;
-	if(dir>0)
-	{
-		cout<<"t"<<endl;
-	}
-	else if(dir<0)
-	{
-		cout<<"o"<<endl;
-	}
-	else if (dir == 0)
-	{
-		cout<<"s"<<endl;
-	}
-	*/
-	//get num of axis, because only x,y axis used here,so the shapeA axis not useful here
-	//int numofaxisA = shapeA.project_axis.size();
-
 	//fix function, get delta
 	float delta_x = shapeA.pos.x - shapeB.pos.x;
 	float delta_y = shapeA.pos.y - shapeB.pos.y;
+	/************************************************************************/
+	/* if A B have the same or very closed position on X Y axis, reduce the value                                                                     */
+	/************************************************************************/
+	ReduceDisMistake(delta_x,OVERLAP_MIN);
+	ReduceDisMistake(delta_y,OVERLAP_MIN);
+	/************************************************************************/
+	/* reduce end                                                                      */
+	/************************************************************************/
 
-	//get the size in Y,because A and B is Collision, so ,they are must be overlap on Y and X axis
-
+	/************************************************************************/
+	/* get the size in Y,because A and B is Collision, so ,they are must be overlap on Y and X axis                                                                     */
+	/************************************************************************/
 	//shapeA Y axis  (0,1)
 	float A_size_y = 0;
 	ProjectShape(A_size_y,shapeA,0,1);
@@ -344,42 +247,32 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	float B_size_x = 0;
 	ProjectShape(B_size_x,shapeB,1,0);
 
-// 	//get A value
-// 	float A_high = shapeA.pos.y + A_size_y;
-// 	float A_low	 = shapeA.pos.y - A_size_y;
-// 	float A_right = shapeA.pos.x + A_size_x;
-// 	float A_left = shapeA.pos.x - A_size_x;
-// 
-// 	//get B value
-// 	float B_high = shapeB.pos.y + B_size_y;
-// 	float B_low = shapeB.pos.y - B_size_y;
-// 	float B_right = shapeB.pos.y + B_size_x;
-// 	float B_left = shapeB.pos.x - B_size_x;
-
-
-
 	//overlap value on X axis  *100/100 avoid IND
 	float overlap_x = (A_size_x*100 + B_size_x*100 - abs(delta_x)*100)/100;
 	//overlap value on Y axis
 	float overlap_y = (A_size_y*100 + B_size_y*100 - abs(delta_y)*100)/100;
 	//reduce overlap if overlap < 0.005f, overlap = 0
-	//cout<<overlap_x<<"  "<<overlap_y<<endl;
 	//////////////////////////////////////////////////////////
 	ReduceDisMistake(overlap_x,OVERLAP_MIN);
 	ReduceDisMistake(overlap_y,OVERLAP_MIN);
 	//////////////////////////////////////////////////////////
-// 	bool moveonX = false;
-// 	bool moveonY = false;
-// 
-// 	if(overlap_x>0) moveonX = true;
-// 	if(overlap_y>0) moveonY = true;
+	/************************************************************************/
+	/* depend on physic formula 
+	 * MV+MV = MV+MV 
+	 * 1/2MVV + 1/2MVV = 1/2MVV + 1/2MVV
+	 * 
+	 * using these formula , avoid to operate force
+	 */
+	/************************************************************************/
 
+	//A new speed
 	float ax = 2*shapeB.mass*shapeB.velocity.x/(shapeA.mass + shapeB.mass);
 	float ay = 2*shapeB.mass*shapeB.velocity.y/(shapeA.mass + shapeB.mass);
-
+	//B new speed
 	float bx = 2*shapeA.mass*shapeA.velocity.x/(shapeA.mass + shapeB.mass);
 	float by = 2*shapeA.mass*shapeA.velocity.y/(shapeA.mass + shapeB.mass);
 
+	//reduce speed, clear smallest speed, not worth to move
 	ReduceDisMistake(ax,SPEED_RESCRIT);
 	ReduceDisMistake(ay,SPEED_RESCRIT);
 	ReduceDisMistake(bx,SPEED_RESCRIT);
@@ -388,14 +281,17 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	
 	shapeA.movement.Clear();
 
+	/************************************************************************/
+	/* if overlap Y is smaller, which means the shape collision on Y axis more                                                                     */
+	/************************************************************************/
 	if((overlap_y>0) && (overlap_y<overlap_x))
 	{
 		//do y
 		if(shapeA.pos.y>shapeB.pos.y)
 		{
-			if(ay!=0)
+			//if(ay!=0)
 				shapeA.velocity.y = ay;
-			if(by!=0)
+			//if(by!=0)
 				shapeB.velocity.y = by;
 			
 			shapeA.movement.y = overlap_y;
@@ -414,10 +310,10 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 			//do x
 			if(shapeA.pos.x>shapeB.pos.x)
 			{
-				if(ax!=0)
+				//if(ax!=0)
 					shapeA.velocity.x = ax;
 
-				if(bx!=0)
+				//if(bx!=0)
 					shapeB.velocity.x = bx;
 
 				shapeA.movement.x = overlap_x;
@@ -433,50 +329,6 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	shapeA.Move(shapeA.movement);
 	shapeA.movement.Clear();
 
-
-	/**
-	if(overlap_y<overlap_x)
-	{
-		//move on Y axis
-		if(overlap_y>0)//because shapeA and shapeB collision, so they are overlap at any axises
-		{
-			
-			//judge who is at higher position
-			if(shapeA.pos.y > shapeB.pos.y)
-			{
-				//shapeA high
-				shapeA.penmove.x = 0;
-				shapeA.penmove.y = overlap_y;
-				shapeA.Move(shapeA.penmove);
-				shapeA.velocity.y = 0;
-				//shapeA.velocity.Clear();
-				//shapeA + up G
-				//shapeA.force.y = 0;
-				//shapeA.force.y = shapeA.mass*G_ACCERLATION*-1;
-
-			}
-			
-		}
-		else
-		{
-			
-		}
-		
-	}
-	else
-	{
-		//even if overlapx == overlapy, only move on X axis
-		//move on X axis
-		if(overlap_x>0)
-		{
-
-		}
-		else
-		{
-			//past together on X axis
-		}
-	}
-	*/
 }
 
 //////////////////////////////////////////////////////////////////////////
