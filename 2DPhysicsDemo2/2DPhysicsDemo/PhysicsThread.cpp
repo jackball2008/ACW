@@ -342,6 +342,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 	/* after move, clear the movement value                                                                     */
 	/************************************************************************/
 	shapeA.movement.Clear();
+	shapeA.force.Clear();
 
 }
 
@@ -413,30 +414,31 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 		/************************************************************************/
 
 		//get bound velocity
-		shapeA.velocity.y = v_g * FANTAN_XISHU;
+		shapeA.velocity.y = v_g * FANTAN_XISHU;//0.25
 
+		//////////////////////////////////////////////////////////////////////////
 		/************************************************************************/
 		/* need to be updated to adapt friction *******                                                         */
 		/************************************************************************/
-		shapeA.force.x = shapeA.force.x;
-
+		//shapeA.force.x = shapeA.force.x;
+		//////////////////////////////////////////////////////////////////////////
 		/************************************************************************/
 		/* Y force is 0                                                                     */
 		/************************************************************************/
 		//shapeA.force.y += shapeA.mass* G_ACCERLATION;
 
-		if( shapeA.force.x == 0)
-		{
-			shapeA.acceleration.x = 0;
-		}
-		else
-		{
-			shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
-		}
+// 		if( shapeA.force.x == 0)
+// 		{
+// 			shapeA.acceleration.x = 0;
+// 		}
+// 		else
+// 		{
+// 			shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
+// 		}
 
-		shapeA.acceleration.y = 0;
+		/*shapeA.acceleration.y = 0;*/
 
-		shapeA.movement.x = float(shapeA.velocity.x * t_left + 0.5 * shapeA.acceleration.x * t_left * t_left);
+		shapeA.movement.x = float(shapeA.velocity.x * t_left /*+ 0.5 * shapeA.acceleration.x * t_left * t_left*/);
 		shapeA.movement.y = float(shapeA.velocity.y * t_left);
 		shapeA.Move(shapeA.movement);
 	}
