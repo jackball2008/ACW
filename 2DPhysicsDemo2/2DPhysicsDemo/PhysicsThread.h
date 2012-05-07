@@ -50,8 +50,10 @@ private:
 	*/
 	//////////////////////////////////////////////////////////////////////////
 	void CalculatePyhsics();
-	void ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay);
 	void CollisionDectect(Shape&, Shape&);
+
+	//spring operation
+	void SpringOperation(Shape&shape);
 	
 	//collision with shape
 	bool CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB);
@@ -59,12 +61,16 @@ private:
 	//collision with ground
 	bool CollisionDectectShapeAndGround(Shape&shape);
 	void ResponseCollisionWithGround(Shape&shapeA);
+	//dectect
 
 	void FreeMoveShape(Shape&shape);
 
+
+	void ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay);
 	void ReduceDisMistake(float&dis);
 	void ReduceDisMistake(float&dis,const float&range);
 	void ReduceDisMistake(double&dis,const float&range);
+
 	//////////////////////////////////////////////////////////////////////////
 
 public:

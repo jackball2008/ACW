@@ -8,9 +8,9 @@ SpringLine::SpringLine(void)
 	
 	//add two empty points
 	
-	r = 0.0f;
+	r = 1.0f;
 	g = 1.0f;
-	b = 0.0f;
+	b = 1.0f;
 
 	mass = 0.0f;
 	
@@ -22,7 +22,3 @@ SpringLine::~SpringLine(void)
 }
 
 
-void SpringLine::Reset(){
-	isvisiable = false;
-	
-}

@@ -16,16 +16,15 @@ public:
 	/************************************************************************/
 	/* mouse                                                                      */
 	/************************************************************************/
-	/*float u,v,old_u,old_v;*/
+	
 
-	bool left_down/*, right_down*/;
+	bool left_down;
 	bool last_left_down;
 
 	bool left_hold;
 
 	YPoint mouseposition;
-	/*Point record_mouseposition;*/
-	/*Point old_mouseposition;*/
+	
 	YPoint springstartp;
 	YPoint springendp;
 
@@ -39,9 +38,9 @@ public:
 	ShapeShareObject(void);
 	~ShapeShareObject(void);
 
-	//void SetData(const Shape&);
+	
 
-	//vector<Shape*> GetData() const { return renderObjects;};
+	
 	/************************************************************************/
 	/* wait for mutex                                                                     */
 	/************************************************************************/

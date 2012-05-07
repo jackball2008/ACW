@@ -75,6 +75,13 @@ void PhysicsThread::CalculatePyhsics()
 
 			}
 			/************************************************************************/
+			/* after collision detect and response
+			 * check the spring work
+			 * */
+			/************************************************************************/
+			SpringOperation(*shapeA);
+
+			/************************************************************************/
 			/* here only gravity can work                                                                     */
 			/************************************************************************/
 			//do free move
@@ -123,6 +130,13 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 
 }
 
+/************************************************************************/
+/* Spring operation                                                                     */
+/************************************************************************/
+void PhysicsThread::SpringOperation(Shape&shape)
+{
+
+}
 //////////////////////////////////////////////////////////////////////////
 /************************************************************************/
 /* collision detect with common shape                                                                     */
@@ -425,20 +439,9 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 		/************************************************************************/
 		/* Y force is 0                                                                     */
 		/************************************************************************/
-		//shapeA.force.y += shapeA.mass* G_ACCERLATION;
+		
 
-// 		if( shapeA.force.x == 0)
-// 		{
-// 			shapeA.acceleration.x = 0;
-// 		}
-// 		else
-// 		{
-// 			shapeA.acceleration.x = shapeA.force.x / shapeA.mass;
-// 		}
-
-		/*shapeA.acceleration.y = 0;*/
-
-		shapeA.movement.x = float(shapeA.velocity.x * t_left /*+ 0.5 * shapeA.acceleration.x * t_left * t_left*/);
+		shapeA.movement.x = float(shapeA.velocity.x * t_left);
 		shapeA.movement.y = float(shapeA.velocity.y * t_left);
 		shapeA.Move(shapeA.movement);
 	}

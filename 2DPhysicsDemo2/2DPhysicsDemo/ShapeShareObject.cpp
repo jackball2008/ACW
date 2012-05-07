@@ -11,6 +11,9 @@ ShapeShareObject::ShapeShareObject(void)
 
 	//spring
 	springLine = new SpringLine();
+	/************************************************************************/
+	/* set initialize position                                                                     */
+	/************************************************************************/
 	YPoint sp;
 	sp.x = 2.0f;
 	sp.y = 2.0f;
