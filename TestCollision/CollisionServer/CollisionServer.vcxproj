@@ -10,35 +10,10 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="App.h" />
-    <ClInclude Include="mymath.h" />
-    <ClInclude Include="MyPhysics.h" />
-    <ClInclude Include="MySquare.h" />
-    <ClInclude Include="MyThread.h" />
-    <ClInclude Include="MyTriangle.h" />
-    <ClInclude Include="MyWindow.h" />
-    <ClInclude Include="PhysicThread.h" />
-    <ClInclude Include="RigidBody.h" />
-    <ClInclude Include="ShareMem.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="App.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="mymath.cpp" />
-    <ClCompile Include="MyPhysics.cpp" />
-    <ClCompile Include="MySquare.cpp" />
-    <ClCompile Include="MyThread.cpp" />
-    <ClCompile Include="MyTriangle.cpp" />
-    <ClCompile Include="MyWindow.cpp" />
-    <ClCompile Include="PhysicThread.cpp" />
-    <ClCompile Include="RigidBody.cpp" />
-    <ClCompile Include="ShareMem.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2D078577-5B15-41F7-A752-22092DC489D5}</ProjectGuid>
+    <ProjectGuid>{03B3F72F-5B8D-48A6-A7D6-07B2D51A5CF1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>TestCollision</RootNamespace>
+    <RootNamespace>CollisionServer</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,7 +52,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,6 +75,31 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\TestCollision\App.cpp" />
+    <ClCompile Include="..\TestCollision\main.cpp" />
+    <ClCompile Include="..\TestCollision\mymath.cpp" />
+    <ClCompile Include="..\TestCollision\MyPhysics.cpp" />
+    <ClCompile Include="..\TestCollision\MySquare.cpp" />
+    <ClCompile Include="..\TestCollision\MyThread.cpp" />
+    <ClCompile Include="..\TestCollision\MyTriangle.cpp" />
+    <ClCompile Include="..\TestCollision\MyWindow.cpp" />
+    <ClCompile Include="..\TestCollision\PhysicThread.cpp" />
+    <ClCompile Include="..\TestCollision\RigidBody.cpp" />
+    <ClCompile Include="..\TestCollision\ShareMem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\TestCollision\App.h" />
+    <ClInclude Include="..\TestCollision\mymath.h" />
+    <ClInclude Include="..\TestCollision\MyPhysics.h" />
+    <ClInclude Include="..\TestCollision\MySquare.h" />
+    <ClInclude Include="..\TestCollision\MyThread.h" />
+    <ClInclude Include="..\TestCollision\MyTriangle.h" />
+    <ClInclude Include="..\TestCollision\MyWindow.h" />
+    <ClInclude Include="..\TestCollision\PhysicThread.h" />
+    <ClInclude Include="..\TestCollision\RigidBody.h" />
+    <ClInclude Include="..\TestCollision\ShareMem.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

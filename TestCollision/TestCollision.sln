@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCollision", "TestCollision\TestCollision.vcxproj", "{2D078577-5B15-41F7-A752-22092DC489D5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CollisionServer", "CollisionServer\CollisionServer.vcxproj", "{03B3F72F-5B8D-48A6-A7D6-07B2D51A5CF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +15,10 @@ Global
 		{2D078577-5B15-41F7-A752-22092DC489D5}.Debug|Win32.Build.0 = Debug|Win32
 		{2D078577-5B15-41F7-A752-22092DC489D5}.Release|Win32.ActiveCfg = Release|Win32
 		{2D078577-5B15-41F7-A752-22092DC489D5}.Release|Win32.Build.0 = Release|Win32
+		{03B3F72F-5B8D-48A6-A7D6-07B2D51A5CF1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{03B3F72F-5B8D-48A6-A7D6-07B2D51A5CF1}.Debug|Win32.Build.0 = Debug|Win32
+		{03B3F72F-5B8D-48A6-A7D6-07B2D51A5CF1}.Release|Win32.ActiveCfg = Release|Win32
+		{03B3F72F-5B8D-48A6-A7D6-07B2D51A5CF1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
