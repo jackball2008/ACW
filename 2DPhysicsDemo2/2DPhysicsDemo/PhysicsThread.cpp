@@ -10,6 +10,7 @@ PhysicsThread::PhysicsThread(void)
 
 	/*lockspring = false;*/
 	/*lockspringep_dx = lockspringep_dy = 0;*/
+	shapelocked = false;
 }
 
 
@@ -141,8 +142,7 @@ void PhysicsThread::SpringOperation(Shape&shape)
 	** update this position every time
 	** here is a GXBase BUG, the mouse position is not correct
 	*/
-	_shapeShareObject->springLine->sp.x = _shapeShareObject->mouse_x;
-	_shapeShareObject->springLine->sp.y = _shapeShareObject->mouse_y;
+	
 
 
 	if(_shapeShareObject->left_hold)
@@ -151,21 +151,22 @@ void PhysicsThread::SpringOperation(Shape&shape)
 		 ** if this is first hold, check the mouse position,
 		 ** lock spring ep
 		 */
-		if(!shape.springlocked && DetectPointInShape(shape,_shapeShareObject->springLine->sp.x,_shapeShareObject->springLine->sp.y))
+		if(!shape.springlocked && DetectPointInShape(shape,_shapeShareObject->springLine->sp.x,_shapeShareObject->springLine->sp.y)&&!shapelocked)
 		{
 			/**
 			 ** if not lock and mouse in shape
 			 ** lock spring
 			 */
-			cout<<"shape id locked = "<<shape.id<<endl;
+			//cout<<"shape id locked = "<<shape.id<<endl;
 			shape.springlocked = true;
+			shapelocked = true;
 			//lock position vector
-			shape.lockspringep_dx = _shapeShareObject->mouse_x - shape.pos.x;
-			shape.lockspringep_dy = _shapeShareObject->mouse_y - shape.pos.y;
+			shape.lockspringep_dx = _shapeShareObject->springLine->sp.x - shape.pos.x;
+			shape.lockspringep_dy = _shapeShareObject->springLine->sp.y - shape.pos.y;
 			
 		}
 
-		if(shape.springlocked)
+		if(shape.springlocked&&shapelocked)
 		{
 			_shapeShareObject->springLine->ep.x = shape.pos.x + shape.lockspringep_dx;
 			_shapeShareObject->springLine->ep.y = shape.pos.y + shape.lockspringep_dy;	
@@ -183,14 +184,15 @@ void PhysicsThread::SpringOperation(Shape&shape)
 	}
 	else
 	{
+		shapelocked = false;
 		shape.springlocked = false;
 		shape.lockspringep_dx = 0;
 		shape.lockspringep_dy = 0;
 		//change shape color
 		shape.g = 1.0f;
 		
-		_shapeShareObject->springLine->ep.x = _shapeShareObject->mouse_x;
-		_shapeShareObject->springLine->ep.y = _shapeShareObject->mouse_y;
+		_shapeShareObject->springLine->ep.x = _shapeShareObject->springLine->sp.x;
+		_shapeShareObject->springLine->ep.y = _shapeShareObject->springLine->sp.y;
 	}
 
 

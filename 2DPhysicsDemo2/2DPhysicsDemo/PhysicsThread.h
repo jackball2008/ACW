@@ -44,6 +44,7 @@ private:
 	//lock spring
 	/*bool lockspring;*/
 	/*float lockspringep_dx, lockspringep_dy;*/
+	bool shapelocked;
 
 	//functions
 	void CalculateDeltaTime();

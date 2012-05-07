@@ -6,6 +6,8 @@ MyWindow::MyWindow(void)
 	ishold = false;
 	left_down = false;
 	last_left_down = false;
+
+	 mouse_x = mouse_y = 0;
 }
 
 
@@ -33,13 +35,16 @@ void	MyWindow::OnDisplay(){
 		glColor3f(0.0f,1.0f,0.0f);
 	glPointSize(3);
 	glBegin(GL_POINTS);
-	glVertex2f(_shapeShareObject->mouse_x, _shapeShareObject->mouse_y);
+	glVertex2f(mouse_x, mouse_y);
 	glEnd();
 	/************************************************************************/
 	/* draw mouse position end                                                                     */
 	/************************************************************************/
 
 	//////////////////////////////////////////////////////////////////////////
+	/************************************************************************/
+	/* draw spring                                                                     */
+	/************************************************************************/
 	if(_shapeShareObject->left_hold){
 		
 		//cout<<"s x = "<<_shapeShareObject->springLine->sp.x<<" s y = "<<_shapeShareObject->springLine->sp.y<<" e x = "<<_shapeShareObject->springLine->ep.x<<" e y = "<<_shapeShareObject->springLine->ep.y<<endl;
@@ -52,6 +57,9 @@ void	MyWindow::OnDisplay(){
 
 		glEnd();
 	}
+	/************************************************************************/
+	/* draw spring end                                                                     */
+	/************************************************************************/
 
 	
 	//Draw squares and triangles
@@ -129,10 +137,14 @@ void	MyWindow::OnMouseMove(int x, int y){
 		//now modify the shared memory
 		__try{
 			if(Width()){
-				_shapeShareObject->mouse_x = 2.0f * (float)x / (float)Width() - 1.0f;
+				//_shapeShareObject->mouse_x = 2.0f * (float)x / (float)Width() - 1.0f;
+				mouse_x = 2.0f * (float)x / (float)Width() - 1.0f;
+				_shapeShareObject->springLine->sp.x = mouse_x;
 			}
 			if(Height()){
-				_shapeShareObject->mouse_y = 2.0f * (float)y / (float)Height() - 1.0f;
+				//_shapeShareObject->mouse_y = 2.0f * (float)y / (float)Height() - 1.0f;
+				mouse_y = 2.0f * (float)y / (float)Height() - 1.0f;
+				_shapeShareObject->springLine->sp.y = mouse_y;
 			}
 			Redraw();
 
@@ -163,7 +175,7 @@ void	MyWindow::OnMouseButton(MouseButton button, bool down){
 						//cout<<"holding..."<<endl;
 						_shapeShareObject->left_hold = true;
 					}
-					_shapeShareObject->springLine->isvisiable = true;
+					//_shapeShareObject->springLine->isvisiable = true;
 				}
 				else
 				{
@@ -173,7 +185,7 @@ void	MyWindow::OnMouseButton(MouseButton button, bool down){
 						//cout<<"press up"<<endl;
 						_shapeShareObject->left_hold = false;
 					}
-					_shapeShareObject->springLine->isvisiable = false;
+					//_shapeShareObject->springLine->isvisiable = false;
 
 				}
 				break;

@@ -27,6 +27,8 @@ private:
 	bool left_down;
 	bool last_left_down;
 
+	float mouse_x,mouse_y;
+
 	
 public:
 	MyWindow(void);
