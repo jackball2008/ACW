@@ -56,12 +56,16 @@ private:
 	void SpringOperation(Shape&shape);
 	
 	//collision with shape
-	bool CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB);
+	bool CollisionDetectShapeAndShape(Shape&shapeA,Shape&shapeB);
 	void ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB);
 	//collision with ground
-	bool CollisionDectectShapeAndGround(Shape&shape);
+	bool CollisionDetectShapeAndGround(Shape&shape);
 	void ResponseCollisionWithGround(Shape&shapeA);
-	//dectect
+
+
+
+	//detect spring in or not in a shape
+	bool DetectPointInShape(const Shape&shape,const float&x,const float&y);
 
 	void FreeMoveShape(Shape&shape);
 
@@ -84,9 +88,9 @@ public:
 	/**
 	static functions
 	*/
- 	static float Dis(const YPoint& p1, const YPoint& p2);	
-	static bool JudgePointInPologon(const vector<YPoint>& pa,const YPoint& mp,const YPoint& ori);
-	static bool JudgeTwoLineAcroess(const YPoint&L1p1, const YPoint&L1p2,const YPoint&L2p1, const YPoint&L2p2);
+  	static float Dis(const YPoint& p1, const YPoint& p2);	
+// 	static bool JudgePointInPologon(const vector<YPoint>& pa,const YPoint& mp,const YPoint& ori);
+// 	static bool JudgeTwoLineAcroess(const YPoint&L1p1, const YPoint&L1p2,const YPoint&L2p1, const YPoint&L2p2);
 
 };
 

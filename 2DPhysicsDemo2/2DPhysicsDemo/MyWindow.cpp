@@ -4,6 +4,7 @@
 MyWindow::MyWindow(void)
 {
 	ishold = false;
+	mousex = mousey = 0;
 }
 
 
@@ -18,8 +19,18 @@ void	MyWindow::OnCreate(){
 void	MyWindow::OnDisplay(){
 	
 	glClear(GL_COLOR_BUFFER_BIT);
-	
-	  
+
+	/************************************************************************/
+	/* draw mouse position                                                                     */
+	/************************************************************************/
+	glColor3f(0.0f,1.0f,0.0f);
+	glPointSize(3);
+	glBegin(GL_POINTS);
+	glVertex2f(mousex, mousey);
+	glEnd();
+	/************************************************************************/
+	/* draw mouse position end                                                                     */
+	/************************************************************************/
 
 	//////////////////////////////////////////////////////////////////////////
 	if(_shapeShareObject->springLine->isvisiable){
@@ -45,8 +56,8 @@ void	MyWindow::OnDisplay(){
 		ite_vec_shape++){  
 			
 			Shape* shape = *ite_vec_shape;
-			if(shape == NULL) 
-				cout<<"error"<<endl;
+// 			if(shape == NULL) 
+// 				cout<<"error"<<endl;
 			vector<YPoint>& pa = shape->points;
 			//draw line
 			if(shape->type == 1)
@@ -110,14 +121,14 @@ void	MyWindow::OnMouseMove(int x, int y){
 			if(Width()){
 				
 				_currentmouseposition.x =  2.0f * (float)x / (float)Width() - 1.0f;
-				_shapeShareObject->mouseposition.x = _currentmouseposition.x;
-
+				_shapeShareObject->mouseposition.x = 2.0f * (float)x / (float)Width() - 1.0f;
+				_shapeShareObject->mouse_x = 2.0f * (float)x / (float)Width() - 1.0f;
+				mousex = 2.0f * (float)x / (float)Width() - 1.0f;
 				if(ishold){
 					_shapeShareObject->springLine->points.at(1).x = _currentmouseposition.x;
 					
 				}else{
 					
-
 					_shapeShareObject->springLine->points.at(0).x = _currentmouseposition.x;
 
 					_shapeShareObject->springLine->points.at(1).x = _currentmouseposition.x;
@@ -127,8 +138,11 @@ void	MyWindow::OnMouseMove(int x, int y){
 			if(Height()){
 				
 				_currentmouseposition.y = 2.0f * (float)y / (float)Height() - 1.0f;
-				_shapeShareObject->mouseposition.y =_currentmouseposition.y;
+				_shapeShareObject->mouseposition.y = 2.0f * (float)y / (float)Height() - 1.0f;
 				
+				_shapeShareObject->mouse_y = 2.0f * (float)y / (float)Height() - 1.0f;
+
+				mousey = 2.0f * (float)y / (float)Height() - 1.0f;
 				if(ishold){
 					_shapeShareObject->springLine->points.at(1).y = _currentmouseposition.y;
 				}else{

@@ -21,6 +21,8 @@ private:
 	YPoint _currentmouseposition;
 
 	bool ishold;
+
+	float mousex,mousey;
 public:
 	MyWindow(void);
 	~MyWindow(void);

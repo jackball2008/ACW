@@ -22,6 +22,8 @@ ShapeShareObject::ShapeShareObject(void)
 	ep.y = 2.0f;
 	springLine->points.push_back(sp);
 	springLine->points.push_back(ep);
+
+	mouse_x  = mouse_y = 2.0f;
 	
 }
 

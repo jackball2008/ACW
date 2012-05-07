@@ -111,7 +111,7 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 	{
 		//shapeA hit common shape
 		/***/
-		if(CollisionDectectShapeAndShape(shapeA,shapeB))
+		if(CollisionDetectShapeAndShape(shapeA,shapeB))
 		{
 			ResponseCollisionWithShape(shapeA,shapeB);
 		}
@@ -120,7 +120,7 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 	else
 	{
 		//shapeB is ground
-		if(CollisionDectectShapeAndGround(shapeA))
+		if(CollisionDetectShapeAndGround(shapeA))
 		{
 			ResponseCollisionWithGround(shapeA);
 		}
@@ -135,13 +135,20 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 /************************************************************************/
 void PhysicsThread::SpringOperation(Shape&shape)
 {
-
+	if(DetectPointInShape(shape,_shapeShareObject->mouse_x,_shapeShareObject->mouse_y))
+	{
+		shape.g = 0.0f;
+	}
+	else
+	{
+		shape.g = 1.0f;
+	}
 }
 //////////////////////////////////////////////////////////////////////////
 /************************************************************************/
 /* collision detect with common shape                                                                     */
 /************************************************************************/
-bool PhysicsThread::CollisionDectectShapeAndShape(Shape&shapeA,Shape&shapeB)
+bool PhysicsThread::CollisionDetectShapeAndShape(Shape&shapeA,Shape&shapeB)
 {
 	bool iscollision = false;
 	/************************************************************************/
@@ -365,7 +372,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 /* collision detect with ground                                                                     */
 /************************************************************************/
 #define DEBUGV1
-bool PhysicsThread::CollisionDectectShapeAndGround(Shape&shape)
+bool PhysicsThread::CollisionDetectShapeAndGround(Shape&shape)
 {
 	
 	float asize = 0;
@@ -521,7 +528,30 @@ void PhysicsThread::ProjectShape(float&bsize, const Shape& shape, const float&ax
 	}
 	
 }
+bool PhysicsThread::DetectPointInShape(const Shape&shape,const float&x,const float&y)
+{
+	int numofaxis = shape.project_axis.size();
 
+	float dx = x - shape.pos.x;
+	float dy = y - shape.pos.y;
+
+	for(int i=0;i<numofaxis;i++)
+	{
+		float ax = shape.project_axis.at(i).x;
+		float ay = shape.project_axis.at(i).y;
+		float len = shape.project_axis.at(i).z;
+
+		float prosize = dx * ax + dy * ay;
+
+		if(abs(prosize)<len)
+			//less then the axis
+			continue;
+		else
+			return false;
+	}
+
+	return true;
+}
 
 int PhysicsThread::run(){
 	//get sticks per second
@@ -586,13 +616,14 @@ int PhysicsThread::run(){
 /************************************************************************/
 /* static functions                                                                     */
 /************************************************************************/
+
 float PhysicsThread::Dis(const YPoint& p1, const YPoint& p2){
 	float dx = p1.x - p2.x;
 	float dy = p1.y - p2.y;
 	float dz = p1.z - p2.z;
 	return sqrt(dx*dx+dy*dy+dz*dz);
 };
-
+/**
 bool PhysicsThread::JudgePointInPologon(const vector<YPoint>& pa,const YPoint& mp,const YPoint& ori){
 	int numofacroess = 0;
 	int nsize = pa.size();
@@ -624,3 +655,4 @@ bool PhysicsThread::JudgeTwoLineAcroess(const YPoint&L1p1, const YPoint&L1p2,con
 	} 
 	return true; 
 }
+*/
