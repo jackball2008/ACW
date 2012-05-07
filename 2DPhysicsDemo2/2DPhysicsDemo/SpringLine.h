@@ -16,7 +16,10 @@ public:
 	YPoint sp;
 	YPoint ep;
 
-	inline float Length();
+	inline float Length()
+	{
+		return sqrt((sp.x - ep.x)*(sp.x - ep.x)+(sp.y - ep.y)*(sp.y - ep.y));
+	}
 	
 };
 

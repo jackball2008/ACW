@@ -171,11 +171,11 @@ void PhysicsThread::SpringOperation(Shape&shape)
 			_shapeShareObject->springLine->ep.x = shape.pos.x + shape.lockspringep_dx;
 			_shapeShareObject->springLine->ep.y = shape.pos.y + shape.lockspringep_dy;	
 
-			shape.g = 0.0f;
+			/*shape.g = 0.0f;*/
 		}
 		else
 		{
-			shape.g = 1.0f;
+			/*shape.g = 1.0f;*/
 			shape.lockspringep_dx = 0;
 			shape.lockspringep_dy = 0;
 		}
@@ -189,12 +189,35 @@ void PhysicsThread::SpringOperation(Shape&shape)
 		shape.lockspringep_dx = 0;
 		shape.lockspringep_dy = 0;
 		//change shape color
-		shape.g = 1.0f;
+		/*shape.g = 1.0f;*/
 		
 		_shapeShareObject->springLine->ep.x = _shapeShareObject->springLine->sp.x;
 		_shapeShareObject->springLine->ep.y = _shapeShareObject->springLine->sp.y;
 	}
 
+	//color change
+	if(shape.springlocked)
+	{
+		shape.g = 0.0f;
+	}
+	else
+	{
+		shape.g = 1.0f;
+	}
+
+	//force and acceleration change 
+
+	if(shape.springlocked)
+	{
+		//computing spring force
+		float springlength = _shapeShareObject->springLine->Length();
+		cout<<"len = "<<springlength<<endl;
+		//computing acceleration
+	}
+	else
+	{
+		
+	}
 
 }
 //////////////////////////////////////////////////////////////////////////

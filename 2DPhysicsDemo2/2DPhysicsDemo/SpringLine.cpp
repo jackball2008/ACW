@@ -31,9 +31,9 @@ SpringLine::~SpringLine(void)
 {
 }
 
-float SpringLine::Length()
-{
-	return sqrt((sp.x - ep.x)*(sp.x - ep.x)+(sp.y - ep.y)*(sp.y - ep.y));
-}
+// float SpringLine::Length()
+// {
+// 	return sqrt((sp.x - ep.x)*(sp.x - ep.x)+(sp.y - ep.y)*(sp.y - ep.y));
+// }
 
 
