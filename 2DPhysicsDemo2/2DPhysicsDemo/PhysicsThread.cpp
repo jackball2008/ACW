@@ -8,7 +8,8 @@ PhysicsThread::PhysicsThread(void)
 	_isspringforcegenerated = false;
 
 
-
+	/*lockspring = false;*/
+	/*lockspringep_dx = lockspringep_dy = 0;*/
 }
 
 
@@ -135,42 +136,67 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 void PhysicsThread::SpringOperation(Shape&shape)
 {
 
+	/**
+	** set spring start position is current mouse position
+	** update this position every time
+	** here is a GXBase BUG, the mouse position is not correct
+	*/
+	_shapeShareObject->springLine->sp.x = _shapeShareObject->mouse_x;
+	_shapeShareObject->springLine->sp.y = _shapeShareObject->mouse_y;
+
+
 	if(_shapeShareObject->left_hold)
 	{
-		//cout<<".."<<endl;
-		_shapeShareObject->springLine->sp.x = _shapeShareObject->mouse_x;
-		_shapeShareObject->springLine->sp.y = _shapeShareObject->mouse_y;
-
-		if(DetectPointInShape(shape,_shapeShareObject->springLine->ep.x,_shapeShareObject->springLine->ep.y))
+		/**
+		 ** if this is first hold, check the mouse position,
+		 ** lock spring ep
+		 */
+		if(!shape.springlocked && DetectPointInShape(shape,_shapeShareObject->springLine->sp.x,_shapeShareObject->springLine->sp.y))
 		{
+			/**
+			 ** if not lock and mouse in shape
+			 ** lock spring
+			 */
+			cout<<"shape id locked = "<<shape.id<<endl;
+			shape.springlocked = true;
+			//lock position vector
+			shape.lockspringep_dx = _shapeShareObject->mouse_x - shape.pos.x;
+			shape.lockspringep_dy = _shapeShareObject->mouse_y - shape.pos.y;
+			
+		}
+
+		if(shape.springlocked)
+		{
+			_shapeShareObject->springLine->ep.x = shape.pos.x + shape.lockspringep_dx;
+			_shapeShareObject->springLine->ep.y = shape.pos.y + shape.lockspringep_dy;	
+
 			shape.g = 0.0f;
-
-			_shapeShareObject->springLine->ep.x = shape.pos.x;
-			_shapeShareObject->springLine->ep.y = shape.pos.y;
-
-			/************************************************************************/
-			/* do much more here                                                                     */
-			/************************************************************************/
 		}
 		else
 		{
 			shape.g = 1.0f;
+			shape.lockspringep_dx = 0;
+			shape.lockspringep_dy = 0;
 		}
+
+
 	}
 	else
 	{
+		shape.springlocked = false;
+		shape.lockspringep_dx = 0;
+		shape.lockspringep_dy = 0;
+		//change shape color
 		shape.g = 1.0f;
-		//cout<<"++"<<endl;
-		_shapeShareObject->springLine->sp.x = _shapeShareObject->mouse_x;
+		
 		_shapeShareObject->springLine->ep.x = _shapeShareObject->mouse_x;
-		_shapeShareObject->springLine->sp.y = _shapeShareObject->mouse_y;
 		_shapeShareObject->springLine->ep.y = _shapeShareObject->mouse_y;
 	}
 
 
 }
 //////////////////////////////////////////////////////////////////////////
-/************************************************************************/
+/***********************************************************************/
 /* collision detect with common shape                                                                     */
 /************************************************************************/
 bool PhysicsThread::CollisionDetectShapeAndShape(Shape&shapeA,Shape&shapeB)

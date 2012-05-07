@@ -42,6 +42,7 @@ void	MyWindow::OnDisplay(){
 	//////////////////////////////////////////////////////////////////////////
 	if(_shapeShareObject->left_hold){
 		
+		//cout<<"s x = "<<_shapeShareObject->springLine->sp.x<<" s y = "<<_shapeShareObject->springLine->sp.y<<" e x = "<<_shapeShareObject->springLine->ep.x<<" e y = "<<_shapeShareObject->springLine->ep.y<<endl;
 		//draw springline
 		glColor3f(_shapeShareObject->springLine->r,_shapeShareObject->springLine->g,_shapeShareObject->springLine->b);
 		glPointSize(4);

@@ -41,6 +41,10 @@ private:
 	YPoint _springforceworkposition;
 	bool _isspringforcegenerated;
 
+	//lock spring
+	/*bool lockspring;*/
+	/*float lockspringep_dx, lockspringep_dy;*/
+
 	//functions
 	void CalculateDeltaTime();
 	/**

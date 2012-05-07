@@ -10,7 +10,8 @@ Shape::Shape(void)
 	id = 0;
 	sizeofpoints = 0;
 
-	
+	springlocked = false;
+	lockspringep_dx = lockspringep_dy = 0;
 	
 }
 

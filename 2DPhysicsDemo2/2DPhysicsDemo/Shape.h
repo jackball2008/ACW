@@ -7,6 +7,10 @@ class Shape
 {
 
 public:
+	//spring lock
+	bool springlocked;
+	float lockspringep_dx,lockspringep_dy;
+
 	//color
 	float r,g,b;
 	int type;
