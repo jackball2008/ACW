@@ -11,6 +11,12 @@ public:
 	SpringLine(void);
 	~SpringLine(void);
 
+
+
+	YPoint sp;
+	YPoint ep;
+
+	inline float Length();
 	
 };
 

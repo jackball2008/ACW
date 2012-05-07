@@ -7,8 +7,7 @@ PhysicsThread::PhysicsThread(void)
 	_old_delta_time = 0.0f;
 	_isspringforcegenerated = false;
 
-	measureP.x = -10;
-	measureP.y = 0;
+
 
 }
 
@@ -135,14 +134,40 @@ void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
 /************************************************************************/
 void PhysicsThread::SpringOperation(Shape&shape)
 {
-	if(DetectPointInShape(shape,_shapeShareObject->mouse_x,_shapeShareObject->mouse_y))
+
+	if(_shapeShareObject->left_hold)
 	{
-		shape.g = 0.0f;
+		//cout<<".."<<endl;
+		_shapeShareObject->springLine->sp.x = _shapeShareObject->mouse_x;
+		_shapeShareObject->springLine->sp.y = _shapeShareObject->mouse_y;
+
+		if(DetectPointInShape(shape,_shapeShareObject->springLine->ep.x,_shapeShareObject->springLine->ep.y))
+		{
+			shape.g = 0.0f;
+
+			_shapeShareObject->springLine->ep.x = shape.pos.x;
+			_shapeShareObject->springLine->ep.y = shape.pos.y;
+
+			/************************************************************************/
+			/* do much more here                                                                     */
+			/************************************************************************/
+		}
+		else
+		{
+			shape.g = 1.0f;
+		}
 	}
 	else
 	{
 		shape.g = 1.0f;
+		//cout<<"++"<<endl;
+		_shapeShareObject->springLine->sp.x = _shapeShareObject->mouse_x;
+		_shapeShareObject->springLine->ep.x = _shapeShareObject->mouse_x;
+		_shapeShareObject->springLine->sp.y = _shapeShareObject->mouse_y;
+		_shapeShareObject->springLine->ep.y = _shapeShareObject->mouse_y;
 	}
+
+
 }
 //////////////////////////////////////////////////////////////////////////
 /************************************************************************/
@@ -569,9 +594,10 @@ int PhysicsThread::run(){
 				CalculateDeltaTime();
 				if(_delta_time <10000 ){
 					//get spring length
-					_springforce.length = Dis(_shapeShareObject->springstartp,_shapeShareObject->springendp);
+					//_springforce.length = _shapeShareObject->springLine->Length();//Dis(_shapeShareObject->springstartp,_shapeShareObject->springendp);
+					/**
 					if(!_shapeShareObject->left_hold && _springforce.length >0){
-						/*cout<<"L = "<<springlength<<endl;*/
+						
 						//get spring force
 						_springforce.allforce = SPRING_FACTOR * _springforce.length;
 						//get force direction
@@ -584,7 +610,7 @@ int PhysicsThread::run(){
 						//save the position to a Point, easy to computing later
 						_springforceworkposition.x = _shapeShareObject->springstartp.x;
 						_springforceworkposition.y = _shapeShareObject->springstartp.y;
-						/*cout<<"clear spring"<<endl;*/
+						
 						//after save the current spring variables, clear the variables in shareobject
 						_shapeShareObject->springstartp.x = 10;
 						_shapeShareObject->springstartp.y = 10;
@@ -598,6 +624,7 @@ int PhysicsThread::run(){
 					{
 						_isspringforcegenerated = false;
 					}
+					*/
 					//////////////////////////////////////////
 					//start to compute the physics
 					CalculatePyhsics();
@@ -623,36 +650,4 @@ float PhysicsThread::Dis(const YPoint& p1, const YPoint& p2){
 	float dz = p1.z - p2.z;
 	return sqrt(dx*dx+dy*dy+dz*dz);
 };
-/**
-bool PhysicsThread::JudgePointInPologon(const vector<YPoint>& pa,const YPoint& mp,const YPoint& ori){
-	int numofacroess = 0;
-	int nsize = pa.size();
-	for(int i=0; i<nsize;i++){
-		if((i+1)<nsize){
-			if(JudgeTwoLineAcroess(ori,mp,pa.at(i),pa.at(i+1)))
-				numofacroess++;
-		}else{
-			if(JudgeTwoLineAcroess(ori,mp,pa.at(i),pa.at(0)))
-				numofacroess++;
-		}
-	}
-	if(!(numofacroess%2==0))
-		return true;
-	else
-		return false;
-}
 
-bool PhysicsThread::JudgeTwoLineAcroess(const YPoint&L1p1, const YPoint&L1p2,const YPoint&L2p1, const YPoint&L2p2){
-	float v1 = (L1p2.x - L1p1.x)*(L2p2.y-L1p1.y) - (L1p2.y-L1p1.y)*(L2p2.x-L1p1.x);
-	float v2 = (L1p2.x-L1p1.x)*(L2p1.y-L1p1.y)-(L1p2.y-L1p1.y)*(L2p1.x-L1p1.x);
-	if(v1*v2 >= 0) { 
-		return false; 
-	}
-	float v3 = (L2p2.x-L2p1.x)*(L1p2.y-L2p1.y)-(L2p2.y-L2p1.y)*(L1p2.x-L2p1.x);
-	float v4 = (L2p2.x-L2p1.x)*(L1p1.y-L2p1.y)-(L2p2.y-L2p1.y)*(L1p1.x-L2p1.x);
-	if(v3*v4 >= 0) { 
-		return false; 
-	} 
-	return true; 
-}
-*/

@@ -7,6 +7,7 @@ public:
 	Line(void);
 	~Line(void);
 
+	
 
 };
 

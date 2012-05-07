@@ -20,9 +20,14 @@ private:
 
 	YPoint _currentmouseposition;
 
+	/************************************************************************/
+	/* mouse operation valuable                                                                     */
+	/************************************************************************/
 	bool ishold;
+	bool left_down;
+	bool last_left_down;
 
-	float mousex,mousey;
+	
 public:
 	MyWindow(void);
 	~MyWindow(void);

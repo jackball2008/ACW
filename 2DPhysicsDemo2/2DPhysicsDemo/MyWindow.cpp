@@ -4,7 +4,8 @@
 MyWindow::MyWindow(void)
 {
 	ishold = false;
-	mousex = mousey = 0;
+	left_down = false;
+	last_left_down = false;
 }
 
 
@@ -16,35 +17,37 @@ void	MyWindow::OnCreate(){
 	GLWindowEx::OnCreate();
 }
 
+
 void	MyWindow::OnDisplay(){
+
+
 	
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	/************************************************************************/
-	/* draw mouse position                                                                     */
+	/* draw mouse position   holding red , unholding green                                                                  */
 	/************************************************************************/
-	glColor3f(0.0f,1.0f,0.0f);
+	if(_shapeShareObject->left_hold)
+		glColor3f(1.0f,0.0f,0.0f);
+	else
+		glColor3f(0.0f,1.0f,0.0f);
 	glPointSize(3);
 	glBegin(GL_POINTS);
-	glVertex2f(mousex, mousey);
+	glVertex2f(_shapeShareObject->mouse_x, _shapeShareObject->mouse_y);
 	glEnd();
 	/************************************************************************/
 	/* draw mouse position end                                                                     */
 	/************************************************************************/
 
 	//////////////////////////////////////////////////////////////////////////
-	if(_shapeShareObject->springLine->isvisiable){
-
-		glColor3f(1.0f,0.0f,0.0f);
-		glPointSize(3);
-		glBegin(GL_POINTS);
-		glVertex2f(_shapeShareObject->springLine->points.at(0).x, _shapeShareObject->springLine->points.at(0).y);
-		glEnd();
+	if(_shapeShareObject->left_hold){
+		
 		//draw springline
 		glColor3f(_shapeShareObject->springLine->r,_shapeShareObject->springLine->g,_shapeShareObject->springLine->b);
+		glPointSize(4);
 		glBegin(GL_LINES);
-		glVertex2f(_shapeShareObject->springLine->points.at(0).x, _shapeShareObject->springLine->points.at(0).y);
-		glVertex2f(_shapeShareObject->springLine->points.at(1).x, _shapeShareObject->springLine->points.at(1).y);
+		glVertex2f(_shapeShareObject->springLine->sp.x, _shapeShareObject->springLine->sp.y);
+		glVertex2f(_shapeShareObject->springLine->ep.x, _shapeShareObject->springLine->ep.y);
 
 		glEnd();
 	}
@@ -106,9 +109,15 @@ void	MyWindow::OnDisplay(){
 	}
 
 	SwapBuffers();
+
+
 }
 void	MyWindow::OnIdle(){
+
+	//////////////////////////////////////////////////////////////////////////
 	Redraw();
+	//////////////////////////////////////////////////////////////////////////
+
 }
 void	MyWindow::OnKeyboard(int key, bool down){
 
@@ -119,45 +128,16 @@ void	MyWindow::OnMouseMove(int x, int y){
 		//now modify the shared memory
 		__try{
 			if(Width()){
-				
-				_currentmouseposition.x =  2.0f * (float)x / (float)Width() - 1.0f;
-				_shapeShareObject->mouseposition.x = 2.0f * (float)x / (float)Width() - 1.0f;
 				_shapeShareObject->mouse_x = 2.0f * (float)x / (float)Width() - 1.0f;
-				mousex = 2.0f * (float)x / (float)Width() - 1.0f;
-				if(ishold){
-					_shapeShareObject->springLine->points.at(1).x = _currentmouseposition.x;
-					
-				}else{
-					
-					_shapeShareObject->springLine->points.at(0).x = _currentmouseposition.x;
-
-					_shapeShareObject->springLine->points.at(1).x = _currentmouseposition.x;
-				}
-
 			}
 			if(Height()){
-				
-				_currentmouseposition.y = 2.0f * (float)y / (float)Height() - 1.0f;
-				_shapeShareObject->mouseposition.y = 2.0f * (float)y / (float)Height() - 1.0f;
-				
 				_shapeShareObject->mouse_y = 2.0f * (float)y / (float)Height() - 1.0f;
-
-				mousey = 2.0f * (float)y / (float)Height() - 1.0f;
-				if(ishold){
-					_shapeShareObject->springLine->points.at(1).y = _currentmouseposition.y;
-				}else{
-					
-					_shapeShareObject->springLine->points.at(0).y = _currentmouseposition.y;
-
-					_shapeShareObject->springLine->points.at(1).y = _currentmouseposition.y;
-				}
 			}
 			Redraw();
 
 		}__finally{
 			_shapeShareObject->Release();
 		}
-
 
 	}
 
@@ -169,45 +149,31 @@ void	MyWindow::OnMouseButton(MouseButton button, bool down){
 		__try{
 			switch(button){
 			case MBLeft:
-				if(down){
-					_shapeShareObject->left_down = true;
-					if(_shapeShareObject->last_left_down != _shapeShareObject->left_down && _shapeShareObject->last_left_down == false){
-						_shapeShareObject->last_left_down = true;
-						//set start point
-						/*cout<<"press down"<<endl;*/
-						ishold = false;
+				if(down)
+				{
+					if(last_left_down != down && last_left_down == false)
+					{
+						last_left_down = down;
+						//cout<<"press down"<<endl;
 						_shapeShareObject->left_hold = false;
 					}
-					if(_shapeShareObject->last_left_down == _shapeShareObject->left_down){
-						/*cout<<"press hold"<<endl;*/
-						ishold = true;
+					if(last_left_down == down)//true
+					{
+						//cout<<"holding..."<<endl;
 						_shapeShareObject->left_hold = true;
 					}
-
 					_shapeShareObject->springLine->isvisiable = true;
 				}
-				else{
-					_shapeShareObject->left_down = false;
-
-					if(_shapeShareObject->last_left_down != _shapeShareObject->left_down && _shapeShareObject->last_left_down == true){
-						_shapeShareObject->last_left_down = false;
-						/*cout<<"press up"<<endl;*/
-
-						//save spring point
-						//start
-						_shapeShareObject->springstartp.x = _shapeShareObject->springLine->points.at(0).x;
-						_shapeShareObject->springstartp.y = _shapeShareObject->springLine->points.at(0).y;
-						//end
-						_shapeShareObject->springendp.x = _shapeShareObject->springLine->points.at(1).x;
-						_shapeShareObject->springendp.y = _shapeShareObject->springLine->points.at(1).y;
-						///////////////////
-
-
-						ishold = false;
+				else
+				{
+					if(last_left_down != down && last_left_down == true)
+					{
+						last_left_down = down;
+						//cout<<"press up"<<endl;
 						_shapeShareObject->left_hold = false;
 					}
 					_shapeShareObject->springLine->isvisiable = false;
-					
+
 				}
 				break;
 

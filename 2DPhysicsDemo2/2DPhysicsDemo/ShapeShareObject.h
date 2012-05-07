@@ -18,15 +18,13 @@ public:
 	/************************************************************************/
 	float mouse_x,mouse_y;
 
-	bool left_down;
-	bool last_left_down;
 
 	bool left_hold;
 
-	YPoint mouseposition;
 	
-	YPoint springstartp;
-	YPoint springendp;
+	
+// 	YPoint springstartp;
+// 	YPoint springendp;
 
 
 	//spring

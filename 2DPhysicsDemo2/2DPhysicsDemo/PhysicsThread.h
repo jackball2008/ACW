@@ -28,7 +28,6 @@ class PhysicsThread :
 private:
 	//share obj store all share data
 	ShapeShareObject* _shapeShareObject;
-	YPoint measureP;
 	//used for calculate deltatime
 	DWORD procMask, sysMask;
 	LARGE_INTEGER _ticksPerSecond, _consumedCount, _currentCount, _lastCount;
@@ -37,7 +36,6 @@ private:
 	float _old_delta_time;
 	//thread
 	HANDLE thread;
-
 	//Force
 	Force _springforce;
 	YPoint _springforceworkposition;
@@ -50,11 +48,26 @@ private:
 	*/
 	//////////////////////////////////////////////////////////////////////////
 	void CalculatePyhsics();
+	/************************************************************************/
+	/* step one                                                                     */
+	/************************************************************************/
 	void CollisionDectect(Shape&, Shape&);
 
+	/************************************************************************/
+	/* step two                                                                     */
+	/************************************************************************/
 	//spring operation
 	void SpringOperation(Shape&shape);
-	
+	/************************************************************************/
+	/* step three                                                                     */
+	/************************************************************************/
+	//free down to the ground
+	void FreeMoveShape(Shape&shape);
+
+
+	/************************************************************************/
+	/* used in step one                                                                     */
+	/************************************************************************/
 	//collision with shape
 	bool CollisionDetectShapeAndShape(Shape&shapeA,Shape&shapeB);
 	void ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB);
@@ -62,19 +75,24 @@ private:
 	bool CollisionDetectShapeAndGround(Shape&shape);
 	void ResponseCollisionWithGround(Shape&shapeA);
 
-
-
+	/************************************************************************/
+	/* used in step two                                                                     */
+	/************************************************************************/
 	//detect spring in or not in a shape
 	bool DetectPointInShape(const Shape&shape,const float&x,const float&y);
 
-	void FreeMoveShape(Shape&shape);
-
-
+	/************************************************************************/
+	/* used in step three                                                                     */
+	/************************************************************************/
+	
+	/************************************************************************/
+	/* share functions                                                                     */
+	/************************************************************************/
+	//function project shape to a axis
 	void ProjectShape(float&bsize, const Shape& shape, const float&ax,const float&ay);
 	void ReduceDisMistake(float&dis);
 	void ReduceDisMistake(float&dis,const float&range);
 	void ReduceDisMistake(double&dis,const float&range);
-
 	//////////////////////////////////////////////////////////////////////////
 
 public:
@@ -89,8 +107,6 @@ public:
 	static functions
 	*/
   	static float Dis(const YPoint& p1, const YPoint& p2);	
-// 	static bool JudgePointInPologon(const vector<YPoint>& pa,const YPoint& mp,const YPoint& ori);
-// 	static bool JudgeTwoLineAcroess(const YPoint&L1p1, const YPoint&L1p2,const YPoint&L2p1, const YPoint&L2p2);
 
 };
 
