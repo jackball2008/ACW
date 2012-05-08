@@ -211,13 +211,47 @@ void PhysicsThread::SpringOperation(Shape&shape)
 	{
 		//computing spring force
 		float springlength = _shapeShareObject->springLine->Length();
-		cout<<"len = "<<springlength<<endl;
+		//cout<<"len = "<<springlength<<endl;
+		if(springlength> 0.1)
+		{
+			//
+			float force_all = springlength * SPRING_FACTOR;
+			//get vector
+			float dx = _shapeShareObject->springLine->sp.x - _shapeShareObject->springLine->ep.x;
+			float dy = _shapeShareObject->springLine->sp.y - _shapeShareObject->springLine->ep.y;
+			float len = sqrt(dx*dx+dy*dy);
+			dx = dx/len;
+			dy = dy/len;
+			//get force project on X and Y axis
+			float force_y = force_all * dy;
+			float force_x = force_all * dx;
+
+			shape.acceleration.x = force_x/shape.mass;
+			shape.acceleration.y = (force_y + shape.mass*G_ACCERLATION)/shape.mass;
+
+			if(force_y+shape.mass*G_ACCERLATION > 0)
+			{
+				cout<<"++"<<endl;
+			}
+			else
+			{
+				cout<<"--"<<endl;
+			}
+
+			shape.force.Clear();
+		}
+		
+		
+
 		//computing acceleration
 	}
 	else
 	{
-		
+		shape.acceleration.x = shape.acceleration.x;
+		shape.acceleration.y = G_ACCERLATION;
 	}
+
+	
 
 }
 //////////////////////////////////////////////////////////////////////////
@@ -390,8 +424,7 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 			/* change speed and move A up                                                                     */
 			/************************************************************************/
 			shapeA.velocity.y = ay;
-			shapeB.velocity.y = by;
-			
+			shapeB.velocity.y = by;			
 			shapeA.movement.y = overlap_y;
 
 		}
@@ -523,7 +556,6 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 		/* Y force is 0                                                                     */
 		/************************************************************************/
 		
-
 		shapeA.movement.x = float(shapeA.velocity.x * t_left);
 		shapeA.movement.y = float(shapeA.velocity.y * t_left);
 		shapeA.Move(shapeA.movement);
@@ -548,13 +580,13 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 	float t = _delta_time/1000;//ms -> s
 	///
 	//force x = 0; y = G*mass
-	shape.old_force = shape.force;
+	//shape.old_force = shape.force;
 	//x = x or change
-	shape.force.y = shape.mass * G_ACCERLATION;
+	//shape.force.y = shape.mass * G_ACCERLATION;
 
-	shape.acceleration.x = shape.force.x / shape.mass;//wrong,only friction work here
-	shape.acceleration.y = G_ACCERLATION;
-	shape.force.Clear();//once the force worked, it just work on this moment, so after it works, clear it
+	//shape.acceleration.x = shape.force.x / shape.mass;//wrong,only friction work here
+	//shape.acceleration.y = G_ACCERLATION;
+	//shape.force.Clear();//once the force worked, it just work on this moment, so after it works, clear it
 	///
 	//YPoint movement;
 	shape.old_movement = shape.movement;//maybe not useful
@@ -568,6 +600,7 @@ void PhysicsThread::FreeMoveShape(Shape&shape)
 	//////////////////////////////////////////////////////////////////////////
 	shape.Move(shape.movement);
 	shape.movement.Clear();
+	shape.acceleration.Clear();
 }
 
 void PhysicsThread::ReduceDisMistake(float&dis)
@@ -644,38 +677,6 @@ int PhysicsThread::run(){
 				//only get the access,then calculate the time _delta_time
 				CalculateDeltaTime();
 				if(_delta_time <10000 ){
-					//get spring length
-					//_springforce.length = _shapeShareObject->springLine->Length();//Dis(_shapeShareObject->springstartp,_shapeShareObject->springendp);
-					/**
-					if(!_shapeShareObject->left_hold && _springforce.length >0){
-						
-						//get spring force
-						_springforce.allforce = SPRING_FACTOR * _springforce.length;
-						//get force direction
-						_springforce.dir_x = _shapeShareObject->springendp.x - _shapeShareObject->springstartp.x;
-						_springforce.dir_y = _shapeShareObject->springendp.y - _shapeShareObject->springstartp.y;
-						//computing force x y
-						float dd = sqrt(_springforce.dir_x * _springforce.dir_x + _springforce.dir_y * _springforce.dir_y);
-						_springforce.force_x = _springforce.dir_x * _springforce.allforce / dd;
-						_springforce.force_y = _springforce.dir_y * _springforce.allforce / dd;
-						//save the position to a Point, easy to computing later
-						_springforceworkposition.x = _shapeShareObject->springstartp.x;
-						_springforceworkposition.y = _shapeShareObject->springstartp.y;
-						
-						//after save the current spring variables, clear the variables in shareobject
-						_shapeShareObject->springstartp.x = 10;
-						_shapeShareObject->springstartp.y = 10;
-						_shapeShareObject->springendp.x = 10;
-						_shapeShareObject->springendp.y = 10;
-						_springforce.allforce = 0;
-						//mark
-						_isspringforcegenerated = true;
-					}
-					else
-					{
-						_isspringforcegenerated = false;
-					}
-					*/
 					//////////////////////////////////////////
 					//start to compute the physics
 					CalculatePyhsics();
