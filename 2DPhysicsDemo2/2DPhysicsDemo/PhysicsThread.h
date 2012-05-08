@@ -10,7 +10,7 @@ using namespace std;
 
 using namespace std;
 
-const float SPRING_FACTOR = 1.0f;
+const float SPRING_FACTOR = 5.0f;
 const YPoint ORIGIN_P_PHYSICS;
 ///////////////////////////////////////////////
 const float GROUND_Y = -0.9f;
