@@ -21,6 +21,8 @@ const float OVERLAP_MIN = 0.0001f;
 const float OVERLAP_MIN2 = 0.002f;
 const float SPEED_RESCRIT = 0.0001f;
 
+const float HORIZONTAL_FROCTION_FACTOR = 0.995f;
+
 
 class PhysicsThread :
 	public MyThread
@@ -108,10 +110,7 @@ public:
 
 
 	int run();
-	/**
-	static functions
-	*/
-  	static float Dis(const YPoint& p1, const YPoint& p2);	
+	
 
 };
 

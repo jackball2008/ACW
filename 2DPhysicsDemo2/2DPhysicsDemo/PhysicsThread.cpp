@@ -20,116 +20,9 @@ PhysicsThread::~PhysicsThread(void)
 }
 
 
-void PhysicsThread::CalculateDeltaTime()
-{
-
-	//Ensure QueryPerformance is called on a specific core
-	SetThreadAffinityMask(thread, 0x1);
-	QueryPerformanceFrequency(&_ticksPerSecond);
-	QueryPerformanceCounter(&_currentCount);
-	SetThreadAffinityMask(thread, procMask);
-
-	_consumedCount.QuadPart = _currentCount.QuadPart - _lastCount.QuadPart;  
-	_lastCount = _currentCount;
-	//save last delta time
-	_old_delta_time = _delta_time;
-	_delta_time = float(_consumedCount.QuadPart/(_ticksPerSecond.QuadPart/1000));
-	
-#ifdef DEBUG_DELTATIME
-	cout<<"ms = "<<_delta_time<<endl;
-#endif
-
-}
-
-void PhysicsThread::CalculatePyhsics()
-{
-	//A is host b is guest
-	int objnum = _shapeShareObject->renderObjects.size();
-	for(int i=0;i<objnum;i++)
-	{
-		Shape* shapeA = _shapeShareObject->renderObjects.at(i);
-		if (shapeA->type != 1)
-		{
-			//make sure A is not ground
-			//do collision detect and response
-			for(int j = 0; j<objnum;j++)
-			{
-				Shape* shapeB = _shapeShareObject->renderObjects.at(j);
-				//shapeB maybe ground, maybe common shape
-				if(shapeA->id != shapeB->id)
-				{
-					/************************************************************************/
-					/* a necessary condition is A is not B, because A can not hit its self                                                                     */
-					/************************************************************************/
-					/************************************************************************/
-					/* do collision detect and response, and free down movement     
-					 * in this area code, the logic will do collision detect with A and B
-					 * and do the response after collision */
-					/************************************************************************/
-					CollisionDectect(*shapeA,*shapeB);
-
-				}
-				else
-				{
-					continue;
-				}
-
-			}
-			/************************************************************************/
-			/* after collision detect and response
-			 * check the spring work
-			 * */
-			/************************************************************************/
-			SpringOperation(*shapeA);
-
-			/************************************************************************/
-			/* here only gravity can work                                                                     */
-			/************************************************************************/
-			//do free move
-			FreeMoveShape(*shapeA);
-			/************************************************************************/
-			/* graviry work end                                                                     */
-			/************************************************************************/
-
-		}
-		else
-		{
-			/************************************************************************/
-			/* if A is ground, jump over this circle                                                                     */
-			/************************************************************************/
-			continue;
-
-		}
-		
-	}
-}
-
-void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
-{
-
-
-	if(shapeB.type != 1)
-	{
-		//shapeA hit common shape
-		/***/
-		if(CollisionDetectShapeAndShape(shapeA,shapeB))
-		{
-			ResponseCollisionWithShape(shapeA,shapeB);
-		}
-		
-	}
-	else
-	{
-		//shapeB is ground
-		if(CollisionDetectShapeAndGround(shapeA))
-		{
-			ResponseCollisionWithGround(shapeA);
-		}
-	}
 
 
 
-}
 
 /************************************************************************/
 /* Spring operation                                                                     */
@@ -143,8 +36,6 @@ void PhysicsThread::SpringOperation(Shape&shape)
 	** here is a GXBase BUG, the mouse position is not correct
 	*/
 	
-
-
 	if(_shapeShareObject->left_hold)
 	{
 		/**
@@ -229,6 +120,7 @@ void PhysicsThread::SpringOperation(Shape&shape)
 			shape.acceleration.x = force_x/shape.mass;
 			shape.acceleration.y = (force_y + shape.mass*G_ACCERLATION)/shape.mass;
 
+			/**
 			if(force_y+shape.mass*G_ACCERLATION > 0)
 			{
 				cout<<"++"<<endl;
@@ -237,12 +129,12 @@ void PhysicsThread::SpringOperation(Shape&shape)
 			{
 				cout<<"--"<<endl;
 			}
+			*/
 
+			//clear force, because only acceleration is useful in the next section
 			shape.force.Clear();
 		}
 		
-		
-
 		//computing acceleration
 	}
 	else
@@ -426,6 +318,11 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 			shapeA.velocity.y = ay;
 			shapeB.velocity.y = by;			
 			shapeA.movement.y = overlap_y;
+			/************************************************************************/
+			/* if A high B, A velocity.x will be reduced by friction    HORIZONTAL_FROCTION_FACTOR                                                            */
+			/************************************************************************/
+			shapeA.velocity.x = shapeA.velocity.x * HORIZONTAL_FROCTION_FACTOR;
+			if(shapeA.velocity.x<OVERLAP_MIN) shapeA.velocity.x = 0;
 
 		}
 		else
@@ -514,6 +411,13 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 	shapeA.Move(shapeA.penmove);
 	//clear speed, because the speed is changed
 	shapeA.velocity.y = 0;//only clear velocity on Y axis
+
+	/************************************************************************/
+	/* if A Collision with ground, A velocity.x will be reduced by friction    HORIZONTAL_FROCTION_FACTOR                                                            */
+	/************************************************************************/
+	shapeA.velocity.x = shapeA.velocity.x * HORIZONTAL_FROCTION_FACTOR;
+	if(shapeA.velocity.x<OVERLAP_MIN) shapeA.velocity.x = 0;
+
 	//give it a opposite force
 	//shapeA.force.y += shapeA.mass * G_ACCERLATION * -1;
 	//get the dis between start position and the hit position
@@ -692,14 +596,117 @@ int PhysicsThread::run(){
 	return 0;
 }
 
-/************************************************************************/
-/* static functions                                                                     */
-/************************************************************************/
 
-float PhysicsThread::Dis(const YPoint& p1, const YPoint& p2){
-	float dx = p1.x - p2.x;
-	float dy = p1.y - p2.y;
-	float dz = p1.z - p2.z;
-	return sqrt(dx*dx+dy*dy+dz*dz);
-};
+void PhysicsThread::CalculatePyhsics()
+{
+	//A is host b is guest
+	int objnum = _shapeShareObject->renderObjects.size();
+	for(int i=0;i<objnum;i++)
+	{
+		Shape* shapeA = _shapeShareObject->renderObjects.at(i);
+		if (shapeA->type != 1)
+		{
+			//make sure A is not ground
+			//do collision detect and response
+			for(int j = 0; j<objnum;j++)
+			{
+				Shape* shapeB = _shapeShareObject->renderObjects.at(j);
+				//shapeB maybe ground, maybe common shape
+				if(shapeA->id != shapeB->id)
+				{
+					/************************************************************************/
+					/* a necessary condition is A is not B, because A can not hit its self                                                                     */
+					/************************************************************************/
+					/************************************************************************/
+					/* do collision detect and response, and free down movement     
+					 * in this area code, the logic will do collision detect with A and B
+					 * and do the response after collision 
+					 * in this step, only change velocity and small position 
+					 * */
+					/************************************************************************/
+					CollisionDectect(*shapeA,*shapeB);
+
+				}
+				else
+				{
+					continue;
+				}
+
+			}
+			/************************************************************************/
+			/* after collision detect and response
+			 * check the spring work
+			 * this step only change the acceleration 
+			 * */
+			/************************************************************************/
+			SpringOperation(*shapeA);
+			/************************************************************************/
+			/* here only gravity can work, use the acceleration                                                                  */
+			/************************************************************************/
+			FreeMoveShape(*shapeA);
+			/************************************************************************/
+			/* gravity work end                                                                     */
+			/************************************************************************/
+		}
+		else
+		{
+			/************************************************************************/
+			/* if A is ground, jump over this circle                                                                     */
+			/************************************************************************/
+			continue;
+
+		}
+		
+	}
+}
+
+void PhysicsThread::CollisionDectect(Shape& shapeA, Shape& shapeB)
+{
+
+
+	if(shapeB.type != 1)
+	{
+		//shapeA hit common shape
+		if(CollisionDetectShapeAndShape(shapeA,shapeB))
+		{
+			ResponseCollisionWithShape(shapeA,shapeB);
+		}
+
+	}
+	else
+	{
+		//shapeB is ground
+		if(CollisionDetectShapeAndGround(shapeA))
+		{
+			ResponseCollisionWithGround(shapeA);
+		}
+	}
+
+
+
+}
+
+/************************************************************************/
+/* calculate delta time                                                                     */
+/************************************************************************/
+void PhysicsThread::CalculateDeltaTime()
+{
+
+	//Ensure QueryPerformance is called on a specific core
+	SetThreadAffinityMask(thread, 0x1);
+	QueryPerformanceFrequency(&_ticksPerSecond);
+	QueryPerformanceCounter(&_currentCount);
+	SetThreadAffinityMask(thread, procMask);
+
+	_consumedCount.QuadPart = _currentCount.QuadPart - _lastCount.QuadPart;  
+	_lastCount = _currentCount;
+	//save last delta time
+	_old_delta_time = _delta_time;
+	_delta_time = float(_consumedCount.QuadPart/(_ticksPerSecond.QuadPart/1000));
+
+#ifdef DEBUG_DELTATIME
+	cout<<"ms = "<<_delta_time<<endl;
+#endif
+
+}
 
