@@ -18,9 +18,7 @@ public:
 	int id;
 
 	//////////////////////////////////////////////////////////////////////////
-	//width for x ,y; direction vector for 
-	//float xw,yw,dx,dy;==> store to axis
-	//float px,py;
+
 	YPoint old_movement;
 	YPoint movement;
 	

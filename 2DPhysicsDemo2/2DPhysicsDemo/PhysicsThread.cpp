@@ -5,11 +5,7 @@ PhysicsThread::PhysicsThread(void)
 {
 	_delta_time  = 0.0f;
 	_old_delta_time = 0.0f;
-	_isspringforcegenerated = false;
 
-
-	/*lockspring = false;*/
-	/*lockspringep_dx = lockspringep_dy = 0;*/
 	shapelocked = false;
 }
 

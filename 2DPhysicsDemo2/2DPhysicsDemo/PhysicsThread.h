@@ -1,14 +1,11 @@
 #pragma once
 #include "mythread.h"
 #include <iostream>
-/*#include <math.h>*/
 #include "ShapeShareObject.h"
-using namespace std;
 #include <Windows.h>
-#include "Force.h"
-#include <limits>
 
 using namespace std;
+
 
 const float SPRING_FACTOR = 5.0f;
 const YPoint ORIGIN_P_PHYSICS;
@@ -38,14 +35,8 @@ private:
 	float _old_delta_time;
 	//thread
 	HANDLE thread;
-	//Force
-	Force _springforce;
-	YPoint _springforceworkposition;
-	bool _isspringforcegenerated;
+	
 
-	//lock spring
-	/*bool lockspring;*/
-	/*float lockspringep_dx, lockspringep_dy;*/
 	bool shapelocked;
 
 	//functions

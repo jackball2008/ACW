@@ -8,7 +8,7 @@
 #include "NetSendThread.h"
 #include "ControllerThread.h"
 #include "PhysicsThread.h"
-//#include "RenderThread.h"
+
 
 //////////////////////////////////////////////////////////////////////////
 #include "Shape.h"
