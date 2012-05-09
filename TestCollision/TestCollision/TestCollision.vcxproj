@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="ClientThread.h" />
     <ClInclude Include="mymath.h" />
     <ClInclude Include="MyPhysics.h" />
     <ClInclude Include="MySquare.h" />
@@ -24,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="ClientThread.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mymath.cpp" />
     <ClCompile Include="MyPhysics.cpp" />

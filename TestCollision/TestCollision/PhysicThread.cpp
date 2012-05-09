@@ -1,6 +1,5 @@
 #include "PhysicThread.h"
-#include <iostream>
-using namespace std;
+
 float   fCrN     = COEFFICIENTOFRESTITUTION;				// the coefficient of restitution
 float	const	ctolN = COLLISIONTOLERANCE;			// the collision tolerance
 

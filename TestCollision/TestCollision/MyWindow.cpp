@@ -45,6 +45,7 @@ void  MyWindow::OnDisplay(){
 			glVertex2f(RID->vFourthpoint.x,RID->vFourthpoint.y);
 			glEnd();
 
+		
 	}
 	//for(vector<_RigidBody*>::iterator ite_vec_shape = _shapeobject->renderObjects.begin();
 	//	ite_vec_shape != _shapeobject->renderObjects.end();ite_vec_shape++
