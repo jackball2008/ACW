@@ -26,6 +26,11 @@ int main()
 
 	// Create listening socket
 	SOCKET s = socket(AF_INET, SOCK_STREAM, 0);
+	//////////////////////////////////////////////////////////////////////////
+
+	bool socketok = false;
+	char buffer;
+	SOCKET s1;//send socket
 	if (s==INVALID_SOCKET) {
 		cerr << "Create socket failed" << endl;
 	} else if (bind(s, (sockaddr *)&peer, sizeof(peer))==SOCKET_ERROR) {
@@ -33,10 +38,27 @@ int main()
 	} else if (listen(s, 5)==SOCKET_ERROR) {
 		cerr << "Listen failed with " << WSAGetLastError()  << endl;
 	} else {
-
+		socketok = true;
+		/**
 		// Create transfer socket
 		char buffer;
 		SOCKET s1 = accept(s, NULL, NULL);
+		if (s1==INVALID_SOCKET) {
+			cerr << "Accept failed with " << WSAGetLastError() << endl;
+		} else if (recv(s1, &buffer, 1, 0)==SOCKET_ERROR) {
+			cerr << "Receive failed with " << WSAGetLastError() << endl;
+		} else {
+			cout << "Message= " << buffer << endl;
+			if (send(s1, "2", 1, 0)==SOCKET_ERROR) {
+				cerr << "Send failed with " << WSAGetLastError() << endl;
+			}
+		}
+		*/
+	}
+
+	while(socketok)
+	{
+		s1 = accept(s, NULL, NULL);
 		if (s1==INVALID_SOCKET) {
 			cerr << "Accept failed with " << WSAGetLastError() << endl;
 		} else if (recv(s1, &buffer, 1, 0)==SOCKET_ERROR) {
