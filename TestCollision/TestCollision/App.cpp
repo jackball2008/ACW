@@ -70,7 +70,7 @@ void MyApp::Initializeposition(){
 	//----------- special-------------//
 	//_RigidBody *s;
 	// s=_shapeobject.renderObjects.at(0);
-	 /*s->vPosition.x=-0.99f;*/
-	 //s->vVelocity.x=2.1f;
-	 //s->vVelocity.y=2.1f;
+	// /*s->vPosition.x=-0.99f;*/
+	// s->vVelocity.x=2.1f;
+	// s->vVelocity.y=2.1f;
 }

@@ -4,6 +4,11 @@ using namespace std;
 
 MyWindow::MyWindow()
 {
+	ishold = false;
+	left_down = false;
+	last_left_down = false;
+
+	mouse_x = mouse_y = 0;
 	SetSize(600,600);
 }
 
@@ -23,6 +28,32 @@ void  MyWindow::OnDisplay(){
 	
 	
 	glClear(GL_COLOR_BUFFER_BIT);
+	/////////////////////////////////////
+	if(_shapeobject->left_hold)
+		glColor3f(1.0f,0.0f,0.0f);
+	else
+		glColor3f(0.0f,1.0f,0.0f);
+	glPointSize(3);
+	glBegin(GL_POINTS);
+	glVertex2f(mouse_x, mouse_y);
+	glEnd();
+
+
+	if(_shapeobject->left_hold){
+
+		//cout<<"s x = "<<_shapeShareObject->springLine->sp.x<<" s y = "<<_shapeShareObject->springLine->sp.y<<" e x = "<<_shapeShareObject->springLine->ep.x<<" e y = "<<_shapeShareObject->springLine->ep.y<<endl;
+		//draw springline
+		glColor3f(_shapeobject->springLine->r,_shapeobject->springLine->g,_shapeobject->springLine->b);
+		glPointSize(4);
+		glBegin(GL_LINES);
+		glVertex2f(_shapeobject->springLine->sp.x, _shapeobject->springLine->sp.y);
+		glVertex2f(_shapeobject->springLine->ep.x, _shapeobject->springLine->ep.y);
+
+		glEnd();
+	}
+
+
+
 	
 	int num =_shapeobject->renderObjects.size();
 	for (int i=0;i<num;i++)
@@ -100,4 +131,72 @@ void	MyWindow::OnIdle(){
 
 void MyWindow::SetShapeObject(ShareMem *s){
 	_shapeobject=s;
+}
+
+void  MyWindow::OnMouseMove(int x, int y){
+	if (_shapeobject->Acquire())
+	{
+		__try{
+			if(Width()){
+				mouse_x = 2.0f*(float)x/(float)Width()-1.0f;
+				_shapeobject->springLine->sp.x=mouse_x;
+			}
+			if(Height()){
+
+				mouse_y =2.0f*(float)y/(float)Height()-1.0f;
+				_shapeobject->springLine->sp.y=mouse_y;
+			}
+			Redraw();
+		}__finally{
+			_shapeobject->Release();
+		}
+	}
+
+}
+
+void MyWindow::OnMouseButton(MouseButton button, bool down){
+
+	
+	//if(down) return;
+	if(_shapeobject->Acquire()){
+		__try{
+			switch(button){
+			case MBLeft:
+				if(down)
+				{
+					if(last_left_down != down && last_left_down == false)
+					{
+						last_left_down = down;
+						//cout<<"press down"<<endl;
+						_shapeobject->left_hold = false;
+					}
+					if(last_left_down == down)//true
+					{
+						//cout<<"holding..."<<endl;
+						_shapeobject->left_hold = true;
+					}
+					//_shapeShareObject->springLine->isvisiable = true;
+				}
+				else
+				{
+					if(last_left_down != down && last_left_down == true)
+					{
+						last_left_down = down;
+						//cout<<"press up"<<endl;
+					_shapeobject->left_hold = false;
+					}
+					//_shapeShareObject->springLine->isvisiable = false;
+
+				}
+				break;
+
+			}
+
+			Redraw();
+
+		}__finally{
+			_shapeobject->Release();
+		}
+	}
+
 }

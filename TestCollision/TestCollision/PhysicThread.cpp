@@ -198,6 +198,8 @@ void PhysicThread::StepSimulation(){
 			}
 			}
 		}
+
+		SpringOperation(*Rigidsquare1);
 	}
 
 	for (int a=0; a<objnum;a++)
@@ -238,9 +240,89 @@ void PhysicThread::SpringOperation(_RigidBody &body){
 	if(_shareobject->left_hold){
 		if(!body.springlocked&&DetectPointInShape(body,_shareobject->springLine->sp.x,_shareobject->springLine->sp.y)&&!shapelocked){
 
+			body.springlocked = true;
+			shapelocked = true;
+
+			body.lockspringep_dx= _shareobject->springLine->sp.x-body.vPosition.x;
+			body.lockspringep_dy= _shareobject->springLine->sp.y-body.vPosition.y;
+
+		}
+		if (body.springlocked&&shapelocked)
+		{
+			_shareobject->springLine->ep.x=body.vPosition.x+body.lockspringep_dx;
+			_shareobject->springLine->ep.y=body.vPosition.y+body.lockspringep_dy;
+		}
+		else{
+			body.lockspringep_dx = 0;
+			body.lockspringep_dy= 0;
 		}
 
 	}
+	else{
+		shapelocked = false;
+		body.springlocked =false;
+		body.lockspringep_dx=0;
+		body.lockspringep_dy=0;
+
+		_shareobject->springLine->ep.x = _shareobject->springLine->sp.x;
+		_shareobject->springLine->ep.y = _shareobject->springLine->sp.y;
+
+
+	}
+
+	if (body.springlocked)
+	{
+		body.g= 0.0f;
+	}
+	else{
+		body.g = 1.0f;
+	}
+
+	if (body.springlocked)
+	{
+		float springlength = _shareobject->springLine->Length();
+		if (springlength>0.1)
+		{
+			float force_all = springlength*SPRING_FACTOR;
+
+			float dx = _shareobject->springLine->sp.x - _shareobject->springLine->ep.x;
+			float dy = _shareobject->springLine->sp.y - _shareobject->springLine->ep.y;
+			float len = sqrt(dx*dx+dy*dy);
+			dx = dx/len;
+			dy = dy/len;
+
+			float force_y = force_all*dy;
+			float force_x = force_all*dx;
+
+			body.vForces.x=force_x;
+			body.vForces.y=force_y;
+
+			Vector Aa,k2;
+			Aa=body.vForces/body.fMass;
+			float dT;
+			dT=0.1f;
+
+			k2=Aa*dT;
+
+			body.vVelocity+=k2;
+			body.vPosition+=body.vVelocity*dT;
+			body.vFirstpoint.x= body.vPosition.x-0.02f;
+			body.vFirstpoint.y= body.vPosition.y+0.02f;
+
+			body.vSecondpoint.x= body.vPosition.x+0.02f;
+			body.vSecondpoint.y= body.vPosition.y+0.02f;
+
+			body.vThirdpoint.x= body.vPosition.x+0.02f;
+			body.vThirdpoint.y= body.vPosition.y-0.02f;
+
+			body.vFourthpoint.x= body.vPosition.x-0.02f;
+			body.vFourthpoint.y= body.vPosition.y-0.02f;
+
+			body.vForces.Clear();
+		}
+
+	}
+
 }
 
 bool PhysicThread::DetectPointInShape(const _RigidBody &body,const float&x,const float&y){
