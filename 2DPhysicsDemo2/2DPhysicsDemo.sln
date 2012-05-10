@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2DPhysicsDemo", "2DPhysicsDemo\2DPhysicsDemo.vcxproj", "{3D544E5F-3EF8-4AA6-86E9-5A39CDBC6C90}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TCPServer", "TCPServer\TCPServer.vcxproj", "{7BE84A14-DA1C-475C-8998-472C0DCA79FD}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TCPClient", "TCPClient\TCPClient.vcxproj", "{2F55195C-D6E5-4295-9CC4-01DCE57A16D2}"
 EndProject
 Global
@@ -17,10 +15,6 @@ Global
 		{3D544E5F-3EF8-4AA6-86E9-5A39CDBC6C90}.Debug|Win32.Build.0 = Debug|Win32
 		{3D544E5F-3EF8-4AA6-86E9-5A39CDBC6C90}.Release|Win32.ActiveCfg = Release|Win32
 		{3D544E5F-3EF8-4AA6-86E9-5A39CDBC6C90}.Release|Win32.Build.0 = Release|Win32
-		{7BE84A14-DA1C-475C-8998-472C0DCA79FD}.Debug|Win32.ActiveCfg = Debug|Win32
-		{7BE84A14-DA1C-475C-8998-472C0DCA79FD}.Debug|Win32.Build.0 = Debug|Win32
-		{7BE84A14-DA1C-475C-8998-472C0DCA79FD}.Release|Win32.ActiveCfg = Release|Win32
-		{7BE84A14-DA1C-475C-8998-472C0DCA79FD}.Release|Win32.Build.0 = Release|Win32
 		{2F55195C-D6E5-4295-9CC4-01DCE57A16D2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2F55195C-D6E5-4295-9CC4-01DCE57A16D2}.Debug|Win32.Build.0 = Debug|Win32
 		{2F55195C-D6E5-4295-9CC4-01DCE57A16D2}.Release|Win32.ActiveCfg = Release|Win32
