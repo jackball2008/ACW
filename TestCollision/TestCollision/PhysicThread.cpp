@@ -7,6 +7,8 @@ int			CountDoN;
 float		ImpulseN;
 PhysicThread::PhysicThread(void)
 {
+
+	shapelocked = false;
 }
 
 
@@ -229,4 +231,32 @@ void PhysicThread::SetPosition(_RigidBody *body){
 	}
 	}*/
 
+}
+
+void PhysicThread::SpringOperation(_RigidBody &body){
+
+	if(_shareobject->left_hold){
+		if(!body.springlocked&&DetectPointInShape(body,_shareobject->springLine->sp.x,_shareobject->springLine->sp.y)&&!shapelocked){
+
+		}
+
+	}
+}
+
+bool PhysicThread::DetectPointInShape(const _RigidBody &body,const float&x,const float&y){
+
+	float Max_x,Max_y,Min_x,Min_y;
+	Max_x=CompareValueMax(CompareValueMax(body.vFirstpoint.x,body.vSecondpoint.x),CompareValueMax(body.vThirdpoint.x,body.vFourthpoint.x));
+	Max_y=CompareValueMax(CompareValueMax(body.vFirstpoint.y,body.vSecondpoint.y),CompareValueMax(body.vThirdpoint.y,body.vFourthpoint.y));
+
+	Min_x=CompareValueMin(CompareValueMax(body.vFirstpoint.x,body.vSecondpoint.x),CompareValueMin(body.vThirdpoint.x,body.vFourthpoint.x));
+	Min_y=CompareValueMin(CompareValueMax(body.vFirstpoint.y,body.vSecondpoint.y),CompareValueMin(body.vThirdpoint.y,body.vFourthpoint.y));
+	
+	if ((x<Max_x)&&(y<Max_y)&&(x>Min_x)&&(y>Min_y))
+	{
+		return true;
+	}
+	else{
+		return false;
+	}
 }

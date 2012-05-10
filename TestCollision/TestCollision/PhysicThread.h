@@ -5,6 +5,8 @@
 #include <Windows.h>
 using std::iostream;
 
+
+const float SPRING_FACTOR = 5.0f;
 class PhysicThread :
 	public MyThread
 {
@@ -42,5 +44,13 @@ private:
 	HANDLE thread;
 
 	_RigidBody * Rigidsquare;
+
+	//////////////////////
+	void SpringOperation(_RigidBody &body);
+	bool DetectPointInShape(const _RigidBody &body,const float&x,const float&y);
+	bool shapelocked;
+	///////////////////
+
+
 };
 
