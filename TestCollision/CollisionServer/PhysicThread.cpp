@@ -1,6 +1,5 @@
 #include "PhysicThread.h"
-#include <iostream>
-using namespace std;
+
 float   fCrN     = COEFFICIENTOFRESTITUTION;				// the coefficient of restitution
 float	const	ctolN = COLLISIONTOLERANCE;			// the collision tolerance
 
@@ -8,6 +7,8 @@ int			CountDoN;
 float		ImpulseN;
 PhysicThread::PhysicThread(void)
 {
+
+	shapelocked = false;
 }
 
 
@@ -197,6 +198,8 @@ void PhysicThread::StepSimulation(){
 			}
 			}
 		}
+
+		SpringOperation(*Rigidsquare1);
 	}
 
 	for (int a=0; a<objnum;a++)
@@ -230,4 +233,112 @@ void PhysicThread::SetPosition(_RigidBody *body){
 	}
 	}*/
 
+}
+
+void PhysicThread::SpringOperation(_RigidBody &body){
+
+	if(_shareobject->left_hold){
+		if(!body.springlocked&&DetectPointInShape(body,_shareobject->springLine->sp.x,_shareobject->springLine->sp.y)&&!shapelocked){
+
+			body.springlocked = true;
+			shapelocked = true;
+
+			body.lockspringep_dx= _shareobject->springLine->sp.x-body.vPosition.x;
+			body.lockspringep_dy= _shareobject->springLine->sp.y-body.vPosition.y;
+
+		}
+		if (body.springlocked&&shapelocked)
+		{
+			_shareobject->springLine->ep.x=body.vPosition.x+body.lockspringep_dx;
+			_shareobject->springLine->ep.y=body.vPosition.y+body.lockspringep_dy;
+		}
+		else{
+			body.lockspringep_dx = 0;
+			body.lockspringep_dy= 0;
+		}
+
+	}
+	else{
+		shapelocked = false;
+		body.springlocked =false;
+		body.lockspringep_dx=0;
+		body.lockspringep_dy=0;
+
+		_shareobject->springLine->ep.x = _shareobject->springLine->sp.x;
+		_shareobject->springLine->ep.y = _shareobject->springLine->sp.y;
+
+
+	}
+
+	if (body.springlocked)
+	{
+		body.g= 0.0f;
+	}
+	else{
+		body.g = 1.0f;
+	}
+
+	if (body.springlocked)
+	{
+		float springlength = _shareobject->springLine->Length();
+		if (springlength>0.05)
+		{
+			float force_all = springlength*SPRING_FACTOR;
+
+			float dx = _shareobject->springLine->sp.x - _shareobject->springLine->ep.x;
+			float dy = _shareobject->springLine->sp.y - _shareobject->springLine->ep.y;
+			float len = sqrt(dx*dx+dy*dy);
+			dx = dx/len;
+			dy = dy/len;
+
+			float force_y = force_all*dy;
+			float force_x = force_all*dx;
+
+			body.vForces.x=force_x;
+			body.vForces.y=force_y;
+
+			Vector Aa,k2;
+			Aa=body.vForces/body.fMass;
+			float dT;
+			dT=0.01f;
+
+			k2=Aa*dT;
+
+			body.vVelocity+=k2;
+			body.vPosition+=body.vVelocity*dT;
+			body.vFirstpoint.x= body.vPosition.x-0.02f;
+			body.vFirstpoint.y= body.vPosition.y+0.02f;
+
+			body.vSecondpoint.x= body.vPosition.x+0.02f;
+			body.vSecondpoint.y= body.vPosition.y+0.02f;
+
+			body.vThirdpoint.x= body.vPosition.x+0.02f;
+			body.vThirdpoint.y= body.vPosition.y-0.02f;
+
+			body.vFourthpoint.x= body.vPosition.x-0.02f;
+			body.vFourthpoint.y= body.vPosition.y-0.02f;
+
+			body.vForces.Clear();
+		}
+
+	}
+
+}
+
+bool PhysicThread::DetectPointInShape(const _RigidBody &body,const float&x,const float&y){
+
+	float Max_x,Max_y,Min_x,Min_y;
+	Max_x=CompareValueMax(CompareValueMax(body.vFirstpoint.x,body.vSecondpoint.x),CompareValueMax(body.vThirdpoint.x,body.vFourthpoint.x));
+	Max_y=CompareValueMax(CompareValueMax(body.vFirstpoint.y,body.vSecondpoint.y),CompareValueMax(body.vThirdpoint.y,body.vFourthpoint.y));
+
+	Min_x=CompareValueMin(CompareValueMax(body.vFirstpoint.x,body.vSecondpoint.x),CompareValueMin(body.vThirdpoint.x,body.vFourthpoint.x));
+	Min_y=CompareValueMin(CompareValueMax(body.vFirstpoint.y,body.vSecondpoint.y),CompareValueMin(body.vThirdpoint.y,body.vFourthpoint.y));
+	
+	if ((x<Max_x)&&(y<Max_y)&&(x>Min_x)&&(y>Min_y))
+	{
+		return true;
+	}
+	else{
+		return false;
+	}
 }

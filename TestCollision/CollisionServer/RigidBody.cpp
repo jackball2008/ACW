@@ -45,8 +45,16 @@ _RigidBody::_RigidBody(){
 	// Set width and length
 	fLength = 0.04f;
 	fWidth = 0.04f;
+////////////////////////////////////
+	r=1.0f;
+	g=0.0f;
+	b=1.0f;
+	isvisiable = true;
+	id = 0;
 
-
+	springlocked = false;
+	lockspringep_dx = lockspringep_dy = 0;
+///////////////////////////////////////
 }
 void _RigidBody::SetData(const Vector &p0,const Vector &p1,const Vector &p2,const Vector &p3,const Vector &p4){
 

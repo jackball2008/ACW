@@ -42,6 +42,7 @@ public:
 	float Magnitude(void);
 	void Normalize(void);
 	void Reverse(void);
+	void Clear();
 
 	Vector& operator +=(Vector u);  //vector addition
 	Vector& operator -=(Vector u);  //vector subtraction
@@ -89,7 +90,12 @@ inline float CompareValueMin(float a,float b){
 	}
 }
 
-
+inline void Vector:: Clear()
+{
+	x = 0.0f;
+	y = 0.0f;
+	z = 0.0f;
+}
 
 
 inline Vector::Vector(void){

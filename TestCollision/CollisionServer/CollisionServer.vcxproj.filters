@@ -48,6 +48,9 @@
     <ClCompile Include="..\TestCollision\ShareMem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ClientThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\TestCollision\App.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\TestCollision\ShareMem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

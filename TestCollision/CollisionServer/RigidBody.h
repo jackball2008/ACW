@@ -57,6 +57,17 @@ public:
 
 	void SetData(const Vector &p0,const Vector &p1,const Vector &p2,const Vector &p3,const Vector &p4);
 	void SetData(const Vector &p0,const Vector &p1,const Vector &p2,const Vector &p3);
+//////////////////////////////////////////////////
+
+	//spring lock
+	bool springlocked;
+	float lockspringep_dx,lockspringep_dy;
+	//color
+	float r,g,b;
+	int type;
+	bool isvisiable;
+	int id;
+////////////////////////////////////////////////////
 };
 
 #define	ANGULARDRAGCOEFFICIENT	100.25f
