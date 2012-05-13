@@ -2,11 +2,25 @@
 #include <stdlib.h>
 #include <iostream>
 #include <winsock2.h>
+#include <sstream>
 using namespace std;
 
 
 int main()
 {
+	//test code
+	string head = "x ";
+
+	float val = 3.14f;
+	stringstream ss(stringstream::in|stringstream::out);
+	ss<<val;
+	string test = ss.str();
+	head.append(test);
+	cout<<test<<endl;
+	char *testc = (char*)head.c_str();
+
+
+
 	cout<<"ok"<<endl;
 	// Create version identifier
 	WORD wVersionRequested = MAKEWORD( 2, 0 );
@@ -25,6 +39,8 @@ int main()
 	peer.sin_addr.S_un.S_addr = inet_addr( "127.0.0.1" );
 
 	// Create transfer socket
+	char *sendbuf = "12345";
+	
 	char buffer;
 	SOCKET s = socket(AF_INET, SOCK_STREAM, 0);
 	if (s==INVALID_SOCKET) {
@@ -33,7 +49,7 @@ int main()
 		cerr << "Connect to peer failed with " << WSAGetLastError() << endl;
 	} 
 	//send data
-	else if (send(s, "99", 1, 0)==SOCKET_ERROR) {
+	else if (send(s, testc, (int)strlen(testc), 0)==SOCKET_ERROR) {
 		cerr << "Send failed with " << WSAGetLastError() << endl;
 	}
 	//receive data
