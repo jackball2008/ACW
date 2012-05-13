@@ -2,6 +2,7 @@
 #include <iostream>
 using namespace std;
 
+
 MyWindow::MyWindow()
 {
 	ishold = false;
@@ -39,6 +40,7 @@ void  MyWindow::OnDisplay(){
 	glEnd();
 
 
+
 	if(_shapeobject->left_hold){
 
 		//cout<<"s x = "<<_shapeShareObject->springLine->sp.x<<" s y = "<<_shapeShareObject->springLine->sp.y<<" e x = "<<_shapeShareObject->springLine->ep.x<<" e y = "<<_shapeShareObject->springLine->ep.y<<endl;
@@ -68,14 +70,14 @@ void  MyWindow::OnDisplay(){
 		
 				/*RID = _shapeobject->renderObjects.at(i);*/
 		
-			glColor3f(1.0f,0.0f,0.0f);
+			glColor3f(RID->r,RID->g,RID->b);
 		    glBegin(GL_LINE_LOOP);
 			glVertex2f(RID->vFirstpoint.x,RID->vFirstpoint.y);
 			glVertex2f(RID->vSecondpoint.x,RID->vSecondpoint.y);
 			glVertex2f(RID->vThirdpoint.x,RID->vThirdpoint.y);
 			glVertex2f(RID->vFourthpoint.x,RID->vFourthpoint.y);
 			glEnd();
-
+			
 		
 	}
 	//for(vector<_RigidBody*>::iterator ite_vec_shape = _shapeobject->renderObjects.begin();

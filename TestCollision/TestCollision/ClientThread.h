@@ -1,6 +1,8 @@
 #pragma once
 #include "MyThread.h"
 #include "ShareMem.h"
+#include <iostream>
+using namespace std;
 class ClientThread :
 	public MyThread
 {
@@ -11,5 +13,6 @@ public:
 	int run();
 	ShareMem *_shareobjectC;
 	HANDLE threadC;
+	void clientsocket();
 };
 

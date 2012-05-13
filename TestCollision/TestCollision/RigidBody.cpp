@@ -47,8 +47,8 @@ _RigidBody::_RigidBody(){
 	fWidth = 0.04f;
 ////////////////////////////////////
 	r=1.0f;
-	g=1.0f;
-	b=0.0f;
+	g=0.0f;
+	b=1.0f;
 	isvisiable = true;
 	id = 0;
 

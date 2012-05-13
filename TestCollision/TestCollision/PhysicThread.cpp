@@ -281,7 +281,7 @@ void PhysicThread::SpringOperation(_RigidBody &body){
 	if (body.springlocked)
 	{
 		float springlength = _shareobject->springLine->Length();
-		if (springlength>0.1)
+		if (springlength>0.05)
 		{
 			float force_all = springlength*SPRING_FACTOR;
 
@@ -300,7 +300,7 @@ void PhysicThread::SpringOperation(_RigidBody &body){
 			Vector Aa,k2;
 			Aa=body.vForces/body.fMass;
 			float dT;
-			dT=0.1f;
+			dT=0.01f;
 
 			k2=Aa*dT;
 
