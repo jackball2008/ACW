@@ -1,6 +1,7 @@
 #pragma once
-#include "GXBase.h"
-using namespace gxbase;
+// #include "GXBase.h"
+// using namespace gxbase;
+#include <Windows.h>
 #include <process.h>
 
 class MyThread

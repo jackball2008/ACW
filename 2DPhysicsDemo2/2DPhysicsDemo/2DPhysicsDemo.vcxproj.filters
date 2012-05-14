@@ -72,9 +72,6 @@
     <ClInclude Include="SpringLine.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Force.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Mmath.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>

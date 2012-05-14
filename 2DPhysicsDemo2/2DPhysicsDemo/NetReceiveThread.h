@@ -1,8 +1,4 @@
 #pragma once
-//#define _WINSOCKAPI_
-//#pragma comment(lib, "ws2_32.lib")
-
-//#include <winsock2.h>
 
 #include "mythread.h"
 //#include "SocketProcesser.h"
