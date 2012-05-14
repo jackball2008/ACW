@@ -45,9 +45,6 @@
     <ClInclude Include="NetReceiveThread.h">
       <Filter>Header Files\Threads</Filter>
     </ClInclude>
-    <ClInclude Include="NetSendThread.h">
-      <Filter>Header Files\Threads</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicsThread.h">
       <Filter>Header Files\Threads</Filter>
     </ClInclude>
@@ -102,9 +99,6 @@
       <Filter>Source Files\Threads</Filter>
     </ClCompile>
     <ClCompile Include="NetReceiveThread.cpp">
-      <Filter>Source Files\Threads</Filter>
-    </ClCompile>
-    <ClCompile Include="NetSendThread.cpp">
       <Filter>Source Files\Threads</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsThread.cpp">

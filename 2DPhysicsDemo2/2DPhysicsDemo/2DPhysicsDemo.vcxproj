@@ -86,7 +86,6 @@
     <ClInclude Include="MyThread.h" />
     <ClInclude Include="MyWindow.h" />
     <ClInclude Include="NetReceiveThread.h" />
-    <ClInclude Include="NetSendThread.h" />
     <ClInclude Include="PhysicsApp.h" />
     <ClInclude Include="PhysicsThread.h" />
     <ClInclude Include="Point.h" />
@@ -102,7 +101,6 @@
     <ClCompile Include="MyThread.cpp" />
     <ClCompile Include="MyWindow.cpp" />
     <ClCompile Include="NetReceiveThread.cpp" />
-    <ClCompile Include="NetSendThread.cpp" />
     <ClCompile Include="PhysicsApp.cpp" />
     <ClCompile Include="PhysicsThread.cpp" />
     <ClCompile Include="Shape.cpp" />

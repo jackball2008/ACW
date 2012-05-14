@@ -5,8 +5,8 @@
 
 //////////////////////////////////////////////////////////////////////////
 #include "NetReceiveThread.h"
-#include "NetSendThread.h"
-#include "ControllerThread.h"
+//#include "NetSendThread.h"
+//#include "ControllerThread.h"
 #include "PhysicsThread.h"
 
 
@@ -33,8 +33,8 @@ private:
 	MyWindow _mywindow;
 
 	//real work thread
-	NetReceiveThread* _netReceiveThread;
-	NetSendThread* _netSendThread;
+	NetReceiveThread* _netWorkThread;
+	//NetSendThread* _netSendThread;
 	PhysicsThread* _physicsThread;
 	
 

@@ -9,8 +9,8 @@ PhysicsApp::PhysicsApp(void)
 	/************************************************************************/
 	/* create working threads                                                                     */
 	/************************************************************************/
-	_netReceiveThread = new NetReceiveThread();
-	_netSendThread = new NetSendThread();
+	_netWorkThread = new NetReceiveThread();
+	//_netSendThread = new NetSendThread();
 	_physicsThread = new PhysicsThread();
 }
 
@@ -21,8 +21,8 @@ PhysicsApp::~PhysicsApp(void)
 	/************************************************************************/
 	/* delete all working threads except window thread                                                                     */
 	/************************************************************************/
-	delete _netReceiveThread;
-	delete _netSendThread;
+	delete _netWorkThread;
+	//delete _netSendThread;
 	delete _physicsThread;
 }
 
@@ -54,6 +54,10 @@ void PhysicsApp::OnCreate(){
 
 	
 	_physicsThread->start();
+
+	//////////////////////////////////////////////////////////////////////////
+	_netWorkThread->SetShapeShareObject(&_shapeShareObject);
+	_netWorkThread->start();
 	
 
 
@@ -65,11 +69,11 @@ void PhysicsApp::OnDestroy(){
 	/************************************************************************/
 	/* terminate all working threads                                                                     */
 	/************************************************************************/
-	_netReceiveThread->terminate();
-	_netReceiveThread->waitForTermination();
+	_netWorkThread->terminate();
+	_netWorkThread->waitForTermination();
 
-	_netSendThread->terminate();
-	_netSendThread->waitForTermination();
+// 	_netSendThread->terminate();
+// 	_netSendThread->waitForTermination();
 
 
 

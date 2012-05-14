@@ -12,6 +12,8 @@ Shape::Shape(void)
 
 	springlocked = false;
 	lockspringep_dx = lockspringep_dy = 0;
+
+	issent = false;
 	
 }
 

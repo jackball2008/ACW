@@ -7,6 +7,9 @@ class Shape
 {
 
 public:
+	//send mark
+	bool issent;
+
 	//spring lock
 	bool springlocked;
 	float lockspringep_dx,lockspringep_dy;
