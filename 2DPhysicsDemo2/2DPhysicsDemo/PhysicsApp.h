@@ -1,5 +1,9 @@
 #pragma once
+
+#include "SocketProcesser.h"
+
 #include <GXBase.h>
+
 #include <iostream>
 #include "MyWindow.h"
 
@@ -20,6 +24,7 @@
 /************************************************************************/
 /* share objects                                                                     */
 /************************************************************************/
+
 #include "ShapeShareObject.h"
 
 

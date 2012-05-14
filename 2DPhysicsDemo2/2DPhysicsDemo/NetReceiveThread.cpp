@@ -1,9 +1,12 @@
+
 #include "NetReceiveThread.h"
 
 
 NetReceiveThread::NetReceiveThread(void)
 {
 	_sendshapeid = -99;
+
+	
 }
 
 
@@ -68,19 +71,23 @@ void NetReceiveThread::CheckShapePos()
 				string vy_head = " w ";
 				string end = " e";
 
-				stringstream ss(stringstream::in|stringstream::out);
+				stringstream ss0(stringstream::in|stringstream::out);
 
-				ss<<shapeA->pos.x;
-				string x_str = ss.str();
+				ss0<<shapeA->pos.x;
+				string x_str = ss0.str();
+				
+				
+				stringstream ss1(stringstream::in|stringstream::out);
+				ss1<<shapeA->pos.y;
+				string y_str = ss1.str();
 
-				ss<<shapeA->pos.y;
-				string y_str = ss.str();
+				stringstream ss2(stringstream::in|stringstream::out);
+				ss2<<shapeA->velocity.x;
+				string vx_str = ss2.str();
 
-				ss<<shapeA->velocity.x;
-				string vx_str = ss.str();
-
-				ss<<shapeA->velocity.y;
-				string vy_str = ss.str();
+				stringstream ss3(stringstream::in|stringstream::out);
+				ss3<<shapeA->velocity.y;
+				string vy_str = ss3.str();
 
 
 				big_head.append(x_head);
@@ -99,6 +106,11 @@ void NetReceiveThread::CheckShapePos()
 				big_head.append(end);
 
 				cout<<big_head<<endl;
+				//big_head is the data
+
+
+
+
 
 
 
