@@ -1,7 +1,8 @@
 #pragma once
-
+#include <winsock2.h>
+#pragma comment(lib, "Ws2_32.lib")
 #include "mythread.h"
-//#include "SocketProcesser.h"
+
 #include <iostream>
 #include <sstream>
 #include "ShapeShareObject.h"
