@@ -1,9 +1,5 @@
 #pragma once
-
-//#include "SocketProcesser.h"
-
-
-
+// put these file first because winsocket2.h must before window.h
 //////////////////////////////////////////////////////////////////////////
 #include "NetReceiveThread.h"
 #include "PhysicsThread.h"
