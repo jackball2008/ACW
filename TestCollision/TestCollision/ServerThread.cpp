@@ -15,7 +15,7 @@ int ServerThread::run(){
 	threadS = GetCurrentThread();
 	while(!_terminate){
 
-		Sleep(10);
+		Sleep(5);
 		serversocket();
 	}
 	return 0;
@@ -33,6 +33,19 @@ void ServerThread::serversocket(){
 		Serversend.vpy=_Rid->vPosition.y;
 		Serversend.vvx=_Rid->vVelocity.x;
 		Serversend.vvy=_Rid->vVelocity.y;
+		Serversend.id =i;
+
+		Serversend.fx=_Rid->vFirstpoint.x;
+		Serversend.fy=_Rid->vFirstpoint.y;
+
+		Serversend.sx=_Rid->vSecondpoint.x;
+		Serversend.sy=_Rid->vSecondpoint.y;
+
+		Serversend.tx= _Rid->vThirdpoint.x;
+		Serversend.ty=_Rid->vThirdpoint.y;
+
+		Serversend.frx=_Rid->vFourthpoint.x;
+		Serversend.fry=_Rid->vFourthpoint.y;
 
 
 		WORD wVersionRequested = MAKEWORD( 2, 0 );
@@ -74,11 +87,23 @@ void ServerThread::serversocket(){
 		}
 
 		// Delay
-		_Rid->vPosition.x=Serverec.vpx;
-		_Rid->vPosition.y=Serverec.vpy;
-		_Rid->vVelocity.x=Serverec.vvx;
-		_Rid->vVelocity.y=Serverec.vvy;
+		_Cid=_shareobjectS->renderObjects.at(Serverec.id);
+		_Cid->vPosition.x=Serverec.vpx;
+		_Cid->vPosition.y=Serverec.vpy;
+		_Cid->vVelocity.x=Serverec.vvx;
+		_Cid->vVelocity.y=Serverec.vvy;
 
+		_Cid->vFirstpoint.x=Serverec.fx;
+		_Cid->vFirstpoint.y=Serverec.fy;
+
+		_Cid->vSecondpoint.x=Serverec.sx;
+		_Cid->vSecondpoint.y=Serverec.sy;
+
+		_Cid->vThirdpoint.x=Serverec.tx;
+		_Cid->vThirdpoint.y=Serverec.ty;
+
+		_Cid->vFourthpoint.x=Serverec.frx;
+		_Cid->vFourthpoint.y=Serverec.fry;
 		// Cleanup windows sockets
 		WSACleanup();
 		
