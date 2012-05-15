@@ -44,7 +44,7 @@ _RigidBody::_RigidBody(){
 	fOrientation = 0.0;
 	// Set width and length
 	fLength = 0.04f;
-	fWidth = 0.04f;
+	fWidth = 0.02f;
 ////////////////////////////////////
 	r=1.0f;
 	g=0.0f;

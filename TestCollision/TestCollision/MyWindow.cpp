@@ -39,7 +39,11 @@ void  MyWindow::OnDisplay(){
 	glVertex2f(mouse_x, mouse_y);
 	glEnd();
 
-
+	glColor3f(1.0f,0.0f,0.0f);
+	glBegin(GL_LINES);
+	glVertex2f(-1.0f,-0.92f);
+	glVertex2f(1.0f,-0.92f);
+	glEnd();
 
 	if(_shapeobject->left_hold){
 

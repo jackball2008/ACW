@@ -152,16 +152,62 @@ int PhysicThread::CheckforCollision(_RigidBody *body1, _RigidBody *body2){
 }
 
 void PhysicThread::Updateposition(_RigidBody *body, float dtime){
-
 	Vector Ae,k1;
 	float dt = dtime;
 	// linear velocity
-	Ae = body->vForces/body->fMass;
-	k1 = Ae*dt;
+	if(DetectCollisionG(body)==0){
+		Ae=body->vGravity/body->fMass;
+		k1 = Ae*dt;
 
-	body->vVelocity += k1;
+		body->vVelocity += k1;
 
-	body->vPosition += body->vVelocity*dt;
+		body->vPosition += body->vVelocity*dt;
+			
+	}else if(DetectCollisionG(body)==1)
+	{
+
+		body->vVelocity.y=0;
+		body->vPosition += body->vVelocity*dt;
+	}
+	else if(DetectCollisionG(body)==2){
+		Ae=(-3)*(body->vGravity)/body->fMass;
+		k1 = Ae*dt;
+
+		body->vVelocity += k1;
+
+		body->vPosition += body->vVelocity*dt;
+	}
+	else if(DetectCollisionG(body)==3){
+		Ae=(-0.5)*(body->vGravity)/body->fMass;
+		k1 = Ae*dt;
+
+		body->vVelocity += k1;
+
+		body->vPosition += body->vVelocity*dt;
+	}
+	else if(DetectCollisionG(body)==4){
+		Ae=(-0.25)*(body->vGravity)/body->fMass;
+		k1 = Ae*dt;
+
+		body->vVelocity += k1;
+
+		body->vPosition += body->vVelocity*dt;
+	}
+	else if(DetectCollisionG(body)==5){
+		Ae=(-0.025)*(body->vGravity)/body->fMass;
+		k1 = Ae*dt;
+
+		body->vVelocity += k1;
+
+		body->vPosition += body->vVelocity*dt;
+	}
+	else if(DetectCollisionG(body)==6)
+	{
+
+		body->vVelocity.y=0;
+		body->vPosition += body->vVelocity*dt;
+	}
+
 
 	body->vFirstpoint.x= body->vPosition.x-0.02f;
 	body->vFirstpoint.y= body->vPosition.y+0.02f;
@@ -340,5 +386,32 @@ bool PhysicThread::DetectPointInShape(const _RigidBody &body,const float&x,const
 	}
 	else{
 		return false;
+	}
+}
+
+int PhysicThread::DetectCollisionG( _RigidBody *body){
+	float min_y;
+	min_y=CompareValueMin(CompareValueMax(body->vFirstpoint.y,body->vSecondpoint.y),CompareValueMin(body->vThirdpoint.y,body->vFourthpoint.y));
+
+	if(min_y==-0.92f){
+		return 1;
+	}
+	else if(min_y<-0.96f){
+		return 2;
+	}
+	else if(min_y<=-0.94f&&min_y>=-0.96f){
+		return 3;
+	}
+	else if(min_y<=-0.93f&&min_y>=-0.94f){
+		return 4;
+	}
+	else if(min_y<-0.9201f&&min_y>-0.93f){
+		return 5;
+	}
+	else if(min_y<-0.92f&&min_y>-0.9201f){
+		return 6;
+	}
+	else{
+		return 0;
 	}
 }

@@ -29,6 +29,8 @@ public:
 private:
 		
 	
+	int DetectCollisionG( _RigidBody *body);
+
 	int CheckforCollision(_RigidBody *body1, _RigidBody *body2);
 
 	void ApplyImpulseP(_RigidBody *body1,_RigidBody *body2);
@@ -49,6 +51,7 @@ private:
 	void SpringOperation(_RigidBody &body);
 	bool DetectPointInShape(const _RigidBody &body,const float&x,const float&y);
 	bool shapelocked;
+	
 	///////////////////
 
 
