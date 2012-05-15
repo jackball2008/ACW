@@ -10,13 +10,21 @@ using namespace std;
 #define DEFAULT_BUFLEN 512
 
 
+
+void ClearBuffer()
+{
+	
+
+}
+
+
 int main()
 {
 	cout<<"server start..."<<endl;
 	cout<<"initialize buffer"<<endl;
-	char recvbuf[DEFAULT_BUFLEN];
+	
+	//char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
-
 
 
 	// Create version identifier
@@ -39,8 +47,8 @@ int main()
 	//////////////////////////////////////////////////////////////////////////
 
 	bool socketok = false;
-	char buffer;
-	SOCKET s1;//send socket
+	//char buffer;
+	
 	if (s==INVALID_SOCKET) {
 		cerr << "Create socket failed" << endl;
 	} else if (bind(s, (sockaddr *)&peer, sizeof(peer))==SOCKET_ERROR) {
@@ -49,56 +57,40 @@ int main()
 		cerr << "Listen failed with " << WSAGetLastError()  << endl;
 	} else {
 		socketok = true;
-		/**
-		// Create transfer socket
-		char buffer;
-		SOCKET s1 = accept(s, NULL, NULL);
-		if (s1==INVALID_SOCKET) {
-			cerr << "Accept failed with " << WSAGetLastError() << endl;
-		} else if (recv(s1, &buffer, 1, 0)==SOCKET_ERROR) {
-			cerr << "Receive failed with " << WSAGetLastError() << endl;
-		} else {
-			cout << "Message= " << buffer << endl;
-			if (send(s1, "2", 1, 0)==SOCKET_ERROR) {
-				cerr << "Send failed with " << WSAGetLastError() << endl;
-			}
-		}
-		*/
-	}
+		char buffer[256];
 
-	if(!socketok)
-	{
-		cout<<"Error happened, EXIT"<<endl;
-		WSACleanup();
-	}
-
-	while(socketok)
-	{
-		s1 = accept(s, NULL, NULL);
-		if (s1==INVALID_SOCKET) {
-			cerr << "Accept failed with " << WSAGetLastError() << endl;
-		} else if (recv(s1, recvbuf, recvbuflen, 0)==SOCKET_ERROR) {
-			cerr << "Receive failed with " << WSAGetLastError() << endl;
-		} else {
-			istrstream sin(recvbuf, recvbuflen-1);
-			string word;
-			sin>>word;
-			int rx = -2;
-			rx = word.compare("x");
-			if(rx == 0)
+		while(1)
+		{
+			SOCKET s1 = accept(s,NULL,NULL);
+			cout<<"s1 = "<<s1<<endl;
+			if (s1==INVALID_SOCKET)
 			{
-				cout<<"get x"<<endl;
-				sin>>word;
-				float xv = atof(word.c_str());
-				cout<<"x = "<<xv<<endl;
+				cerr << "Accept failed with " << WSAGetLastError() << endl;
 			}
+			else 
+			{
+				int recres = recv(s1,buffer,256,0);
+				cout<<"recres = "<<recres<<endl;
+				if(recres==SOCKET_ERROR)
+					cerr << "Receive failed with " << WSAGetLastError() << endl;
+				else
+				{
+					cout<<"receive ok"<<buffer<<endl;
 
-			cout << "Message= " << recvbuf << endl;
-			if (send(s1, "2", 1, 0)==SOCKET_ERROR) {
-				cerr << "Send failed with " << WSAGetLastError() << endl;
+// 					if(send(s1,"2",1,0) == SOCKET_ERROR)
+// 					{
+// 						cerr << "Send failed with " << WSAGetLastError() << endl;
+// 					}
+				}
 			}
+			closesocket(s1);
+			
 		}
+
+		
 	}
+
+
 
 	// Delay
 	cout << "input char to exit..." << endl; char ch; cin >> ch;

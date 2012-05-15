@@ -13,9 +13,22 @@ class NetReceiveThread :
 	public MyThread
 {
 private:
+	//socket
+	WORD wVersionRequested;
+	WSADATA wsaData;
+
+	sockaddr_in peer;
+	SOCKET socketClient;
+
+	bool connectedOk;
+	
+	void InitSocket();
+	
+	//////////////////////////////////////////////////////////////////////////
+	
 	int _sendshapeid;
 
-	//SocketProcesser sp;
+	
 
 
 	//share obj store all share data
@@ -25,6 +38,9 @@ private:
 	void CheckShapePos();
 	void ReceiveData();
 	void SendData();
+
+
+	
 
 public:
 	NetReceiveThread(void);
