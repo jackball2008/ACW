@@ -1,6 +1,8 @@
 #pragma once
-#include "GXBase.h"
-using namespace gxbase;
+//#include <winsock2.h>
+//#pragma comment(lib, "Ws2_32.lib")
+
+#include <Windows.h>
 #include <process.h>
 
 class MyThread

@@ -1,15 +1,17 @@
 #pragma once
-#include <GXBase.h>
-#include <iostream>
-#include "MyWindow.h"
+
+//#include "SocketProcesser.h"
+
+
 
 //////////////////////////////////////////////////////////////////////////
 #include "NetReceiveThread.h"
-//#include "NetSendThread.h"
-//#include "ControllerThread.h"
 #include "PhysicsThread.h"
-
-
+//////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////// 
+#include <GXBase.h>
+#include <iostream>
+#include "MyWindow.h"
 //////////////////////////////////////////////////////////////////////////
 #include "Shape.h"
 #include "Triangle.h"
@@ -20,6 +22,7 @@
 /************************************************************************/
 /* share objects                                                                     */
 /************************************************************************/
+
 #include "ShapeShareObject.h"
 
 

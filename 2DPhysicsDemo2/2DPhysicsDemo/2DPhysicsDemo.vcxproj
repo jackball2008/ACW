@@ -77,7 +77,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Force.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Mmath.h" />
     <ClInclude Include="mxyMath.h" />
@@ -91,6 +90,7 @@
     <ClInclude Include="Point.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="ShapeShareObject.h" />
+    <ClInclude Include="SocketProcesser.h" />
     <ClInclude Include="SpringLine.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="Triangle.h" />
@@ -105,6 +105,7 @@
     <ClCompile Include="PhysicsThread.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="ShapeShareObject.cpp" />
+    <ClCompile Include="SocketProcesser.cpp" />
     <ClCompile Include="SpringLine.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="Triangle.cpp" />

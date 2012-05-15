@@ -1,8 +1,12 @@
 #pragma once
+#include <winsock2.h>
+#pragma comment(lib, "Ws2_32.lib")
 #include "mythread.h"
+
 #include <iostream>
 #include <sstream>
 #include "ShapeShareObject.h"
+
 using namespace std;
 
 class NetReceiveThread :
@@ -10,6 +14,8 @@ class NetReceiveThread :
 {
 private:
 	int _sendshapeid;
+
+	//SocketProcesser sp;
 
 
 	//share obj store all share data

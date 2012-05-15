@@ -72,9 +72,6 @@
     <ClInclude Include="SpringLine.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Force.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Mmath.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -85,6 +82,9 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="mxyVector.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketProcesser.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -120,6 +120,9 @@
       <Filter>Source Files\ShareObjects</Filter>
     </ClCompile>
     <ClCompile Include="SpringLine.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketProcesser.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,10 +1,15 @@
 #pragma once
+
+#include <Windows.h>
 #include "Shape.h"
 #include "Triangle.h"
 #include "Square.h"
 #include "Line.h"
 #include "SpringLine.h"
-#include <Windows.h>
+
+
+
+
 
 class ShapeShareObject
 {
@@ -21,10 +26,6 @@ public:
 
 	bool left_hold;
 
-	
-	
-// 	YPoint springstartp;
-// 	YPoint springendp;
 
 
 	//spring

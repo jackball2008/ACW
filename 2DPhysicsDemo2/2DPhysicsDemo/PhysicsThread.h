@@ -2,7 +2,7 @@
 #include "mythread.h"
 #include <iostream>
 #include "ShapeShareObject.h"
-#include <Windows.h>
+
 
 using namespace std;
 
