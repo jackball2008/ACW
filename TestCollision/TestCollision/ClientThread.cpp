@@ -1,8 +1,10 @@
 #include "ClientThread.h"
 
-float team;
+
 ClientThread::ClientThread(void)
 {
+	
+
 }
 
 
@@ -22,6 +24,19 @@ int ClientThread::run(){
 
 void ClientThread::clientsocket(){
 
+	struct Csend Clientsend;
+	struct Csend Clientrec;
+	int  number = _shareobjectC->renderObjects.size();
+
+	for(int i=0;i<number;i++){
+
+		_Rid= _shareobjectC->renderObjects.at(i);
+	Clientsend.vpx=_Rid->vPosition.x;
+	Clientsend.vpy=_Rid->vPosition.y;
+	Clientsend.vvx=_Rid->vVelocity.x;
+	Clientsend.vvy=_Rid->vVelocity.y;
+
+
 	// Create version identifier
 	WORD wVersionRequested = MAKEWORD( 2, 0 );
 
@@ -39,19 +54,23 @@ void ClientThread::clientsocket(){
 	peer.sin_addr.S_un.S_addr = inet_addr( "192.168.1.67" );
 
 	// Create transfer socket
-	char buffer;
+	
 	SOCKET s = socket(AF_INET, SOCK_STREAM, 0);
 	if (s==INVALID_SOCKET) {
 		cerr << "Create socket failed" << endl;
 	} else if (connect(s, (sockaddr *)&peer, sizeof(peer))==SOCKET_ERROR) {
 		cerr << "Connect to peer failed with " << WSAGetLastError() << endl;
-	} else if (send(s, (char*)&team, sizeof(team), 0)==SOCKET_ERROR) {
+	} else if (send(s, (char*)&Clientsend, sizeof(Clientsend), 0)==SOCKET_ERROR) {
 		cerr << "Send failed with " << WSAGetLastError() << endl;
-	} else if (recv(s, &buffer, 1, 0)==SOCKET_ERROR) {
+	} else if (recv(s, (char*)&Clientrec, sizeof(Clientrec), 0)==SOCKET_ERROR) {
 		cerr << "Receive failed with " << WSAGetLastError()  << endl;
 	} else {
-		cout << "Message= " << buffer << endl;
+		_Rid->vPosition.x= Clientrec.vpx;
+		_Rid->vPosition.y=Clientrec.vpy;
+		_Rid->vVelocity.x=Clientrec.vvx;
+		_Rid->vVelocity.y=Clientrec.vvy;
 	}
 	// Cleanup windows sockets
 	WSACleanup();
+	}
 }

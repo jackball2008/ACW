@@ -2,6 +2,7 @@
 #include "PhysicThread.h"
 #include "MyWindow.h"
 #include "ClientThread.h"
+#include "ServerThread.h"
 class MyApp:public App
 {
 public:
@@ -17,6 +18,7 @@ private:
 
 	PhysicThread *_physicsThread;
 	ClientThread *_clientThread;
+	ServerThread *_serverThread;
 
 	ShareMem _shapeobject;
 	void Initializeposition();

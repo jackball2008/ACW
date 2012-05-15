@@ -6,6 +6,7 @@ MyApp::MyApp(void)
 {
 	_physicsThread= new PhysicThread();
 	_clientThread = new ClientThread();
+	/*_serverThread = new ServerThread();*/
 }
 
 
@@ -13,6 +14,7 @@ MyApp::~MyApp(void)
 {
 	delete _physicsThread;
 	delete _clientThread;
+	/*delete _serverThread;*/
 }
 
 void MyApp::OnCreate(){
@@ -21,6 +23,8 @@ void MyApp::OnCreate(){
 	
 	_mywindow.SetShapeObject(&_shapeobject);
 
+	/*_serverThread->SetShapeOject(&_shapeobject);
+	_serverThread->start();*/
 
 	_clientThread->SetShapeObject(&_shapeobject);
 	_clientThread->start();
@@ -28,10 +32,14 @@ void MyApp::OnCreate(){
 	_physicsThread->SetShapeObject(&_shapeobject);
 	_physicsThread->start();
 	
+	
 
 }
 
 void MyApp::OnDestroy(){
+
+	//_serverThread->terminate();
+	//_serverThread->waitForTermination();
 
 	_clientThread->terminate();
 	_clientThread->waitForTermination();

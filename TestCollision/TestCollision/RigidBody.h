@@ -55,8 +55,8 @@ public:
 
 	vector<Vector>PiontPostion;
 
-	void SetData(const Vector &p0,const Vector &p1,const Vector &p2,const Vector &p3,const Vector &p4);
-	void SetData(const Vector &p0,const Vector &p1,const Vector &p2,const Vector &p3);
+	//void SetData(const Vector &p0,const Vector &p1,const Vector &p2,const Vector &p3,const Vector &p4);
+	//void SetData(const Vector &p0,const Vector &p1,const Vector &p2,const Vector &p3);
 //////////////////////////////////////////////////
 
 	//spring lock
