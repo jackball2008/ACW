@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <strstream>
 #include <time.h>
 #include "ShapeShareObject.h"
 

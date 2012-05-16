@@ -265,6 +265,8 @@ void NetReceiveThread::SendAndReceiveRequestData()
 
 	socketClient = socket(AF_INET, SOCK_STREAM, 0);
 
+	char buffer[128];
+
 	if (socketClient==INVALID_SOCKET) {
 		cerr << "Create socket failed" << endl;
 	}
@@ -281,6 +283,46 @@ void NetReceiveThread::SendAndReceiveRequestData()
 		if( sendres == SOCKET_ERROR)
 		{
 			cerr << "Send failed with " << WSAGetLastError() << endl;
+		}
+		else if(recv(socketClient,buffer,128,0) == SOCKET_ERROR)
+		{
+			cerr << "Receive new shape data failed with " << WSAGetLastError() << endl;
+		}
+		else
+		{
+			//process new pos data
+			istrstream sin(buffer,128-1);
+			string word;
+			sin>>word;
+
+			if(word.compare("r")==0)
+			{
+				sin>>word;
+
+
+				float pos_x = (float)atof(word.c_str());
+
+				sin>>word;
+				float pos_y = (float)atof(word.c_str());
+
+				sin>>word;
+				float v_x = (float)atof(word.c_str());
+
+				sin>>word;
+				float v_y = (float)atof(word.c_str());
+
+				cout<<"get data x = "<<pos_x<<" y = "<<pos_y<<" v_x "<<v_x<<" v_y "<<v_y<<endl;
+
+				//add new shape
+
+
+
+
+
+			}
+			
+			
+
 		}
 
 
