@@ -46,7 +46,7 @@ void NetReceiveThread::InitSocket()
 		//SOCKADDR_IN 
 		peer.sin_family = AF_INET;
 		peer.sin_port = htons(9171);	// port 9171
-		peer.sin_addr.S_un.S_addr = inet_addr( "127.0.0.1" );
+		peer.sin_addr.S_un.S_addr = inet_addr( "192.168.1.167" );
 
 
 	}
@@ -113,7 +113,7 @@ void NetReceiveThread::CheckShapePos()
 				//assemble data
 				// head x
 				string big_head = " ";
-				string type = "s ";
+				string type = " s ";
 				string sender_id_head = " id ";
 				string x_head = " x ";
 				string y_head = " y ";
@@ -146,27 +146,32 @@ void NetReceiveThread::CheckShapePos()
 
 				big_head.append(type);
 
-				big_head.append(sender_id_head);
+				//big_head.append(sender_id_head);
+				big_head.append(" ");
 				big_head.append(id_str);
 
-				big_head.append(x_head);
+				//big_head.append(x_head);
+				big_head.append(" ");
 				big_head.append(x_str);
 
 
-				big_head.append(y_head);
+				//big_head.append(y_head);
+				big_head.append(" ");
 				big_head.append(y_str);
 
-				big_head.append(vx_head);
+				//big_head.append(vx_head);
+				big_head.append(" ");
 				big_head.append(vx_str);
 
-				big_head.append(vy_head);
+				//big_head.append(vy_head);
+				big_head.append(" ");
 				big_head.append(vy_str);
 
 				big_head.append(end);
 
 
 
-				//cout<<big_head<<endl;
+				cout<<"send data = "<<big_head<<endl;
 				//////////////////////////////////////////////////////////////////////////
 				//add blank in the end
 				//////////////////////////////////////////////////////////////////////////
@@ -219,9 +224,9 @@ void NetReceiveThread::SendPosData(const char *datap)
 	} 
 	else
 	{
-		cout<<"connect server ok"<<endl;
+		//cout<<"connect server ok"<<endl;
 		int sendres  = send(socketClient, datap, (int)strlen(datap), 0);
-		cout<<"sendres = "<<sendres<<endl;
+		//cout<<"sendres = "<<sendres<<endl;
 
 		if( sendres == SOCKET_ERROR)
 		{
@@ -269,9 +274,9 @@ void NetReceiveThread::SendAndReceiveRequestData()
 	} 
 	else
 	{
-		cout<<"connect server ok"<<endl;
+		//cout<<"connect server ok"<<endl;
 		int sendres  = send(socketClient, datap, (int)strlen(datap), 0);
-		cout<<"sendres = "<<sendres<<endl;
+		//cout<<"sendres = "<<sendres<<endl;
 
 		if( sendres == SOCKET_ERROR)
 		{
