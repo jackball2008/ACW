@@ -19,11 +19,11 @@ _RigidBody::_RigidBody(){
 	vForces.z = 0.0f;		// set all z's to zero b/c this is a 2D example
 
 	vGravity.x =0.0f;
-	vGravity.y =-0.098f;
+	vGravity.y =-0.0098f;
 	vGravity.z =0.0f;
 
 	vSupport.x = 0.0f;
-	vSupport.y = 0.098f;
+	vSupport.y = 0.0f;
 	vSupport.z = 0.0f;
 
 	vMoment.x = 0.0f;		// will always be zero in 2D
@@ -43,11 +43,11 @@ _RigidBody::_RigidBody(){
 	// Set the initial orientation
 	fOrientation = 0.0;
 	// Set width and length
-	fLength = 0.04f;
-	fWidth = 0.02f;
+	fLength = 0.03f;
+	fWidth = 0.015f;
 ////////////////////////////////////
 	r=1.0f;
-	g=0.0f;
+	g=1.0f;
 	b=1.0f;
 	isvisiable = true;
 	id = 0;

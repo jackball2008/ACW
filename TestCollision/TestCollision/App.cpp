@@ -55,22 +55,33 @@ void MyApp::Initializeposition(){
 		for( int j =0; j < 10; j ++){
 			_RigidBody* square = new _RigidBody();
 
-			square->vPosition.x= -0.9f+i*0.04;
-			square->vPosition.y= -0.9f+j*0.04;
+			square->vPosition.x= -0.9f+i*square->fLength;
+			square->vPosition.y= -0.9f+j*square->fLength;
 
-			square->vFirstpoint.x= square->vPosition.x-0.02f;
-			square->vFirstpoint.x= square->vPosition.x-0.02f;
-			square->vFirstpoint.y= square->vPosition.y+0.02f;
+			square->vFirstpoint.x= square->vPosition.x-square->fWidth;
+			square->vFirstpoint.x= square->vPosition.x-square->fWidth;
+			square->vFirstpoint.y= square->vPosition.y+square->fWidth;
 
-			square->vSecondpoint.x= square->vPosition.x+0.02f;
-			square->vSecondpoint.y= square->vPosition.y+0.02f;
+			square->vSecondpoint.x= square->vPosition.x+square->fWidth;
+			square->vSecondpoint.y= square->vPosition.y+square->fWidth;
 
-			square->vThirdpoint.x= square->vPosition.x+0.02f;
-			square->vThirdpoint.y= square->vPosition.y-0.02f;
+			square->vThirdpoint.x= square->vPosition.x+square->fWidth;
+			square->vThirdpoint.y= square->vPosition.y-square->fWidth;
 
-			square->vFourthpoint.x= square->vPosition.x-0.02f;
-			square->vFourthpoint.y= square->vPosition.y-0.02f;
+			square->vFourthpoint.x= square->vPosition.x-square->fWidth;
+			square->vFourthpoint.y= square->vPosition.y-square->fWidth;
 
+			if(i%3==1){
+				square->r=0.5f;
+				square->b=0.0f;
+				square->fMass=3.0f;
+			}
+			if(i%3==2){
+				square->r=0.0f;
+				square->b=0.5f;
+				square->fMass=2.0f;
+			}
+			
 
 			_shapeobject.renderObjects.push_back(square);
 		}

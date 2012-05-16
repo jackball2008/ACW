@@ -29,6 +29,10 @@ public:
 private:
 		
 	
+	bool DetectCollisionL(_RigidBody *body);
+
+	bool DetectCollisionR(_RigidBody *body);
+
 	int DetectCollisionG( _RigidBody *body);
 
 	int CheckforCollision(_RigidBody *body1, _RigidBody *body2);

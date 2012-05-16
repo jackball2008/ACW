@@ -45,6 +45,17 @@ void  MyWindow::OnDisplay(){
 	glVertex2f(1.0f,-0.92f);
 	glEnd();
 
+	glColor3f(1.0f,1.0f,0.0f);
+	glBegin(GL_LINES);
+	glVertex2f(-0.96f,1.0f);
+	glVertex2f(-0.96f,-1.0f);
+	glEnd();
+
+	glColor3f(1.0f,1.0f,0.0f);
+	glBegin(GL_LINES);
+	glVertex2f(0.96f,1.0f);
+	glVertex2f(0.96f,-1.0f);
+	glEnd();
 	if(_shapeobject->left_hold){
 
 		//cout<<"s x = "<<_shapeShareObject->springLine->sp.x<<" s y = "<<_shapeShareObject->springLine->sp.y<<" e x = "<<_shapeShareObject->springLine->ep.x<<" e y = "<<_shapeShareObject->springLine->ep.y<<endl;

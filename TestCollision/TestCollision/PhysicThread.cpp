@@ -163,14 +163,20 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 
 		body->vPosition += body->vVelocity*dt;
 			
-	}else if(DetectCollisionG(body)==1)
-	{
+	}
 
-		body->vVelocity.y=0;
+	else if(DetectCollisionG(body)==1)
+	{
+		body->vForces.y=0;
+		Ae=body->vForces/body->fMass;
+		k1 = Ae*dt;
+
+		body->vVelocity += k1;
 		body->vPosition += body->vVelocity*dt;
 	}
 	else if(DetectCollisionG(body)==2){
-		Ae=(-3)*(body->vGravity)/body->fMass;
+		body->vPosition.y=-0.9f;
+		Ae=(-5.0f)*(body->vGravity)/body->fMass;
 		k1 = Ae*dt;
 
 		body->vVelocity += k1;
@@ -178,7 +184,8 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 		body->vPosition += body->vVelocity*dt;
 	}
 	else if(DetectCollisionG(body)==3){
-		Ae=(-0.5)*(body->vGravity)/body->fMass;
+		body->vPosition.y=-0.9f;
+		Ae=(-5.0f)*(body->vGravity)/body->fMass;
 		k1 = Ae*dt;
 
 		body->vVelocity += k1;
@@ -186,7 +193,8 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 		body->vPosition += body->vVelocity*dt;
 	}
 	else if(DetectCollisionG(body)==4){
-		Ae=(-0.25)*(body->vGravity)/body->fMass;
+		body->vPosition.y=-0.9f;
+		Ae=(-5)*(body->vGravity)/body->fMass;
 		k1 = Ae*dt;
 
 		body->vVelocity += k1;
@@ -194,7 +202,8 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 		body->vPosition += body->vVelocity*dt;
 	}
 	else if(DetectCollisionG(body)==5){
-		Ae=(-0.025)*(body->vGravity)/body->fMass;
+		body->vPosition.y=-0.9f;
+		Ae=(-5)*(body->vGravity)/body->fMass;
 		k1 = Ae*dt;
 
 		body->vVelocity += k1;
@@ -203,23 +212,44 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 	}
 	else if(DetectCollisionG(body)==6)
 	{
+		body->vPosition.y=-0.9f;
+		Ae=(-0.0025)*(body->vGravity)/body->fMass;
+		k1 = Ae*dt;
 
-		body->vVelocity.y=0;
+		body->vVelocity += k1;
 		body->vPosition += body->vVelocity*dt;
 	}
 
+	if(DetectCollisionL(body)){
+		body->vSupport.x=0.98f;
+		body->vForces=body->vGravity+body->vSupport;
+		Ae=body->vForces/body->fMass;
+		k1 = Ae*dt;
 
-	body->vFirstpoint.x= body->vPosition.x-0.02f;
-	body->vFirstpoint.y= body->vPosition.y+0.02f;
+		body->vVelocity += k1;
+		body->vPosition += body->vVelocity*dt;
+	}
+	if(DetectCollisionR(body)){
+		body->vSupport.x=-0.98f;
+		body->vForces=body->vGravity+body->vSupport;
+		Ae=body->vForces/body->fMass;
+		k1 = Ae*dt;
 
-	body->vSecondpoint.x= body->vPosition.x+0.02f;
-	body->vSecondpoint.y= body->vPosition.y+0.02f;
+		body->vVelocity += k1;
+		body->vPosition += body->vVelocity*dt;
+	}
 
-	body->vThirdpoint.x= body->vPosition.x+0.02f;
-	body->vThirdpoint.y= body->vPosition.y-0.02f;
+	body->vFirstpoint.x= body->vPosition.x-body->fWidth;
+	body->vFirstpoint.y= body->vPosition.y+body->fWidth;
 
-	body->vFourthpoint.x= body->vPosition.x-0.02f;
-	body->vFourthpoint.y= body->vPosition.y-0.02f;
+	body->vSecondpoint.x= body->vPosition.x+body->fWidth;
+	body->vSecondpoint.y= body->vPosition.y+body->fWidth;
+
+	body->vThirdpoint.x= body->vPosition.x+body->fWidth;
+	body->vThirdpoint.y= body->vPosition.y-body->fWidth;
+
+	body->vFourthpoint.x= body->vPosition.x-body->fWidth;
+	body->vFourthpoint.y= body->vPosition.y-body->fWidth;
 }
 
 void PhysicThread::StepSimulation(){
@@ -317,11 +347,16 @@ void PhysicThread::SpringOperation(_RigidBody &body){
 	}
 
 	if (body.springlocked)
-	{
+	{   
+		
 		body.g= 0.0f;
+		
 	}
 	else{
+		
 		body.g = 1.0f;
+		
+
 	}
 
 	if (body.springlocked)
@@ -352,17 +387,17 @@ void PhysicThread::SpringOperation(_RigidBody &body){
 
 			body.vVelocity+=k2;
 			body.vPosition+=body.vVelocity*dT;
-			body.vFirstpoint.x= body.vPosition.x-0.02f;
-			body.vFirstpoint.y= body.vPosition.y+0.02f;
+			body.vFirstpoint.x= body.vPosition.x-body.fWidth;
+			body.vFirstpoint.y= body.vPosition.y+body.fWidth;
 
-			body.vSecondpoint.x= body.vPosition.x+0.02f;
-			body.vSecondpoint.y= body.vPosition.y+0.02f;
+			body.vSecondpoint.x= body.vPosition.x+body.fWidth;
+			body.vSecondpoint.y= body.vPosition.y+body.fWidth;
 
-			body.vThirdpoint.x= body.vPosition.x+0.02f;
-			body.vThirdpoint.y= body.vPosition.y-0.02f;
+			body.vThirdpoint.x= body.vPosition.x+body.fWidth;
+			body.vThirdpoint.y= body.vPosition.y-body.fWidth;
 
-			body.vFourthpoint.x= body.vPosition.x-0.02f;
-			body.vFourthpoint.y= body.vPosition.y-0.02f;
+			body.vFourthpoint.x= body.vPosition.x-body.fWidth;
+			body.vFourthpoint.y= body.vPosition.y-body.fWidth;
 
 			body.vForces.Clear();
 		}
@@ -405,13 +440,36 @@ int PhysicThread::DetectCollisionG( _RigidBody *body){
 	else if(min_y<=-0.93f&&min_y>=-0.94f){
 		return 4;
 	}
-	else if(min_y<-0.9201f&&min_y>-0.93f){
+	else if(min_y<-0.92001f&&min_y>-0.93f){
 		return 5;
 	}
-	else if(min_y<-0.92f&&min_y>-0.9201f){
+	else if(min_y<-0.92f&&min_y>-0.92001f){
 		return 6;
 	}
 	else{
 		return 0;
+	}
+}
+
+bool PhysicThread ::DetectCollisionL(_RigidBody *body){
+
+	float min_x;
+	min_x=CompareValueMin(CompareValueMax(body->vFirstpoint.x,body->vSecondpoint.x),CompareValueMin(body->vThirdpoint.x,body->vFourthpoint.x));
+	if(min_x<-0.96f){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+bool PhysicThread ::DetectCollisionR(_RigidBody *body){
+	float max_x;
+	max_x=CompareValueMax(CompareValueMax(body->vFirstpoint.x,body->vSecondpoint.x),CompareValueMax(body->vThirdpoint.x,body->vFourthpoint.x));
+	if(max_x>0.96f){
+		return true;
+	}
+	else{
+		return false;
 	}
 }
