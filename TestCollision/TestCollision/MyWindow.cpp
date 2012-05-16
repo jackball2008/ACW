@@ -2,6 +2,9 @@
 #include <iostream>
 using namespace std;
 
+float camerx=0.0f;
+float camery=0.0f;
+float camerz=0.0f;
 
 MyWindow::MyWindow()
 {
@@ -29,6 +32,9 @@ void  MyWindow::OnDisplay(){
 	
 	
 	glClear(GL_COLOR_BUFFER_BIT);
+	/*gluOrtho2D(-1,1,1,-1);*/ 
+	glPushMatrix();
+	glTranslatef(camerx,camery,camerz);
 	/////////////////////////////////////
 	if(_shapeobject->left_hold)
 		glColor3f(1.0f,0.0f,0.0f);
@@ -56,17 +62,20 @@ void  MyWindow::OnDisplay(){
 	glVertex2f(0.96f,1.0f);
 	glVertex2f(0.96f,-1.0f);
 	glEnd();
-	if(_shapeobject->left_hold){
 
+	if(_shapeobject->left_hold){
+		
 		//cout<<"s x = "<<_shapeShareObject->springLine->sp.x<<" s y = "<<_shapeShareObject->springLine->sp.y<<" e x = "<<_shapeShareObject->springLine->ep.x<<" e y = "<<_shapeShareObject->springLine->ep.y<<endl;
 		//draw springline
 		glColor3f(_shapeobject->springLine->r,_shapeobject->springLine->g,_shapeobject->springLine->b);
 		glPointSize(4);
+		
 		glBegin(GL_LINES);
 		glVertex2f(_shapeobject->springLine->sp.x, _shapeobject->springLine->sp.y);
 		glVertex2f(_shapeobject->springLine->ep.x, _shapeobject->springLine->ep.y);
 
 		glEnd();
+		
 	}
 
 
@@ -95,6 +104,7 @@ void  MyWindow::OnDisplay(){
 			
 		
 	}
+	glPopMatrix();
 	//for(vector<_RigidBody*>::iterator ite_vec_shape = _shapeobject->renderObjects.begin();
 	//	ite_vec_shape != _shapeobject->renderObjects.end();ite_vec_shape++
 	//	){
@@ -216,4 +226,29 @@ void MyWindow::OnMouseButton(MouseButton button, bool down){
 		}
 	}
 
+}
+
+void MyWindow::OnKeyboard(int key, bool down){
+	if (!down) return;
+	switch( tolower(key) ){
+	case 'a':
+		camerx+= 0.005;
+		break;
+	case 'd':
+		camerx-= 0.005;
+		break;
+	case'w':
+		camery-= 0.005;
+		break;
+	case 's':
+		camery+= 0.005;
+		break;
+	case '+':
+		camerz-= 0.005;
+		break;
+	case '-':
+		camerz+= 0.005;
+		break;
+
+	}
 }

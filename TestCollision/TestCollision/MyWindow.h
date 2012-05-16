@@ -13,6 +13,7 @@ public:
 	MyWindow();
 	~MyWindow(void);
 
+	void OnKeyboard(int key, bool down);
 	void  OnCreate();
 	void  OnDisplay();
 	void  OnIdle();

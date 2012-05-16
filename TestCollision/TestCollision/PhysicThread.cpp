@@ -65,11 +65,12 @@ void PhysicThread::ApplyImpulseP(_RigidBody *body1,_RigidBody *body2)
 		((1/body1->fMass + 1/body2->fMass));
 
 	ImpulseN = j;
-
+	
 	// calculate the new velocity after impact
 	body1->vVelocity += (j * vCollisionNormal) / body1->fMass;	
 	body2->vVelocity -= (j * vCollisionNormal) / body2->fMass;
-}
+
+	}
 
 int PhysicThread::CheckforCollision(_RigidBody *body1, _RigidBody *body2){
 	float Max_1x,Max_1y,Min_1x,Min_1y,Max_2x,Max_2y,Min_2x,Min_2y,a=0,b=0,c=0,d=0;
@@ -221,7 +222,7 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 	}
 
 	if(DetectCollisionL(body)){
-		body->vSupport.x=0.98f;
+		body->vSupport.x=0.098f;
 		body->vForces=body->vGravity+body->vSupport;
 		Ae=body->vForces/body->fMass;
 		k1 = Ae*dt;
@@ -230,7 +231,7 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 		body->vPosition += body->vVelocity*dt;
 	}
 	if(DetectCollisionR(body)){
-		body->vSupport.x=-0.98f;
+		body->vSupport.x=-0.098f;
 		body->vForces=body->vGravity+body->vSupport;
 		Ae=body->vForces/body->fMass;
 		k1 = Ae*dt;

@@ -6,7 +6,7 @@
 using std::iostream;
 
 
-const float SPRING_FACTOR = 5.0f;
+const float SPRING_FACTOR = 1.0f;
 class PhysicThread :
 	public MyThread
 {

@@ -82,6 +82,7 @@ void MyApp::Initializeposition(){
 				square->fMass=2.0f;
 			}
 			
+		
 
 			_shapeobject.renderObjects.push_back(square);
 		}
