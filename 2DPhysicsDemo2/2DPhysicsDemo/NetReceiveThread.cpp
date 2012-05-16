@@ -11,6 +11,12 @@ NetReceiveThread::NetReceiveThread(void)
 	connectedOk = false;
 
 	InitSocket();
+
+	//init sender id
+	//_sendshapeid
+	srand((unsigned)time(NULL));
+	_sendshapeid = (rand()%300) + 1;
+
 }
 
 
@@ -42,21 +48,7 @@ void NetReceiveThread::InitSocket()
 		peer.sin_port = htons(9171);	// port 9171
 		peer.sin_addr.S_un.S_addr = inet_addr( "127.0.0.1" );
 
-// 		socketClient = socket(AF_INET, SOCK_STREAM, 0);
-// 
-// 		if (socketClient==INVALID_SOCKET) {
-// 			cerr << "Create socket failed" << endl;
-// 		}
-		/**
-		else if (connect(socketClient, (sockaddr *)&peer, sizeof(peer))==SOCKET_ERROR) {
-			cerr << "Connect to peer failed with " << WSAGetLastError() << endl;
-		} 
-		else
-		{
-			cout<<"connect server ok"<<endl;
-			connectedOk = true;
-		}
-		*/
+
 	}
 	else
 	{
@@ -74,14 +66,16 @@ void NetReceiveThread::InitSocket()
 int NetReceiveThread::run(){
 	while(!_terminate){
 		//cout<<"net working..."<<endl;
-		Sleep(10);
+		Sleep(100);
 		//do the work
 		if(_shapeShareObject->Acquire())
 		{
 			__try
 			{
-
+				//check and send data
 				CheckShapePos();
+				//check there is data on the server
+				SendAndReceiveRequestData();
 
 			}
 			__finally{
@@ -112,18 +106,24 @@ void NetReceiveThread::CheckShapePos()
 			if((shapeA->pos.x > 1 || shapeA->pos.x < -1) && shapeA->pos.y> 0 && shapeA->id != _sendshapeid && !shapeA->issent)
 			{
 
-				_sendshapeid = shapeA->id;
+				//_sendshapeid = shapeA->id;
 				shapeA->issent = true;
 				//send it
 
 				//assemble data
 				// head x
 				string big_head = " ";
-				string x_head = "x ";
+				string type = "s ";
+				string sender_id_head = " id ";
+				string x_head = " x ";
 				string y_head = " y ";
 				string vx_head = " q ";
 				string vy_head = " w ";
 				string end = " e";
+
+				stringstream ssid(stringstream::in|stringstream::out);
+				ssid<<_sendshapeid;
+				string id_str = ssid.str();
 
 				stringstream ss0(stringstream::in|stringstream::out);
 
@@ -143,6 +143,11 @@ void NetReceiveThread::CheckShapePos()
 				ss3<<shapeA->velocity.y;
 				string vy_str = ss3.str();
 
+
+				big_head.append(type);
+
+				big_head.append(sender_id_head);
+				big_head.append(id_str);
 
 				big_head.append(x_head);
 				big_head.append(x_str);
@@ -179,88 +184,7 @@ void NetReceiveThread::CheckShapePos()
 
 				}
 
-
-				//big_head is the data
-
-				char *datasrc = (char*)big_head.c_str();
-
-				cout<<"data len = "<<(int)strlen(datasrc)<<endl;
-
-				
-				if(true)
-				{
-					char buffer;
-					/**
-					else if (connect(socketClient, (sockaddr *)&peer, sizeof(peer))==SOCKET_ERROR) {
-						cerr << "Connect to peer failed with " << WSAGetLastError() << endl;
-					} 
-					else
-					{
-						cout<<"connect server ok"<<endl;
-						connectedOk = true;
-					}
-					*/
-					socketClient = socket(AF_INET, SOCK_STREAM, 0);
-
-					if (socketClient==INVALID_SOCKET) {
-						cerr << "Create socket failed" << endl;
-					}
-
-					if (connect(socketClient, (sockaddr *)&peer, sizeof(peer))==SOCKET_ERROR) {
-						cerr << "Connect to peer failed with " << WSAGetLastError() << endl;
-					} 
-					else
-					{
-						cout<<"connect server ok"<<endl;
-						int sendres  = send(socketClient, datasrc, (int)strlen(datasrc), 0);
-						cout<<"sendres = "<<sendres<<endl;
-
-						if( sendres == SOCKET_ERROR)
-						{
-							cerr << "Send failed with " << WSAGetLastError() << endl;
-						}
-						
-						
-					}
-					closesocket(socketClient);
-
-
-// 					int sendres  = send(socketClient, datasrc, (int)strlen(datasrc), 0);
-// 					cout<<"sendres = "<<sendres<<endl;
-// 					
-// 					if( sendres == SOCKET_ERROR)
-// 					{
-// 						cerr << "Send failed with " << WSAGetLastError() << endl;
-// 					}
-					
-// 					else if(recv(socketClient,&buffer,1,0)== SOCKET_ERROR)
-// 					{
-// 						cerr << "Receive failed with " << WSAGetLastError() << endl;
-// 					}
-// 					else
-// 					{
-// 						cout<<"Message = "<<buffer<<endl;
-// 					}
-					//s = socket(AF_INET, SOCK_STREAM, 0);
-					/**
-					int res = send(socketClient, datasrc, (int)strlen(datasrc), 0);
-
-					if (res==SOCKET_ERROR) {
-						cerr << "Send failed with " << WSAGetLastError() << endl;
-					}
-					else
-					{
-						cout<<"res = "<<res<<endl;
-					}
-
-					if(res==SOCKET_ERROR)
-					{
-						cout<<"res = SOCKET_ERROR =  "<<res<<endl;
-					}
-					*/
-
-				}
-
+				SendPosData((char*)big_head.c_str());
 
 			}
 
@@ -282,11 +206,83 @@ void NetReceiveThread::CheckShapePos()
 
 }
 
-void NetReceiveThread::ReceiveData()
+void NetReceiveThread::SendPosData(const char *datap)
 {
+	socketClient = socket(AF_INET, SOCK_STREAM, 0);
 
+	if (socketClient==INVALID_SOCKET) {
+		cerr << "Create socket failed" << endl;
+	}
+
+	if (connect(socketClient, (sockaddr *)&peer, sizeof(peer))==SOCKET_ERROR) {
+		cerr << "Connect to peer failed with " << WSAGetLastError() << endl;
+	} 
+	else
+	{
+		cout<<"connect server ok"<<endl;
+		int sendres  = send(socketClient, datap, (int)strlen(datap), 0);
+		cout<<"sendres = "<<sendres<<endl;
+
+		if( sendres == SOCKET_ERROR)
+		{
+			cerr << "Send failed with " << WSAGetLastError() << endl;
+		}
+
+
+	}
+	closesocket(socketClient);
 }
-void NetReceiveThread::SendData()
+
+void NetReceiveThread::SendAndReceiveRequestData()
 {
+	string big_head = " r ";
+
+	stringstream ssid(stringstream::in|stringstream::out);
+	ssid<<_sendshapeid;
+	string id_str = ssid.str();
+
+	big_head.append(id_str);
+
+
+	int current_data_len = (int)strlen((char*)big_head.c_str());
+	if(current_data_len<MAX_DATA_LENGTH)
+	{
+		int left_len = MAX_DATA_LENGTH - current_data_len;
+
+		for(int i = 0; i< left_len;i++)
+		{
+			big_head.append(" ");
+		}
+
+	}
+
+	char *datap = (char*)big_head.c_str();
+
+	socketClient = socket(AF_INET, SOCK_STREAM, 0);
+
+	if (socketClient==INVALID_SOCKET) {
+		cerr << "Create socket failed" << endl;
+	}
+
+	if (connect(socketClient, (sockaddr *)&peer, sizeof(peer))==SOCKET_ERROR) {
+		cerr << "Connect to peer failed with " << WSAGetLastError() << endl;
+	} 
+	else
+	{
+		cout<<"connect server ok"<<endl;
+		int sendres  = send(socketClient, datap, (int)strlen(datap), 0);
+		cout<<"sendres = "<<sendres<<endl;
+
+		if( sendres == SOCKET_ERROR)
+		{
+			cerr << "Send failed with " << WSAGetLastError() << endl;
+		}
+
+
+	}
+
+
+
+	closesocket(socketClient);
 
 }

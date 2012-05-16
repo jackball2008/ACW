@@ -10,16 +10,32 @@ using namespace std;
 #define DEFAULT_BUFLEN 512
 
 
+struct TempData{
+	int sender_id;
+	float pos_x;
+	float pos_y;
+	float velocity_x;
+	float velocity_y;
 
-void ClearBuffer()
-{
-	
-
-}
+public:
+	TempData(){
+		sender_id = -99;
+		pos_x = -99;
+		pos_y = -99;
+		velocity_x = -99;
+		velocity_y = -99;
+	}
+};
 
 
 int main()
 {
+	TempData tempData;
+
+
+
+
+
 	cout<<"server start..."<<endl;
 	cout<<"initialize buffer"<<endl;
 	
@@ -62,7 +78,7 @@ int main()
 		while(1)
 		{
 			SOCKET s1 = accept(s,NULL,NULL);
-			cout<<"s1 = "<<s1<<endl;
+			//cout<<"s1 = "<<s1<<endl;
 			if (s1==INVALID_SOCKET)
 			{
 				cerr << "Accept failed with " << WSAGetLastError() << endl;
@@ -70,17 +86,96 @@ int main()
 			else 
 			{
 				int recres = recv(s1,buffer,256,0);
-				cout<<"recres = "<<recres<<endl;
+				//cout<<"recres = "<<recres<<endl;
 				if(recres==SOCKET_ERROR)
+				{
 					cerr << "Receive failed with " << WSAGetLastError() << endl;
+				}
 				else
 				{
-					cout<<"receive ok"<<buffer<<endl;
+					//cout<<"receive ok"<<buffer<<endl;
 
-// 					if(send(s1,"2",1,0) == SOCKET_ERROR)
-// 					{
-// 						cerr << "Send failed with " << WSAGetLastError() << endl;
-// 					}
+					//start to analyze
+					istrstream sin(buffer, 256-1);
+					string word;
+					sin>>word;
+					//int type = -2;
+					//type = word.compare("s");
+					if(word.compare("s") == 0)
+					{
+						//receive a send position data
+						//cout<<"+++"<<endl;
+						// 
+
+
+					}
+					else if(word.compare("r") == 0)
+					{
+						//receive a request
+						//cout<<"---"<<endl;
+						// 
+						sin>>word;
+
+						int r_id = atof(word.c_str());
+
+						//cout<<"request id = "<<r_id<<endl;
+
+
+						if(tempData.sender_id!=-99 && r_id!= tempData.sender_id)
+						{
+							//send back data
+
+							//x
+							stringstream ss_x(stringstream::in|stringstream::out);
+							ss_x<<tempData.pos_x;
+							string x_str = ss_x.str();
+							//y
+							stringstream ss_y(stringstream::in|stringstream::out);
+							ss_y<<tempData.pos_y;
+							string y_str = ss_y.str();
+							//v_x
+							stringstream ss_v_x(stringstream::in|stringstream::out);
+							ss_v_x<<tempData.velocity_x;
+							string v_x_str = ss_v_x.str();
+							//v_y
+							stringstream ss_v_y(stringstream::in|stringstream::out);
+							ss_v_y<<tempData.velocity_y;
+							string v_y_str = ss_v_y.str();
+
+							string datastr = " ";
+
+							datastr.append(x_str);
+							datastr.append(" ");
+							datastr.append(y_str);
+							datastr.append(" ");
+							datastr.append(v_x_str);
+							datastr.append(" ");
+							datastr.append(v_y_str);
+							datastr.append(" ");
+							datastr.append(" e ");
+
+
+
+							//(char*)datastr.c_str()
+
+							//s1
+							if (send(s1, (char*)datastr.c_str(), (int)strlen((char*)datastr.c_str()), 0)== SOCKET_ERROR)
+							{
+								cerr << "Send Request failed with " << WSAGetLastError() << endl;
+							}
+
+
+
+
+						}
+					}
+
+
+
+
+
+
+
 				}
 			}
 			closesocket(s1);

@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <time.h>
 #include "ShapeShareObject.h"
 
 using namespace std;
@@ -36,8 +37,12 @@ private:
 
 
 	void CheckShapePos();
-	void ReceiveData();
-	void SendData();
+
+	void SendPosData(const char *datap);
+
+	void SendAndReceiveRequestData();
+
+	
 
 
 	
