@@ -17,6 +17,8 @@ ShapeShareObject::ShapeShareObject(void)
 	
 
 	mouse_x  = mouse_y = 2.0f;
+
+	shape_id_index = -99;
 	
 }
 

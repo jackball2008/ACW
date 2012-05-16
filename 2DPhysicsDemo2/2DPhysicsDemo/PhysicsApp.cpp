@@ -255,6 +255,7 @@ void PhysicsApp::InitializeAllShpes(){
 	}
 #endif	
 	/////////////////////////////
-
+	//save id
+	_shapeShareObject.shape_id_index = sid;
 
 }

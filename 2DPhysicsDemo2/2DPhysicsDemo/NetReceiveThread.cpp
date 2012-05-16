@@ -311,12 +311,75 @@ void NetReceiveThread::SendAndReceiveRequestData()
 				sin>>word;
 				float v_y = (float)atof(word.c_str());
 
+
+
 				cout<<"get data x = "<<pos_x<<" y = "<<pos_y<<" v_x "<<v_x<<" v_y "<<v_y<<endl;
 
+				//change speed
+				if(v_y>0)v_y = v_y*-1;
+				if((v_x>0 && pos_x>0) || (v_x<0 && pos_x<0)) pos_x = pos_x *-1;
+				
+
 				//add new shape
+				int shape_id = _shapeShareObject->shape_id_index + 5;
+				Shape* square = new Square();
+
+				YPoint p1;
+				p1.x = pos_x - 0.02f;
+				p1.y = pos_y - 0.02f;
+
+				YPoint p2;
+				p2.x = p1.x + 0.04f;
+				p2.y = p1.y;
+
+				YPoint p3;
+				p3.x = p2.x;
+				p3.y = p2.y + 0.04f;
+
+				YPoint p4;
+				p4.x = p1.x;
+				p4.y = p3.y;
+				square->points.push_back(p1);
+				square->points.push_back(p2);
+				square->points.push_back(p3);
+				square->points.push_back(p4);
 
 
+				//set position
 
+				square->pos.x = (float)(p1.x + p3.x + p2.x + p4.x)/4;
+				square->pos.y = (float)(p1.y + p3.y + p2.y + p4.y)/4;
+
+				//set speed
+				square->velocity.x = v_x;
+				square->velocity.y = v_y;
+
+				//////////////////////////////////////////////////////////////////////////
+				//square have two axises
+				//set x axis
+				YPoint ax;
+				float x1 = (p3.x + p2.x)/2;
+
+				float y1 = (p3.y + p2.y)/2;
+
+				x1 = x1 - square->pos.x;
+				y1 = y1 - square->pos.y;
+
+				ax.x = x1;
+				ax.y = y1;
+				ax.Normalize();
+				ax.z = 0.04f/2;
+				//set y axis
+				YPoint yx;
+				ax.Right2D(yx);
+				yx.z = 0.04f/2;
+
+				square->project_axis.push_back(ax);
+				square->project_axis.push_back(yx);
+				//////////////////////////////////////////////////////////////////////////
+				/*sid++;*/
+				square->id = shape_id;
+				_shapeShareObject->renderObjects.push_back(square);
 
 
 			}

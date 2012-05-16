@@ -17,6 +17,9 @@ private:
 	HANDLE mutex;
 
 public:
+	//
+	int shape_id_index;
+	///
 	vector<Shape*>renderObjects;
 	/************************************************************************/
 	/* mouse                                                                      */
