@@ -56,7 +56,7 @@ void MyApp::Initializeposition(){
 			_RigidBody* square = new _RigidBody();
 
 			square->vPosition.x= -0.9f+i*square->fLength;
-			square->vPosition.y= -0.9f+j*square->fLength;
+			square->vPosition.y= 0.9f+j*square->fLength;
 
 			square->vFirstpoint.x= square->vPosition.x-square->fWidth;
 			square->vFirstpoint.x= square->vPosition.x-square->fWidth;
@@ -70,6 +70,8 @@ void MyApp::Initializeposition(){
 
 			square->vFourthpoint.x= square->vPosition.x-square->fWidth;
 			square->vFourthpoint.y= square->vPosition.y-square->fWidth;
+
+			
 
 			if(i%3==1){
 				square->r=0.5f;

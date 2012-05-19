@@ -133,17 +133,25 @@ int PhysicThread::CheckforCollision(_RigidBody *body1, _RigidBody *body2){
 	//test collision
 	if ((a<0)&&(c<0)&&(Vrn < 0.0))
 	{
+		body1->vSupport.y=-1*(body1->vGravity.y);
+		body2->vSupport.y=-1*(body2->vGravity.y);
 		return retval=COLLISION;
 	} 
 	else if ((a<0)&&(d<0)&&(Vrn < 0.0))
 	{
+		body1->vSupport.y=-1*(body1->vGravity.y);
+		body2->vSupport.y=-1*(body2->vGravity.y);
 		return retval=COLLISION;
 	} 
 	else if((b<0)&&(c<0)&&(Vrn < 0.0))
 	{
+		body1->vSupport.y=-1*(body1->vGravity.y);
+		body2->vSupport.y=-1*(body2->vGravity.y);
 		return retval=COLLISION;
 	}
 	else if((b<0)&&(d<0)&&(Vrn < 0.0)){
+		body1->vSupport.y=-1*(body1->vGravity.y);
+		body2->vSupport.y=-1*(body2->vGravity.y);
 		return retval=COLLISION;
 	}
 	else{
@@ -157,13 +165,15 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 	float dt = dtime;
 	// linear velocity
 	if(DetectCollisionG(body)==0){
-		Ae=body->vGravity/body->fMass;
+		body->vForces=body->vGravity*body->fMass+body->vSupport;
+		Ae=body->vForces/body->fMass;
 		k1 = Ae*dt;
 
 		body->vVelocity += k1;
 
 		body->vPosition += body->vVelocity*dt;
-			
+		body->vSupport.Clear();
+		body->vForces.Clear();
 	}
 
 	else if(DetectCollisionG(body)==1)
@@ -177,7 +187,7 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 	}
 	else if(DetectCollisionG(body)==2){
 		body->vPosition.y=-0.9f;
-		Ae=(-5.0f)*(body->vGravity)/body->fMass;
+		Ae=(-15.0f)*(body->vGravity)/body->fMass;
 		k1 = Ae*dt;
 
 		body->vVelocity += k1;
@@ -185,8 +195,8 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 		body->vPosition += body->vVelocity*dt;
 	}
 	else if(DetectCollisionG(body)==3){
-		body->vPosition.y=-0.9f;
-		Ae=(-5.0f)*(body->vGravity)/body->fMass;
+		
+		Ae=(-15.0f)*(body->vGravity)/body->fMass;
 		k1 = Ae*dt;
 
 		body->vVelocity += k1;
@@ -194,8 +204,8 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 		body->vPosition += body->vVelocity*dt;
 	}
 	else if(DetectCollisionG(body)==4){
-		body->vPosition.y=-0.9f;
-		Ae=(-5)*(body->vGravity)/body->fMass;
+		
+		Ae=(-15)*(body->vGravity)/body->fMass;
 		k1 = Ae*dt;
 
 		body->vVelocity += k1;
@@ -203,7 +213,7 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 		body->vPosition += body->vVelocity*dt;
 	}
 	else if(DetectCollisionG(body)==5){
-		body->vPosition.y=-0.9f;
+		
 		Ae=(-5)*(body->vGravity)/body->fMass;
 		k1 = Ae*dt;
 
@@ -213,7 +223,7 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 	}
 	else if(DetectCollisionG(body)==6)
 	{
-		body->vPosition.y=-0.9f;
+		
 		Ae=(-0.0025)*(body->vGravity)/body->fMass;
 		k1 = Ae*dt;
 
@@ -229,6 +239,8 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 
 		body->vVelocity += k1;
 		body->vPosition += body->vVelocity*dt;
+		body->vSupport.Clear();
+		body->vForces.Clear();
 	}
 	if(DetectCollisionR(body)){
 		body->vSupport.x=-0.098f;
@@ -238,6 +250,8 @@ void PhysicThread::Updateposition(_RigidBody *body, float dtime){
 
 		body->vVelocity += k1;
 		body->vPosition += body->vVelocity*dt;
+		body->vSupport.Clear();
+		body->vForces.Clear();
 	}
 
 	body->vFirstpoint.x= body->vPosition.x-body->fWidth;
