@@ -46,7 +46,7 @@ void NetReceiveThread::InitSocket()
 		//SOCKADDR_IN 
 		peer.sin_family = AF_INET;
 		peer.sin_port = htons(9171);	// port 9171
-		peer.sin_addr.S_un.S_addr = inet_addr( "192.168.1.167" );
+		peer.sin_addr.S_un.S_addr = inet_addr( "192.168.1.173" );
 
 
 	}

@@ -86,7 +86,7 @@ void PhysicsApp::OnDestroy(){
 /************************************************************************/
 /* private function                                                                     */
 /************************************************************************/
-#define DRAWTRIANGLE1
+#define DRAWTRIANGLE
 #define ADDTESTSQUARE1
 void PhysicsApp::InitializeAllShpes(){
 	int sid = 0;
@@ -121,7 +121,7 @@ void PhysicsApp::InitializeAllShpes(){
 	//set squares
 	//25 * 4
 	YPoint tristartp;
-	for(int i = 0; i<3 /*4*/; i ++){
+	for(int i = 0; i<3/*4*/; i ++){
 		for( int j =0; j <25 /*25*/ ; j ++){
 			Shape* square = new Square();
 			//set points
@@ -178,7 +178,7 @@ void PhysicsApp::InitializeAllShpes(){
 			sid++;
 			square->id = sid;
 			_shapeShareObject.renderObjects.push_back(square);
-			if(i==3 && j==6){
+			if(i==2 && j==6){
 				//setting triangle start position
 				tristartp = p4;
 			}
@@ -186,17 +186,91 @@ void PhysicsApp::InitializeAllShpes(){
 		}
 	}
 
+	//add test triangle
+	/*
+	Shape* triangle = new Triangle();
+
+	YPoint sp1;
+	sp1.x = 0;//tristartp;
+	sp1.y = 0;
+	YPoint sp2;
+
+	sp2.x = sp1.x + 0.04f;
+	sp2.y = sp1.y;
+
+	YPoint sp3;
+	sp3.x = sp1.x + (sp2.x - sp1.x)/2;
+	sp3.y = sp1.y + 0.03464101615f;
+
+	triangle->points.push_back(sp1);
+	triangle->points.push_back(sp2);
+	triangle->points.push_back(sp3);
+	//set position
+
+	triangle->pos.x = (sp1.x + sp2.x + sp3.x)/3;
+	triangle->pos.y = (sp1.y + sp2.y + sp3.y)/3;
+
+	//triangle have three axises
+	//set 1 axis
+	YPoint axis1;
+	float x1 = (sp1.x+sp2.x)/2;
+	float y1 = (sp1.y+sp2.y)/2;
+	x1 = x1 - triangle->pos.x;
+	y1 = y1 - triangle->pos.y;
+	float len1 = sqrt(x1*x1+y1*y1);
+	axis1.x = x1;
+	axis1.y = y1;
+	axis1.Normalize();
+	axis1.z = len1;
+
+	//set 2 axis
+	YPoint axis2;
+	float x2 = (sp2.x+sp3.x)/2;
+	float y2 = (sp2.y+sp3.y)/2;
+	x2 = x2 - triangle->pos.x;
+	y2 = y2 - triangle->pos.y;
+	float len2 = sqrt(x2*x2+y2*y2);
+	axis2.x = x2;
+	axis2.y = y2;
+	axis2.Normalize();
+	axis2.z = len2;
+
+	//set 3 axis
+	YPoint axis3;
+	float x3 = (sp3.x+sp1.x)/2;
+	float y3 = (sp3.y+sp1.y)/2;
+	x3 = x3 - triangle->pos.x;
+	y3 = y3 - triangle->pos.y;
+	float len3 = sqrt(x3*x3+y3*y3);
+	axis3.x = x3;
+	axis3.y = y3;
+	axis3.Normalize();
+	axis3.z = len3;
+
+	triangle->project_axis.push_back(axis1);
+	triangle->project_axis.push_back(axis2);
+	triangle->project_axis.push_back(axis3);
+
+	sid++;
+	triangle->id = sid;
+
+	_shapeShareObject.renderObjects.push_back(triangle);
+	*/
+
 	//set triangles
 	/////////////////////////////
 #ifdef DRAWTRIANGLE
 
 	YPoint nextlevelstartp;
 	float h = 0.03464101615f;	
-	for(int i=5; i >0; i--){
-		for(int j=0; j<i;j++){
+	for(int i=0/*5*/; i<2 /*>0*/; i++/*--*/){
+		//for(int j=0; j<i;j++){
+
+			Shape* triangle = new Triangle();
+
 			YPoint p1;
 			p1 = tristartp;
-
+			
 			YPoint p2;
 
 			p2.x = p1.x + 0.04f;
@@ -206,26 +280,70 @@ void PhysicsApp::InitializeAllShpes(){
 			p3.x = p1.x + (p2.x - p1.x)/2;
 			p3.y = p1.y + h;
 
-			YPoint mid;
-			mid.x = (p1.x + p2.x + p3.x)/3;
-			mid.y = (p1.y + p2.y + p3.y)/3;
+			triangle->points.push_back(p1);
+			triangle->points.push_back(p2);
+			triangle->points.push_back(p3);
+			//set position
+			
+			triangle->pos.x = (p1.x + p2.x + p3.x)/3;
+			triangle->pos.y = (p1.y + p2.y + p3.y)/3;
 
-			//add
-			Shape* triangle = new Triangle();
-			triangle->SetData(p1,p2,p3);
+			//triangle have three axises
+			//set 1 axis
+			YPoint axis1;
+			float x1 = (p1.x+p2.x)/2;
+			float y1 = (p1.y+p2.y)/2;
+			x1 = x1 - triangle->pos.x;
+			y1 = y1 - triangle->pos.y;
+			float len1 = sqrt(x1*x1+y1*y1);
+			axis1.x = x1;
+			axis1.y = y1;
+			axis1.Normalize();
+			axis1.z = len1;
+
+			//set 2 axis
+			YPoint axis2;
+			float x2 = (p2.x+p3.x)/2;
+			float y2 = (p2.y+p3.y)/2;
+			x2 = x2 - triangle->pos.x;
+			y2 = y2 - triangle->pos.y;
+			float len2 = sqrt(x2*x2+y2*y2);
+			axis2.x = x2;
+			axis2.y = y2;
+			axis2.Normalize();
+			axis2.z = len2;
+
+			//set 3 axis
+			YPoint axis3;
+			float x3 = (p3.x+p1.x)/2;
+			float y3 = (p3.y+p1.y)/2;
+			x3 = x3 - triangle->pos.x;
+			y3 = y3 - triangle->pos.y;
+			float len3 = sqrt(x3*x3+y3*y3);
+			axis3.x = x3;
+			axis3.y = y3;
+			axis3.Normalize();
+			axis3.z = len3;
+
+			triangle->project_axis.push_back(axis1);
+			triangle->project_axis.push_back(axis2);
+			triangle->project_axis.push_back(axis3);
+			
 			sid++;
 			triangle->id = sid;
-			triangle->pos = mid;
 			
 			_shapeShareObject.renderObjects.push_back(triangle);
-			if(j==0){
-				nextlevelstartp = p3;
-			}
+// 			if(j==0){
+// 				nextlevelstartp = p3;
+// 			}
 			//set the second triangle start position
-			tristartp = p2;
+			tristartp.x = p2.x+0.04;
+			tristartp.y = p2.y;
  
 			//set the reverse triangle
+			/**
 			if( (j+1)<i  ){
+				Shape* triangle = new Triangle();
 				//reverse
 				YPoint q1;
 				q1 = p3;
@@ -239,17 +357,62 @@ void PhysicsApp::InitializeAllShpes(){
 				qmid.x = (q1.x + q2.x + q3.x)/3;
 				qmid.y = (q1.y + q2.y + q3.y)/3;
 
-				Shape* triangle = new Triangle();
-				triangle->SetData(q1,q2,q3);
+				
+				triangle->points.push_back(p1);
+				triangle->points.push_back(p2);
+				triangle->points.push_back(p3);
+
+
+				//triangle have three axises
+				//set 1 axis
+				YPoint axis1;
+				float x1 = (q1.x+q2.x)/2;
+				float y1 = (q1.y+q2.y)/2;
+				x1 = x1 - triangle->pos.x;
+				y1 = y1 - triangle->pos.y;
+				float len1 = sqrt(x1*x1+y1*y1);
+				axis1.x = x1;
+				axis1.y = y1;
+				axis1.Normalize();
+				axis1.z = len1;
+
+				//set 2 axis
+				YPoint axis2;
+				float x2 = (q2.x+q3.x)/2;
+				float y2 = (q2.y+q3.y)/2;
+				x2 = x2 - triangle->pos.x;
+				y2 = y2 - triangle->pos.y;
+				float len2 = sqrt(x2*x2+y2*y2);
+				axis2.x = x2;
+				axis2.y = y2;
+				axis2.Normalize();
+				axis2.z = len2;
+
+				//set 3 axis
+				YPoint axis3;
+				float x3 = (q3.x+q1.x)/2;
+				float y3 = (q3.y+q1.y)/2;
+				x3 = x3 - triangle->pos.x;
+				y3 = y3 - triangle->pos.y;
+				float len3 = sqrt(x3*x3+y3*y3);
+				axis3.x = x3;
+				axis3.y = y3;
+				axis3.Normalize();
+				axis3.z = len3;
+
+				triangle->project_axis.push_back(axis1);
+				triangle->project_axis.push_back(axis2);
+				triangle->project_axis.push_back(axis3);
+
+
+
 				sid++;
 				triangle->id = sid;
-				triangle->pos = qmid;
-				
 				_shapeShareObject.renderObjects.push_back(triangle);
 			}
-			
+			*/
 
-		}
+		//}
 
 		tristartp = nextlevelstartp;
 	}

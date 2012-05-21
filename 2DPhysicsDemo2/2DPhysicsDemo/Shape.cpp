@@ -33,6 +33,6 @@ void Shape::Move(const YPoint&dis)
 		pos += points.at(i);
 	}
 
-	pos /= 4;
+	pos /= sizeofpoints;
 
 }

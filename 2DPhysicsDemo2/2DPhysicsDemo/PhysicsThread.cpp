@@ -350,7 +350,14 @@ void PhysicsThread::ResponseCollisionWithShape(Shape&shapeA,Shape&shapeB)
 				/************************************************************************/
 				/* if A is left, waiting for B do everything                                                                     */
 				/************************************************************************/
-				shapeA.movement.x = 0;
+
+// 				shapeA.velocity.x = ax;
+// 				shapeB.velocity.x = bx;
+// 
+// 				shapeA.movement.x = -overlap_x;
+
+
+ 				shapeA.movement.x = 0;
 			}
 
 		}
