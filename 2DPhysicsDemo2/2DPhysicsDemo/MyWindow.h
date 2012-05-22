@@ -1,4 +1,5 @@
 #pragma once
+
 #include <GXBase.h>
 using namespace gxbase;
 #include <vector>

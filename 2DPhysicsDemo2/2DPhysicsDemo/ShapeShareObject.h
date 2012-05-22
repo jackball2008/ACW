@@ -29,6 +29,8 @@ public:
 
 	bool left_hold;
 
+	bool paused;
+
 
 
 	//spring

@@ -1,5 +1,6 @@
 #include "MyWindow.h"
 #include "SpringLine.h"
+//#include "PhysicsApp.h"
 
 MyWindow::MyWindow(void)
 {
@@ -129,6 +130,38 @@ void	MyWindow::OnIdle(){
 
 }
 void	MyWindow::OnKeyboard(int key, bool down){
+
+
+
+	if (!down) return;
+
+
+	if(_shapeShareObject->Acquire())
+	{
+		__try{
+
+			switch( tolower(key) )
+			{
+				case 'p':
+					_shapeShareObject->paused = !_shapeShareObject->paused;
+					break;
+
+				case 'b':
+					//PhysicsApp &papp = PhysicsApp::Get().m_shared;
+					break;
+
+			}
+
+
+		}__finally{
+			_shapeShareObject->Release();
+		}
+	}
+
+
+
+	
+
 
 }
 void	MyWindow::OnMouseMove(int x, int y){

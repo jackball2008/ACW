@@ -12,6 +12,8 @@ PhysicsApp::PhysicsApp(void)
 	_netWorkThread = new NetReceiveThread();
 	//_netSendThread = new NetSendThread();
 	_physicsThread = new PhysicsThread();
+
+	sid_back = 0;
 }
 
 
@@ -24,6 +26,10 @@ PhysicsApp::~PhysicsApp(void)
 	delete _netWorkThread;
 	//delete _netSendThread;
 	delete _physicsThread;
+}
+
+PhysicsApp & PhysicsApp::Get() {
+	return theApp;
 }
 
 
@@ -263,8 +269,10 @@ void PhysicsApp::InitializeAllShpes(){
 
 	YPoint nextlevelstartp;
 	float h = 0.03464101615f;	
-	for(int i=0/*5*/; i<2 /*>0*/; i++/*--*/){
-		//for(int j=0; j<i;j++){
+	for(int i=0/*5*/; i<9 /*>0*/; i++/*--*/)
+	{
+// 		for(int j=0; j<i;j++)
+// 		{
 
 			Shape* triangle = new Triangle();
 
@@ -337,8 +345,8 @@ void PhysicsApp::InitializeAllShpes(){
 // 				nextlevelstartp = p3;
 // 			}
 			//set the second triangle start position
-			tristartp.x = p2.x+0.04;
-			tristartp.y = p2.y;
+			tristartp = p2;
+			
  
 			//set the reverse triangle
 			/**
@@ -410,15 +418,78 @@ void PhysicsApp::InitializeAllShpes(){
 				triangle->id = sid;
 				_shapeShareObject.renderObjects.push_back(triangle);
 			}
+			
 			*/
+		// }
 
-		//}
-
-		tristartp = nextlevelstartp;
+		//tristartp = nextlevelstartp;
 	}
 #endif	
 	/////////////////////////////
 	//save id
 	_shapeShareObject.shape_id_index = sid;
 
+	sid_back = _shapeShareObject.shape_id_index;
+
+}
+
+
+void PhysicsApp::AddShape()
+{
+	Shape* square = new Square();
+	//set points
+	YPoint p1;
+	p1.x = -0.5f +  EDGE_LENGTH;
+	p1.y = 0.9f + EDGE_LENGTH;
+
+	YPoint p2;
+	p2.x = p1.x + EDGE_LENGTH;
+	p2.y = p1.y;
+
+	YPoint p3;
+	p3.x = p2.x;
+	p3.y = p2.y + EDGE_LENGTH;
+
+	YPoint p4;
+	p4.x = p1.x;
+	p4.y = p3.y;
+	square->points.push_back(p1);
+	square->points.push_back(p2);
+	square->points.push_back(p3);
+	square->points.push_back(p4);
+
+
+	//set position
+
+	square->pos.x = (float)(p1.x + p3.x + p2.x + p4.x)/4;
+	square->pos.y = (float)(p1.y + p3.y + p2.y + p4.y)/4;
+
+
+	//////////////////////////////////////////////////////////////////////////
+	//square have two axises
+	//set x axis
+	YPoint ax;
+	float x1 = (p3.x + p2.x)/2;
+
+	float y1 = (p3.y + p2.y)/2;
+
+	x1 = x1 - square->pos.x;
+	y1 = y1 - square->pos.y;
+
+	ax.x = x1;
+	ax.y = y1;
+	ax.Normalize();
+	ax.z = EDGE_LENGTH/2;
+	//set y axis
+	YPoint yx;
+	ax.Right2D(yx);
+	yx.z = EDGE_LENGTH/2;
+
+	square->project_axis.push_back(ax);
+	square->project_axis.push_back(yx);
+	//////////////////////////////////////////////////////////////////////////
+	int sid = _shapeShareObject.shape_id_index;
+	sid++;
+	square->id = sid;
+	_shapeShareObject.renderObjects.push_back(square);
 }

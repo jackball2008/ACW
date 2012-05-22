@@ -47,12 +47,18 @@ private:
 	//initialize all shape position, calculate all points' position and store them into _renderObjects
 	void InitializeAllShpes();
 
+	int sid_back;
+
 public:
 	PhysicsApp(void);
 	~PhysicsApp(void);
 
 	void OnCreate();
 	void OnDestroy();
+
+	static PhysicsApp & Get();
+
+	void AddShape();
 
 };
 

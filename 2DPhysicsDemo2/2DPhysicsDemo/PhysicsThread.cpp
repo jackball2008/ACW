@@ -419,7 +419,7 @@ void PhysicsThread::ResponseCollisionWithGround(Shape&shapeA)
 	/* if A Collision with ground, A velocity.x will be reduced by friction    HORIZONTAL_FROCTION_FACTOR                                                            */
 	/************************************************************************/
 	shapeA.velocity.x = shapeA.velocity.x * HORIZONTAL_FROCTION_FACTOR;
-	if(shapeA.velocity.x<OVERLAP_MIN) shapeA.velocity.x = 0;
+	if(abs(shapeA.velocity.x)<OVERLAP_MIN) shapeA.velocity.x = 0;
 
 	//give it a opposite force
 	//shapeA.force.y += shapeA.mass * G_ACCERLATION * -1;
@@ -586,6 +586,7 @@ int PhysicsThread::run(){
 				if(_delta_time <10000 ){
 					//////////////////////////////////////////
 					//start to compute the physics
+					if(!_shapeShareObject->paused)
 					CalculatePyhsics();
 					
 				}
