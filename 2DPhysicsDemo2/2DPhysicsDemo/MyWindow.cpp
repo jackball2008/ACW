@@ -58,9 +58,10 @@ void	MyWindow::OnDisplay(){
 
 
 	
-	glClear(GL_COLOR_BUFFER_BIT);
-
-
+	glClear(GL_COLOR_BUFFER_BIT /*| GL_DEPTH_BUFFER_BIT*/);
+	
+	
+	
 	//HUD
 // 	glPushMatrix();
 // 	glTranslatef(0.0f,0.0f,-1.0f);
@@ -159,6 +160,14 @@ void	MyWindow::OnDisplay(){
 			}
 
 	}
+
+
+
+// 	glDisable(GL_LIGHTING);
+// 	glColor3f(1.0f,0.0,0.0);
+// 	glRasterPos2f(-0.1f,-0.9f);
+// 	Printf("Font");
+// 	glEnable(GL_LIGHTING);
 
 	SwapBuffers();
 
