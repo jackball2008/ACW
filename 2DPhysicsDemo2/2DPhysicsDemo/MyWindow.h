@@ -5,6 +5,8 @@ using namespace gxbase;
 #include <vector>
 using namespace std;
 
+#include "FontGameSprite.h"
+
 /************************************************************************/
 /* share object                                                                     */
 /************************************************************************/
@@ -30,7 +32,11 @@ private:
 
 	float mouse_x,mouse_y;
 
-	
+	//HUD
+	//HDC			hDC;
+	FontGameSprite *num_of_objs_own;
+
+	void InitializeHUD();
 public:
 	MyWindow(void);
 	~MyWindow(void);

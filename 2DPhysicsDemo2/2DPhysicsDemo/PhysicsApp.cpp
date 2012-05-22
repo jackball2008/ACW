@@ -65,8 +65,8 @@ void PhysicsApp::OnCreate(){
 	_netWorkThread->SetShapeShareObject(&_shapeShareObject);
 	_netWorkThread->start();
 	
-
-
+	
+	
 
 }
 

@@ -8,13 +8,46 @@ MyWindow::MyWindow(void)
 	left_down = false;
 	last_left_down = false;
 
-	 mouse_x = mouse_y = 0;
+	mouse_x = mouse_y = 0;
+
+	//hDC = extra->m_hdc;
+	//InitializeHUD();
+
 }
 
 
 MyWindow::~MyWindow(void)
 {
 }
+
+void	MyWindow::InitializeHUD()
+{
+	//HUD initialize
+
+	num_of_objs_own = new FontGameSprite();
+
+	num_of_objs_own->letter = "Question";
+
+	
+	//specila setting
+	num_of_objs_own->drawType = FONT_DRAW_STR;
+	num_of_objs_own->displayStr = "No Signal";
+	num_of_objs_own->fontHeight = -15;
+
+	num_of_objs_own->color3f.x = 1.0;
+	num_of_objs_own->color3f.y = 1.0;
+	num_of_objs_own->color3f.z = 1.0;
+	num_of_objs_own->pos3f.x = -0.1f;
+	num_of_objs_own->pos3f.y = 0.2f;
+	num_of_objs_own->num = 1;
+	num_of_objs_own->BuildFont();
+
+	
+
+
+}
+
+
 
 void	MyWindow::OnCreate(){
 	GLWindowEx::OnCreate();
@@ -26,6 +59,15 @@ void	MyWindow::OnDisplay(){
 
 	
 	glClear(GL_COLOR_BUFFER_BIT);
+
+
+	//HUD
+// 	glPushMatrix();
+// 	glTranslatef(0.0f,0.0f,-1.0f);
+// 	glColor3f(num_of_objs_own->color3f.x,num_of_objs_own->color3f.y,num_of_objs_own->color3f.z);
+// 	glRasterPos2f(num_of_objs_own->pos3f.x,num_of_objs_own->pos3f.y);
+// 	num_of_objs_own->Draw();
+// 	glPopMatrix();
 
 	/************************************************************************/
 	/* draw mouse position   holding red , unholding green                                                                  */

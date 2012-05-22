@@ -77,6 +77,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="FontGameSprite.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Mmath.h" />
     <ClInclude Include="mxyMath.h" />
@@ -96,6 +97,7 @@
     <ClInclude Include="Utiles.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FontGameSprite.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="MyThread.cpp" />
     <ClCompile Include="MyWindow.cpp" />
